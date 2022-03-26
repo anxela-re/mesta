@@ -11,7 +11,7 @@ import { TokenService } from './auth/services/token.service';
 })
 export class AppComponent implements OnInit {
   isLogged!: boolean;
-  title = 'Mesta';
+  title = 'testa-revolta-front';
 
   constructor(
     private auth: AuthStateService,
@@ -36,10 +36,4 @@ export class AppComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  getClients() {
-    this.oauth.getclients().subscribe(
-      (val) => console.info(val),
-      (error) => console.info(error)
-    );
-  }
 }
