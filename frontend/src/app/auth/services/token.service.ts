@@ -1,30 +1,27 @@
 import { Injectable } from '@angular/core';
+import { AuthTokenDTO } from '../models/authToken.dto';
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
-  private issuer = {
-    login: 'http://127.0.0.1:8000/api/auth/login',
-    register: 'http://127.0.0.1:8000/api/auth/register',
-  };
   constructor() {}
-  handleData(data: any) {
+  handleData(data: AuthTokenDTO) {
     localStorage.setItem('access_token', data.access_token);
-    localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('user_id', data.user_id);
   }
   getToken() {
     return localStorage.getItem('access_token');
   }
 
-  getUser(): any {
-    return localStorage.getItem('user')
-      ? localStorage.getItem('user')
+  getUserId(): any {
+    return localStorage.getItem('user_id')
+      ? localStorage.getItem('user_id')
       : undefined;
   }
   isValidToken(): boolean {
     let isValid = false;
     const token = this.getToken();
-    const userInfo: string = this.getUser();
+    const userInfo: string = this.getUserId();
     let tokenExpiresAt = undefined;
     const currentDate = new Date();
     if (userInfo) {
@@ -46,6 +43,6 @@ export class TokenService {
   }
   removeToken() {
     localStorage.removeItem('access_token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('user_id');
   }
 }

@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ForgotPasswordComponent } from './auth/components/forgot-password/forgot-password.component';
 import { LoginComponent } from './auth/components/login/login.component';
-import { RegisterComponent } from './auth/components/register/register.component';
+import { RegisterComponent } from './user/components/register/register.component';
 import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
-import { UserProfileComponent } from './auth/components/user-profile/user-profile.component';
-import { AuthGuard } from './auth/services/auth.guard';
+import { UserProfileComponent } from './user/components/user-profile/user-profile.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
-    path: 'profile',
+    path: 'configuration',
     component: UserProfileComponent,
     canActivate: [AuthGuard],
   },

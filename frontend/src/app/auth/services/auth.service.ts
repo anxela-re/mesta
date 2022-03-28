@@ -2,36 +2,36 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenService } from './token.service';
-// User interface
-export class User {
-  name!: String;
-  email!: String;
-  password!: String;
-  password_confirmation!: String;
-}
+import { catchError } from 'rxjs/operators';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { UserDTO } from 'src/app/user/models/user.dto';
+import { AuthDTO } from '../models/auth.dto';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
+import { RegisterDTO } from '../../user/models/register.dto';
+import { AuthTokenDTO } from '../models/authToken.dto';
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   apiUrl = 'http://127.0.0.1:8000';
-  constructor(private http: HttpClient, private tokenService: TokenService) {}
-  // User registration
-  register(user: User): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/register`, user);
-  }
-  // Login
-  login(user: User): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/api/login`, user);
-  }
-  // Access user profile
-  profileUser(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/api/user`, {
-      headers: this.headers(),
+  accessToken!: string;
+
+  constructor(
+    private http: HttpClient,
+    private tokenService: TokenService,
+    private sharedService: SharedService,
+    private store: Store<AppState>
+  ) {
+    this.store.select('auth').subscribe((auth) => {
+      this.accessToken = auth.credentials.access_token;
     });
   }
-
-  getclients(): Observable<any> {
-    return this.http.get('http://127.0.0.1/8000/oauth/personal-access-tokens');
+  login(auth: AuthDTO): Observable<AuthDTO> {
+    return this.http
+      .post<any>(`${this.apiUrl}/api/login`, auth)
+      .pipe(catchError(this.sharedService.handleError));
   }
 
   logout(allDevices: boolean = false): Observable<any> {
@@ -58,7 +58,7 @@ export class AuthService {
 
   headers(): HttpHeaders {
     return new HttpHeaders({
-      Authorization: `Bearer ${this.tokenService.getToken()}`,
+      Authorization: `Bearer ${this.accessToken}`,
     });
   }
 }

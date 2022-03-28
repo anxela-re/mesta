@@ -4,10 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RegisterComponent } from './auth/components/register/register.component';
+import { RegisterComponent } from './user/components/register/register.component';
 import { LoginComponent } from './auth/components/login/login.component';
-import { UserProfileComponent } from './auth/components/user-profile/user-profile.component';
-import { AuthInterceptor } from './auth/auth.interceptor';
+import { UserProfileComponent } from './user/components/user-profile/user-profile.component';
+import { AuthInterceptor } from './shared/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './auth/components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
@@ -16,15 +16,16 @@ import { appReducers, EffectsArray } from './app.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
+import { HeaderComponent } from './shared/components/header/header.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent,
-    LoginComponent,
-    UserProfileComponent,
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
+    HeaderComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +44,8 @@ import { environment } from 'src/environments/environment';
       maxAge: 25,
       logOnly: environment.production,
     }),
+    AuthModule,
+    UserModule
   ],
   providers: [
     {

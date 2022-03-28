@@ -1,0 +1,12 @@
+<!-- NO AUTH REQUIRED -->
+<div *ngIf="!isLogged">
+  <button (click)="login()">Login</button>
+  <button (click)="register()">Register</button>
+  <button (click)="forgotPassword()">Forgot password</button>
+</div>
+
+<!-- AUTH REQUIRED -->
+<div *ngIf="isLogged">
+  <button (click)="userConfig()">Configuration</button>
+  <button (click)="logout()">Logout</button>
+</div>

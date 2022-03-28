@@ -21,7 +21,7 @@ class ForgotPassController extends Controller
         $email = $request->email;
 
         if (User::where('email', $email)->doesntExist()) {
-            return response(['message' => 'Email dows not exists.']);
+            return response(['message' => 'Email dows not exists.'], 400);
         }
         $token = Str::random(10);
 
