@@ -20,18 +20,22 @@ import { HeaderComponent } from './shared/components/header/header.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
     FormsModule,
     StoreModule.forRoot(appReducers, {
       runtimeChecks: {

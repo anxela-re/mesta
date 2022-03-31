@@ -1,44 +1,77 @@
 <div style="margin-left: auto; margin-right: auto">
   <p id="loginFeedback"></p>
 </div>
-<div>
-  <h1>Login</h1>
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label for="email">Email: </label>
-      <input type="email" [formControl]="email" />
-    </div>
+<div class="m-auto text-center maxw-500">
+  <div class="m-4 p-3 rounded-3 full-shadow">
+    <h2 class="display-5 text-uppercase mt-4 mb-4">Login</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="mt-2 mb-2">
+        <input
+          type="email"
+          [formControl]="email"
+          class="form-control form-control-lg bg-dark-50"
+          aria-label="Email"
+          placeholder="Email"
+        />
+      </div>
 
-    <div>
-      <label for="password">Password: </label>
-      <input type="password" [formControl]="password" />
-    </div>
+      <div *ngIf="email.errors" class="mt-2 mb-2 text-start">
+        <span
+          class="text-danger"
+          *ngIf="email.errors && (email.touched || email.dirty)"
+        >
+          <span *ngIf="email.errors.required" class="fs-xs"
+            >Email is required</span
+          >
+          <div *ngIf="email.errors.pattern" class="fs-xs">
+            Email not a valid format.
+          </div>
+        </span>
+      </div>
 
-    <button type="submit" [disabled]="!loginForm.valid">Login</button>
-  </form>
+      <div class="mt-2 mb-2">
+        <input
+          type="password"
+          [formControl]="password"
+          class="form-control form-control-lg bg-dark-50"
+          aria-label="Password"
+          placeholder="Password"
+        />
+      </div>
+
+      <div *ngIf="password.errors" class="mt-2 mb-2 w-full text-start">
+        <span
+          class="text-danger text-left"
+          *ngIf="password.errors && (password.touched || password.dirty)"
+        >
+          <span *ngIf="password.errors.required" class="fs-xs"
+            >Password is required</span
+          >
+          <span *ngIf="password.errors.minlength" class="fs-xs"
+            >Password must be greater tha 8 characters</span
+          >
+          <span *ngIf="password.errors.maxlength" class="fs-xs"
+            >Password can be max 16 characters long</span
+          >
+        </span>
+      </div>
+      <div class="text-end pt-2 pb-2">
+        <a [routerLink]="['/forgot-password']" class="color-secondary"
+          >¿Olvidaste tu contraseña?</a
+        >
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="!loginForm.valid"
+        class="btn btn-primary text-light mt-2 mb-2"
+      >
+        Login
+      </button>
+    </form>
+  </div>
 </div>
 
-<div *ngIf="email.errors">
-  <span
-    style="color: red"
-    *ngIf="email.errors && (email.touched || email.dirty)"
-  >
-    <span *ngIf="email.errors.required">Email is required</span>
-    <div *ngIf="email.errors.pattern">Email not a valid format.</div>
-  </span>
-</div>
-
-<div *ngIf="password.errors">
-  <span
-    style="color: red"
-    *ngIf="password.errors && (password.touched || password.dirty)"
-  >
-    <span *ngIf="password.errors.required">Password is required</span>
-    <span *ngIf="password.errors.minlength"
-      >Password must be greater tha 8 characters</span
-    >
-    <span *ngIf="password.errors.maxlength"
-      >Password can be max 16 characters long</span
-    >
-  </span>
+<div class="text-center">
+  <p>¿Nuevo en Mesta? <a [routerLink]="['/register']">Regístrate</a></p>
 </div>

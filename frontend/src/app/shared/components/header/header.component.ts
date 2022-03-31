@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { logout } from 'src/app/auth/actions';
 import { TokenService } from 'src/app/auth/services/token.service';
-
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,7 +12,12 @@ import { TokenService } from 'src/app/auth/services/token.service';
 })
 export class HeaderComponent implements OnInit {
   isLogged: boolean;
-  constructor(private router: Router, private store: Store<AppState>, private tokenService: TokenService) {
+  faBars = faBars;
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private tokenService: TokenService
+  ) {
     this.isLogged = false;
   }
 
@@ -43,8 +48,8 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.tokenService.removeToken();
-    this.store.dispatch(logout())
-    this.router.navigateByUrl('/')
+    this.store.dispatch(logout());
+    this.router.navigateByUrl('/');
   }
 
   userConfig(): void {

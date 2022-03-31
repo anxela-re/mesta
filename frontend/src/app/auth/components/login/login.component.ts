@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     public router: Router,
     public fb: FormBuilder,
     public authService: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {
     this.email = new FormControl('', [
       Validators.required,

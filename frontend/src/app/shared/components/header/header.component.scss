@@ -1,0 +1,27 @@
+@import "../../../../styles.scss";
+
+.dropdown-toggle::after {
+  display: none;
+}
+.logo-img {
+  height: calc(1.475rem + 2.175vw);
+  padding-bottom: 4px;
+}
+.header-buttons {
+  display: none;
+}
+.header-dropdown {
+  display: block;
+}
+
+@media screen and (min-width: $breakPointTablet) {
+  .header-buttons {
+    display: block;
+  }
+  .header-dropdown {
+    display: none;
+  }
+  .menu-buttons {
+    flex-direction: row-reverse;
+  }
+}

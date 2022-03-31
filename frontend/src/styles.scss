@@ -1,1 +1,207 @@
 /* You can add global styles to this file, and also import other style files */
+$primary: #ea526f;
+$secondary: #0f172a;
+
+$font-family-title: "Monoton", cursive;
+$font-family: "Open Sans", sans-serif;
+
+$font-family-base: $font-family;
+
+$light: #f4f4f4;
+
+$light-50: #fefefe;
+$light-100: #fcfcfc;
+$light-200: #fafafa;
+$light-300: #f7f7f7;
+$light-400: #f6f6f6;
+$light-500: #f4f4f4;
+$light-600: #f3f3f3;
+$light-700: #f1f1f1;
+$light-800: #efefef;
+$light-900: #ececec;
+
+$dark: #0f172a;
+$dark-50: #e2e3e5;
+$dark-100: #b7b9bf;
+$dark-200: #878b95;
+$dark-300: #575d6a;
+$dark-400: #333a4a;
+$dark-500: #0f172a;
+$dark-600: #0d1425;
+$dark-700: #0b111f;
+$dark-800: #080d19;
+$dark-900: #04070f;
+
+$blue: #4cb2e6;
+$blue-50: #eaf6fc;
+$blue-100: #c9e8f8;
+$blue-200: #a6d9f3;
+$blue-300: #82c9ee;
+$blue-400: #67beea;
+$blue-500: #4cb2e6;
+$blue-600: #45abe3;
+$blue-700: #3ca2df;
+$blue-800: #3399db;
+$blue-900: #248ad5;
+
+$pink: #ea526f;
+$pink-50: #fceaee;
+$pink-100: #f9cbd4;
+$pink-200: #f5a9b7;
+$pink-300: #f0869a;
+$pink-400: #ed6c85;
+$pink-500: #ea526f;
+$pink-600: #e74b67;
+$pink-700: #e4415c;
+$pink-800: #e13852;
+$pink-900: #db2840;
+
+$purple: #ae6dd5;
+$purple-50: #f5edfa;
+$purple-100: #e7d3f2;
+$purple-200: #d7b6ea;
+$purple-300: #c699e2;
+$purple-400: #ba83db;
+$purple-500: #ae6dd5;
+$purple-600: #a765d0;
+$purple-700: #9d5aca;
+$purple-800: #9450c4;
+$purple-900: #843eba;
+
+$orange: #ff8a5b;
+$orange-50: #fff1eb;
+$orange-100: #ffdcce;
+$orange-200: #ffc5ad;
+$orange-300: #ffad8c;
+$orange-400: #ff9c74;
+$orange-500: #ff8a5b;
+$orange-600: #ff8253;
+$orange-700: #ff7749;
+$orange-800: #ff6d40;
+$orange-900: #ff5a2f;
+
+$mesta-colors: (
+  "blue": $blue,
+  "pink": $pink,
+  "purple": $purple,
+  "orange": $orange,
+  "light-50": $light-50,
+  "light-100": $light-100,
+  "light-200": $light-200,
+  "light-300": $light-300,
+  "light-400": $light-400,
+  "light-500": $light-500,
+  "light-600": $light-600,
+  "light-700": $light-700,
+  "light-800": $light-800,
+  "light-900": $light-900,
+  "dark-50": $dark-50,
+  "dark-100": $dark-100,
+  "dark-200": $dark-200,
+  "dark-300": $dark-300,
+  "dark-400": $dark-400,
+  "dark-500": $dark-500,
+  "dark-600": $dark-600,
+  "dark-700": $dark-700,
+  "dark-800": $dark-800,
+  "dark-900": $dark-900,
+  "blue-50": $blue-50,
+  "blue-100": $blue-100,
+  "blue-200": $blue-200,
+  "blue-300": $blue-300,
+  "blue-400": $blue-400,
+  "blue-500": $blue-500,
+  "blue-600": $blue-600,
+  "blue-700": $blue-700,
+  "blue-800": $blue-800,
+  "blue-900": $blue-900,
+  "pink-50": $pink-50,
+  "pink-100": $pink-100,
+  "pink-200": $pink-200,
+  "pink-300": $pink-300,
+  "pink-400": $pink-400,
+  "pink-500": $pink-500,
+  "pink-600": $pink-600,
+  "pink-700": $pink-700,
+  "pink-800": $pink-800,
+  "pink-900": $pink-900,
+  "purple-50": $purple-50,
+  "purple-100": $purple-100,
+  "purple-200": $purple-200,
+  "purple-300": $purple-300,
+  "purple-400": $purple-400,
+  "purple-500": $purple-500,
+  "purple-600": $purple-600,
+  "purple-700": $purple-700,
+  "purple-800": $purple-800,
+  "purple-900": $purple-900,
+  "orange-50": $orange-50,
+  "orange-100": $orange-100,
+  "orange-200": $orange-200,
+  "orange-300": $orange-300,
+  "orange-400": $orange-400,
+  "orange-500": $orange-500,
+  "orange-600": $orange-600,
+  "orange-700": $orange-700,
+  "orange-800": $orange-800,
+  "orange-900": $orange-900,
+);
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "light": $light,
+  "dark": $dark,
+);
+
+$theme-colors: map-merge($theme-colors, $mesta-colors);
+
+$breakPointMobile: 400px;
+$breakPointTablet: 720px;
+
+@import "../node_modules/bootstrap/scss/bootstrap";
+
+@each $color, $value in $theme-colors {
+  .color-#{$color} {
+    color: $value !important;
+  }
+  .bg-#{$color} {
+    background-color: $value !important;
+  }
+}
+
+.backgroung-image {
+  background: url("./assets/images/bg-image.png"), #fbfbfb;
+  background-size: 200%;
+}
+h1 {
+  font-family: $font-family-title;
+}
+
+a {
+  text-decoration: none;
+}
+a.router-link-active {
+  color: $pink!important;
+}
+
+.btn {
+  border-radius: 0.5rem;
+  border-width: 2px;
+}
+h2 {
+  letter-spacing: 0.1em;
+}
+
+.fs-xs {
+  font-size: 0.8rem;
+}
+
+.full-shadow {
+  box-shadow: -2px -2px 8px rgba(15, 23, 42, 0.25),
+    2px 2px 10px rgba(15, 23, 42, 0.25);
+}
+
+.maxw-500 {
+  max-width: 500px;
+} 

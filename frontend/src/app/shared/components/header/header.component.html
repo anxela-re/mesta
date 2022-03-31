@@ -1,12 +1,62 @@
-<!-- NO AUTH REQUIRED -->
-<div *ngIf="!isLogged">
-  <button (click)="login()">Login</button>
-  <button (click)="register()">Register</button>
-  <button (click)="forgotPassword()">Forgot password</button>
-</div>
+<div class="header-container p-2">
+  <!-- NO AUTH REQUIRED -->
+  <div
+    *ngIf="!isLogged"
+    class="d-flex gap-2 justify-content-between align-items-stretch"
+  >
+    <a [routerLink]="['/']" class="d-flex align-items-center gap-1"
+      ><img
+        src="../../../../assets/images/logo.png"
+        alt="Mesta"
+        width="auto"
+        height="100%"
+        class="logo-img"
+      />
+      <h1 class="color-secondary display-4 mb-0">Mesta</h1></a
+    >
+    <div class="d-flex align-items-center menu-buttons">
+      <div>
+        <button (click)="register()" class="btn btn-outline-secondary">
+          Sign in
+        </button>
+      </div>
+      <div class="header-buttons">
+        <a href="#" class="text-secondary"> Contacto </a>
+        <a
+          [routerLink]="['/login']"
+          routerLinkActive="router-link-active"
+          class="m-3 text-secondary"
+        >
+          Login
+        </a>
+      </div>
+      <div class="dropdown header-dropdown">
+        <button
+          class="btn btn-link dropdown-toggle"
+          type="button"
+          id="dropdownMenu"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="faBars" size="2x" class="color-secondary"></fa-icon>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+          <li>
+            <button class="dropdown-item" type="button">
+              Contacto
+            </button>
+            <button class="dropdown-item" type="button" (click)="login()">
+              Login
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
-<!-- AUTH REQUIRED -->
-<div *ngIf="isLogged">
-  <button (click)="userConfig()">Configuration</button>
-  <button (click)="logout()">Logout</button>
+  <!-- AUTH REQUIRED -->
+  <div *ngIf="isLogged">
+    <button (click)="userConfig()">Configuration</button>
+    <button (click)="logout()">Logout</button>
+  </div>
 </div>

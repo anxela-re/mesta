@@ -34,10 +34,9 @@ export class AuthService {
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  logout(allDevices: boolean = false): Observable<any> {
+  logout(): Observable<any> {
     return this.http.post(
       `${this.apiUrl}/api/logout`,
-      { allDevices: allDevices },
       {
         headers: this.headers(),
       }

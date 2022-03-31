@@ -6,9 +6,10 @@ import { RegisterComponent } from './user/components/register/register.component
 import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
 import { UserProfileComponent } from './user/components/user-profile/user-profile.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   {
@@ -18,6 +19,7 @@ const routes: Routes = [
   },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
+  { path: '', component: LandingPageComponent },
 ];
 
 @NgModule({
