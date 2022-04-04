@@ -10,7 +10,7 @@ export const register = createAction(
 
 export const registerSuccess = createAction(
   '[Register] Register Success',
-  props<{ user: RegisterDTO }>()
+  props<{ user: UserDTO }>()
 );
 
 export const registerFailure = createAction(

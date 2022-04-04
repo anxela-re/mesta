@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { logout } from 'src/app/auth/actions';
 import { TokenService } from 'src/app/auth/services/token.service';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faUser , faArrowRightFromBracket, faCogs} from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -13,6 +13,9 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 export class HeaderComponent implements OnInit {
   isLogged: boolean;
   faBars = faBars;
+  faUser = faUser;
+  faCogs = faCogs;
+  faArrowRightFromBracket = faArrowRightFromBracket;
   constructor(
     private router: Router,
     private store: Store<AppState>,

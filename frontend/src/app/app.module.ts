@@ -22,6 +22,8 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { RecipesModule } from './recipes/recipes.module';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
       logOnly: environment.production,
     }),
     AuthModule,
-    UserModule
+    UserModule,
   ],
   providers: [
     {

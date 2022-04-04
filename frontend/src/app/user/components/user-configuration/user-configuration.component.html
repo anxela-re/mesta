@@ -1,0 +1,235 @@
+<div class="p-2 flex flex-row limit-container">
+    <div id="nav-configuration">
+      <div class="pt-5 flex flex-column gap-4 text-end position-sticky">
+        <a
+          class="cursor-pointer"
+          (click)="scroller.scrollToAnchor('personal-information')"
+          >Información personal</a
+        >
+        <a class="cursor-pointer" (click)="scroller.scrollToAnchor('profiles')"
+          >Perfiles</a
+        >
+        <a
+          class="cursor-pointer"
+          (click)="scroller.scrollToAnchor('configuration')"
+          >Configuración</a
+        >
+        <a class="cursor-pointer" (click)="scroller.scrollToAnchor('contact')"
+          >Contacto</a
+        >
+      </div>
+    </div>
+    <div class="w-full">
+      <div class="pt-5 vertical-border m-auto">
+        <section id="personal-information">
+          <h2>Información personal</h2>
+          <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="mt-2 mb-2">
+              <label for="name">Nombre</label>
+              <div class="flex gap-1">
+                <input
+                  type="text"
+                  [formControl]="name"
+                  class="form-control bg-dark-50"
+                  aria-label="name"
+                  placeholder="Nombre"
+                />
+                <button
+                  type="submit"
+                  class="btn btn-secondary"
+                  [disabled]="!name.touched && !name.errors"
+                >
+                  <fa-icon [icon]="faSave"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <div
+              *ngIf="name.errors && isValidForm != null && !isValidForm"
+              [ngClass]="'error'"
+            >
+              <div *ngIf="name.errors.required">Name is required</div>
+              <div *ngIf="name.errors.minlength">
+                Name must be at least 5 characters long.
+              </div>
+              <div *ngIf="name.errors.maxlength">
+                Name can be max 25 characters long.
+              </div>
+            </div>
+  
+            <div class="mt-2 mb-2">
+              <label for="email">Email</label>
+              <div class="flex gap-1">
+                <input
+                  type="email"
+                  [formControl]="email"
+                  class="form-control bg-dark-50"
+                  aria-label="Email"
+                  placeholder="Email"
+                />
+                <button
+                  type="submit"
+                  class="btn btn-secondary"
+                  [disabled]="!name.touched && !name.errors"
+                >
+                  <fa-icon [icon]="faSave"></fa-icon>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="email.errors" class="mt-2 mb-2 text-start">
+              <span
+                class="text-danger"
+                *ngIf="email.errors && (email.touched || email.dirty)"
+              >
+                <span *ngIf="email.errors.required" class="fs-xs"
+                  >Email is required</span
+                >
+                <div *ngIf="email.errors.pattern" class="fs-xs">
+                  Email not a valid format.
+                </div>
+              </span>
+            </div>
+          </form>
+          <hr color="color-dark-50" />
+        </section>
+        <section id="profiles">
+          <h2>Perfiles</h2>
+          <div class="profile-container p-3 rounded-3 mb-3">
+            <div class="profile-header justify-content-between">
+              <div class="flex flex-row gap-2">
+                <div
+                  class="color-profile rounded-1"
+                  style="background-color: red"
+                ></div>
+                <h4>Perfil 1</h4>
+              </div>
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </div>
+            <div class="body-profile mb-2">
+              PLorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae
+              tortor purus. Vestibulum ante ipsum primis in faucibus orci luctus
+              et ultrices posuere cubilia curae; Maecenas sit amet imperdiet
+              lacus. Vivamus pretium risus et mauris molestie, ac eleifend lacus
+              suscipit. Integer commodo venenatis enim eu auctor. er
+            </div>
+            <div class="profile-phases flex flex-row gap-1 mb-2">
+              <h4 class="badge bg-primary rounded-pill">Fase 1</h4>
+              <h4 class="badge bg-blue rounded-pill">Fase 2</h4>
+              <h4 class="badge bg-purple rounded-pill">Fase 3</h4>
+              <h4 class="badge bg-orange rounded-pill">Fase 4</h4>
+            </div>
+          </div>
+          <div class="add-profile rounded-3 text-center py-4" (click)="createProfile()">
+            <fa-icon [icon]="faPlus" size="4x"></fa-icon>
+          </div>
+          <hr color="color-dark-50" />
+        </section>
+        <section id="configuration">
+          <h2>Configuración</h2>
+          <div class="flex flex-column">
+            <a
+              class="color-secondary"
+              [routerLink]="['/reset-password']"
+              routerLinkActive="router-link-active"
+              >Cambiar contraseña</a
+            >
+            <a class="color-danger">Eliminar cuenta</a>
+          </div>
+          <hr color="color-dark-50" />
+        </section>
+        <section id="contact">
+          <h2>Contacto</h2>
+          <form
+            [formGroup]="contactForm"
+            (ngSubmit)="onContact()"
+            class="text-center"
+          >
+            <div class="mt-2 mb-2">
+              <input
+                type="text"
+                [formControl]="nameContact"
+                class="form-control bg-dark-50"
+                aria-label="Name"
+                placeholder="Name"
+              />
+            </div>
+            <div
+              *ngIf="
+                nameContact.errors &&
+                isValidContactForm != null &&
+                !isValidContactForm
+              "
+              [ngClass]="'error'"
+            >
+              <div *ngIf="nameContact.errors.required">Name is required</div>
+              <div *ngIf="nameContact.errors.minlength">
+                Name must be at least 5 characters long.
+              </div>
+              <div *ngIf="nameContact.errors.maxlength">
+                Name can be max 25 characters long.
+              </div>
+            </div>
+  
+            <div class="mt-2 mb-2">
+              <input
+                type="email"
+                [formControl]="emailContact"
+                class="form-control bg-dark-50"
+                aria-label="Email"
+                placeholder="Email"
+              />
+            </div>
+            <div *ngIf="emailContact.errors" class="mt-2 mb-2 text-start">
+              <span
+                class="text-danger"
+                *ngIf="
+                  emailContact.errors &&
+                  (emailContact.touched || emailContact.dirty)
+                "
+              >
+                <span *ngIf="emailContact.errors.required" class="fs-xs"
+                  >Email is required</span
+                >
+                <div *ngIf="emailContact.errors.pattern" class="fs-xs">
+                  Email not a valid format.
+                </div>
+              </span>
+            </div>
+  
+            <div class="mt-2 mb-2">
+              <textarea
+                name="bodyContact"
+                class="form-control bg-dark-50"
+                placeholder="Escribe aquí tus dudas"
+                rows="8"
+              ></textarea>
+            </div>
+            <div
+              *ngIf="
+                bodyContact.errors &&
+                isValidContactForm != null &&
+                !isValidContactForm
+              "
+              [ngClass]="'error'"
+            >
+              <div *ngIf="bodyContact.errors.required">Name is required</div>
+              <div *ngIf="bodyContact.errors.minlength">
+                Name must be at least 5 characters long.
+              </div>
+              <div *ngIf="bodyContact.errors.maxlength">
+                Name can be max 25 characters long.
+              </div>
+            </div>
+  
+            <button
+              type="submit"
+              [disabled]="!contactForm.valid"
+              class="btn btn-primary text-light mt-2 mb-2"
+            >
+              Enviar
+            </button>
+          </form>
+        </section>
+      </div>
+    </div>
+  </div>
+  

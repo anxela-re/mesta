@@ -1,18 +1,16 @@
-<div style="margin-left: auto; margin-right: auto">
-  <p id="loginFeedback"></p>
-</div>
 <div class="m-auto text-center maxw-500">
-  <div class="m-4 p-3 rounded-3 full-shadow">
-    <h2 class="display-5 text-uppercase mt-4 mb-4">Login</h2>
+  <div class="m-4 px-6 py-10 rounded-lg full-shadow">
+    <h2 class="text-2xl uppercase mt-4 mb-4">Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="mt-2 mb-2">
+      <div class="mt-3 custom-input-labeled">
         <input
           type="email"
           [formControl]="email"
-          class="form-control form-control-lg bg-dark-50"
+          class="rounded-md bg-secondary-50 py-2 px-4 text-xl w-full"
           aria-label="Email"
           placeholder="Email"
         />
+        <label for="name" class="text-primary-500">Nombre</label>
       </div>
 
       <div *ngIf="email.errors" class="mt-2 mb-2 text-start">
@@ -29,17 +27,19 @@
         </span>
       </div>
 
-      <div class="mt-2 mb-2">
+      <div class="mt-3 custom-input-labeled">
         <input
           type="password"
           [formControl]="password"
-          class="form-control form-control-lg bg-dark-50"
+          class="rounded-md bg-secondary-50 py-2 px-4 text-lg w-full leading-tight focus:outline-none focus:shadow-outline"
           aria-label="Password"
           placeholder="Password"
         />
+        <label for="password" class="text-primary">Contraseña</label>
+
       </div>
 
-      <div *ngIf="password.errors" class="mt-2 mb-2 w-full text-start">
+      <div *ngIf="password.errors" class="mt-2 mb-2 text-start">
         <span
           class="text-danger text-left"
           *ngIf="password.errors && (password.touched || password.dirty)"
@@ -55,16 +55,15 @@
           >
         </span>
       </div>
-      <div class="text-end pt-2 pb-2">
-        <a [routerLink]="['/forgot-password']" class="color-secondary"
+      <div class="text-right pt-2 pb-2">
+        <a [routerLink]="['/forgot-password']" class="text-secondary-400 hover:text-secondary-700"
           >¿Olvidaste tu contraseña?</a
         >
       </div>
-
       <button
         type="submit"
         [disabled]="!loginForm.valid"
-        class="btn btn-primary text-light mt-2 mb-2"
+        class="mr-2 btn btn-primary"
       >
         Login
       </button>
@@ -73,5 +72,5 @@
 </div>
 
 <div class="text-center">
-  <p>¿Nuevo en Mesta? <a [routerLink]="['/register']">Regístrate</a></p>
+  <p>¿Nuevo en Mesta? <a [routerLink]="['/register']" class="text-primary-500">Regístrate</a></p>
 </div>

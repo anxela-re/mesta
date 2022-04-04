@@ -1,10 +1,7 @@
 <div class="header-container p-2">
   <!-- NO AUTH REQUIRED -->
-  <div
-    *ngIf="!isLogged"
-    class="d-flex gap-2 justify-content-between align-items-stretch"
-  >
-    <a [routerLink]="['/']" class="d-flex align-items-center gap-1"
+  <div *ngIf="!isLogged" class="flex gap-2 justify-between items-center w-full">
+    <a [routerLink]="['/']" class="flex items-center gap-1"
       ><img
         src="../../../../assets/images/logo.png"
         alt="Mesta"
@@ -12,40 +9,38 @@
         height="100%"
         class="logo-img"
       />
-      <h1 class="color-secondary display-4 mb-0">Mesta</h1></a
+      <h1 class="text-secondary-500 text-4xl mb-0 hidden md:block">Mesta</h1></a
     >
-    <div class="d-flex align-items-center menu-buttons">
+    <div class="flex items-center menu-buttons md:flex-row-reverse">
       <div>
-        <button (click)="register()" class="btn btn-outline-secondary">
+        <button (click)="register()" class="mr-2 btn btn-primary">
           Sign in
         </button>
       </div>
       <div class="header-buttons">
-        <a href="#" class="text-secondary"> Contacto </a>
+        <a href="#" class=""> Contacto </a>
         <a
           [routerLink]="['/login']"
           routerLinkActive="router-link-active"
-          class="m-3 text-secondary"
+          class="m-3 text-secondary-500 "
         >
           Login
         </a>
       </div>
       <div class="dropdown header-dropdown">
         <button
-          class="btn btn-link dropdown-toggle"
+          class="dropdown-toggle"
           type="button"
           id="dropdownMenu"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <fa-icon [icon]="faBars" size="2x" class="color-secondary"></fa-icon>
+          <fa-icon [icon]="faBars" size="2x" class="text-secondary-300 hover:text-secondary-500"></fa-icon>
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
           <li>
-            <button class="dropdown-item" type="button">
-              Contacto
-            </button>
-            <button class="dropdown-item" type="button" (click)="login()">
+            <button class="dropdown-item" type="button">Contacto</button>
+            <button class="dropdown-item " type="button" (click)="login()">
               Login
             </button>
           </li>
@@ -55,8 +50,62 @@
   </div>
 
   <!-- AUTH REQUIRED -->
-  <div *ngIf="isLogged">
-    <button (click)="userConfig()">Configuration</button>
-    <button (click)="logout()">Logout</button>
+  <div
+    *ngIf="isLogged"
+    class="flex gap-2 justify-between items-center auth-header w-full"
+  >
+    <a [routerLink]="['/recipes']" class="flex items-center gap-1"
+      ><img
+        src="../../../../assets/images/logo.png"
+        alt="Mesta"
+        width="auto"
+        height="100%"
+        class="logo-img"
+      />
+      <h1 class="text-secondary-500 text-4xl mb-0 hidden md:block">Mesta</h1></a
+    >
+    <div class="flex items-center app-menu md:flex-row-reverse">
+      <a
+        [routerLink]="['/recipes']"
+        routerLinkActive="router-link-active"
+        class="uppercase"
+        >Recipes</a
+      >
+      <a
+        [routerLink]="['/components']"
+        routerLinkActive="router-link-active"
+        class="uppercase"
+        >Componentes</a
+      >
+    </div>
+    <div class="dropdown">
+      <button
+        class="dropdown-toggle"
+        type="button"
+        id="dropdownMenu"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <fa-icon [icon]="faUser" size="lg" class="text-secondary"></fa-icon>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+        <li>
+          <button
+            class="dropdown-item"
+            type="button"
+            [routerLink]="['/configuration']"
+            routerLinkActive="router-link-active"
+          >
+            <fa-icon [icon]="faCogs" class="m-1"></fa-icon>Configuración
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item" type="button" (click)="logout()">
+            <fa-icon [icon]="faArrowRightFromBracket" class="m-1"></fa-icon>
+            Log out
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

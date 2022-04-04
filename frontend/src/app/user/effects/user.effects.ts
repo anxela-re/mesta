@@ -82,6 +82,7 @@ export class UserEffects {
             const userDTO: UserDTO = {
               name: user.name,
               email: user.email,
+              profiles: []
             };
             return UserActions.getUserSuccess({
               user: userDTO,

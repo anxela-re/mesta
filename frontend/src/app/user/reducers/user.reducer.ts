@@ -17,9 +17,9 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
-  user: new UserDTO('', ''),
+  user: new UserDTO('', '', []),
   loading: false,
-  loaded: false,
+  loaded: true,
   error: null,
 };
 
