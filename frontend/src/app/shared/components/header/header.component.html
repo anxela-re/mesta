@@ -1,5 +1,5 @@
 <div class="header-container p-2">
-  <!-- NO AUTH REQUIRED -->
+  <!-- NO AUTH -->
   <div *ngIf="!isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/']" class="flex items-center gap-1"
       ><img
@@ -13,36 +13,48 @@
     >
     <div class="flex items-center menu-buttons md:flex-row-reverse">
       <div>
-        <button (click)="register()" class="mr-2 btn btn-primary">
+        <button (click)="navigateTo('register')" class="mr-2 btn btn-primary">
           Sign in
         </button>
       </div>
-      <div class="header-buttons">
+      <div class="hidden md:block">
         <a href="#" class=""> Contacto </a>
         <a
           [routerLink]="['/login']"
           routerLinkActive="router-link-active"
-          class="m-3 text-secondary-500 "
+          class="m-3 text-secondary-500"
         >
           Login
         </a>
       </div>
-      <div class="dropdown header-dropdown">
+      <div class="md:hidden">
         <button
-          class="dropdown-toggle"
           type="button"
-          id="dropdownMenu"
           data-bs-toggle="dropdown"
           aria-expanded="false"
+          (click)="isMenuOpen = !isMenuOpen"
         >
-          <fa-icon [icon]="faBars" size="2x" class="text-secondary-300 hover:text-secondary-500"></fa-icon>
+          <fa-icon
+            [icon]="faBars"
+            size="lg"
+            class="text-secondary-300 hover:text-secondary-500"
+          ></fa-icon>
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-          <li>
-            <button class="dropdown-item" type="button">Contacto</button>
-            <button class="dropdown-item " type="button" (click)="login()">
-              Login
-            </button>
+        <ul
+          class="min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-white-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1"
+          aria-labelledby="dropdownMenu"
+          [ngClass]="{ block: isMenuOpen, hidden: !isMenuOpen }"
+        >
+          <li
+            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+          >
+            Contacto
+          </li>
+          <li
+            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+            (click)="navigateTo('login')"
+          >
+            Log in
           </li>
         </ul>
       </div>
@@ -50,10 +62,7 @@
   </div>
 
   <!-- AUTH REQUIRED -->
-  <div
-    *ngIf="isLogged"
-    class="flex gap-2 justify-between items-center auth-header w-full"
-  >
+  <div *ngIf="isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/recipes']" class="flex items-center gap-1"
       ><img
         src="../../../../assets/images/logo.png"
@@ -64,7 +73,7 @@
       />
       <h1 class="text-secondary-500 text-4xl mb-0 hidden md:block">Mesta</h1></a
     >
-    <div class="flex items-center app-menu md:flex-row-reverse">
+    <div class="flex items-center app-menu">
       <a
         [routerLink]="['/recipes']"
         routerLinkActive="router-link-active"
@@ -78,32 +87,38 @@
         >Componentes</a
       >
     </div>
-    <div class="dropdown">
+    <div>
       <button
-        class="dropdown-toggle"
         type="button"
-        id="dropdownMenu"
         data-bs-toggle="dropdown"
         aria-expanded="false"
+        (click)="isMenuOpen = !isMenuOpen"
+        id="button-menu"
       >
-        <fa-icon [icon]="faUser" size="lg" class="text-secondary"></fa-icon>
+        <fa-icon
+          id="button-menu-svg"
+          [icon]="faUser"
+          size="lg"
+          class="text-secondary-300 hover:text-secondary-500"
+        ></fa-icon>
       </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
-        <li>
-          <button
-            class="dropdown-item"
-            type="button"
-            [routerLink]="['/configuration']"
-            routerLinkActive="router-link-active"
-          >
-            <fa-icon [icon]="faCogs" class="m-1"></fa-icon>Configuración
-          </button>
+      <ul
+        class="min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-white-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1"
+        aria-labelledby="dropdownMenu"
+        [ngClass]="{ block: isMenuOpen, hidden: !isMenuOpen }"
+      >
+        <li
+          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+          (click)="navigateTo('configuration')"
+        >
+          <fa-icon [icon]="faCogs" class="m-1"></fa-icon>Configuración
         </li>
-        <li>
-          <button class="dropdown-item" type="button" (click)="logout()">
-            <fa-icon [icon]="faArrowRightFromBracket" class="m-1"></fa-icon>
-            Log out
-          </button>
+        <li
+          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+          (click)="logout()"
+        >
+          <fa-icon [icon]="faArrowRightFromBracket" class="m-1"></fa-icon>Log
+          out
         </li>
       </ul>
     </div>

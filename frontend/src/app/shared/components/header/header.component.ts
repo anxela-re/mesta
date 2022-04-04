@@ -1,10 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { logout } from 'src/app/auth/actions';
 import { TokenService } from 'src/app/auth/services/token.service';
-import { faBars, faUser , faArrowRightFromBracket, faCogs} from '@fortawesome/free-solid-svg-icons';
+import {
+  faBars,
+  faUser,
+  faArrowRightFromBracket,
+  faCogs,
+} from '@fortawesome/free-solid-svg-icons';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -12,6 +18,8 @@ import { faBars, faUser , faArrowRightFromBracket, faCogs} from '@fortawesome/fr
 })
 export class HeaderComponent implements OnInit {
   isLogged: boolean;
+  isMenuOpen: boolean = false;
+
   faBars = faBars;
   faUser = faUser;
   faCogs = faCogs;
@@ -24,6 +32,13 @@ export class HeaderComponent implements OnInit {
     this.isLogged = false;
   }
 
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: any) {
+    if (event.target && event.target.closest('#button-menu') === null) {
+      this.isMenuOpen = false;
+    }
+  }
+
   ngOnInit(): void {
     this.store.select('auth').subscribe((auth) => {
       this.isLogged = false;
@@ -33,29 +48,13 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  login(): void {
-    this.router.navigateByUrl('login');
-  }
-
-  register(): void {
-    this.router.navigateByUrl('register');
-  }
-
-  forgotPassword(): void {
-    this.router.navigateByUrl('forgot-password');
-  }
-
-  resetPassword(): void {
-    this.router.navigateByUrl('reset-password');
+  navigateTo(url: string) {
+    this.router.navigateByUrl(url);
   }
 
   logout(): void {
     this.tokenService.removeToken();
     this.store.dispatch(logout());
     this.router.navigateByUrl('/');
-  }
-
-  userConfig(): void {
-    this.router.navigateByUrl('configuration');
   }
 }

@@ -44,15 +44,18 @@ a.router-link-active {
 }
 
 .btn {
-  @apply rounded-md px-2 py-1 hover:cursor-pointer;
+  @apply rounded-md px-4 py-1 hover:cursor-pointer;
 }
 
 .btn-primary {
-  @apply bg-primary-500 text-white-500 border-primary-600 hover:bg-primary-600;
+  @apply bg-primary-400 text-white-500 border-primary-500 hover:bg-primary-500;
+}
+.btn-secondary {
+  @apply bg-secondary-400 text-white-500 border-secondary-500 hover:bg-secondary-500;
 }
 
 h2 {
-  letter-spacing: 0.1em;
+  @apply tracking-widest text-xl
 }
 
 .fs-xs {
@@ -74,38 +77,29 @@ h2 {
 .w-full {
   width: 100%;
 }
-
-input {
-  border: none !important;
-}
-
 .limit-container {
-  max-width: 1100px;
-  margin: auto;
+  @apply max-w-[1100px] m-auto;
 }
 
 .custom-input-labeled {
-  position: relative;
+  @apply relative;
+}
+.custom-input-labeled .form-errors {
+  @apply text-left text-danger font-bold fs-xs;
+}
+.custom-input-labeled input {
+  @apply rounded-md py-3 px-4 text-sm w-full leading-tight focus:outline-none /*focus:shadow-outline*/;
 }
 .custom-input-labeled label {
-  display: none;
-  position: absolute;
-  top: 0;
-  left: 10px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  // background: linear-gradient(180deg, #fff 70%, $dark-50 0);
-  font-size: 0.75rem;
-  font-weight: bold;
-  padding-left: 2px;
-  padding-right: 2px;
-  transform: translateY(-70%);
-  text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff,
-    1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+  @apply block absolute top-0 left-3 text-xs font-bold py-1 -translate-y-1/2 text-primary-500;
 }
-
-.custom-input-labeled input:active + label,
-.custom-input-labeled input:focus + label {
-  display: block;
-  transition: all 2s linear;
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
+// .custom-input-labeled label {
+//   text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff,
+//     1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
+// }

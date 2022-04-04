@@ -11,7 +11,7 @@ export interface AuthState {
 }
 
 export const initialState: AuthState = {
-  credentials: new AuthTokenDTO('', ''),
+  credentials: new AuthTokenDTO('a', 'a'),
   loading: false,
   loaded: false,
   error: null,

@@ -1,18 +1,6 @@
-.dropdown-toggle::after {
-  display: none;
-}
-.dropdown-menu {
-  display: none;
-}
 .logo-img {
-  height: calc(1rem + 2.175vw);
+  height: 2.25rem;
   padding-bottom: 2px;
-}
-.header-buttons {
-  display: none;
-}
-.header-dropdown {
-  display: block;
 }
 .app-menu a:first-child::after {
   content: "|";
@@ -30,22 +18,8 @@
   padding-top: 4px;
 }
 .app-menu a {
-  @apply text-secondary-500 text-xs;
+  @apply text-secondary-500 text-xs hover:text-primary-500 md:text-xs;
 }
 .app-menu a.router-link-active {
-  @apply text-primary-500 text-base font-bold pt-0;
-}
-@screen md {
-  .header-buttons {
-    @apply block;
-  }
-  .header-dropdown {
-    @apply hidden;
-  }
-  .app-menu a {
-    @apply text-xs;
-  }
-  .app-menu a.router-link-active {
-    @apply text-sm
-  }
+  @apply text-primary-500 text-base font-bold pt-0 md:text-sm;
 }

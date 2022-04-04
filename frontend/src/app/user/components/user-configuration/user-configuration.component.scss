@@ -9,31 +9,6 @@
     top: 80px;
   }
 }
-.add-profile {
-  width: 100%;
-  cursor: pointer;
-  @apply text-secondary-100 bg-secondary-50 border-secondary-100;
-}
-.add-profile:hover {
-  @apply text-secondary-50 bg-secondary-100 border-secondary-50;
-}
-.color-profile {
-  width: 10px;
-  height: 25px;
-}
-.profile-container {
-  border: 2px dashed;
-  cursor: pointer;
-}
-.profile-container {
-  @apply border-secondary-400;
-}
-.profile-container:hover {
-  border: 2px dashed;
-}
-.profile-container:hover {
-  @apply border-secondary-200;
-}
 @screen md {
   #nav-configuration {
     display: block;
