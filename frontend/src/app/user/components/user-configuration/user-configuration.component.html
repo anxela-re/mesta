@@ -34,7 +34,7 @@
               <input
                 type="text"
                 [formControl]="name"
-                class="bg-secondary-50 rounded-lg py-2 px-4 w-full focus:outline-none"
+                class="dark-input"
                 aria-label="name"
                 placeholder="Nombre"
               />
@@ -48,7 +48,7 @@
             </div>
             <div
               *ngIf="name.errors && (name.touched || name.dirty)"
-              class="mt-2 mb-2 text-danger text-left fs-xs"
+              class="form-errors"
             >
               <div *ngIf="name.errors.required">Name is required</div>
               <div *ngIf="name.errors.minlength">
@@ -66,7 +66,7 @@
               <input
                 type="email"
                 [formControl]="email"
-                class="bg-secondary-50 rounded-lg py-2 px-4 w-full focus:outline-none"
+                class="dark-input"
                 aria-label="Email"
                 placeholder="Email"
               />
@@ -78,10 +78,7 @@
                 <fa-icon [icon]="faSave"></fa-icon>
               </button>
             </div>
-            <div
-              *ngIf="email.errors"
-              class="mt-2 mb-2 text-danger text-left fs-xs"
-            >
+            <div *ngIf="email.errors" class="form-errors">
               <span
                 class="text-danger"
                 *ngIf="email.errors && (email.touched || email.dirty)"
@@ -101,45 +98,30 @@
       <section id="profiles">
         <h2>Perfiles</h2>
         <div
-          class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:border-secondary-200"
+          *ngFor="let profile of user.profiles"
+          class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:opacity-50"
+          (click)="editProfile(profile.id)"
         >
           <div class="flex flex-row justify-between">
             <div class="flex flex-row gap-2">
               <div
                 class="w-[10px] h-[25px] rounded"
-                style="background-color: red"
+                [ngStyle]="{ 'background-color': profile.color }"
               ></div>
-              <h4>Perfil 1</h4>
+              <h4>{{ profile.name }}</h4>
             </div>
             <fa-icon [icon]="faTrash"></fa-icon>
           </div>
           <div class="body-profile my-2 text-sm">
-            PLorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae
-            tortor purus. Vestibulum ante ipsum primis in faucibus orci luctus
-            et ultrices posuere cubilia curae; Maecenas sit amet imperdiet
-            lacus. Vivamus pretium risus et mauris molestie, ac eleifend lacus
-            suscipit. Integer commodo venenatis enim eu auctor. er
+            {{ profile.description }}
           </div>
           <div class="profile-phases flex flex-row gap-1 mb-2">
             <h4
-              class="bg-primary-500 text-white-500 rounded-full px-2 py-1 text-sm"
+              *ngFor="let phase of profile.phases"
+              class="text-white-500 rounded-full px-2 py-1 text-sm"
+              [ngStyle]="{ 'background-color': phase.color }"
             >
-              Fase 1
-            </h4>
-            <h4
-              class="bg-blue-500 text-white-500 rounded-full px-2 py-1 text-sm"
-            >
-              Fase 2
-            </h4>
-            <h4
-              class="bg-purple-500 text-white-500 rounded-full px-2 py-1 text-sm"
-            >
-              Fase 3
-            </h4>
-            <h4
-              class="bg-orange-500 text-white-500 rounded-full px-2 py-1 text-sm"
-            >
-              Fase 4
+              {{ phase.name }}
             </h4>
           </div>
         </div>
@@ -175,7 +157,7 @@
             <input
               type="text"
               [formControl]="nameContact"
-              class="bg-secondary-50 rounded-lg py-2 px-4 w-full focus:outline-none"
+              class="dark-input"
               aria-label="Name"
               placeholder="Name"
             />
@@ -184,7 +166,7 @@
             *ngIf="
               nameContact.errors && (nameContact.touched || nameContact.dirty)
             "
-            class="mt-2 mb-2 text-danger text-left fs-xs"
+            class="form-errors"
           >
             <div *ngIf="nameContact.errors.required">Name is required</div>
             <div *ngIf="nameContact.errors.minlength">
@@ -199,15 +181,12 @@
             <input
               type="email"
               [formControl]="emailContact"
-              class="bg-secondary-50 rounded-lg py-2 px-4 w-full focus:outline-none"
+              class="dark-input"
               aria-label="Email"
               placeholder="Email"
             />
           </div>
-          <div
-            *ngIf="emailContact.errors"
-            class="mt-2 mb-2 text-danger text-left fs-xs"
-          >
+          <div *ngIf="emailContact.errors" class="form-errors">
             <span
               *ngIf="
                 emailContact.errors &&
@@ -226,7 +205,7 @@
           <div class="mt-2 mb-2">
             <textarea
               name="bodyContact"
-              class="bg-secondary-50 rounded-lg py-2 px-4 w-full focus:outline-none"
+              class="dark-input"
               placeholder="Escribe aquí tus dudas"
               rows="8"
             ></textarea>
@@ -235,7 +214,7 @@
             *ngIf="
               bodyContact.errors && (bodyContact.touched || bodyContact.dirty)
             "
-            class="mt-2 mb-2 text-danger text-left fs-xs"
+            class="form-errors"
           >
             <div *ngIf="bodyContact.errors.required">Name is required</div>
             <div *ngIf="bodyContact.errors.minlength">

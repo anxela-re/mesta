@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { LandingPageComponent } from './shared/components/landing-page/landing-p
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RecipesModule } from './recipes/recipes.module';
 import { ComponentsModule } from './components/components.module';
+import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,7 @@ import { ComponentsModule } from './components/components.module';
     HeaderComponent,
     FooterComponent,
     LandingPageComponent,
+    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { ComponentsModule } from './components/components.module';
     }),
     AuthModule,
     UserModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     {

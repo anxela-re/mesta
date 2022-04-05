@@ -55,7 +55,14 @@ a.router-link-active {
 }
 
 h2 {
-  @apply tracking-widest text-xl
+  @apply tracking-widest text-xl;
+}
+
+h3 {
+  @apply text-lg;
+}
+p {
+  @apply text-sm;
 }
 
 .fs-xs {
@@ -99,7 +106,11 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
-// .custom-input-labeled label {
-//   text-shadow: 1px 0 0 #fff, -1px 0 0 #fff, 0 1px 0 #fff, 0 -1px 0 #fff,
-//     1px 1px #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff;
-// }
+
+.dark-input {
+  @apply bg-white-900 rounded-lg py-2 px-4 w-full focus:outline-none;
+}
+
+.form-errors {
+  @apply mt-2 mb-2 text-danger text-left fs-xs; 
+}

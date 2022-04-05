@@ -1,1 +1,107 @@
-<span>user profile works</span>
+<div class="p-2 max-w-[900px] m-auto">
+  <h2>Nuevo perfil</h2>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="my-4">
+    <div class="my-2">
+      <input
+        type="text"
+        [formControl]="name"
+        class="dark-input"
+        aria-label="name"
+        placeholder="Nombre"
+      />
+      <div
+        *ngIf="name.errors && (name.touched || name.dirty)"
+        class="form-errors"
+      >
+        <div *ngIf="name.errors.required">Obligatorio</div>
+        <div *ngIf="name.errors.maxlength">
+          Name can be max 64 characters long.
+        </div>
+      </div>
+    </div>
+    <div class="my-2">
+      <textarea
+        name="description"
+        class="dark-input"
+        placeholder="Descripción"
+        rows="8"
+        [formControl]="description"
+      ></textarea>
+      <div
+        *ngIf="description.errors && (description.touched || description.dirty)"
+        class="form-errors"
+      >
+        <div *ngIf="description.errors.required">Obligatorio</div>
+      </div>
+    </div>
+    <div class="my-2">
+      <h3>Fases del proceso de formulación</h3>
+      <p class="mb-2">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+        rutrum neque id magna accumsan tincidunt. Nam venenatis, turpis nec
+        sodales dapibus, velit massa tincidunt arcu, bibendum dapibus eros dolor
+        in urna.
+      </p>
+      <a
+        (click)="addNewPhase()"
+        class="italic text-primary-500 hover:text-primary-800 cursor-pointer"
+        ><fa-icon [icon]="faPlus"></fa-icon>Añadir fase
+      </a>
+      <div *ngIf="phases.errors?.minLengthArray" class="form-errors">
+        Mínimo una fase
+      </div>
+      <div class="my-2 flex flex-col-reverse" formArrayName="phases">
+        <div
+          *ngFor="let phaseForm of phases.controls; let i = index"
+          class="m-2"
+        >
+          <div [formGroupName]="i">
+            <div class="flex gap-1">
+              <ngx-colors
+                class="square"
+                ngx-colors-trigger
+                style="display: inline-block; margin: 5px"
+                formControlName="color"
+              ></ngx-colors>
+              <input
+                type="text"
+                formControlName="name"
+                class="dark-input"
+                aria-label="name"
+                placeholder="Nombre"
+              />
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="phases.removeAt(i)"
+              >
+                <fa-icon [icon]="faTrashAlt"></fa-icon>
+              </button>
+            </div>
+            <div
+              *ngIf="
+                phases.at(i)?.get('name')?.errors &&
+                (phases.at(i)?.get('name')?.touched ||
+                  phases.at(i)?.get('name')?.dirty)
+              "
+              class="form-errors"
+            >
+              <div *ngIf="phases.at(i)?.get('name')?.errors?.required">
+                El nombre es obligatorio
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center">
+      <button
+        type="submit"
+        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300"
+        [disabled]="!profileForm.valid"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

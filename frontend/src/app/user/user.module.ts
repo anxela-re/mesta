@@ -6,14 +6,21 @@ import { AppRoutingModule } from '../app-routing.module';
 import { RegisterComponent } from './components/register/register.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserConfigurationComponent } from './components/user-configuration/user-configuration.component';
+import { NgxColorsModule } from 'ngx-colors';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
-  declarations: [UserProfileComponent, RegisterComponent, UserConfigurationComponent],
+  declarations: [
+    UserProfileComponent,
+    RegisterComponent,
+    UserConfigurationComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AppRoutingModule,
     FontAwesomeModule,
+    NgxColorsModule,
   ],
 })
 export class UserModule {}

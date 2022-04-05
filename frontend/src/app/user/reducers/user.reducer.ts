@@ -7,6 +7,8 @@ import {
   registerFailure,
   registerSuccess,
 } from '../actions';
+import { PhaseDTO } from '../models/phase.dto';
+import { ProfileDTO } from '../models/profile.dto';
 import { UserDTO } from '../models/user.dto';
 
 export interface UserState {
@@ -17,7 +19,11 @@ export interface UserState {
 }
 
 export const initialState: UserState = {
-  user: new UserDTO('', '', []),
+  user: new UserDTO('Angela', 'Redondo Rodríguez', [
+    new ProfileDTO('Perfil 1', 'Descripción perfil 1', '#000', [
+      new PhaseDTO('Phase 1', '#000'),
+    ]),
+  ]),
   loading: false,
   loaded: true,
   error: null,

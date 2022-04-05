@@ -62,11 +62,7 @@ export class UserConfigurationComponent implements OnInit {
     this.store.select('user').subscribe(({ user }) => {
       this.user = user;
 
-      this.name = new FormControl(this.user.name, [
-        Validators.required,
-        // Validators.minLength(5),
-        // Validators.maxLength(25),
-      ]);
+      this.name = new FormControl(this.user.name, [Validators.required]);
 
       this.email = new FormControl(this.user.email, [
         Validators.required,
@@ -83,8 +79,6 @@ export class UserConfigurationComponent implements OnInit {
     this.contact = new ContactDTO('', '', '');
     this.nameContact = new FormControl(this.contact.name, [
       Validators.required,
-      // Validators.minLength(5),
-      // Validators.maxLength(25),
     ]);
     this.emailContact = new FormControl(this.contact.email, [
       Validators.required,
@@ -113,7 +107,10 @@ export class UserConfigurationComponent implements OnInit {
     console.info(this.contactForm);
   }
 
+  editProfile(profileId: string): void {
+    this.router.navigate(['/profile', profileId]);
+  }
   createProfile(): void {
-    this.router.navigateByUrl('profile');
+    this.router.navigate(['/profile', 'new']);
   }
 }
