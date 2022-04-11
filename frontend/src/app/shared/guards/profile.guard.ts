@@ -16,8 +16,8 @@ import { AppState } from 'src/app/app.reducers';
 export class ProfileGuard implements CanActivate {
   hasProfiles: boolean = false;
   constructor(private store: Store<AppState>, private router: Router) {
-    this.store.select('user').subscribe(({ user }) => {
-      this.hasProfiles = user.profiles.length > 0;
+    this.store.select('profiles').subscribe(({ profiles }) => {
+      this.hasProfiles = profiles.length > 0;
     });
   }
   canActivate(

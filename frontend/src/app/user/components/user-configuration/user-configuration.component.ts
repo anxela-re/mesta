@@ -13,6 +13,7 @@ import {
 import { faSave, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProfileDTO } from '../../models/profile.dto';
 
 class ContactDTO {
   name!: string;
@@ -51,6 +52,8 @@ export class UserConfigurationComponent implements OnInit {
   faPlus = faPlus;
   faTrash = faTrashAlt;
 
+  profiles: ProfileDTO[] = [];
+
   constructor(
     public userService: UserService,
     private store: Store<AppState>,
@@ -75,6 +78,10 @@ export class UserConfigurationComponent implements OnInit {
       });
     });
 
+    this.store.select('profiles').subscribe(({ profiles }) => {
+      this.profiles = profiles;
+    });
+
     this.isValidContactForm = null;
     this.contact = new ContactDTO('', '', '');
     this.nameContact = new FormControl(this.contact.name, [
@@ -94,9 +101,7 @@ export class UserConfigurationComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.store.dispatch(UserAction.getUser());
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
     console.info(this.userForm);
@@ -107,8 +112,11 @@ export class UserConfigurationComponent implements OnInit {
     console.info(this.contactForm);
   }
 
-  editProfile(profileId: string): void {
-    this.router.navigate(['/profile', profileId]);
+  editProfile(profileId: string | undefined): void {
+    console.info(profileId)
+    if (profileId) {
+      this.router.navigate(['/profile', profileId]);
+    }
   }
   createProfile(): void {
     this.router.navigate(['/profile', 'new']);

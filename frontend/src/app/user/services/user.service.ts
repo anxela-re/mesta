@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
 import { RegisterDTO } from '../models/register.dto';
 
 @Injectable({
@@ -35,6 +36,24 @@ export class UserService {
       .get(`${this.apiUrl}/api/user`, {
         headers: this.headers(),
       })
+      .pipe(catchError(this.sharedService.handleError));
+  }
+
+  addProfile(profile: NewProfileDTO): Observable<any> {
+    return this.http
+      .post(`${this.apiUrl}/api/profile`, profile)
+      .pipe(catchError(this.sharedService.handleError));
+  }
+
+  updateProfile(profile: ProfileDTO): Observable<any> {
+    return this.http
+      .put(`${this.apiUrl}/api/profile`, profile)
+      .pipe(catchError(this.sharedService.handleError));
+  }
+
+  getProfilesByUser(userId: string): Observable<any> {
+    return this.http
+      .get(`${this.apiUrl}/api/profiles/${userId}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 

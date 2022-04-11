@@ -1,0 +1,93 @@
+import { Action, createReducer, on } from '@ngrx/store';
+import { ProfilesActions } from '../actions';
+import { PhaseDTO } from '../models/phase.dto';
+import { ProfileDTO } from '../models/profile.dto';
+import { UserDTO } from '../models/user.dto';
+
+export interface ProfilesState {
+  profiles: ProfileDTO[];
+  loading: boolean;
+  loaded: boolean;
+  error: any;
+}
+
+export const initialState: ProfilesState = {
+  profiles: [],
+  loading: false,
+  loaded: true,
+  error: null,
+};
+
+const _userReducer = createReducer(
+  initialState,
+  on(ProfilesActions.getProfilesByUser, (state) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    error: null,
+  })),
+  on(ProfilesActions.getProfilesByUserSuccess, (state, { profiles }) => ({
+    ...state,
+    profiles: profiles,
+    loading: false,
+    loaded: true,
+    error: null,
+  })),
+  on(ProfilesActions.getProfilesByUserFailure, (state, { payload }) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    error: { payload },
+  })),
+  on(ProfilesActions.createProfile, (state) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    error: null,
+  })),
+  on(ProfilesActions.createProfileSuccess, (state, { profile }) => ({
+    ...state,
+    profiles: [...state.profiles, profile],
+    loading: false,
+    loaded: true,
+    error: null,
+  })),
+  on(ProfilesActions.createProfileFailure, (state, { payload }) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    error: { payload },
+  })),
+  on(ProfilesActions.updateProfile, (state) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    error: null,
+  })),
+  on(ProfilesActions.updateProfileSuccess, (state, { profile }) => ({
+    ...state,
+    profiles: state.profiles.map((currentProfile) => {
+      if (currentProfile.id?.toString() === profile.id?.toString()) {
+        return profile;
+      } else {
+        return currentProfile;
+      }
+    }),
+    loading: false,
+    loaded: true,
+    error: null,
+  })),
+  on(ProfilesActions.updateProfileFailure, (state, { payload }) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    error: { payload },
+  }))
+);
+
+export function profileReducer(
+  state: ProfilesState | undefined,
+  action: Action
+): ProfilesState {
+  return _userReducer(state, action);
+}

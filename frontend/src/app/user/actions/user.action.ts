@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
+import { ProfileDTO } from '../models/profile.dto';
 import { RegisterDTO } from '../models/register.dto';
 import { UserDTO } from '../models/user.dto';
 

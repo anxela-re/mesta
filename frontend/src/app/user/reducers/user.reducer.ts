@@ -1,27 +1,16 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import {
-  getUser,
-  getUserFailure,
-  getUserSuccess,
-  register,
-  registerFailure,
-  registerSuccess,
-} from '../actions';
-import { PhaseDTO } from '../models/phase.dto';
-import { ProfileDTO } from '../models/profile.dto';
+import { UserActions } from '../actions';
 import { UserDTO } from '../models/user.dto';
 
 export interface UserState {
   user: UserDTO;
-  profileSelected: string;
   loading: boolean;
   loaded: boolean;
   error: any;
 }
 
 export const initialState: UserState = {
-  user: new UserDTO('', '', []),
-  profileSelected: '',
+  user: new UserDTO('', ''),
   loading: false,
   loaded: true,
   error: null,
@@ -29,40 +18,39 @@ export const initialState: UserState = {
 
 const _userReducer = createReducer(
   initialState,
-  on(register, (state) => ({
+  on(UserActions.register, (state) => ({
     ...state,
     loading: true,
     loaded: false,
     error: null,
   })),
-  on(registerSuccess, (state, action) => ({
+  on(UserActions.registerSuccess, (state, action) => ({
     ...state,
     user: action.user,
     loading: false,
     loaded: true,
     error: null,
   })),
-  on(registerFailure, (state, { payload }) => ({
+  on(UserActions.registerFailure, (state, { payload }) => ({
     ...state,
     loading: false,
     loaded: false,
     error: { payload },
   })),
-  on(getUser, (state) => ({
+  on(UserActions.getUser, (state) => ({
     ...state,
     loading: true,
     loaded: false,
     error: null,
   })),
-  on(getUserSuccess, (state, { user }) => ({
+  on(UserActions.getUserSuccess, (state, { user }) => ({
     ...state,
     user: user,
-    profileSelected: user?.profiles[0]?.id,
     loading: false,
     loaded: true,
     error: null,
   })),
-  on(getUserFailure, (state, { payload }) => ({
+  on(UserActions.getUserFailure, (state, { payload }) => ({
     ...state,
     loading: false,
     loaded: false,

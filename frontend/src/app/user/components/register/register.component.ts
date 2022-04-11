@@ -10,7 +10,7 @@ import {
 import { RegisterDTO } from '../../models/register.dto';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import * as UserActions from '../../actions';
+import {UserActions} from '../../actions';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

@@ -47,10 +47,10 @@
         class="italic text-primary-500 hover:text-primary-800 cursor-pointer"
         ><fa-icon [icon]="faPlus"></fa-icon>Añadir fase
       </a>
-      <div *ngIf="phases.errors?.minLengthArray" class="form-errors">
+      <!-- <div *ngIf="phases.errors?.minLengthArray" class="form-errors">
         Mínimo una fase
-      </div>
-      <div class="my-2 flex flex-col-reverse" formArrayName="phases">
+      </div> -->
+      <!-- <div class="my-2 flex flex-col-reverse" formArrayName="phases">
         <div
           *ngFor="let phaseForm of phases.controls; let i = index"
           class="m-2"
@@ -92,7 +92,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="text-center">
       <button

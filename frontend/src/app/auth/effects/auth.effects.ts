@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { AuthTokenDTO } from '../models/authToken.dto';
 import { TokenService } from '../services/token.service';
 import { createAction } from '@ngrx/store';
+import * as UserActions from 'src/app/user/actions';
 
 @Injectable()
 export class AuthEffects {

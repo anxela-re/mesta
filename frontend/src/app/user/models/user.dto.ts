@@ -5,11 +5,9 @@ export class UserDTO {
   access_token?: string;
   name: string;
   email: string;
-  profiles: ProfileDTO[] = [];
 
-  constructor(name: string, email: string, profiles: ProfileDTO[] = []) {
+  constructor(name: string, email: string) {
     this.name = name;
     this.email = email;
-    this.profiles = profiles;
   }
 }

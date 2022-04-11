@@ -6,7 +6,8 @@ use App\Models\User;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\Auth\ForgotPassController;
 use App\Http\Controllers\Api\Auth\RegisterController;
-use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\Api\User\ProfileController;
+use App\Models\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,14 +25,19 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('users', function () {
-    return User::all();
-});
-
 Route::group(['namespace' => 'Api\Auth'], function () {
     Route::post('/login', [AuthenticationController::class, 'login']);
     Route::post('/logout', [AuthenticationController::class, 'logout'])->middleware(('auth:api'));
     Route::post('/register', [RegisterController::class, 'register']);
     Route::post('/forgot', [ForgotPassController::class, 'forgot']);
     Route::post('/reset', [ForgotPassController::class, 'reset']);
+});
+
+Route::group(['namespace' => 'Api\User'], function () {
+    Route::post('/profile', [ProfileController::class, 'addProfile'])->middleware(('auth:api'));
+    Route::put('/profile', [ProfileController::class, 'updateProfile'])->middleware((('auth:api')));
+    Route::get('/profiles/{id}', function ($id) {
+        $profiles = Profile::where('user_id', $id)->get();
+        return $profiles;
+    })->middleware(('auth:api'));
 });

@@ -3,10 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
-import * as UserActions from '../actions';
+import { UserActions } from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from '../services/user.service';
 import { UserDTO } from '../models/user.dto';
+import { ProfileDTO } from '../models/profile.dto';
 
 @Injectable()
 export class UserEffects {
@@ -79,9 +80,9 @@ export class UserEffects {
         this.userService.getUser().pipe(
           map((user) => {
             const userDTO: UserDTO = {
+              id: user.id,
               name: user.name,
               email: user.email,
-              profiles: user.profiles || []
             };
             return UserActions.getUserSuccess({
               user: userDTO,
