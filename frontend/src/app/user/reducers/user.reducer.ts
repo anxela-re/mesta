@@ -13,17 +13,15 @@ import { UserDTO } from '../models/user.dto';
 
 export interface UserState {
   user: UserDTO;
+  profileSelected: string;
   loading: boolean;
   loaded: boolean;
   error: any;
 }
 
 export const initialState: UserState = {
-  user: new UserDTO('Angela', 'Redondo Rodríguez', [
-    new ProfileDTO('Perfil 1', 'Descripción perfil 1', '#000', [
-      new PhaseDTO('Phase 1', '#000'),
-    ]),
-  ]),
+  user: new UserDTO('', '', []),
+  profileSelected: '',
   loading: false,
   loaded: true,
   error: null,
@@ -59,6 +57,7 @@ const _userReducer = createReducer(
   on(getUserSuccess, (state, { user }) => ({
     ...state,
     user: user,
+    profileSelected: user?.profiles[0]?.id,
     loading: false,
     loaded: true,
     error: null,

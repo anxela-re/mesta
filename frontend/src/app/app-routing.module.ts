@@ -10,6 +10,7 @@ import { LandingPageComponent } from './shared/components/landing-page/landing-p
 import { RecipesComponent } from './recipes/components/recipes/recipes.component';
 import { ComponentsComponent } from './components/components/components/components.component';
 import { UserConfigurationComponent } from './user/components/user-configuration/user-configuration.component';
+import { ProfileGuard } from './shared/guards/profile.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -21,7 +22,7 @@ const routes: Routes = [
   {
     path: 'configuration',
     component: UserConfigurationComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProfileGuard],
   },
   {
     path: 'profile/:id',
@@ -32,13 +33,13 @@ const routes: Routes = [
     path: 'recipes',
     loadChildren: () =>
       import('./recipes/recipes.module').then((m) => m.RecipesModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProfileGuard],
   },
   {
     path: 'components',
     loadChildren: () =>
       import('./components/components.module').then((m) => m.ComponentsModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProfileGuard],
   },
 ];
 

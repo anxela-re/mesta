@@ -78,11 +78,10 @@ export class UserEffects {
       exhaustMap(() =>
         this.userService.getUser().pipe(
           map((user) => {
-            console.info(user);
             const userDTO: UserDTO = {
               name: user.name,
               email: user.email,
-              profiles: []
+              profiles: user.profiles || []
             };
             return UserActions.getUserSuccess({
               user: userDTO,

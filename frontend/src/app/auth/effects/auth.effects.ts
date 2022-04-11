@@ -51,7 +51,7 @@ export class AuthEffects {
             );
 
             if (this.responseOK) {
-              this.router.navigateByUrl('configuration');
+              this.router.navigateByUrl('recipes');
             }
           })
         )

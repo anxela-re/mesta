@@ -10,6 +10,7 @@ import {
   faArrowRightFromBracket,
   faCogs,
 } from '@fortawesome/free-solid-svg-icons';
+import { ProfileDTO } from 'src/app/user/models/profile.dto';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,8 @@ export class HeaderComponent implements OnInit {
   faUser = faUser;
   faCogs = faCogs;
   faArrowRightFromBracket = faArrowRightFromBracket;
+
+  profiles: ProfileDTO[] = [];
   constructor(
     private router: Router,
     private store: Store<AppState>,
