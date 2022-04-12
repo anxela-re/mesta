@@ -12,7 +12,7 @@ import { AuthInterceptor } from './shared/auth.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './auth/components/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
-import { StoreModule } from '@ngrx/store';
+import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { appReducers, EffectsArray } from './app.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -27,6 +27,16 @@ import { RecipesModule } from './recipes/recipes.module';
 import { ComponentsModule } from './components/components.module';
 import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.component';
 
+export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
+  return function (state, action) {
+    if (action.type === 'LOGOUT') {
+      console.info('Clean session');
+      state = undefined;
+    }
+
+    return reducer(state, action);
+  };
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,6 +53,7 @@ import { BreadcrumbComponent } from './shared/components/breadcrumb/breadcrumb.c
     FontAwesomeModule,
     FormsModule,
     StoreModule.forRoot(appReducers, {
+      metaReducers: [cleanSession],
       runtimeChecks: {
         strictStateImmutability: false,
         strictActionImmutability: false,

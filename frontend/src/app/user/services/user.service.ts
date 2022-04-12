@@ -57,6 +57,12 @@ export class UserService {
       .pipe(catchError(this.sharedService.handleError));
   }
 
+  deleteProfile(profileId: number): Observable<any> {
+    return this.http
+      .delete(`${this.apiUrl}/api/profile/${profileId}`)
+      .pipe(catchError(this.sharedService.handleError));
+  }
+
   headers(): HttpHeaders {
     return new HttpHeaders({
       Authorization: `Bearer ${this.accessToken}`,

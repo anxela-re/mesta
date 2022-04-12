@@ -1,7 +1,7 @@
 import { PhaseDTO } from './phase.dto';
 
 export class ProfileDTO {
-  id?: string;
+  id?: number;
   name: string;
   description: string;
   color?: string;
@@ -11,10 +11,10 @@ export class ProfileDTO {
   constructor(
     name: string,
     description: string,
-    id?:string,
+    id?: number,
     phases?: PhaseDTO[],
     color?: string,
-    user_id?: string,
+    user_id?: string
   ) {
     this.name = name;
     this.description = description;

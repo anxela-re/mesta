@@ -99,7 +99,7 @@
         <h2>Perfiles</h2>
         <div
           *ngFor="let profile of profiles"
-          class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:opacity-50"
+          class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:border-secondary-200 group"
           (click)="editProfile(profile.id)"
         >
           <div class="flex flex-row justify-between">
@@ -108,11 +108,11 @@
                 class="w-[10px] h-[25px] rounded"
                 [ngStyle]="{ 'background-color': profile.color }"
               ></div>
-              <h4>{{ profile.name }}</h4>
+              <h4 class="text-secondary-500 group-hover:text-secondary-200">{{ profile.name }}</h4>
             </div>
-            <fa-icon [icon]="faTrash"></fa-icon>
+            <fa-icon [icon]="faTrash" class="hover:text-danger z-10" (click)="deleteProfile($event, profile.id)"></fa-icon>
           </div>
-          <div class="body-profile my-2 text-sm">
+          <div class="body-profile my-2 text-sm text-secondary-500 group-hover:text-secondary-200">
             {{ profile.description }}
           </div>
           <div class="profile-phases flex flex-row gap-1 mb-2">

@@ -20,7 +20,6 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private tokenService: TokenService,
     private sharedService: SharedService,
     private store: Store<AppState>
   ) {

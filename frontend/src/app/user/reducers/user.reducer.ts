@@ -12,7 +12,7 @@ export interface UserState {
 export const initialState: UserState = {
   user: new UserDTO('', ''),
   loading: false,
-  loaded: true,
+  loaded: false,
   error: null,
 };
 

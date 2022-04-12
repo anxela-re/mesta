@@ -3,15 +3,17 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Phase;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 
 class PhaseController extends Controller
 {
-    public function addProfile(Request $request)
+    public function createPhase(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
+            'color' => 'required',
             'profile_id' => 'required'
         ]);
 
@@ -21,12 +23,13 @@ class PhaseController extends Controller
             return response(['message' => 'Profile id dows not exists.'], 400);
         }
 
-        $profile = Profile::create([
+        $phase = Phase::create([
             'name' => $request->name,
             'description' => $request->description,
+            'color' => $request->color,
             'profile_id' => $request->profile_id,
         ]);
 
-        return response(['message' => 'Phase succesfully created'], 200);
+        return response(['message' => 'Phase succesfully created', 'data' => $phase], 200);
     }
 }

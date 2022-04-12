@@ -19,7 +19,7 @@ export const getProfilesByUserFailure = createAction(
 
 export const createProfile = createAction(
   '[Profiles] Create profile',
-  props<{profile: NewProfileDTO}>()
+  props<{ profile: NewProfileDTO }>()
 );
 
 export const createProfileSuccess = createAction(
@@ -34,7 +34,7 @@ export const createProfileFailure = createAction(
 
 export const updateProfile = createAction(
   '[Profiles] Update profile',
-  props<{profile: ProfileDTO}>()
+  props<{ profile: ProfileDTO }>()
 );
 
 export const updateProfileSuccess = createAction(
@@ -45,4 +45,24 @@ export const updateProfileSuccess = createAction(
 export const updateProfileFailure = createAction(
   '[Profiles] Update profile failure',
   props<{ payload: HttpErrorResponse }>()
+);
+
+export const deleteProfile = createAction(
+  '[Profiles] Delete profile',
+  props<{ profileId: number }>()
+);
+
+export const deleteProfileSuccess = createAction(
+  '[Profiles] Delete profile success',
+  props<{ profileId: number }>()
+);
+
+export const deleteProfileFailure = createAction(
+  '[Profiles] Delete profile failure',
+  props<{ payload: HttpErrorResponse }>()
+);
+
+export const selectProfile = createAction(
+  '[Profiles] Select profile',
+  props<{ profileId: number }>()
 );

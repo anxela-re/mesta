@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { UserService } from '../../services/user.service';
-import * as UserAction from '../../actions';
+import { ProfilesActions, UserActions } from '../../actions';
 import { UserDTO } from '../../models/user.dto';
 import {
   FormBuilder,
@@ -112,10 +112,19 @@ export class UserConfigurationComponent implements OnInit {
     console.info(this.contactForm);
   }
 
-  editProfile(profileId: string | undefined): void {
-    console.info(profileId)
+  editProfile(profileId: number | undefined): void {
     if (profileId) {
       this.router.navigate(['/profile', profileId]);
+    }
+  }
+
+  deleteProfile(e: MouseEvent, profileId: number | undefined): void {
+    e.stopPropagation();
+
+    if (profileId) {
+      this.store.dispatch(
+        ProfilesActions.deleteProfile({ profileId: profileId })
+      );
     }
   }
   createProfile(): void {

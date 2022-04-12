@@ -11,6 +11,8 @@ import {
   faCogs,
 } from '@fortawesome/free-solid-svg-icons';
 import { ProfileDTO } from 'src/app/user/models/profile.dto';
+import { ProfilesActions } from 'src/app/user/actions';
+import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 
 @Component({
   selector: 'app-header',
@@ -27,12 +29,21 @@ export class HeaderComponent implements OnInit {
   faArrowRightFromBracket = faArrowRightFromBracket;
 
   profiles: ProfileDTO[] = [];
+  profileSelected?: number | undefined;
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private profileSelectedService: ProfileSelectedService
   ) {
     this.isLogged = false;
+
+    this.store.select('profiles').subscribe((data) => {
+      this.profiles = data.profiles;
+      if (data.selected) {
+        this.profileSelected = data.selected;
+      }
+    });
   }
 
   @HostListener('document:click', ['$event'])
@@ -44,6 +55,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select('auth').subscribe((auth) => {
+      console.info(auth);
       this.isLogged = false;
       if (auth.credentials.access_token) {
         this.isLogged = true;
@@ -53,6 +65,15 @@ export class HeaderComponent implements OnInit {
 
   navigateTo(url: string) {
     this.router.navigateByUrl(url);
+  }
+
+  selectProfile(profileId: number | undefined) {
+    if (profileId) {
+      this.store.dispatch(
+        ProfilesActions.selectProfile({ profileId: profileId })
+      );
+      this.profileSelectedService.setProfileSelected(profileId);
+    }
   }
 
   logout(): void {

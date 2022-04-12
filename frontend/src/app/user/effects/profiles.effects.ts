@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ProfilesActions } from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
@@ -79,7 +79,7 @@ export class ProfilesEffects {
       ofType(ProfilesActions.createProfile),
       exhaustMap(({ profile }) =>
         this.userService.addProfile(profile).pipe(
-          map(({data}) => {
+          map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(
               data.name,
               data.description,
@@ -91,6 +91,11 @@ export class ProfilesEffects {
             return ProfilesActions.createProfileSuccess({
               profile: profileDTO,
             });
+          }),
+          catchError((error) => {
+            return of(
+              ProfilesActions.createProfileFailure({ payload: error })
+            );
           })
         )
       )
@@ -127,7 +132,7 @@ export class ProfilesEffects {
       ofType(ProfilesActions.updateProfile),
       exhaustMap(({ profile }) =>
         this.userService.updateProfile(profile).pipe(
-          map(({data}) => {
+          map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(
               data.name,
               data.description,
@@ -139,6 +144,11 @@ export class ProfilesEffects {
             return ProfilesActions.updateProfileSuccess({
               profile: profileDTO,
             });
+          }),
+          catchError((error) => {
+            return of(
+              ProfilesActions.updateProfileFailure({ payload: error })
+            );
           })
         )
       )
@@ -169,4 +179,36 @@ export class ProfilesEffects {
       ),
     { dispatch: false }
   );
+
+  
+  deleteProfile$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProfilesActions.deleteProfile),
+      exhaustMap(({ profileId }) =>
+        this.userService.deleteProfile(profileId).pipe(
+          map(() => {
+            return ProfilesActions.deleteProfileSuccess({profileId: profileId});
+          }),
+          catchError((error) => {
+            return of(
+              ProfilesActions.deleteProfileFailure({ payload: error })
+            );
+          })
+        )
+      )
+    )
+  );
+
+  deleteProfileFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProfilesActions.deleteProfileFailure),
+        map((error) => {
+          this.errorResponse = error.payload.error;
+          this.sharedService.errorLog(error.payload.error);
+        })
+      ),
+    { dispatch: false }
+  );
+
 }

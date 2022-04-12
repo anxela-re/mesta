@@ -18,4 +18,4 @@ export const loginFailure = createAction(
   props<{ payload: HttpErrorResponse }>()
 );
 
-export const logout = createAction('[AUTH] Logout');
+export const logout = createAction('LOGOUT');

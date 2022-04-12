@@ -6,6 +6,7 @@ import { UserDTO } from '../models/user.dto';
 
 export interface ProfilesState {
   profiles: ProfileDTO[];
+  selected: number | undefined;
   loading: boolean;
   loaded: boolean;
   error: any;
@@ -13,8 +14,9 @@ export interface ProfilesState {
 
 export const initialState: ProfilesState = {
   profiles: [],
+  selected: undefined,
   loading: false,
-  loaded: true,
+  loaded: false,
   error: null,
 };
 
@@ -78,6 +80,31 @@ const _userReducer = createReducer(
     error: null,
   })),
   on(ProfilesActions.updateProfileFailure, (state, { payload }) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    error: { payload },
+  })),
+  on(ProfilesActions.selectProfile, (state, { profileId }) => ({
+    ...state,
+    selected: profileId,
+  })),
+  on(ProfilesActions.deleteProfile, (state) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    error: null,
+  })),
+  on(ProfilesActions.deleteProfileSuccess, (state, { profileId }) => ({
+    ...state,
+    profiles: state.profiles.filter(
+      (currentProfile) => currentProfile.id !== profileId
+    ),
+    loading: false,
+    loaded: true,
+    error: null,
+  })),
+  on(ProfilesActions.deleteProfileFailure, (state, { payload }) => ({
     ...state,
     loading: false,
     loaded: false,

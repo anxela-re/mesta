@@ -3,14 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthDTO } from '../models/auth.dto';
 import * as AuthActions from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { AuthService } from '../services/auth.service';
 import { AuthTokenDTO } from '../models/authToken.dto';
 import { TokenService } from '../services/token.service';
-import { createAction } from '@ngrx/store';
-import * as UserActions from 'src/app/user/actions';
 
 @Injectable()
 export class AuthEffects {

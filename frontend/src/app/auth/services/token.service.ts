@@ -18,6 +18,9 @@ export class TokenService {
       ? localStorage.getItem('user_id')
       : undefined;
   }
+  getProfileSelected(): any {
+    return localStorage.getItem('profile_selected');
+  }
   isValidToken(): boolean {
     let isValid = false;
     const token = this.getToken();
@@ -44,5 +47,6 @@ export class TokenService {
   removeToken() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_id');
+    localStorage.removeItem('profile_selected');
   }
 }

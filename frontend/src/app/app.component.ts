@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import { ProfilesActions, UserActions } from './user/actions';
+import { ProfileSelectedService } from './user/services/profile-selected.service';
 import { UserService } from './user/services/user.service';
 
 @Component({
@@ -14,22 +15,26 @@ export class AppComponent {
 
   constructor(
     private store: Store<AppState>,
-    private userService: UserService
+    private profileSelectedService: ProfileSelectedService
   ) {
     this.store.select('auth').subscribe(({ credentials }) => {
       if (credentials.user_id && credentials.access_token) {
+        this.store.dispatch(
+          ProfilesActions.getProfilesByUser({ userId: credentials.user_id })
+        );
         this.store.dispatch(UserActions.getUser());
         this.isLogged = true;
       }
     });
 
-    this.store.select('user').subscribe(({ user }) => {
-      console.info(user.id);
-      if (user.id) {
-        this.store.dispatch(
-          ProfilesActions.getProfilesByUser({ userId: user.id })
-        );
-      }
-    });
+    const profileSelectedStored =
+      this.profileSelectedService.getProfileSelected();
+    if (profileSelectedStored) {
+      this.store.dispatch(
+        ProfilesActions.selectProfile({
+          profileId: profileSelectedStored,
+        })
+      );
+    }
   }
 }
