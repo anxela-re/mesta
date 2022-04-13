@@ -41,18 +41,18 @@ export class UserProfileComponent implements OnInit {
   name!: FormControl;
   description!: FormControl;
   color!: FormControl;
-  // phases: FormArray;
+  // phases!: FormArray;
 
   isValidForm: boolean = false;
   palettes!: any[];
 
-  userId?: string;
+  userId?: number;
   profiles: ProfileDTO[] = [];
 
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private store: Store<AppState>,
+    private store: Store<AppState>
   ) {
     const profileId = this.route.snapshot.paramMap.get('id');
     this.store.select('user').subscribe(({ user }) => {
@@ -81,16 +81,16 @@ export class UserProfileComponent implements OnInit {
       this.profileForm = this.fb.group({
         name: this.name,
         description: this.description,
-        // color: this.color,
-        // phases: this.fb.array(
-        //   this.profile.phases.map((phase: PhaseDTO) =>
-        //     this.fb.group({
-        //       name: new FormControl(phase.name, [Validators.required]),
-        //       color: new FormControl(phase.color, [Validators.required]),
-        //     })
-        //   )
-        //   minLengthArray(1)
-        // ),
+        color: this.color,
+        phases: this.fb.array(
+          this.profile.phases.map((phase: PhaseDTO) =>
+            this.fb.group({
+              name: new FormControl(phase.name, [Validators.required]),
+              color: new FormControl(phase.color, [Validators.required]),
+            })
+          ),
+          minLengthArray(1)
+        ),
       });
     });
   }
@@ -121,7 +121,9 @@ export class UserProfileComponent implements OnInit {
 
     if (this.profile?.id) {
       const upatedProfile = Object.assign(this.profile, this.profileForm.value);
-      this.store.dispatch(ProfilesActions.updateProfile({profile: upatedProfile}))
+      this.store.dispatch(
+        ProfilesActions.updateProfile({ profile: upatedProfile })
+      );
     } else {
       this.profile = this.profileForm.value;
       if (this.userId) {

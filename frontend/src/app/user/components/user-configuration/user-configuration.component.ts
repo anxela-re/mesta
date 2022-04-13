@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { UserService } from '../../services/user.service';
 import { ProfilesActions, UserActions } from '../../actions';
+import * as AuthActions from '../../../auth/actions';
 import { UserDTO } from '../../models/user.dto';
 import {
   FormBuilder,
@@ -54,6 +55,8 @@ export class UserConfigurationComponent implements OnInit {
 
   profiles: ProfileDTO[] = [];
 
+  deleteUserPrompt: boolean = false;
+
   constructor(
     public userService: UserService,
     private store: Store<AppState>,
@@ -104,8 +107,12 @@ export class UserConfigurationComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    console.info(this.userForm);
+    console.info(this.userForm.value);
     console.info(this.name);
+    console.info({ ...this.user, ...this.userForm.value });
+    this.store.dispatch(
+      UserActions.updateUser({ user: { ...this.user, ...this.userForm.value } })
+    );
   }
 
   onContact(): void {
@@ -129,5 +136,15 @@ export class UserConfigurationComponent implements OnInit {
   }
   createProfile(): void {
     this.router.navigate(['/profile', 'new']);
+  }
+
+  deleteUser(): void {
+    if (this.user.id) {
+      const id = this.user.id;
+      localStorage.clear();
+      this.store.dispatch(AuthActions.logout());
+      this.store.dispatch(UserActions.deleteUser({ userId: id }));
+      this.router.navigateByUrl('/');
+    }
   }
 }

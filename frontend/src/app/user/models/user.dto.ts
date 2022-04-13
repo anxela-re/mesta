@@ -1,7 +1,7 @@
 import { ProfileDTO } from './profile.dto';
 
 export class UserDTO {
-  id?: string;
+  id?: number;
   access_token?: string;
   name: string;
   email: string;

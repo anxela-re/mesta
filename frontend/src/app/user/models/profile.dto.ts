@@ -5,16 +5,16 @@ export class ProfileDTO {
   name: string;
   description: string;
   color?: string;
-  phases?: PhaseDTO[];
-  user_id?: string;
+  phases: PhaseDTO[] = [];
+  user_id?: number;
 
   constructor(
     name: string,
     description: string,
     id?: number,
-    phases?: PhaseDTO[],
+    phases: PhaseDTO[] = [],
     color?: string,
-    user_id?: string
+    user_id?: number
   ) {
     this.name = name;
     this.description = description;
@@ -28,5 +28,5 @@ export class ProfileDTO {
 export interface NewProfileDTO {
   name: string;
   description: string;
-  user_id: string;
+  user_id: number;
 }

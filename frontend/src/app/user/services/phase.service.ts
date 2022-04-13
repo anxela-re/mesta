@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { PhaseDTO } from '../models/phase.dto';
 import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
 import { RegisterDTO } from '../models/register.dto';
 import { UserDTO } from '../models/user.dto';
@@ -12,7 +13,7 @@ import { UserDTO } from '../models/user.dto';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class PhaseService {
   apiUrl = 'http://127.0.0.1:8000';
   accessToken!: string;
 
@@ -26,29 +27,27 @@ export class UserService {
     });
   }
 
-  register(user: RegisterDTO): Observable<any> {
+  getPhasesByProfile(profileId: number): Observable<any> {
     return this.http
-      .post(`${this.apiUrl}/api/register`, user)
+      .get(`${this.apiUrl}/api/phases/${profileId}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  getUser(): Observable<any> {
+  createPhase(phase: PhaseDTO): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/api/user`, {
-        headers: this.headers(),
-      })
+      .post(`${this.apiUrl}/api/phase`, phase)
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  updateUser(user: UserDTO): Observable<any> {
+  updatePhase(phase: PhaseDTO): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}/api/user`, user)
+      .put(`${this.apiUrl}/api/phase`, phase)
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  deleteUser(userId: number): Observable<any> {
+  deletePhase(phaseId: number): Observable<any> {
     return this.http
-      .delete(`${this.apiUrl}/api/user/${userId}`)
+      .delete(`${this.apiUrl}/api/phase/${phaseId}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 

@@ -53,6 +53,12 @@ a.router-link-active {
 .btn-secondary {
   @apply bg-secondary-400 text-white-500 border-secondary-500 hover:bg-secondary-500;
 }
+.btn-danger {
+  @apply bg-danger text-white-500 border-danger hover:bg-danger;
+}
+.btn-white {
+  @apply bg-white-400 text-secondary-500 border-white-500 hover:bg-white-500;
+}
 
 h2 {
   @apply tracking-widest text-xl;

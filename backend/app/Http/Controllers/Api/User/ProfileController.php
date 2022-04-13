@@ -50,24 +50,8 @@ class ProfileController extends Controller
                 'name' => $request->name,
                 'description' => $request->description
             ]);
+        $currentProfile = Profile::where('id', $profileId)->get()->first();
 
-        return response(['message' => 'Profile succesfully updated', 'data' => $profile], 200);
-    }
-
-    public function removeProfile(Request $request)
-    {
-        $this->validate($request, [
-            'id' => 'required',
-        ]);
-
-        if (Profile::where('id', $request->id)->doesntExist()) {
-            return response(['message' => 'Profile id dows not exists.'], 400);
-        }
-
-        $profileId = $request->id;
-
-        $profile = DB::table('profiles')->detele($profileId);
-
-        return response(['message' => 'Profile succesfully deleted'], 200);
+        return response(['message' => 'Profile succesfully updated', 'data' => $currentProfile], 200);
     }
 }

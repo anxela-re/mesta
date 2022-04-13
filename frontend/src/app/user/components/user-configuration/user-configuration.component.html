@@ -42,6 +42,7 @@
                 type="submit"
                 class="btn btn-secondary"
                 [disabled]="!name.touched && !name.errors"
+                (click)="onSubmit()"
               >
                 <fa-icon [icon]="faSave"></fa-icon>
               </button>
@@ -74,6 +75,7 @@
                 type="submit"
                 class="btn btn-secondary"
                 [disabled]="!name.touched && !name.errors"
+                (click)="onSubmit()"
               >
                 <fa-icon [icon]="faSave"></fa-icon>
               </button>
@@ -108,11 +110,19 @@
                 class="w-[10px] h-[25px] rounded"
                 [ngStyle]="{ 'background-color': profile.color }"
               ></div>
-              <h4 class="text-secondary-500 group-hover:text-secondary-200">{{ profile.name }}</h4>
+              <h4 class="text-secondary-500 group-hover:text-secondary-200">
+                {{ profile.name }}
+              </h4>
             </div>
-            <fa-icon [icon]="faTrash" class="hover:text-danger z-10" (click)="deleteProfile($event, profile.id)"></fa-icon>
+            <fa-icon
+              [icon]="faTrash"
+              class="hover:text-danger z-10"
+              (click)="deleteProfile($event, profile.id)"
+            ></fa-icon>
           </div>
-          <div class="body-profile my-2 text-sm text-secondary-500 group-hover:text-secondary-200">
+          <div
+            class="body-profile my-2 text-sm text-secondary-500 group-hover:text-secondary-200"
+          >
             {{ profile.description }}
           </div>
           <div class="profile-phases flex flex-row gap-1 mb-2">
@@ -142,7 +152,32 @@
             routerLinkActive="router-link-active"
             >Cambiar contraseña</a
           >
-          <a class="text-danger cursor-pointer">Eliminar cuenta</a>
+          <a
+            class="text-danger cursor-pointer"
+            (click)="deleteUserPrompt = !deleteUserPrompt"
+            >Eliminar cuenta</a
+          >
+          <div *ngIf="deleteUserPrompt">
+            <div
+              class="m-4 p-4 border-[1px] border-secondary-100 rounded-xl bg-secondary-500"
+            >
+              <p class="text-white-500">
+                Area you sure you want to close your account? You will loose all
+                the data without option of recovery?
+              </p>
+              <div class="flex flex-row gap-2 justify-end mt-2">
+                <button class="btn btn-danger" (click)="deleteUser()">
+                  Confirmar
+                </button>
+                <button
+                  class="btn btn-white"
+                  (click)="deleteUserPrompt = false"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <hr class="text-secondary-50 my-8" />
       </section>

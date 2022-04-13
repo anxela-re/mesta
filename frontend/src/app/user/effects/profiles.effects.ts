@@ -5,9 +5,8 @@ import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ProfilesActions } from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { UserService } from '../services/user.service';
-import { UserDTO } from '../models/user.dto';
 import { ProfileDTO } from '../models/profile.dto';
+import { ProfileService } from '../services/profile.service';
 
 @Injectable()
 export class ProfilesEffects {
@@ -18,7 +17,7 @@ export class ProfilesEffects {
     private actions$: Actions,
     private router: Router,
     private sharedService: SharedService,
-    private userService: UserService
+    private profileService: ProfileService
   ) {
     this.responseOK = false;
   }
@@ -27,7 +26,7 @@ export class ProfilesEffects {
     this.actions$.pipe(
       ofType(ProfilesActions.getProfilesByUser),
       exhaustMap(({ userId }) =>
-        this.userService.getProfilesByUser(userId).pipe(
+        this.profileService.getProfilesByUser(userId).pipe(
           map((response) => {
             let profilesDTO: ProfileDTO[] = response.map(
               (profile: any) =>
@@ -78,7 +77,7 @@ export class ProfilesEffects {
     this.actions$.pipe(
       ofType(ProfilesActions.createProfile),
       exhaustMap(({ profile }) =>
-        this.userService.addProfile(profile).pipe(
+        this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(
               data.name,
@@ -93,9 +92,7 @@ export class ProfilesEffects {
             });
           }),
           catchError((error) => {
-            return of(
-              ProfilesActions.createProfileFailure({ payload: error })
-            );
+            return of(ProfilesActions.createProfileFailure({ payload: error }));
           })
         )
       )
@@ -131,7 +128,7 @@ export class ProfilesEffects {
     this.actions$.pipe(
       ofType(ProfilesActions.updateProfile),
       exhaustMap(({ profile }) =>
-        this.userService.updateProfile(profile).pipe(
+        this.profileService.updateProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(
               data.name,
@@ -146,9 +143,7 @@ export class ProfilesEffects {
             });
           }),
           catchError((error) => {
-            return of(
-              ProfilesActions.updateProfileFailure({ payload: error })
-            );
+            return of(ProfilesActions.updateProfileFailure({ payload: error }));
           })
         )
       )
@@ -180,19 +175,18 @@ export class ProfilesEffects {
     { dispatch: false }
   );
 
-  
   deleteProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.deleteProfile),
       exhaustMap(({ profileId }) =>
-        this.userService.deleteProfile(profileId).pipe(
+        this.profileService.deleteProfile(profileId).pipe(
           map(() => {
-            return ProfilesActions.deleteProfileSuccess({profileId: profileId});
+            return ProfilesActions.deleteProfileSuccess({
+              profileId: profileId,
+            });
           }),
           catchError((error) => {
-            return of(
-              ProfilesActions.deleteProfileFailure({ payload: error })
-            );
+            return of(ProfilesActions.deleteProfileFailure({ payload: error }));
           })
         )
       )
@@ -210,5 +204,4 @@ export class ProfilesEffects {
       ),
     { dispatch: false }
   );
-
 }

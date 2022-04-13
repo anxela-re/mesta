@@ -4,6 +4,7 @@ import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import { UserActions } from '../actions';
+import * as AuthActions from '../../auth/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from '../services/user.service';
 import { UserDTO } from '../models/user.dto';
@@ -111,6 +112,73 @@ export class UserEffects {
         ofType(UserActions.getUserFailure),
         map((error) => {
           this.responseOK = false;
+          this.errorResponse = error.payload.error;
+          this.sharedService.errorLog(error.payload.error);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  updateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.updateUser),
+      exhaustMap(({ user }) =>
+        this.userService.updateUser(user).pipe(
+          map(({ data }) => {
+            return UserActions.updateUserSuccess({ user: data });
+          }),
+          catchError((error) => {
+            return of(UserActions.updateUserFailure({ payload: error }));
+          })
+        )
+      )
+    )
+  );
+
+  updateUserSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.updateUserSuccess),
+        map(() => {
+          this.responseOK = true;
+        })
+      ),
+    { dispatch: false }
+  );
+
+  updateUserFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.updateUserFailure),
+        map((error) => {
+          this.responseOK = false;
+          this.errorResponse = error.payload.error;
+          this.sharedService.errorLog(error.payload.error);
+        })
+      ),
+    { dispatch: false }
+  );
+  deleteUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.deleteUser),
+      exhaustMap(({ userId }) =>
+        this.userService.deleteUser(userId).pipe(
+          map(() => {
+            return UserActions.deleteUserSuccess({ userId: userId });
+          }),
+          catchError((error) => {
+            return of(UserActions.deleteUserFailure({ payload: error }));
+          })
+        )
+      )
+    )
+  );
+
+  deleteUserFailure$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.deleteUserFailure),
+        map((error) => {
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
         })

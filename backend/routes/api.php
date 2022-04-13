@@ -6,8 +6,12 @@ use App\Models\User;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\Auth\ForgotPassController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\User\PhaseController;
 use App\Http\Controllers\Api\User\ProfileController;
+use App\Http\Controllers\Api\User\UserController;
+use App\Models\Phase;
 use App\Models\Profile;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +27,12 @@ use App\Models\Profile;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::middleware('auth:api')->put('/user', [UserController::class, 'update']);
+Route::delete('/user/{id}', function ($id) {
+    $profiles = Profile::where('user_id', $id)->delete();
+    $user = User::where('id', $id)->delete();
+    return response(['message' => 'Profiles and user successfully deleted'], 200);
+});
 
 
 Route::group(['namespace' => 'Api\Auth'], function () {
@@ -34,14 +44,28 @@ Route::group(['namespace' => 'Api\Auth'], function () {
 });
 
 Route::group(['namespace' => 'Api\User'], function () {
-    Route::post('/profile', [ProfileController::class, 'addProfile'])->middleware(('auth:api'));
-    Route::put('/profile', [ProfileController::class, 'updateProfile'])->middleware((('auth:api')));
-    Route::delete('/profile/{id}', function ($id) {
-        $profiles = Profile::where('id', $id)->delete();
-        return response(['message' => 'Profile succesfully deleted'], 200);
-    })->middleware((('auth:api')));
+    // Profiles 
     Route::get('/profiles/{id}', function ($id) {
         $profiles = Profile::where('user_id', $id)->get();
         return $profiles;
+    })->middleware(('auth:api'));
+    Route::post('/profile', [ProfileController::class, 'addProfile'])->middleware(('auth:api'));
+    Route::put('/profile', [ProfileController::class, 'updateProfile'])->middleware((('auth:api')));
+    Route::delete('/profile/{id}', function ($id) {
+        $phases = Phase::where('profile_id', $id)->delete();
+        $profiles = Profile::where('id', $id)->delete();
+        return response(['message' => 'Profile succesfully deleted'], 200);
+    })->middleware((('auth:api')));
+
+    // Phases
+    Route::get('/phases/{id}', function ($id) {
+        $phases = Phase::where('profile_id', $id)->get();
+        return $phases;
+    });
+    Route::post('/phase', [PhaseController::class, 'add'])->middleware(('auth:api'));
+    Route::put('/phase', [PhaseController::class, 'update'])->middleware(('auth:api'));
+    Route::delete('/phase', function ($id) {
+        $phase = Phase::where('id', $id)->delete();
+        return response(['message' => 'Phase succesfully deleted'], 200);
     })->middleware(('auth:api'));
 });

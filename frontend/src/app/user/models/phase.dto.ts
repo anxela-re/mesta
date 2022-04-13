@@ -1,8 +1,18 @@
+export interface IPhaseDTO {
+  id?: number;
+  profile_id?: number;
+  name?: string;
+  color?: string;
+  description?: string;
+}
 export class PhaseDTO {
-  name: string;
-  color: string;
+  id?: number;
+  profile_id?: number;
+  name?: string;
+  color?: string;
+  description?: string;
 
-  constructor(name: string, color: string) {
+  constructor({ id, profile_id, name, color, description }: IPhaseDTO) {
     this.name = name;
     this.color = color;
   }

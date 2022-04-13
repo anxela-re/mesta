@@ -1,3 +1,4 @@
+import { state } from '@angular/animations';
 import { Action, createReducer, on } from '@ngrx/store';
 import { UserActions } from '../actions';
 import { UserDTO } from '../models/user.dto';
@@ -51,6 +52,40 @@ const _userReducer = createReducer(
     error: null,
   })),
   on(UserActions.getUserFailure, (state, { payload }) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    error: { payload },
+  })),
+  on(UserActions.updateUser, (state) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    error: null,
+  })),
+  on(UserActions.updateUserSuccess, (state, { user }) => ({
+    ...state,
+    user: { ...user },
+    loading: false,
+    loaded: true,
+    error: null,
+  })),
+  on(UserActions.updateUserFailure, (state, { payload }) => ({
+    ...state,
+    loading: false,
+    loaded: false,
+    error: { payload },
+  })),
+  on(UserActions.deleteUser, (state) => ({
+    ...state,
+    loading: true,
+    loaded: false,
+    error: null,
+  })),
+  on(UserActions.deleteUserSuccess, (state) => ({
+    ...initialState,
+  })),
+  on(UserActions.deleteUserFailure, (state, { payload }) => ({
     ...state,
     loading: false,
     loaded: false,

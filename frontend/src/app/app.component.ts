@@ -18,6 +18,7 @@ export class AppComponent {
     private profileSelectedService: ProfileSelectedService
   ) {
     this.store.select('auth').subscribe(({ credentials }) => {
+      console.info(credentials.user_id && credentials.access_token);
       if (credentials.user_id && credentials.access_token) {
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({ userId: credentials.user_id })
@@ -36,5 +37,18 @@ export class AppComponent {
         })
       );
     }
+
+    this.store.select('profiles').subscribe((data) => {
+      if (
+        data.selected === undefined &&
+        data.profiles.length > 0 &&
+        data.profiles[0].id
+      ) {
+        this.store.dispatch(
+          ProfilesActions.selectProfile({ profileId: data.profiles[0].id })
+        );
+        this.profileSelectedService.setProfileSelected(data.profiles[0].id);
+      }
+    });
   }
 }

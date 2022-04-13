@@ -12,7 +12,7 @@ import { UserDTO } from '../models/user.dto';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class ProfileService {
   apiUrl = 'http://127.0.0.1:8000';
   accessToken!: string;
 
@@ -26,29 +26,27 @@ export class UserService {
     });
   }
 
-  register(user: RegisterDTO): Observable<any> {
+  addProfile(profile: NewProfileDTO): Observable<any> {
     return this.http
-      .post(`${this.apiUrl}/api/register`, user)
+      .post(`${this.apiUrl}/api/profile`, profile)
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  getUser(): Observable<any> {
+  updateProfile(profile: ProfileDTO): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/api/user`, {
-        headers: this.headers(),
-      })
+      .put(`${this.apiUrl}/api/profile`, profile)
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  updateUser(user: UserDTO): Observable<any> {
+  getProfilesByUser(userId: string): Observable<any> {
     return this.http
-      .put(`${this.apiUrl}/api/user`, user)
+      .get(`${this.apiUrl}/api/profiles/${userId}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  deleteUser(userId: number): Observable<any> {
+  deleteProfile(profileId: number): Observable<any> {
     return this.http
-      .delete(`${this.apiUrl}/api/user/${userId}`)
+      .delete(`${this.apiUrl}/api/profile/${profileId}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 
