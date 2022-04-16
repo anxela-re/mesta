@@ -47,6 +47,5 @@ export class TokenService {
   removeToken() {
     localStorage.removeItem('access_token');
     localStorage.removeItem('user_id');
-    localStorage.removeItem('profile_selected');
   }
 }

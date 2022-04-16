@@ -1,7 +1,7 @@
 import { ActionReducerMap } from '@ngrx/store';
 import { AuthEffects } from './auth/effects';
 import * as AuthReducer from './auth/reducers';
-import { ProfilesEffects, UserEffects } from './user/effects';
+import { PhasesEffects, ProfilesEffects, UserEffects } from './user/effects';
 import {
   profileReducer,
   ProfilesState,
@@ -21,4 +21,9 @@ export const appReducers: ActionReducerMap<AppState> = {
   profiles: profileReducer,
 };
 
-export const EffectsArray: any[] = [AuthEffects, UserEffects, ProfilesEffects];
+export const EffectsArray: any[] = [
+  AuthEffects,
+  UserEffects,
+  ProfilesEffects,
+  PhasesEffects,
+];

@@ -8,6 +8,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { UserConfigurationComponent } from './components/user-configuration/user-configuration.component';
 import { NgxColorsModule } from 'ngx-colors';
 import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BrowserModule } from '@angular/platform-browser';
     AppRoutingModule,
     FontAwesomeModule,
     NgxColorsModule,
+    SharedModule
   ],
 })
 export class UserModule {}

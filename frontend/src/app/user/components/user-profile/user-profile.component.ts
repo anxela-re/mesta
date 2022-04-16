@@ -16,7 +16,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { UserService } from '../../services/user.service';
-import { ProfilesActions } from '../../actions';
+import { PhasesActions, ProfilesActions } from '../../actions';
+import { IBreacrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 
 export function minLengthArray(min: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -49,6 +50,8 @@ export class UserProfileComponent implements OnInit {
   userId?: number;
   profiles: ProfileDTO[] = [];
 
+  breacrumbHistory: IBreacrumbHistory[] = [];
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
@@ -64,31 +67,48 @@ export class UserProfileComponent implements OnInit {
         ({ id }) => id?.toString() === profileId?.toString()
       );
       if (profileId && foundProfile) {
-        this.profile = foundProfile;
+        this.profile = new ProfileDTO(foundProfile);
+        this.breacrumbHistory = [
+          {
+            name: 'Configuración',
+            navigateName: 'configuration',
+          },
+          {
+            name: foundProfile.name,
+          },
+        ];
       } else {
-        this.profile = new ProfileDTO('', '');
+        this.profile = new ProfileDTO({});
+        this.breacrumbHistory = [
+          {
+            name: 'Configuración',
+            navigateName: 'configuration',
+          },
+          {
+            name: 'Crear perfil',
+          },
+        ];
       }
 
       this.name = new FormControl(this.profile.name, [
         Validators.required,
         Validators.maxLength(64),
       ]);
-      this.description = new FormControl(this.profile.description, [
-        Validators.required,
-      ]);
-      this.color = new FormControl(this.profile.color, [Validators.required]);
+      this.description = new FormControl(this.profile.description);
+      // this.color = new FormControl(this.profile.color, [Validators.required]);
 
       this.profileForm = this.fb.group({
         name: this.name,
         description: this.description,
         color: this.color,
         phases: this.fb.array(
-          this.profile.phases.map((phase: PhaseDTO) =>
+          this.profile?.phases?.map((phase: PhaseDTO) =>
             this.fb.group({
               name: new FormControl(phase.name, [Validators.required]),
               color: new FormControl(phase.color, [Validators.required]),
+              ...phase,
             })
-          ),
+          ) || [],
           minLengthArray(1)
         ),
       });
@@ -120,9 +140,60 @@ export class UserProfileComponent implements OnInit {
     this.isValidForm = true;
 
     if (this.profile?.id) {
-      const upatedProfile = Object.assign(this.profile, this.profileForm.value);
+      const phasesToDelete: PhaseDTO[] = [];
+      const updatedProfile = {
+        ...this.profile,
+        ...this.profileForm.value,
+        phases: this.profile.phases
+          ?.map((phase) => {
+            const phaseFound = this.phases.value.find(
+              (formPhase: any) => formPhase.id === phase.id
+            );
+            if (phaseFound) {
+              return {
+                ...phase,
+                ...this.phases.value.find(
+                  (formPhase: any) => formPhase.id === phase.id
+                ),
+              };
+            } else {
+              phasesToDelete.push(phase);
+            }
+          })
+          .filter((p) => p !== undefined),
+      };
+      if (phasesToDelete) {
+        phasesToDelete.forEach((p: PhaseDTO) => {
+          if (p.id) {
+            this.store.dispatch(PhasesActions.deletePhase({ phaseId: p.id }));
+          }
+        });
+      }
+      if (updatedProfile.phases.length > 0) {
+        updatedProfile.phases.forEach((phase: PhaseDTO) => {
+          if (phase.id) {
+            if (
+              JSON.stringify(phase) !==
+              JSON.stringify(
+                this.profile.phases?.find((p) => p.id === phase.id)
+              )
+            ) {
+              this.store.dispatch(
+                PhasesActions.updatePhase({ phase: phase, phaseId: phase.id })
+              );
+            }
+          } else {
+            this.store.dispatch(
+              PhasesActions.createPhase({
+                phase: new PhaseDTO({ ...phase, profile_id: this.profile.id }),
+                profileId: updatedProfile.id,
+              })
+            );
+          }
+        });
+      }
       this.store.dispatch(
-        ProfilesActions.updateProfile({ profile: upatedProfile })
+        ProfilesActions.updateProfile({ profile: updatedProfile })
       );
     } else {
       this.profile = this.profileForm.value;

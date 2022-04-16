@@ -118,7 +118,7 @@ const _userReducer = createReducer(
   })),
   on(
     PhasesActions.getPhasesByProfileSuccess,
-    (state, { profileId, phases }) => ({
+    (state, { profileId, phases = [] }) => ({
       ...state,
       profiles: state.profiles.map((profile) => {
         if (profile.id === profileId) {

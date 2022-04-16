@@ -1,1 +1,20 @@
-<p>breadcrumb works!</p>
+<div class="my-4">
+  <nav>
+    <ul class="flex flex-row">
+      <li
+        class="after:content-['/'] after:mx-2 last:after:content-['']"
+        *ngFor="let nav of breacrumbHistory"
+      >
+        <a
+          class="italic text-secondary-500"
+          (click)="navigate(nav.navigateName)"
+          [ngClass]="{
+            'cursor-default text-secondary-200': !nav.navigateName,
+            'cursor-pointer hover:text-primary-500': nav.navigateName
+          }"
+          >{{ nav.name }}</a
+        >
+      </li>
+    </ul>
+  </nav>
+</div>

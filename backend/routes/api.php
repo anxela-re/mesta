@@ -11,7 +11,6 @@ use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\User\UserController;
 use App\Models\Phase;
 use App\Models\Profile;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +61,9 @@ Route::group(['namespace' => 'Api\User'], function () {
         $phases = Phase::where('profile_id', $id)->get();
         return $phases;
     });
-    Route::post('/phase', [PhaseController::class, 'add'])->middleware(('auth:api'));
-    Route::put('/phase', [PhaseController::class, 'update'])->middleware(('auth:api'));
-    Route::delete('/phase', function ($id) {
+    Route::post('/phase', [PhaseController::class, 'addPhase'])->middleware(('auth:api'));
+    Route::put('/phase', [PhaseController::class, 'updatePhase'])->middleware(('auth:api'));
+    Route::delete('/phase/{id}', function ($id) {
         $phase = Phase::where('id', $id)->delete();
         return response(['message' => 'Phase succesfully deleted'], 200);
     })->middleware(('auth:api'));

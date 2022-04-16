@@ -10,13 +10,14 @@ use Illuminate\Support\Facades\DB;
 
 class PhaseController extends Controller
 {
-    public function add(Request $request)
+    public function addPhase(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
             'color' => 'required',
             'profile_id' => 'required'
         ]);
+
 
         $profileId = $request->profile_id;
 
@@ -26,15 +27,16 @@ class PhaseController extends Controller
 
         $phase = Phase::create([
             'name' => $request->name,
-            'description' => $request->description,
+            'description' => $request->description || null,
             'color' => $request->color,
             'profile_id' => $request->profile_id,
         ]);
 
+
         return response(['message' => 'Phase succesfully created', 'data' => $phase], 200);
     }
 
-    public function update(Request $request)
+    public function updatePhase(Request $request)
     {
         $this->validate($request, [
             'id' => 'required',

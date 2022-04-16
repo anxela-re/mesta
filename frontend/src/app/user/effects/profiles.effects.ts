@@ -29,15 +29,7 @@ export class ProfilesEffects {
         this.profileService.getProfilesByUser(userId).pipe(
           map((response) => {
             let profilesDTO: ProfileDTO[] = response.map(
-              (profile: any) =>
-                new ProfileDTO(
-                  profile.name,
-                  profile.description,
-                  profile.id,
-                  undefined,
-                  undefined,
-                  profile.user_id
-                )
+              (profile: any) => new ProfileDTO(profile)
             );
             return ProfilesActions.getProfilesByUserSuccess({
               profiles: profilesDTO,
@@ -79,14 +71,7 @@ export class ProfilesEffects {
       exhaustMap(({ profile }) =>
         this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
-            let profileDTO: ProfileDTO = new ProfileDTO(
-              data.name,
-              data.description,
-              data.id,
-              undefined,
-              undefined,
-              data.user_id
-            );
+            let profileDTO: ProfileDTO = new ProfileDTO(data);
             return ProfilesActions.createProfileSuccess({
               profile: profileDTO,
             });
@@ -130,14 +115,7 @@ export class ProfilesEffects {
       exhaustMap(({ profile }) =>
         this.profileService.updateProfile(profile).pipe(
           map(({ data }) => {
-            let profileDTO: ProfileDTO = new ProfileDTO(
-              data.name,
-              data.description,
-              data.id,
-              undefined,
-              undefined,
-              data.user_id
-            );
+            let profileDTO: ProfileDTO = new ProfileDTO(data);
             return ProfilesActions.updateProfileSuccess({
               profile: profileDTO,
             });

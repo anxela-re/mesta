@@ -55,11 +55,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select('auth').subscribe((auth) => {
-      console.info(auth);
       this.isLogged = false;
       if (auth.credentials.access_token) {
         this.isLogged = true;
       }
+      console.info('Authentication -->', this.isLogged);
     });
   }
 
@@ -78,6 +78,7 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.tokenService.removeToken();
+    this.profileSelectedService.removeSelection();
     this.store.dispatch(logout());
     this.router.navigateByUrl('/');
   }

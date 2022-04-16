@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
-import { ProfilesActions, UserActions } from './user/actions';
+import { PhasesActions, ProfilesActions, UserActions } from './user/actions';
 import { ProfileSelectedService } from './user/services/profile-selected.service';
 import { UserService } from './user/services/user.service';
 
@@ -17,11 +17,16 @@ export class AppComponent {
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService
   ) {
-    this.store.select('auth').subscribe(({ credentials }) => {
-      console.info(credentials.user_id && credentials.access_token);
-      if (credentials.user_id && credentials.access_token) {
+    this.store.select('auth').subscribe((data) => {
+      if (
+        data.credentials.user_id &&
+        data.credentials.access_token &&
+        data.loaded
+      ) {
         this.store.dispatch(
-          ProfilesActions.getProfilesByUser({ userId: credentials.user_id })
+          ProfilesActions.getProfilesByUser({
+            userId: data.credentials.user_id,
+          })
         );
         this.store.dispatch(UserActions.getUser());
         this.isLogged = true;
@@ -42,12 +47,24 @@ export class AppComponent {
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
-        data.profiles[0].id
+        data.profiles[0].id &&
+        data.loaded
       ) {
         this.store.dispatch(
           ProfilesActions.selectProfile({ profileId: data.profiles[0].id })
         );
         this.profileSelectedService.setProfileSelected(data.profiles[0].id);
+      }
+
+      if (data.profiles.length > 0 && !data.loading) {
+        data.profiles.map((profile) => {
+          if (profile.id && profile.phases === undefined) {
+            console.info(profile.id);
+            this.store.dispatch(
+              PhasesActions.getPhasesByProfile({ profileId: profile.id })
+            );
+          }
+        });
       }
     });
   }

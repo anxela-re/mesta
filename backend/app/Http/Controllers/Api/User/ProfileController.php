@@ -25,7 +25,7 @@ class ProfileController extends Controller
 
         $profile = Profile::create([
             'name' => $request->name,
-            'description' => $request->description,
+            'description' => $request->description || null,
             'user_id' => $request->user_id,
         ]);
 

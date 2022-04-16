@@ -15,16 +15,21 @@ import { ProfileSelectedService } from 'src/app/user/services/profile-selected.s
   providedIn: 'root',
 })
 export class ProfileGuard implements CanActivate {
-  hasProfiles: boolean = false;
+  hasProfiles?: boolean = undefined;
   constructor(
     private store: Store<AppState>,
     private router: Router,
     private profileSelected: ProfileSelectedService
   ) {
-    const profileSelectedStored = this.profileSelected.getProfileSelected();
-    if(profileSelectedStored) {
-      this.hasProfiles = true;
-    }
+    // const profileSelectedStored = this.profileSelected.getProfileSelected();
+    // if(profileSelectedStored) {
+    //   this.hasProfiles = true;
+    // }
+    this.store.select('profiles').subscribe((data) => {
+      if (data.loaded) {
+        this.hasProfiles = data.selected !== undefined;
+      }
+    });
   }
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -38,9 +43,7 @@ export class ProfileGuard implements CanActivate {
       return true;
     }
 
-    // if (this.hasProfiles !== undefined) {
     this.router.navigate(['/profile', 'new']);
-    // }
 
     return false;
   }

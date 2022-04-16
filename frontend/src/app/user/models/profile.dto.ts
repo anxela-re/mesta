@@ -1,21 +1,22 @@
 import { PhaseDTO } from './phase.dto';
 
+interface IProfileDTO {
+  id?: number;
+  name?: string;
+  description?: string;
+  color?: string;
+  phases?: PhaseDTO[];
+  user_id?: number;
+}
 export class ProfileDTO {
   id?: number;
   name: string;
   description: string;
   color?: string;
-  phases: PhaseDTO[] = [];
+  phases?: PhaseDTO[];
   user_id?: number;
 
-  constructor(
-    name: string,
-    description: string,
-    id?: number,
-    phases: PhaseDTO[] = [],
-    color?: string,
-    user_id?: number
-  ) {
+  constructor({ name = '', description = '', id, phases, color, user_id }: IProfileDTO) {
     this.name = name;
     this.description = description;
     this.phases = phases;

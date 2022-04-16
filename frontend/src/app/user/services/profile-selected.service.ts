@@ -17,4 +17,8 @@ export class ProfileSelectedService {
   setProfileSelected(profileId: number) {
     return localStorage.setItem('selected_profile', JSON.stringify(profileId));
   }
+
+  removeSelection() {
+    localStorage.removeItem('selected_profile');
+  }
 }

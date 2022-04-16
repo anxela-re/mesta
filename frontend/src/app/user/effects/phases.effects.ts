@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import { catchError, exhaustMap, finalize, map, mergeMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { PhasesActions, ProfilesActions } from '../actions';
@@ -11,7 +11,7 @@ import { PhaseService } from '../services/phase.service';
 import { PhaseDTO } from '../models/phase.dto';
 
 @Injectable()
-export class ProfilesEffects {
+export class PhasesEffects {
   private responseOK: boolean;
   private errorResponse: any;
 
@@ -71,7 +71,7 @@ export class ProfilesEffects {
   createPhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PhasesActions.createPhase),
-      exhaustMap(({ phase, profileId }) =>
+      mergeMap(({ phase, profileId }) =>
         this.phaseService.createPhase(phase).pipe(
           map(({ data }) => {
             let phaseDTO: PhaseDTO = new PhaseDTO({ ...data });
@@ -116,7 +116,7 @@ export class ProfilesEffects {
   updatePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PhasesActions.updatePhase),
-      exhaustMap(({ phase, phaseId }) =>
+      mergeMap(({ phase, phaseId }) =>
         this.phaseService.updatePhase(phase).pipe(
           map(({ data }) => {
             let phaseDTO: PhaseDTO = new PhaseDTO({ ...data });
