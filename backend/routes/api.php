@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\User\PhaseController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\User\UserController;
+use App\Models\Component;
 use App\Models\Phase;
 use App\Models\Profile;
 
@@ -67,4 +68,13 @@ Route::group(['namespace' => 'Api\User'], function () {
         $phase = Phase::where('id', $id)->delete();
         return response(['message' => 'Phase succesfully deleted'], 200);
     })->middleware(('auth:api'));
+
+    // Components
+    Route::get('/components/{id}', function ($id) {
+        $component = Component::where('id', $id)->get()->first();
+        return $component;
+    });
+    Route::get('/components/{query}', function ($query) {
+        return response(['query' => $query], 200);
+    });
 });

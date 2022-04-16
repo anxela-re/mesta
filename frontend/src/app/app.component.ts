@@ -20,8 +20,7 @@ export class AppComponent {
     this.store.select('auth').subscribe((data) => {
       if (
         data.credentials.user_id &&
-        data.credentials.access_token &&
-        data.loaded
+        data.credentials.access_token
       ) {
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({
@@ -47,8 +46,7 @@ export class AppComponent {
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
-        data.profiles[0].id &&
-        data.loaded
+        data.profiles[0].id
       ) {
         this.store.dispatch(
           ProfilesActions.selectProfile({ profileId: data.profiles[0].id })

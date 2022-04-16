@@ -43,7 +43,7 @@ export class ProfileGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(['/profile', 'new']);
+    // this.router.navigate(['/profile', 'new']);
 
     return false;
   }

@@ -160,7 +160,10 @@ export class UserProfileComponent implements OnInit {
               phasesToDelete.push(phase);
             }
           })
-          .filter((p) => p !== undefined),
+          .filter((p) => p !== undefined)
+          .concat(
+            this.phases.value.filter((newPhase: PhaseDTO) => !newPhase.id)
+          ),
       };
       if (phasesToDelete) {
         phasesToDelete.forEach((p: PhaseDTO) => {
