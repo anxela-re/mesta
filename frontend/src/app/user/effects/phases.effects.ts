@@ -27,14 +27,14 @@ export class PhasesEffects {
   getPhasesByUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PhasesActions.getPhasesByProfile),
-      exhaustMap(({ profileId }) =>
-        this.phaseService.getPhasesByProfile(profileId).pipe(
-          map((response) => {
-            let phasesDTO: PhaseDTO[] = response.map(
+      exhaustMap(({ profile_id }) =>
+        this.phaseService.getPhases({profile_id: profile_id}).pipe(
+          map(({items}) => {
+            let phasesDTO: PhaseDTO[] = items.map(
               (phase: any) => new PhaseDTO({ ...phase })
             );
             return PhasesActions.getPhasesByProfileSuccess({
-              profileId: profileId,
+              profile_id: profile_id,
               phases: phasesDTO,
             });
           }),

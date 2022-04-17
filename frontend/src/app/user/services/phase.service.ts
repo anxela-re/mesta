@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { PhaseDTO } from '../models/phase.dto';
 import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
 import { RegisterDTO } from '../models/register.dto';
@@ -27,9 +27,9 @@ export class PhaseService {
     });
   }
 
-  getPhasesByProfile(profileId: number): Observable<any> {
+  getPhases(query: IQuery): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/api/phases/${profileId}`)
+      .get(`${this.apiUrl}/api/phases?${this.sharedService.formatQuery(query)}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 

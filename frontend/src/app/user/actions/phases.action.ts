@@ -4,12 +4,12 @@ import { PhaseDTO } from '../models/phase.dto';
 
 export const getPhasesByProfile = createAction(
   '[Phases] Get Phases of the profile',
-  props<{ profileId: number }>()
+  props<{ profile_id: number }>()
 );
 
 export const getPhasesByProfileSuccess = createAction(
   '[Phases] Get phases of the profile success',
-  props<{ profileId: number; phases: PhaseDTO[] }>()
+  props<{ profile_id: number; phases: PhaseDTO[] }>()
 );
 
 export const getPhasesByProfileFailure = createAction(

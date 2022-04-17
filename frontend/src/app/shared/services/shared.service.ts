@@ -2,6 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
 
+export type IQuery = {
+  [key: string]: string | number;
+};
 export interface ResponseError {
   statusCode: number;
   message: string;
@@ -66,6 +69,16 @@ export class SharedService {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
     });
+  }
+
+  formatQuery(query?: IQuery): string {
+    let queryString = '';
+    if (query) {
+      Object.keys(query).forEach((q) => {
+        queryString = queryString.concat(`${q}=${query[q]}`, '&');
+      });
+    }
+    return queryString.slice(0, -1);
   }
 
   handleError(error: HttpErrorResponse) {

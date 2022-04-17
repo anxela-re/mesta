@@ -10,7 +10,23 @@ use Illuminate\Support\Facades\DB;
 
 class PhaseController extends Controller
 {
-    public function addPhase(Request $request)
+    public function get(Request $request)
+    {
+        $query = $request->query();
+        $formatQuery = [];
+
+        foreach ($query as $key => $value) {
+            if ($key === 'name') {
+                array_push($formatQuery, [$key, 'like', $value]);
+            } else {
+                array_push($formatQuery, [$key, '=', $value]);
+            }
+        }
+
+        $data = Phase::where($formatQuery)->get();
+        return response(['message' => 'Phases successfully retrieved', 'items' => $data], 200);
+    }
+    public function create(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -36,7 +52,7 @@ class PhaseController extends Controller
         return response(['message' => 'Phase succesfully created', 'data' => $phase], 200);
     }
 
-    public function updatePhase(Request $request)
+    public function update(Request $request)
     {
         $this->validate($request, [
             'id' => 'required',
@@ -59,5 +75,9 @@ class PhaseController extends Controller
         $current = Profile::where('id', $id)->get()->first();
 
         return response(['message' => 'Phase succesfully updated', 'data' => $current], 200);
+    }
+    public function delete($id) {
+        $phase = Phase::where('id', $id)->delete();
+        return response(['message' => 'Phase succesfully deleted'], 200);
     }
 }

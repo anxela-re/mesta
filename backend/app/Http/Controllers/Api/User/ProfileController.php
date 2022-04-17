@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Phase;
 use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -10,7 +11,24 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
-    public function addProfile(Request $request)
+    public function get(Request $request)
+    {
+        $query = $request->query();
+        $formatQuery = [];
+
+        foreach ($query as $key => $value) {
+            if ($key === 'name') {
+                array_push($formatQuery, [$key, 'like', $value]);
+            } else {
+                array_push($formatQuery, [$key, '=', $value]);
+            }
+        }
+
+        $data = Profile::where($formatQuery)->get();
+        return response(['message' => 'Profiles successfully retrieved', 'items' => $data], 200);
+    }
+
+    public function create(Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -32,7 +50,7 @@ class ProfileController extends Controller
         return response(['message' => 'Profile succesfully created', 'data' => $profile], 200);
     }
 
-    public function updateProfile(Request $request)
+    public function update(Request $request)
     {
         $this->validate($request, [
             'id' => 'required',
@@ -53,5 +71,12 @@ class ProfileController extends Controller
         $currentProfile = Profile::where('id', $profileId)->get()->first();
 
         return response(['message' => 'Profile succesfully updated', 'data' => $currentProfile], 200);
+    }
+
+    public function delete($id)
+    {
+        $phases = Phase::where('profile_id', $id)->delete();
+        $profiles = Profile::where('id', $id)->delete();
+        return response(['message' => 'Profile succesfully deleted'], 200);
     }
 }

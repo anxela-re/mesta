@@ -10,7 +10,24 @@ use Illuminate\Support\Facades\DB;
 
 class PropertyController extends Controller
 {
-    public function create(Request $request) {
+    public function get(Request $request)
+    {
+        $query = $request->query();
+        $formatQuery = [];
+
+        foreach ($query as $key => $value) {
+            if ($key === 'name') {
+                array_push($formatQuery, [$key, 'like', $value]);
+            } else {
+                array_push($formatQuery, [$key, '=', $value]);
+            }
+        }
+
+        $data = Property::where($formatQuery)->get();
+        return response(['message' => 'Proeprties successfully retrieved', 'items' => $data], 200);
+    }
+    public function create(Request $request)
+    {
         $this->validate($request, [
             'name' => 'required|unique:properties',
             'profile_id' => 'required',
@@ -31,8 +48,9 @@ class PropertyController extends Controller
         return response(['message' => 'Property succesfully created', 'data' => $property], 200);
     }
 
-    public function update(Request $request) {
-        
+    public function update(Request $request)
+    {
+
         $this->validate($request, [
             'id' => 'required',
         ]);
@@ -52,5 +70,11 @@ class PropertyController extends Controller
         $current = Profile::where('id', $id)->get()->first();
 
         return response(['message' => 'Property succesfully updated', 'data' => $current], 200);
+    }
+
+    public function delete($id)
+    {
+        $item = Property::where('id', $id)->delete();
+        return response(['message' => 'Property succesfully deleted'], 200);
     }
 }

@@ -11,6 +11,27 @@ use Illuminate\Support\Facades\DB;
 
 class ComponentController extends Controller
 {
+    public function get(Request $request)
+    {
+        $query = $request->query();
+        $formatQuery = [];
+
+        foreach ($query as $key => $value) {
+            if ($key === 'name') {
+                array_push($formatQuery, [$key, 'like', $value]);
+            } else {
+                array_push($formatQuery, [$key, '=', $value]);
+            }
+        }
+
+        $data = Component::where($formatQuery)->get();
+        return response(['message' => 'Components successfully retrieved', 'items' => $data], 200);
+    }
+    public function getById($id)
+    {
+        $item = Component::where('id', $id)->get()->first();
+        return $item;
+    }
     public function create(Request $request)
     {
 
@@ -73,5 +94,9 @@ class ComponentController extends Controller
 
 
         return response(['message' => 'Component succesfully created', 'data' => $component], 200);
+    }
+    public function delete($id) {
+        $item = Component::where('id', $id)->delete();
+        return response(['message' => 'component succesfully deleted'], 200);
     }
 }

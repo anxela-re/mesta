@@ -4,12 +4,12 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ComponentsServiceService {
+export class ComponentsService {
   apiUrl = 'http://127.0.0.1:8000';
   accessToken!: string;
 
@@ -23,11 +23,11 @@ export class ComponentsServiceService {
     });
   }
 
-  
-  getComponent(id: number): Observable<any> {
+  getComponents(query?: IQuery): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/api/component`)
+      .get(
+        `${this.apiUrl}/api/components?${this.sharedService.formatQuery(query)}`
+      )
       .pipe(catchError(this.sharedService.handleError));
   }
-
 }

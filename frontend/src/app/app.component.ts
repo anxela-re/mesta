@@ -59,7 +59,7 @@ export class AppComponent {
           if (profile.id && profile.phases === undefined) {
             console.info(profile.id);
             this.store.dispatch(
-              PhasesActions.getPhasesByProfile({ profileId: profile.id })
+              PhasesActions.getPhasesByProfile({ profile_id: profile.id })
             );
           }
         });

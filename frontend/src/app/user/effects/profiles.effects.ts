@@ -26,9 +26,9 @@ export class ProfilesEffects {
     this.actions$.pipe(
       ofType(ProfilesActions.getProfilesByUser),
       exhaustMap(({ userId }) =>
-        this.profileService.getProfilesByUser(userId).pipe(
-          map((response) => {
-            let profilesDTO: ProfileDTO[] = response.map(
+        this.profileService.getProfiles({user_id: userId}).pipe(
+          map(({items}) => {
+            let profilesDTO: ProfileDTO[] = items.map(
               (profile: any) => new ProfileDTO(profile)
             );
             return ProfilesActions.getProfilesByUserSuccess({

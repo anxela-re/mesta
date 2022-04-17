@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
 import { RegisterDTO } from '../models/register.dto';
 import { UserDTO } from '../models/user.dto';
@@ -38,9 +38,9 @@ export class ProfileService {
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  getProfilesByUser(userId: string): Observable<any> {
+  getProfiles(query: IQuery): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/api/profiles/${userId}`)
+      .get(`${this.apiUrl}/api/profiles?${this.sharedService.formatQuery(query)}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 
