@@ -9,7 +9,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { NewProfileDTO, ProfileDTO } from '../../models/profile.dto';
+import { ProfileDTO } from '../../models/profile.dto';
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { PhaseDTO } from '../../models/phase.dto';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -201,13 +201,19 @@ export class UserProfileComponent implements OnInit {
     } else {
       this.profile = this.profileForm.value;
       if (this.userId) {
-        const res: NewProfileDTO = {
+        const newProfile: ProfileDTO = {
           name: this.profile.name,
           description: this.profile.description,
           user_id: this.userId,
+          phases: this.phases.value,
         };
 
-        this.store.dispatch(ProfilesActions.createProfile({ profile: res }));
+        this.store.dispatch(
+          ProfilesActions.createProfile({
+            profile: newProfile,
+            phases: this.profile.phases,
+          })
+        );
       }
     }
   }

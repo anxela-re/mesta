@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import { PhasesActions, ProfilesActions, UserActions } from './user/actions';
@@ -15,12 +16,17 @@ export class AppComponent {
 
   constructor(
     private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService
+    private profileSelectedService: ProfileSelectedService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     this.store.select('auth').subscribe((data) => {
+      console.info(data);
       if (
         data.credentials.user_id &&
-        data.credentials.access_token
+        data.credentials.user_id !== '' &&
+        data.credentials.access_token &&
+        data.credentials.access_token !== ''
       ) {
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({
@@ -54,15 +60,17 @@ export class AppComponent {
         this.profileSelectedService.setProfileSelected(data.profiles[0].id);
       }
 
-      if (data.profiles.length > 0 && !data.loading) {
-        data.profiles.map((profile) => {
-          if (profile.id && profile.phases === undefined) {
-            console.info(profile.id);
-            this.store.dispatch(
-              PhasesActions.getPhasesByProfile({ profile_id: profile.id })
-            );
-          }
-        });
+      if (!data.loading && data.loaded) {
+        if (data.profiles.length > 0) {
+          data.profiles.map((profile) => {
+            if (profile.id && profile.phases === undefined) {
+              this.store.dispatch(
+                PhasesActions.getPhasesByProfile({ profile_id: profile.id })
+              );
+            }
+          });
+        }
+        this.router.navigateByUrl('recipes');
       }
     });
   }

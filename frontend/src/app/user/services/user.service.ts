@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
 import { RegisterDTO } from '../models/register.dto';
 import { UserDTO } from '../models/user.dto';
 

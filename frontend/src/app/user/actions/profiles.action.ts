@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
-import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
+import { PhaseDTO } from '../models/phase.dto';
+import { ProfileDTO } from '../models/profile.dto';
 
 export const getProfilesByUser = createAction(
   '[Profiles] Get profiles of the user',
@@ -19,7 +20,7 @@ export const getProfilesByUserFailure = createAction(
 
 export const createProfile = createAction(
   '[Profiles] Create profile',
-  props<{ profile: NewProfileDTO }>()
+  props<{ profile: ProfileDTO, phases?: PhaseDTO[] }>()
 );
 
 export const createProfileSuccess = createAction(

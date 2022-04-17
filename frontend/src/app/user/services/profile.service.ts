@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
-import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
-import { RegisterDTO } from '../models/register.dto';
-import { UserDTO } from '../models/user.dto';
+import { ProfileDTO } from '../models/profile.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +24,7 @@ export class ProfileService {
     });
   }
 
-  addProfile(profile: NewProfileDTO): Observable<any> {
+  addProfile(profile: ProfileDTO): Observable<any> {
     return this.http
       .post(`${this.apiUrl}/api/profile`, profile)
       .pipe(catchError(this.sharedService.handleError));

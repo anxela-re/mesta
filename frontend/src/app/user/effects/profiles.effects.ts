@@ -3,10 +3,11 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { ProfilesActions } from '../actions';
+import { PhasesActions, ProfilesActions } from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { ProfileDTO } from '../models/profile.dto';
 import { ProfileService } from '../services/profile.service';
+import { PhaseService } from '../services/phase.service';
 
 @Injectable()
 export class ProfilesEffects {
@@ -26,8 +27,8 @@ export class ProfilesEffects {
     this.actions$.pipe(
       ofType(ProfilesActions.getProfilesByUser),
       exhaustMap(({ userId }) =>
-        this.profileService.getProfiles({user_id: userId}).pipe(
-          map(({items}) => {
+        this.profileService.getProfiles({ user_id: userId }).pipe(
+          map(({ items }) => {
             let profilesDTO: ProfileDTO[] = items.map(
               (profile: any) => new ProfileDTO(profile)
             );
@@ -68,10 +69,15 @@ export class ProfilesEffects {
   createProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.createProfile),
-      exhaustMap(({ profile }) =>
+      exhaustMap(({ profile, phases }) =>
         this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
+            if (phases) {
+              phases.forEach((phase) => {
+                PhasesActions.createPhase({ phase: phase, profileId: data.id });
+              });
+            }
             return ProfilesActions.createProfileSuccess({
               profile: profileDTO,
             });

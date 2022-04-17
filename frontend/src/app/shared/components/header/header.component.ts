@@ -38,6 +38,14 @@ export class HeaderComponent implements OnInit {
   ) {
     this.isLogged = false;
 
+    this.store.select('auth').subscribe((auth) => {
+      this.isLogged = false;
+      if (auth.credentials.access_token) {
+        this.isLogged = true;
+      }
+      console.info('Authentication -->', this.isLogged);
+    });
+
     this.store.select('profiles').subscribe((data) => {
       this.profiles = data.profiles;
       if (data.selected) {
@@ -53,15 +61,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.store.select('auth').subscribe((auth) => {
-      this.isLogged = false;
-      if (auth.credentials.access_token) {
-        this.isLogged = true;
-      }
-      console.info('Authentication -->', this.isLogged);
-    });
-  }
+  ngOnInit(): void {}
 
   navigateTo(url: string) {
     this.router.navigateByUrl(url);

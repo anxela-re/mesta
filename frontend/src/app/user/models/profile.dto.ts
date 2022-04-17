@@ -26,8 +26,3 @@ export class ProfileDTO {
   }
 }
 
-export interface NewProfileDTO {
-  name: string;
-  description: string;
-  user_id: number;
-}

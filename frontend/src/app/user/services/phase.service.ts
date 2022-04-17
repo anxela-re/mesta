@@ -6,9 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { PhaseDTO } from '../models/phase.dto';
-import { NewProfileDTO, ProfileDTO } from '../models/profile.dto';
-import { RegisterDTO } from '../models/register.dto';
-import { UserDTO } from '../models/user.dto';
 
 @Injectable({
   providedIn: 'root',

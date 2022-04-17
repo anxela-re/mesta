@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { mapTo, skipWhile } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 
@@ -21,14 +22,8 @@ export class ProfileGuard implements CanActivate {
     private router: Router,
     private profileSelected: ProfileSelectedService
   ) {
-    // const profileSelectedStored = this.profileSelected.getProfileSelected();
-    // if(profileSelectedStored) {
-    //   this.hasProfiles = true;
-    // }
     this.store.select('profiles').subscribe((data) => {
-      if (data.loaded) {
-        this.hasProfiles = data.selected !== undefined;
-      }
+      this.hasProfiles = data.profiles.length > 0;
     });
   }
   canActivate(
@@ -43,7 +38,7 @@ export class ProfileGuard implements CanActivate {
       return true;
     }
 
-    // this.router.navigate(['/profile', 'new']);
+    this.router.navigate(['/profile', 'new']);
 
     return false;
   }

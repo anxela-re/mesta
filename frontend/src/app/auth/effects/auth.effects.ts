@@ -47,10 +47,6 @@ export class AuthEffects {
               this.responseOK,
               this.errorResponse
             );
-
-            if (this.responseOK) {
-              this.router.navigateByUrl('recipes');
-            }
           })
         )
       )
