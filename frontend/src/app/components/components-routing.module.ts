@@ -7,7 +7,8 @@ import { ComponentsComponent } from './components/components/components.componen
 const routes: Routes = [
   { path: '', component: ComponentsComponent },
   { path: 'details', component: ComponentDetailComponent },
-  { path: 'edit', component: ComponentFormComponent },
+  { path: 'new', component: ComponentFormComponent },
+  { path: 'edit/:id', component: ComponentFormComponent },
 ];
 
 @NgModule({

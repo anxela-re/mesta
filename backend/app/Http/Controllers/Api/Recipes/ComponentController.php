@@ -30,7 +30,7 @@ class ComponentController extends Controller
     public function getById($id)
     {
         $item = Component::where('id', $id)->get()->first();
-        return $item;
+        return  response(['message' => 'Components successfully retrieved', 'data' => $item], 200);
     }
     public function create(Request $request)
     {

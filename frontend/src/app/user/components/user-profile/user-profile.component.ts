@@ -85,7 +85,7 @@ export class UserProfileComponent implements OnInit {
             navigateName: 'configuration',
           },
           {
-            name: 'Crear perfil',
+            name: 'Nuevo perfil',
           },
         ];
       }

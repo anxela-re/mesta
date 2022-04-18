@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ComponentsService } from '../../services/components.service';
 
 @Component({
@@ -7,7 +8,10 @@ import { ComponentsService } from '../../services/components.service';
   styleUrls: ['./components.component.scss'],
 })
 export class ComponentsComponent implements OnInit {
-  constructor(private componentsService: ComponentsService) {}
+  constructor(
+    private componentsService: ComponentsService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -16,5 +20,13 @@ export class ComponentsComponent implements OnInit {
     this.componentsService
       .getComponents()
       .subscribe((response) => console.info(response));
+  }
+  createComponent(): void {
+    this.router.navigate(['/components','new']);
+  }
+  editComponent(componentId: number | undefined): void {
+    if (componentId) {
+      this.router.navigate(['/edit', componentId]);
+    }
   }
 }

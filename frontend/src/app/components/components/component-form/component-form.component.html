@@ -1,1 +1,50 @@
-<p>component-form works!</p>
+<div class="p-2 m-auto max-w-[900px]">
+  <app-breadcrumb [breacrumbHistory]="breacrumbHistory"></app-breadcrumb>
+  <h2>{{ componentId ? component?.name : "Nuevo componente" }}</h2>
+  <form [formGroup]="componentForm" (ngSubmit)="onSubmit()" class="my-4">
+    <div class="my-2">
+      <input
+        type="text"
+        [formControl]="name"
+        class="dark-input"
+        placeholder="Nombre"
+      />
+      <div
+        *ngIf="name.errors && (name.touched || name.dirty)"
+        class="form-errors"
+      >
+        <div *ngIf="name.errors.required">Obligatorio</div>
+        <div *ngIf="name.errors.maxlength">
+          Name can be max 64 characters long.
+        </div>
+      </div>
+    </div>
+    <div class="my-2">
+      <textarea
+        name="description"
+        class="dark-input"
+        placeholder="Descripción"
+        rows="8"
+        [formControl]="description"
+      ></textarea>
+      <div
+        *ngIf="description.errors && (description.touched || description.dirty)"
+        class="form-errors"
+      >
+        <div *ngIf="description.errors.required">Obligatorio</div>
+      </div>
+    </div>
+    <div class="my-2">
+      <select
+        name="phass_id"
+        id="phass_id"
+        [formControl]="phase_id"
+        class="dark-input"
+      >
+        <option [ngValue]="phase.id" *ngFor="let phase of phases">
+          {{ phase.name }}
+        </option>
+      </select>
+    </div>
+  </form>
+</div>

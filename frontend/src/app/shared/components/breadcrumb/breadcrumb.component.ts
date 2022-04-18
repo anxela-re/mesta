@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 export interface IBreacrumbHistory {
-  name: string;
+  name?: string;
   navigateName?: string;
 }
 @Component({

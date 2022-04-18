@@ -4,26 +4,4 @@
     <span class="before:content-['|'] before:mx-4">0 componentes</span>
   </div>
 </div>
-<button
-  type="button"
-  [routerLink]="['/components/details']"
-  routerLinkActive="router-link-active"
->
-  Details
-</button>
-
-<button
-  type="button"
-  [routerLink]="['/components/edit']"
-  routerLinkActive="router-link-active"
->
-  Edit
-</button>
-
-
-<button
-  type="button"
-  (click)="getComponents()"
->
-  Get components
-</button>
+<button type="button" (click)="createComponent()">Edit</button>
