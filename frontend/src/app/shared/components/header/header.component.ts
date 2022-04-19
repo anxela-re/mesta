@@ -77,8 +77,6 @@ export class HeaderComponent implements OnInit {
   }
 
   logout(): void {
-    this.tokenService.removeToken();
-    this.profileSelectedService.removeSelection();
     this.store.dispatch(logout());
     this.router.navigateByUrl('/');
   }

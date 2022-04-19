@@ -12,7 +12,7 @@ export class PhaseDTO {
   color?: string;
   description?: string;
 
-  constructor({ id, profile_id, name, color, description = '' }: IPhaseDTO) {
+  constructor({ id, profile_id, name, color, description }: IPhaseDTO) {
     this.name = name;
     this.color = color;
     this.id = id;

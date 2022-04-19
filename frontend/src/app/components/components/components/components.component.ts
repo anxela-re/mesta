@@ -13,7 +13,9 @@ export class ComponentsComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getComponents();
+  }
 
   getComponents(): void {
     console.info('getComponents');

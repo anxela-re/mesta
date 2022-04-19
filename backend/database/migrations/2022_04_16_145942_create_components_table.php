@@ -21,9 +21,11 @@ return new class extends Migration
             $table->unsignedBigInteger('phase_id');
             $table->foreign('phase_id')->references('id')->on('phases');
             $table->string('name');
+            $table->string('scientific_name')->nullable();
             $table->string('description')->nullable();
             $table->json('properties')->nullable();
-            $table->base64_encode('image_url')->nullable();
+            $table->string('image_url')->nullable();
+            $table->date('expiration_date')->nullable();
         });
     }
 

@@ -38,16 +38,15 @@ class PhaseController extends Controller
         $profileId = $request->profile_id;
 
         if (Profile::where('id', $profileId)->doesntExist()) {
-            return response(['message' => 'Profile id dows not exists.'], 400);
+            return response(['message' => 'Profile id does not exists.'], 400);
         }
 
         $phase = Phase::create([
             'name' => $request->name,
-            'description' => $request->description || null,
+            'description' => $request->description,
             'color' => $request->color,
             'profile_id' => $request->profile_id,
         ]);
-
 
         return response(['message' => 'Phase succesfully created', 'data' => $phase], 200);
     }

@@ -18,10 +18,8 @@ export class AppComponent {
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
   ) {
     this.store.select('auth').subscribe((data) => {
-      console.info(data);
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
@@ -69,8 +67,10 @@ export class AppComponent {
               );
             }
           });
+        } else {
+          console.info('navigating to profiles new')
+          this.router.navigateByUrl('profile/new')
         }
-        this.router.navigateByUrl('recipes');
       }
     });
   }

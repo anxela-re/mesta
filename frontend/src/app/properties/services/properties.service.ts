@@ -1,19 +1,17 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
-import { ComponentDTO } from '../models/component.dto';
-
+import { PropertyDTO } from '../models/property.dto';
 @Injectable({
   providedIn: 'root',
 })
-export class ComponentsService {
+export class PropertiesService {
   apiUrl = 'http://127.0.0.1:8000';
   accessToken!: string;
-
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
@@ -24,17 +22,21 @@ export class ComponentsService {
     });
   }
 
-  getComponents(query?: IQuery): Observable<any> {
+  getProperties(query?: IQuery): Observable<any> {
     return this.http
       .get(
-        `${this.apiUrl}/api/components?${this.sharedService.formatQuery(query)}`
+        `${this.apiUrl}/api/properties?${this.sharedService.formatQuery(query)}`
       )
-      .pipe(catchError(this.sharedService.handleError));
+      .pipe(
+        catchError(this.sharedService.handleError),
+        map((res: any) => res.items)
+      );
   }
 
-  createComponent(data: ComponentDTO): Observable<any> {
+  createProperty(property: PropertyDTO): Observable<any> {
+    console.info('add profile -->');
     return this.http
-      .post(`${this.apiUrl}/api/component`, data)
+      .post(`${this.apiUrl}/api/property`, property)
       .pipe(catchError(this.sharedService.handleError));
   }
 }

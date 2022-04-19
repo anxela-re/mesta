@@ -8,6 +8,9 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { ProfileDTO } from '../models/profile.dto';
 import { ProfileService } from '../services/profile.service';
 import { PhaseService } from '../services/phase.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
+import { PhaseDTO } from '../models/phase.dto';
 
 @Injectable()
 export class ProfilesEffects {
@@ -18,7 +21,8 @@ export class ProfilesEffects {
     private actions$: Actions,
     private router: Router,
     private sharedService: SharedService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private store: Store<AppState>
   ) {
     this.responseOK = false;
   }
@@ -69,13 +73,20 @@ export class ProfilesEffects {
   createProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.createProfile),
-      exhaustMap(({ profile, phases }) =>
-        this.profileService.addProfile(profile).pipe(
+      exhaustMap(({ profile, phases }) => {
+        return this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
+            console.info(data);
             let profileDTO: ProfileDTO = new ProfileDTO(data);
             if (phases) {
               phases.forEach((phase) => {
-                PhasesActions.createPhase({ phase: phase, profileId: data.id });
+                console.info('creating phase');
+                this.store.dispatch(
+                  PhasesActions.createPhase({
+                    phase: new PhaseDTO({...phase, profile_id: data.id}),
+                    profile_id: data.id,
+                  })
+                );
               });
             }
             return ProfilesActions.createProfileSuccess({
@@ -85,8 +96,8 @@ export class ProfilesEffects {
           catchError((error) => {
             return of(ProfilesActions.createProfileFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
 

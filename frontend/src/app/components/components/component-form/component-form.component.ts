@@ -12,7 +12,8 @@ import { IBreacrumbHistory } from 'src/app/shared/components/breadcrumb/breadcru
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
-
+import { faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { PropertyDTO } from '../../models/property.dto';
 
 @Component({
   selector: 'app-component-form',
@@ -22,6 +23,7 @@ import { ComponentsService } from '../../services/components.service';
 export class ComponentFormComponent implements OnInit {
   componentId!: string | null;
   phases!: PhaseDTO[] | undefined;
+  properties!: PropertyDTO[] | undefined;
   profile_id: number | undefined;
 
   component!: ComponentDTO;
@@ -32,6 +34,9 @@ export class ComponentFormComponent implements OnInit {
   phase_id!: FormControl;
 
   breacrumbHistory: IBreacrumbHistory[] = [];
+
+  faPlus = faPlus;
+  faPencil = faPencilAlt;
 
   constructor(
     private route: ActivatedRoute,
@@ -87,9 +92,39 @@ export class ComponentFormComponent implements OnInit {
     this.phase_id = new FormControl(this.component.phase_id, [
       Validators.required,
     ]);
+
+    this.componentForm = this.fb.group({
+      name: this.name,
+      description: this.description,
+      phase_id: this.phase_id,
+    });
+  }
+
+  selectPhase(phase: PhaseDTO): void {
+    this.componentForm.patchValue({ phase_id: phase.id });
+  }
+
+  selectProperty(property: PropertyDTO) {
+    console.info(property);
   }
 
   onSubmit(): void {
     console.info(this.componentForm.value);
+    console.info(this.componentForm);
+
+    if (this.componentForm.invalid) {
+      return;
+    }
+
+    this.component = { ...this.component, ...this.componentForm.value };
+
+    if (this.componentId) {
+      console.info('you are updating');
+    } else {
+      this.componentsService.createComponent(this.component).subscribe(
+        (response) => console.info(response),
+        (error) => console.info(error)
+      );
+    }
   }
 }

@@ -1,0 +1,28 @@
+<div class="my-2">
+  <input
+    type="text"
+    class="dark-input"
+    placeholder="Buscar propiedades"
+    [(ngModel)]="searchTerm"
+    (keyup)="search()"
+  />
+</div>
+
+<div class="flex flex-row flex-wrap gap-2">
+  <fa-icon
+    *ngIf="allowEdition"
+    [icon]="faPlus"
+    class="text-primary-400 hover:text-primary-700 cursor-pointer"
+  ></fa-icon>
+  <fa-icon
+    *ngIf="allowEdition"
+    [icon]="faPencil"
+    class="text-primary-400 hover:text-primary-700 cursor-pointer"
+  ></fa-icon>
+  <div
+    class="rounded-full border-2 px-4 cursor-pointer border-secondary-500 text-secondary-500 hover:text-white-500 hover:bg-secondary-500"
+    *ngFor="let property of properties$ | async"
+  >
+    {{ property.name }}
+  </div>
+</div>

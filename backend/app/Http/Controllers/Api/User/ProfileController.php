@@ -43,7 +43,7 @@ class ProfileController extends Controller
 
         $profile = Profile::create([
             'name' => $request->name,
-            'description' => $request->description || null,
+            'description' => $request->description,
             'user_id' => $request->user_id,
         ]);
 

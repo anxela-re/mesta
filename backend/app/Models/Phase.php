@@ -16,4 +16,8 @@ class Phase extends Model
         'color',
         'profile_id'
     ];
+
+    protected $casts = [
+        'description' => 'string'
+    ];
 }

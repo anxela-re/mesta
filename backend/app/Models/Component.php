@@ -12,20 +12,16 @@ class Component extends Model
 
     protected $fillable = [
         'name',
+        'scientific_name',
         'description',
         'profile_id',
         'phase_id,',
         'properties',
-        'image_url'
+        'image_url',
+        'expiration_date'
     ];
 
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
-        'properties' => 'array'
+        'properties' => 'array',
     ];
 }

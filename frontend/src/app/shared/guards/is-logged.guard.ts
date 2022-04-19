@@ -8,22 +8,16 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { mapTo, skipWhile } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileGuard implements CanActivate {
-  hasProfiles?: boolean = undefined;
-  constructor(
-    private store: Store<AppState>,
-    private router: Router,
-    private profileSelected: ProfileSelectedService
-  ) {
-    this.store.select('profiles').subscribe((data) => {
-      this.hasProfiles = data.profiles.length > 0;
+export class IsLoggedGuard implements CanActivate {
+  private access_token: string = '';
+  constructor(private router: Router, private store: Store<AppState>) {
+    this.store.select('auth').subscribe((auth) => {
+      this.access_token = auth.credentials.access_token;
     });
   }
   canActivate(
@@ -34,11 +28,11 @@ export class ProfileGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.hasProfiles) {
+    if (!this.access_token) {
       return true;
     }
 
-    this.router.navigate(['/profile', 'new']);
+    this.router.navigateByUrl('recipes');
 
     return false;
   }

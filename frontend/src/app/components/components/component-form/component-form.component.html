@@ -35,16 +35,35 @@
       </div>
     </div>
     <div class="my-2">
-      <select
-        name="phass_id"
-        id="phass_id"
-        [formControl]="phase_id"
-        class="dark-input"
-      >
-        <option [ngValue]="phase.id" *ngFor="let phase of phases">
+      <h3 class="my-1">Fase del proceso al que pertenecen</h3>
+      <div class="flex flex-row flex-wrap gap-1">
+        <div
+          class="rounded-full border-2 px-4 cursor-pointer"
+          [ngStyle]="{
+            'border-color': phase.color,
+            color: phase_id.value === phase.id ? '#fff' : phase.color,
+            'background-color':
+              phase_id.value === phase.id ? phase.color : 'inherit'
+          }"
+          *ngFor="let phase of phases"
+          (click)="selectPhase(phase)"
+        >
           {{ phase.name }}
-        </option>
-      </select>
+        </div>
+      </div>
+    </div>
+    <div class="my-2">
+      <h3 class="my-1">Propiedades</h3>
+      <app-properties-list [allowEdition]="true" [allowSearch]="true"></app-properties-list>
+    </div>
+    <div class="text-center">
+      <button
+        type="submit"
+        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300"
+        [disabled]="!componentForm?.valid"
+      >
+        Guardar
+      </button>
     </div>
   </form>
 </div>

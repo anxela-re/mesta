@@ -7,6 +7,8 @@ import { ComponentsComponent } from './components/components/components.componen
 import { ComponentDetailComponent } from './components/component-detail/component-detail.component';
 import { ComponentFormComponent } from './components/component-form/component-form.component';
 import { SharedModule } from '../shared/shared.module';
+import { PropertiesModule } from '../properties/properties.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     ComponentsRoutingModule,
     SharedModule,
+    PropertiesModule,
+    FontAwesomeModule,
   ],
 })
 export class ComponentsModule {}

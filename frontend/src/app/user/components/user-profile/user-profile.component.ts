@@ -189,7 +189,7 @@ export class UserProfileComponent implements OnInit {
             this.store.dispatch(
               PhasesActions.createPhase({
                 phase: new PhaseDTO({ ...phase, profile_id: this.profile.id }),
-                profileId: updatedProfile.id,
+                profile_id: updatedProfile.id,
               })
             );
           }

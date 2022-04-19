@@ -20,7 +20,7 @@ export const getProfilesByUserFailure = createAction(
 
 export const createProfile = createAction(
   '[Profiles] Create profile',
-  props<{ profile: ProfileDTO, phases?: PhaseDTO[] }>()
+  props<{ profile: ProfileDTO; phases?: PhaseDTO[] }>()
 );
 
 export const createProfileSuccess = createAction(

@@ -1,0 +1,22 @@
+<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="my-4">
+  <div class="my-2">
+    <input
+      type="text"
+      [formControl]="name"
+      class="dark-input"
+      placeholder="Nombre"
+    />
+    <div
+      *ngIf="name.errors && (name.touched || name.dirty)"
+      class="form-errors"
+    >
+      <div *ngIf="name.errors.required">Obligatorio</div>
+    </div>
+    <button
+      type="submit"
+      class="btn btn-secondary"
+    >
+      Submit
+    </button>
+  </div>
+</form>

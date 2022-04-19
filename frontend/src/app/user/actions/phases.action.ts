@@ -19,12 +19,12 @@ export const getPhasesByProfileFailure = createAction(
 
 export const createPhase = createAction(
   '[Phases] Create phase',
-  props<{ phase: PhaseDTO; profileId: number }>()
+  props<{ phase: PhaseDTO; profile_id: number }>()
 );
 
 export const createPhaseSuccess = createAction(
   '[Phases] Create phase success',
-  props<{ phase: PhaseDTO; profileId: number }>()
+  props<{ phase: PhaseDTO; profile_id: number }>()
 );
 
 export const createPhaseFailure = createAction(

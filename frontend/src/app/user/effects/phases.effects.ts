@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  finalize,
+  map,
+  mergeMap,
+} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { PhasesActions, ProfilesActions } from '../actions';
@@ -28,8 +34,8 @@ export class PhasesEffects {
     this.actions$.pipe(
       ofType(PhasesActions.getPhasesByProfile),
       exhaustMap(({ profile_id }) =>
-        this.phaseService.getPhases({profile_id: profile_id}).pipe(
-          map(({items}) => {
+        this.phaseService.getPhases({ profile_id: profile_id }).pipe(
+          map(({ items }) => {
             let phasesDTO: PhaseDTO[] = items.map(
               (phase: any) => new PhaseDTO({ ...phase })
             );
@@ -71,20 +77,22 @@ export class PhasesEffects {
   createPhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PhasesActions.createPhase),
-      mergeMap(({ phase, profileId }) =>
-        this.phaseService.createPhase(phase).pipe(
+      mergeMap(({ phase, profile_id }) => {
+        console.info(phase)
+        return this.phaseService.createPhase(phase).pipe(
           map(({ data }) => {
             let phaseDTO: PhaseDTO = new PhaseDTO({ ...data });
             return PhasesActions.createPhaseSuccess({
               phase: phaseDTO,
-              profileId: profileId,
+              profile_id: profile_id,
             });
           }),
           catchError((error) => {
+            console.error(error);
             return of(PhasesActions.createPhaseFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
 

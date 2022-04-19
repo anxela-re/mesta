@@ -34,24 +34,26 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/api/logout`,
-      {
+    return this.http
+      .post(`${this.apiUrl}/api/logout`, {
         headers: this.headers(),
-      }
-    );
+      })
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/forgot`, { email: email });
+    return this.http
+      .post(`${this.apiUrl}/api/forgot`, { email: email })
+      .pipe(catchError(this.sharedService.handleError));
   }
 
   resetPassword(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/api/reset`, {
-      token: data.token,
-      password: data.password,
-      password_confirmation: data.password_confirmation,
-    });
+    return this.http
+      .post(`${this.apiUrl}/api/reset`, {
+        token: data.token,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+      })
+      .pipe(catchError(this.sharedService.handleError));
   }
 
   headers(): HttpHeaders {
