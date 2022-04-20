@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from '../../models/property.dto';
 import { PropertiesService } from '../../services/properties.service';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-property-form',
@@ -16,12 +17,17 @@ import { PropertiesService } from '../../services/properties.service';
   styleUrls: ['./property-form.component.scss'],
 })
 export class PropertyFormComponent implements OnInit {
+  @Output()
+  onFinishCreating: EventEmitter<any> = new EventEmitter();
+
   property!: PropertyDTO;
   propertyForm!: FormGroup;
 
   name!: FormControl;
 
   profileId!: number;
+
+  faSave = faSave;
 
   constructor(
     private fb: FormBuilder,
@@ -44,11 +50,17 @@ export class PropertyFormComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
+    if (this.propertyForm.invalid) {
+      return;
+    }
     this.propertiesService
       .createProperty({
         ...this.propertyForm.value,
         profile_id: this.profileId,
       })
-      .subscribe((data) => console.info(data));
+      .subscribe(() => {
+        this.onFinishCreating.emit();
+        this.propertyForm.reset();
+      });
   }
 }

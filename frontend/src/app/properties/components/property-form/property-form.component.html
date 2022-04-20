@@ -1,22 +1,19 @@
-<form [formGroup]="propertyForm" (ngSubmit)="onSubmit()" class="my-4">
-  <div class="my-2">
-    <input
-      type="text"
-      [formControl]="name"
-      class="dark-input"
-      placeholder="Nombre"
-    />
-    <div
-      *ngIf="name.errors && (name.touched || name.dirty)"
-      class="form-errors"
-    >
-      <div *ngIf="name.errors.required">Obligatorio</div>
-    </div>
-    <button
-      type="submit"
-      class="btn btn-secondary"
-    >
-      Submit
-    </button>
-  </div>
+<form
+  [formGroup]="propertyForm"
+  (ngSubmit)="onSubmit()"
+  class="px-2 rounded-full bg-white-900 min-w-[100px]"
+>
+  <input
+    type="text"
+    [formControl]="name"
+    class="underline outline-none underline-offset-2 decoration-secondary-300 mx-3 bg-transparent my-1"
+    placeholder="Nueva propiedad"
+  />
+  <button
+    type="submit"
+    class="text-secondary-400 hover:text-primary-500 px-2"
+  >
+    <fa-icon [icon]="faSave"></fa-icon>
+  </button>
 </form>
+

@@ -34,9 +34,21 @@ export class PropertiesService {
   }
 
   createProperty(property: PropertyDTO): Observable<any> {
-    console.info('add profile -->');
     return this.http
       .post(`${this.apiUrl}/api/property`, property)
+      .pipe(catchError(this.sharedService.handleError));
+  }
+
+  updateProperty(property: PropertyDTO): Observable<any> {
+    return this.http
+      .put(`${this.apiUrl}/api/property`, property)
+      .pipe(catchError(this.sharedService.handleError));
+  }
+
+  deleteProperty(property: PropertyDTO): Observable<any> {
+    console.info(property.id)
+    return this.http
+      .delete(`${this.apiUrl}/api/property/${property.id}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 }
