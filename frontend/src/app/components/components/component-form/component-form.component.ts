@@ -24,11 +24,14 @@ export class ComponentFormComponent implements OnInit {
   componentId!: string | null;
   phases!: PhaseDTO[] | undefined;
   properties!: PropertyDTO[] | undefined;
+  propertiesSelected: PropertyDTO[] = [];
   profile_id: number | undefined;
 
   component!: ComponentDTO;
   componentForm!: FormGroup;
   name!: FormControl;
+  scientific_name!: FormControl;
+  expiration_date!: FormControl;
   description!: FormControl;
   // image_url!: FormControl;
   phase_id!: FormControl;
@@ -73,7 +76,9 @@ export class ComponentFormComponent implements OnInit {
           ];
         });
     } else {
-      this.component = new ComponentDTO({ profile_id: this.profile_id });
+      this.component = new ComponentDTO({
+        profile_id: this.profile_id,
+      });
       this.breacrumbHistory = [
         {
           name: 'Components',
@@ -88,15 +93,19 @@ export class ComponentFormComponent implements OnInit {
       Validators.required,
       Validators.maxLength(64),
     ]);
+    this.scientific_name = new FormControl(this.component.scientific_name, );
     this.description = new FormControl(this.component.description);
+    this.expiration_date = new FormControl(this.component.expiration_date);
     this.phase_id = new FormControl(this.component.phase_id, [
       Validators.required,
     ]);
 
     this.componentForm = this.fb.group({
       name: this.name,
+      scientific_name: this.scientific_name,
       description: this.description,
       phase_id: this.phase_id,
+      expiration_date: this.expiration_date
     });
   }
 
@@ -104,8 +113,8 @@ export class ComponentFormComponent implements OnInit {
     this.componentForm.patchValue({ phase_id: phase.id });
   }
 
-  selectProperty(property: PropertyDTO) {
-    console.info(property);
+  updateProperties(properties: PropertyDTO[]) {
+    this.propertiesSelected = properties;
   }
 
   onSubmit(): void {
@@ -116,7 +125,13 @@ export class ComponentFormComponent implements OnInit {
       return;
     }
 
-    this.component = { ...this.component, ...this.componentForm.value };
+    this.component = {
+      ...this.component,
+      ...this.componentForm.value,
+      properties: this.propertiesSelected.map(({ id }) => id),
+    };
+
+    console.info(this.component)
 
     if (this.componentId) {
       console.info('you are updating');

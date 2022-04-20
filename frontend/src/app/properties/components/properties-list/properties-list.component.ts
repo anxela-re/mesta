@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PropertyDTO } from '../../models/property.dto';
 import { PropertiesService } from '../../services/properties.service';
-import { faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faPencilAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import {
   debounceTime,
   delay,
@@ -32,10 +32,14 @@ export class PropertiesListComponent implements OnInit {
   @Output()
   updateSelection: EventEmitter<any> = new EventEmitter();
 
+  @Output()
+  updateProperties: EventEmitter<PropertyDTO[]> = new EventEmitter();
+
   properties: PropertyDTO[] = [];
 
   faPlus = faPlus;
   faPencil = faPencilAlt;
+  faSearch = faSearch;
 
   newProperty: boolean = false;
   editingProperties: boolean = false;
@@ -78,6 +82,8 @@ export class PropertiesListComponent implements OnInit {
         (property) => property.id !== event.property.id
       );
     }
+
+    this.updateProperties.emit(this.propertiesSelected);
   }
 
   onFinishCreating(): void {
