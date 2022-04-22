@@ -23,6 +23,7 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action) {
     if (action.type === 'LOGOUT') {
       console.info('Clean session');
+      localStorage.clear();
       state = undefined;
     }
 

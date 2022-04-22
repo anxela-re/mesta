@@ -1,7 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PropertyDTO } from '../../models/property.dto';
 import { PropertiesService } from '../../services/properties.service';
-import { faPlus, faPencilAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faPencilAlt,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
 import {
   debounceTime,
   delay,
@@ -13,6 +17,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { merge, Observable, Subject } from 'rxjs';
 import { OnSelectProps } from '../property-item/property-item.component';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 
 @Component({
   selector: 'app-properties-list',
@@ -36,6 +42,7 @@ export class PropertiesListComponent implements OnInit {
   updateProperties: EventEmitter<PropertyDTO[]> = new EventEmitter();
 
   properties: PropertyDTO[] = [];
+  propertiesProfile: PropertyDTO[] = [];
 
   faPlus = faPlus;
   faPencil = faPencilAlt;
@@ -44,34 +51,45 @@ export class PropertiesListComponent implements OnInit {
   newProperty: boolean = false;
   editingProperties: boolean = false;
 
-  public properties$: Observable<PropertyDTO[]> | undefined;
-  public searchTerm: string = '';
+  // properties$: Observable<PropertyDTO[]> | undefined;
+  searchTerm: string = '';
 
   private searchSubject: Subject<string> = new Subject();
   private reloadList: Subject<any> = new Subject();
 
-  constructor(private propertiesService: PropertiesService) {}
+  constructor(
+    private propertiesService: PropertiesService,
+    private store: Store<AppState>
+  ) {
+    this.store.select('properties').subscribe((propertiesState) => {
+      if (propertiesState.loaded) {
+        this.propertiesProfile = propertiesState.properties;
+        this.properties = propertiesState.properties;
+      }
+    });
+  }
 
   ngOnInit(): void {
-    this.properties$ = merge(
-      this.reloadList.pipe(
-        switchMap(() => this.propertiesService.getProperties())
-      ),
-      this.searchSubject.pipe(
-        startWith(this.searchTerm),
-        debounceTime(300),
-        distinctUntilChanged(),
-        switchMap(() =>
-          this.propertiesService.getProperties({
-            name: `%${this.searchTerm}%`,
-          })
-        )
-      )
-    );
+    // this.properties =
+    // this.properties$ = merge(
+    //   this.reloadList.pipe(
+    //     switchMap(() => this.propertiesService.getProperties())
+    //   ),
+    //   this.searchSubject.pipe(
+    //     startWith(this.searchTerm),
+    //     debounceTime(300),
+    //     distinctUntilChanged(),
+    //     switchMap(() =>
+    //     )
+    //   )
+    // );
   }
 
   search() {
-    this.searchSubject.next(this.searchTerm);
+    // this.searchSubject.next(this.searchTerm);
+    this.properties = this.propertiesProfile.filter(
+      ({ name }) => name && name.includes(this.searchTerm)
+    );
   }
 
   onSelectProperty(event: OnSelectProps): void {
@@ -94,5 +112,11 @@ export class PropertiesListComponent implements OnInit {
   onPropertyRemoved(): void {
     this.reloadList.next();
     this.editingProperties = false;
+  }
+  isSelected(id: number | undefined): boolean {
+    return (
+      id !== undefined &&
+      this.propertiesSelected.find((prop) => prop.id === id) !== undefined
+    );
   }
 }

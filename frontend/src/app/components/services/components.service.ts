@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { ComponentDTO } from '../models/component.dto';
@@ -29,7 +29,10 @@ export class ComponentsService {
       .get(
         `${this.apiUrl}/api/components?${this.sharedService.formatQuery(query)}`
       )
-      .pipe(catchError(this.sharedService.handleError));
+      .pipe(
+        catchError(this.sharedService.handleError),
+        map((res: any) => res.items)
+      );
   }
 
   createComponent(data: ComponentDTO): Observable<any> {

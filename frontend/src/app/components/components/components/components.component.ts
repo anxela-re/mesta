@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { merge, Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, startWith, switchMap } from 'rxjs/operators';
+import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
 
 @Component({
@@ -8,21 +11,36 @@ import { ComponentsService } from '../../services/components.service';
   styleUrls: ['./components.component.scss'],
 })
 export class ComponentsComponent implements OnInit {
+
+  public components$: Observable<ComponentDTO[]> | undefined;
+  public searchTerm: string = '';
+
+  private searchSubject: Subject<string> = new Subject();
+  private reloadList: Subject<any> = new Subject();
+
   constructor(
     private componentsService: ComponentsService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.getComponents();
+    this.components$ = merge(
+      this.reloadList.pipe(
+        switchMap(() => this.componentsService.getComponents())
+      ),
+      this.searchSubject.pipe(
+        startWith(this.searchTerm),
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(() =>
+          this.componentsService.getComponents({
+            name: `%${this.searchTerm}%`,
+          })
+        )
+      )
+    );
   }
 
-  getComponents(): void {
-    console.info('getComponents');
-    this.componentsService
-      .getComponents()
-      .subscribe((response) => console.info(response));
-  }
   createComponent(): void {
     this.router.navigate(['/components','new']);
   }

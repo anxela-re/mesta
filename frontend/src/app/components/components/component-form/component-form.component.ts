@@ -13,7 +13,7 @@ import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
 import { faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { PropertyDTO } from '../../models/property.dto';
+import { PropertyDTO } from '../../../properties/models/property.dto';
 
 @Component({
   selector: 'app-component-form',

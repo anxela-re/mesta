@@ -1,0 +1,8 @@
+<div class="border-2 max-w-[150px] p-2 m-2">
+  <h4>{{ component.name }}</h4>
+  <div class="flex flex-wrap justify-end text-right">
+    <span *ngFor="let property of component.properties">{{
+      property.name
+    }}</span>
+  </div>
+</div>

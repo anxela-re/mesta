@@ -29,7 +29,7 @@ class PropertyController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:properties',
+            'name' => 'required',
             'profile_id' => 'required',
         ]);
 
@@ -67,7 +67,7 @@ class PropertyController extends Controller
                 'name' => $request->name,
                 'profile_id' => $request->profile_id,
             ]);
-        $current = Profile::where('id', $id)->get()->first();
+        $current = Property::where('id', $id)->get()->first();
 
         return response(['message' => 'Property succesfully updated', 'data' => $current], 200);
     }

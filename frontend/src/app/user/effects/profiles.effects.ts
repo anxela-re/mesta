@@ -11,6 +11,7 @@ import { PhaseService } from '../services/phase.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PhaseDTO } from '../models/phase.dto';
+import * as PropertiesActions from '../../properties/actions';
 
 @Injectable()
 export class ProfilesEffects {
@@ -83,7 +84,7 @@ export class ProfilesEffects {
                 console.info('creating phase');
                 this.store.dispatch(
                   PhasesActions.createPhase({
-                    phase: new PhaseDTO({...phase, profile_id: data.id}),
+                    phase: new PhaseDTO({ ...phase, profile_id: data.id }),
                     profile_id: data.id,
                   })
                 );
@@ -195,6 +196,19 @@ export class ProfilesEffects {
         map((error) => {
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+        })
+      ),
+    { dispatch: false }
+  );
+
+  selectProfile$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProfilesActions.selectProfile),
+        map(({ profileId }) => {
+          this.store.dispatch(
+            PropertiesActions.getPropertiesByProfile({ profile_id: profileId })
+          );
         })
       ),
     { dispatch: false }

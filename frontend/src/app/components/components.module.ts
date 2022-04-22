@@ -9,12 +9,14 @@ import { ComponentFormComponent } from './components/component-form/component-fo
 import { SharedModule } from '../shared/shared.module';
 import { PropertiesModule } from '../properties/properties.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ComponentItemComponent } from './components/component-item/component-item.component';
 
 @NgModule({
   declarations: [
     ComponentsComponent,
     ComponentDetailComponent,
     ComponentFormComponent,
+    ComponentItemComponent,
   ],
   imports: [
     CommonModule,

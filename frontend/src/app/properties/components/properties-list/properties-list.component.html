@@ -6,7 +6,10 @@
     [(ngModel)]="searchTerm"
     (keyup)="search()"
   />
-  <fa-icon [icon]="faSearch" class="absolute right-0 px-4 fa-2x text-white-900" ></fa-icon>
+  <fa-icon
+    [icon]="faSearch"
+    class="absolute right-0 px-4 fa-2x text-white-900"
+  ></fa-icon>
 </div>
 
 <div class="flex flex-row flex-wrap gap-2">
@@ -43,8 +46,9 @@
     <fa-icon *ngIf="allowEdition" [icon]="faPencil"></fa-icon>
   </button>
   <app-property-item
-    *ngFor="let property of properties$ | async"
+    *ngFor="let property of properties"
     [property]="property"
+    [selected]="isSelected(property?.id)"
     (onSelect)="onSelectProperty($event)"
     [editing]="editingProperties"
     (onRemoved)="onPropertyRemoved()"

@@ -5,3 +5,9 @@
   </div>
 </div>
 <button type="button" (click)="createComponent()">Edit</button>
+<div>
+  <app-component-item
+    *ngFor="let component of components$ | async as list"
+    [component]="component"
+  ></app-component-item>
+</div>

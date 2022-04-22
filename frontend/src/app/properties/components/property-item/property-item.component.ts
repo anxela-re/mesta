@@ -1,7 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { PropertyDTO } from '../../models/property.dto';
 import { faSave, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { PropertiesService } from '../../services/properties.service';
+import { Action, Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
+import * as propertiesActions from '../../actions';
+import { Actions, ofType } from '@ngrx/effects';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 export interface OnSelectProps {
   property: PropertyDTO;
@@ -13,7 +26,7 @@ export interface OnSelectProps {
   templateUrl: './property-item.component.html',
   styleUrls: ['./property-item.component.scss'],
 })
-export class PropertyItemComponent implements OnInit {
+export class PropertyItemComponent implements OnInit, OnDestroy {
   @Input()
   property!: PropertyDTO;
   @Input()
@@ -30,7 +43,32 @@ export class PropertyItemComponent implements OnInit {
   edited: boolean = false;
   faSave = faSave;
   faTrash = faTrashAlt;
-  constructor(private propertiesService: PropertiesService) {}
+
+  private unsubscribe$ = new Subject<void>();
+
+  constructor(
+    private propertiesService: PropertiesService,
+    private store: Store<AppState>,
+    private actions$: Actions
+  ) {
+    this.actions$
+      .pipe(
+        ofType(propertiesActions.updatePropertySuccess),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe((data) => {
+        this.edited = false;
+      });
+
+    this.actions$
+      .pipe(
+        ofType(propertiesActions.deletePropertySuccess),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe((data) => {
+        this.onRemoved.emit();
+      });
+  }
 
   ngOnInit(): void {
     if (this.property) {
@@ -40,6 +78,10 @@ export class PropertyItemComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
   select(): void {
     console.info('select');
     if (this.property && !this.editing) {
@@ -58,24 +100,23 @@ export class PropertyItemComponent implements OnInit {
       this.propertyEdited = event?.target?.textContent;
     }
   }
+  
   onSaveEdition(event: MouseEvent): void {
     event.stopPropagation();
     if (this.edited) {
-      this.propertiesService
-        .updateProperty({
-          ...this.property,
-          name: this.propertyEdited,
+      this.store.dispatch(
+        propertiesActions.updateProperty({
+          property: { ...this.property, name: this.propertyEdited },
         })
-        .subscribe((data) => (this.edited = false));
+      );
     }
   }
   onDeleteProperty(event: MouseEvent): void {
     event.stopPropagation();
-    if (this.editing) {
-      console.info('deleting', this.editing);
-      this.propertiesService
-        .deleteProperty(this.property)
-        .subscribe((d) => this.onRemoved.emit());
+    if (this.editing && this.property.id) {
+      this.store.dispatch(
+        propertiesActions.deleteProperty({ propertyId: this.property.id })
+      );
     }
   }
 }

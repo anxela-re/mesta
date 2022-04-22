@@ -11,10 +11,7 @@ use App\Http\Controllers\Api\Recipes\PropertyController;
 use App\Http\Controllers\Api\User\PhaseController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\User\UserController;
-use App\Models\Component;
-use App\Models\Phase;
 use App\Models\Profile;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,8 +64,5 @@ Route::middleware(('auth:api'))->group(function () {
 
     // Components
     Route::get('/components', [ComponentController::class, 'get']);
-    Route::get('/component/{id}', [ComponentController::class, 'getById']);
     Route::post('/component', [ComponentController::class, 'create']);
-    Route::put('/component', [ComponentController::class, 'update']);
-    Route::delete('/component/{id}', [ComponentController::class, 'delete']);
 });

@@ -45,10 +45,9 @@ export class PropertiesService {
       .pipe(catchError(this.sharedService.handleError));
   }
 
-  deleteProperty(property: PropertyDTO): Observable<any> {
-    console.info(property.id)
+  deleteProperty(propertyId: number): Observable<any> {
     return this.http
-      .delete(`${this.apiUrl}/api/property/${property.id}`)
+      .delete(`${this.apiUrl}/api/property/${propertyId}`)
       .pipe(catchError(this.sharedService.handleError));
   }
 }
