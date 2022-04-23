@@ -1,13 +1,27 @@
 <div class="p-2 limit-container">
-  <div class="flex flex-row align-items-center">
+  <div class="flex flex-row align-items-center w-full flex-wrap md:flex-nowrap">
     <h2>Componentes</h2>
-    <span class="before:content-['|'] before:mx-4">0 componentes</span>
+    <div class="flex flex-row justify-between w-full">
+      <span class="md:before:content-['|'] md:before:mx-4">0 componentes</span>
+
+      <button type="button" (click)="createComponent()" class="btn btn-primary">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
+    </div>
   </div>
-</div>
-<button type="button" (click)="createComponent()">Edit</button>
-<div>
-  <app-component-item
-    *ngFor="let component of components$ | async as list"
-    [component]="component"
-  ></app-component-item>
+  <div class="flex flex-column">
+    <input
+      type="text"
+      class="border-2 border-secondary-100 rounded-full py-2 px-4 w-full my-2"
+      placeholder="Buscar componente"
+      [(ngModel)]="searchTerm"
+      (keyup)="search()"
+    />
+
+  </div>
+  <app-components-phase
+    *ngFor="let phase of phases"
+    [phase]="phase"
+    [components]="components$"
+  ></app-components-phase>
 </div>

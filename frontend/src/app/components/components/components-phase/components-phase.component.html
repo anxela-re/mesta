@@ -1,0 +1,28 @@
+<div
+  class="m-2 p-2 border-2 border-dashed rounded-xl"
+  [ngStyle]="{ 'border-color': phase?.color }"
+>
+  <div class="px-2 flex justify-between hover:opacity-60 cursor-pointer " (click)="open = !open">
+    <h4
+      class="tracking-widest uppercase font-semibold"
+      [ngStyle]="{ color: phase?.color }"
+    >
+      {{ phase?.name }}
+    </h4>
+    <div class="flex">
+      <span class="px-1" [ngStyle]="{'color': phase?.color}">{{count}} componentes</span>
+      <fa-icon
+        [icon]="open ? faChevronUp : faChevronDown"
+        [ngStyle]="{ color: phase?.color }"
+      ></fa-icon>
+    </div>
+  </div>
+  <div class="flex flex-wrap" *ngIf="open" >
+    <ng-container *ngFor="let component of components | async as list">
+      <app-component-item
+        [component]="component"
+        *ngIf="component.phase_id === phase?.id"
+      ></app-component-item
+    ></ng-container>
+  </div>
+</div>

@@ -1,17 +1,34 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
+import { ProfileDTO } from '../models/profile.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileSelectedService {
-  constructor() {}
+  profile!: ProfileDTO | undefined;
+  constructor(private store: Store<AppState>) {
+    this.store.select('profiles').subscribe((profilesState) => {
+      if (profilesState.selected && profilesState.loaded) {
+        this.profile = profilesState.profiles.find(
+          (p) => p.id === profilesState.selected
+        );
+      }
+    });
+  }
 
-  getProfileSelected(): number | undefined {
+  getProfileSelectedStored(): number | undefined {
     const selectedProfileStored = localStorage.getItem('selected_profile');
     if (selectedProfileStored) {
       return parseInt(selectedProfileStored);
     }
     return undefined;
+  }
+
+  getProfileSelected(): ProfileDTO | undefined {
+    return this.profile;
   }
 
   setProfileSelected(profileId: number) {

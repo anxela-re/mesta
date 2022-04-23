@@ -37,7 +37,7 @@ export class AppComponent {
     });
 
     const profileSelectedStored =
-      this.profileSelectedService.getProfileSelected();
+      this.profileSelectedService.getProfileSelectedStored();
     if (profileSelectedStored) {
       this.store.dispatch(
         ProfilesActions.selectProfile({

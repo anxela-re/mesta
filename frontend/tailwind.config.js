@@ -1,16 +1,16 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
+  important: true,
   theme: {
-    
     fontFamily: {
       sans: ["Open Sans", "sans-serif"],
       serif: ["Monoton", "serif"],
     },
     colors: {
       transparent: "transparent",
-      danger: '#bb2124',
-      success: '#22bb33',
-      warn: '#f0ad4e',
+      danger: "#bb2124",
+      success: "#22bb33",
+      warn: "#f0ad4e",
       white: {
         50: "#fefefe",
         100: "#fcfcfc",

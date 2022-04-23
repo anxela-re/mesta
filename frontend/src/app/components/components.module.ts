@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app-routing.module';
 import { ComponentsRoutingModule } from './components-routing.module';
 import { ComponentsComponent } from './components/components/components.component';
@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PropertiesModule } from '../properties/properties.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ComponentItemComponent } from './components/component-item/component-item.component';
+import { ComponentsPhaseComponent } from './components/components-phase/components-phase.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { ComponentItemComponent } from './components/component-item/component-it
     ComponentDetailComponent,
     ComponentFormComponent,
     ComponentItemComponent,
+    ComponentsPhaseComponent,
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { ComponentItemComponent } from './components/component-item/component-it
     SharedModule,
     PropertiesModule,
     FontAwesomeModule,
+    FormsModule
   ],
 })
 export class ComponentsModule {}

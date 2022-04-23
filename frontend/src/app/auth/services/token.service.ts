@@ -18,7 +18,7 @@ export class TokenService {
       ? localStorage.getItem('user_id')
       : undefined;
   }
-  getProfileSelected(): any {
+  getProfileSelectedStored(): any {
     return localStorage.getItem('profile_selected');
   }
   isValidToken(): boolean {
