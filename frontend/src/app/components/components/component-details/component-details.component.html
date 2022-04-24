@@ -1,1 +1,47 @@
-<p>component-details works!</p>
+<div class="p-2 m-auto max-w-[900px]">
+  <app-breadcrumb [breacrumbHistory]="breacrumbHistory"></app-breadcrumb>
+  <div class="flex justify-between">
+    <h2>{{ component?.name }}</h2>
+    <div class="flex gap-1">
+        <button type="button" class="btn btn-secondary" (click)="edit()"><fa-icon [icon]="faPencil"></fa-icon></button>
+        <button type="button" class="btn btn-danger" (click)="remove()"><fa-icon [icon]="faTrash"></fa-icon></button>
+    </div>
+  </div>
+  <div class="flex gap-2 flex-col my-4 md:flex-row">
+    <div class="bg-white-900 rounded-lg w-full md:w-[30%] text-center">
+      <fa-icon
+        [icon]="faImage"
+        class="text-secondary-100 fa-6x m-auto"
+      ></fa-icon>
+    </div>
+    <div class="w-full flex flex-col justify-between w-full md:w-[70%]">
+      <p>{{ component?.description }}</p>
+
+      <div class="flex flex-row flex-wrap gap-1">
+        <div
+          class="rounded-full border-2 px-4 cursor-pointer"
+          [ngStyle]="{
+            'border-color': phase?.color,
+            color: phase?.color ? '#fff' : phase?.color,
+            'background-color': phase?.color ? phase?.color : 'inherit'
+          }"
+          *ngIf="phase"
+        >
+          {{ phase?.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-2">
+    <h4 class="my-1">Propiedades</h4>
+    <div class="flex gap-1">
+      <div
+        class="rounded-full border-2 px-4 border-secondary-500 text-secondary-500 h-[100%] text-white-500 bg-secondary-500"
+        *ngFor="let property of properties"
+      >
+        <span>{{ property.name }}</span>
+      </div>
+    </div>
+  </div>
+</div>

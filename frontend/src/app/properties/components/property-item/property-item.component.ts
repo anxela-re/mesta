@@ -37,6 +37,8 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
   onSelect: EventEmitter<OnSelectProps> = new EventEmitter();
   @Output()
   onRemoved: EventEmitter<any> = new EventEmitter();
+  @Input()
+  allowEdition: boolean = true;
 
   propertyEdited: string | undefined;
 
@@ -47,7 +49,6 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
   private unsubscribe$ = new Subject<void>();
 
   constructor(
-    private propertiesService: PropertiesService,
     private store: Store<AppState>,
     private actions$: Actions
   ) {
@@ -83,8 +84,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
     this.unsubscribe$.complete();
   }
   select(): void {
-    console.info('select');
-    if (this.property && !this.editing) {
+    if (this.property && !this.editing && this.allowEdition) {
       this.selected = !this.selected;
       this.onSelect.emit({
         property: this.property,

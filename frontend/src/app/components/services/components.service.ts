@@ -40,4 +40,10 @@ export class ComponentsService {
       .post(`${this.apiUrl}/api/component`, data)
       .pipe(catchError(this.sharedService.handleError));
   }
+
+  deleteComponent(componentId: number): Observable<any> {
+    return this.http
+      .delete(`${this.apiUrl}/api/component/${componentId}`)
+      .pipe(catchError(this.sharedService.handleError));
+  }
 }

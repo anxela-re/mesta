@@ -8,7 +8,7 @@ import { TokenService } from 'src/app/auth/services/token.service';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 
 export type IQuery = {
-  [key: string]: string | number;
+  [key: string]: string | number | string[];
 };
 export interface ResponseError {
   error: string;
@@ -77,10 +77,11 @@ export class SharedService {
 
   formatQuery(query?: IQuery): string {
     let queryString = '';
+    console.info(query)
     if (query) {
       Object.keys(query).forEach((q) => {
         if (query[q] && query[q] !== '') {
-          queryString = queryString.concat(`${q}=${query[q]}`, '&');
+          queryString = queryString.concat(`${q}=${encodeURIComponent(`${query[q]}`)}`, '&');
         }
       });
     }

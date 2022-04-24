@@ -40,7 +40,7 @@ export class ComponentsComponent implements OnInit {
     private componentsService: ComponentsService,
     private router: Router,
     private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService,
+    private profileSelectedService: ProfileSelectedService
   ) {
     this.store.select('profiles').subscribe((profilesState) => {
       if (profilesState.loaded && profilesState.selected) {
@@ -61,6 +61,7 @@ export class ComponentsComponent implements OnInit {
         switchMap(() =>
           this.componentsService.getComponents({
             name: `%${this.searchTerm}%`,
+            select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
           })
         )
       )
@@ -83,7 +84,7 @@ export class ComponentsComponent implements OnInit {
 
   filterByPhase(phaseId: number | undefined): ComponentDTO[] {
     if (phaseId) {
-      return this.components.filter((comp) => comp.phase_id === phaseId);
+      return this.components?.filter((comp) => comp.phase_id === phaseId) || [];
     } else {
       return [];
     }

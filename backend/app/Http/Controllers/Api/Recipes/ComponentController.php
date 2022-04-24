@@ -13,17 +13,26 @@ class ComponentController extends Controller
     public function get(Request $request)
     {
         $query = $request->query();
+        $select = $request->query('select');
         $formatQuery = [];
 
         foreach ($query as $key => $value) {
-            if ($key === 'name') {
-                array_push($formatQuery, [$key, 'like', $value]);
-            } else {
-                array_push($formatQuery, [$key, '=', $value]);
+            if ($key !== 'select') {
+                if ($key === 'name') {
+                    array_push($formatQuery, [$key, 'like', $value]);
+                } else {
+                    array_push($formatQuery, [$key, '=', $value]);
+                }
             }
         }
 
-        $data = Component::where($formatQuery)->get();
+        if ($select) {
+            $selectValues = explode(',', $select);
+            $data = Component::where($formatQuery)->select($selectValues)->get();
+        } else {
+            $data = Component::where($formatQuery)->get();
+        }
+
         return response(['message' => 'Components successfully retrieved', 'items' => $data], 200);
     }
     public function create(Request $request)
@@ -57,5 +66,10 @@ class ComponentController extends Controller
         ]);
 
         return response(['message' => 'Component succesfully created', 'data' => $component], 200);
+    }
+    public function delete($id)
+    {
+        $item = Component::where('id', $id)->delete();
+        return response(['message' => 'Component succesfully deleted'], 200);
     }
 }

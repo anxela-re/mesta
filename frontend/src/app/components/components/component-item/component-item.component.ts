@@ -142,7 +142,6 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
   }
 
   onDetails() {
-    // this.router.navigateByUrl(`components/${this.component.id}`)
     this.router.navigate(['components', 'details', this.component.id]);
   }
 }
