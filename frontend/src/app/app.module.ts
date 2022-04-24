@@ -16,8 +16,6 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from './shared/shared.module';
-import { PropertyFormComponent } from './properties/components/property-form/property-form.component';
-import { PropertiesModule } from './properties/properties.module';
 
 export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action) {

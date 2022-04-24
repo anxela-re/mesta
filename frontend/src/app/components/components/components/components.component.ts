@@ -27,8 +27,9 @@ import { ComponentsService } from '../../services/components.service';
 export class ComponentsComponent implements OnInit {
   phases: PhaseDTO[] | undefined;
 
-  public components$: Observable<ComponentDTO[]> | undefined;
-  public searchTerm: string = '';
+  components$: Observable<ComponentDTO[]> | undefined;
+  components: ComponentDTO[] = [];
+  searchTerm: string = '';
 
   private searchSubject: Subject<string> = new Subject();
   private reloadList: Subject<any> = new Subject();
@@ -39,7 +40,7 @@ export class ComponentsComponent implements OnInit {
     private componentsService: ComponentsService,
     private router: Router,
     private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService
+    private profileSelectedService: ProfileSelectedService,
   ) {
     this.store.select('profiles').subscribe((profilesState) => {
       if (profilesState.loaded && profilesState.selected) {
@@ -64,6 +65,7 @@ export class ComponentsComponent implements OnInit {
         )
       )
     );
+    this.components$.subscribe((data) => (this.components = data));
   }
 
   createComponent(): void {
@@ -77,5 +79,13 @@ export class ComponentsComponent implements OnInit {
 
   search() {
     this.searchSubject.next(this.searchTerm);
+  }
+
+  filterByPhase(phaseId: number | undefined): ComponentDTO[] {
+    if (phaseId) {
+      return this.components.filter((comp) => comp.phase_id === phaseId);
+    } else {
+      return [];
+    }
   }
 }

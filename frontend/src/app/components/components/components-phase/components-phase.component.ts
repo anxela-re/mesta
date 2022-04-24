@@ -14,18 +14,14 @@ export class ComponentsPhaseComponent implements OnInit {
   phase: PhaseDTO | undefined;
 
   @Input()
-  components: Observable<ComponentDTO[]> | undefined;
+  components: ComponentDTO[] = [];
 
   faChevronUp = faChevronUp;
   faChevronDown = faChevronDown;
 
   open: boolean = true;
 
-  count: number = 0;
-
   constructor() {}
 
-  ngOnInit(): void {
-    this.components?.subscribe((items) => (this.count = items.length));
-  }
+  ngOnInit(): void {}
 }

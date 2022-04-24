@@ -8,6 +8,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
@@ -53,7 +54,8 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
   constructor(
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private router: Router
   ) {
     this.store.select('properties').subscribe((data) => {
       if (data.loaded) {
@@ -137,5 +139,10 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
             } 33%, rgba(255,255,255,0) 0%)`
       );
     }
+  }
+
+  onDetails() {
+    // this.router.navigateByUrl(`components/${this.component.id}`)
+    this.router.navigate(['components', 'details', this.component.id]);
   }
 }

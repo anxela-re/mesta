@@ -1,4 +1,5 @@
 export interface IComponent {
+  id?: number;
   name?: string;
   scientific_name?: string;
   description?: string;
@@ -10,6 +11,7 @@ export interface IComponent {
 }
 
 export class ComponentDTO {
+  id?: number;
   name?: string;
   scientific_name?: string;
   description?: string;
@@ -20,6 +22,7 @@ export class ComponentDTO {
   expiration_date?: Date;
 
   constructor(data?: IComponent) {
+    this.id = data?.id;
     this.name = data?.name;
     this.scientific_name = data?.scientific_name;
     this.description = data?.description;
