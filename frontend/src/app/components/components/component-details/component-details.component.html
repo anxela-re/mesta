@@ -3,10 +3,15 @@
   <div class="flex justify-between">
     <h2>{{ component?.name }}</h2>
     <div class="flex gap-1">
-        <button type="button" class="btn btn-secondary" (click)="edit()"><fa-icon [icon]="faPencil"></fa-icon></button>
-        <button type="button" class="btn btn-danger" (click)="remove()"><fa-icon [icon]="faTrash"></fa-icon></button>
+      <button type="button" class="btn btn-secondary" (click)="edit()">
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      <button type="button" class="btn btn-danger" (click)="remove()">
+        <fa-icon [icon]="faTrash"></fa-icon>
+      </button>
     </div>
   </div>
+  <span class="font-bold uppercase text-xs">{{ component?.scientific_name }}</span>
   <div class="flex gap-2 flex-col my-4 md:flex-row">
     <div class="bg-white-900 rounded-lg w-full md:w-[30%] text-center">
       <fa-icon
@@ -17,7 +22,7 @@
     <div class="w-full flex flex-col justify-between w-full md:w-[70%]">
       <p>{{ component?.description }}</p>
 
-      <div class="flex flex-row flex-wrap gap-1">
+      <div class="flex flex-row flex-wrap gap-1 mt-2">
         <div
           class="rounded-full border-2 px-4 cursor-pointer"
           [ngStyle]="{

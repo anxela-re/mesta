@@ -7,6 +7,7 @@ use App\Models\Component;
 use App\Models\Phase;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ComponentController extends Controller
 {
@@ -63,9 +64,41 @@ class ComponentController extends Controller
             'profile_id' => $request->profile_id,
             'phase_id' => $request->phase_id,
             'properties' => $request->properties,
+            'scientific_name' => $request->scientific_name,
         ]);
 
         return response(['message' => 'Component succesfully created', 'data' => $component], 200);
+    }
+    public function update(Request $request)
+    {
+
+        $this->validate($request, [
+            'id' => 'required',
+            'profile_id' => 'required',
+            'phase_id' => 'required'
+        ]);
+
+        if (Component::where('id', $request->id)->doesntExist()) {
+            return response(['message' => 'Component id dows not exists.'], 400);
+        }
+
+        $id = $request->id;
+
+        $component = DB::table('components')
+            ->where('id', $id)
+            ->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'image_url' => $request->image_url,
+                'expiration_date' => $request->expiration_date,
+                'profile_id' => $request->profile_id,
+                'phase_id' => $request->phase_id,
+                'properties' => $request->properties,
+                'scientific_name' => $request->scientific_name,
+            ]);
+        $current = Component::where('id', $id)->get()->first();
+
+        return response(['message' => 'Component succesfully updated', 'data' => $current], 200);
     }
     public function delete($id)
     {

@@ -65,5 +65,6 @@ Route::middleware(('auth:api'))->group(function () {
     // Components
     Route::get('/components', [ComponentController::class, 'get']);
     Route::post('/component', [ComponentController::class, 'create']);
+    Route::put('/component', [ComponentController::class, 'update']);
     Route::delete('/component/{id}', [ComponentController::class, 'delete']);
 });

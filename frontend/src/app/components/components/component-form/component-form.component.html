@@ -1,7 +1,12 @@
 <div class="p-2 m-auto max-w-[900px]">
   <app-breadcrumb [breacrumbHistory]="breacrumbHistory"></app-breadcrumb>
   <h2>{{ componentId ? component?.name : "Nuevo componente" }}</h2>
-  <form [formGroup]="componentForm" (ngSubmit)="onSubmit()" class="my-4">
+  <form
+    *ngIf="componentForm"
+    [formGroup]="componentForm"
+    (ngSubmit)="onSubmit()"
+    class="my-4"
+  >
     <div class="my-2 custom-input-labeled">
       <input
         type="text"
@@ -11,11 +16,11 @@
       />
       <label for="name">Nombre</label>
       <div
-        *ngIf="name.errors && (name.touched || name.dirty)"
+        *ngIf="name?.errors && (name?.touched || name?.dirty)"
         class="form-errors"
       >
-        <div *ngIf="name.errors.required">Obligatorio</div>
-        <div *ngIf="name.errors.maxlength">
+        <div *ngIf="name?.errors?.required">Obligatorio</div>
+        <div *ngIf="name?.errors?.maxlength">
           Name can be max 64 characters long.
         </div>
       </div>
@@ -29,7 +34,7 @@
       />
       <label for="scientific_name">Nombre científico</label>
     </div>
-    <div class="my-2  custom-input-labeled">
+    <div class="my-2 custom-input-labeled">
       <input
         type="date"
         min="new Date()"
@@ -48,10 +53,12 @@
       ></textarea>
       <label for="description">Descripción</label>
       <div
-        *ngIf="description.errors && (description.touched || description.dirty)"
+        *ngIf="
+          description?.errors && (description?.touched || description?.dirty)
+        "
         class="form-errors"
       >
-        <div *ngIf="description.errors.required">Obligatorio</div>
+        <div *ngIf="description?.errors?.required">Obligatorio</div>
       </div>
     </div>
     <div class="my-2">
@@ -78,6 +85,7 @@
         [allowEdition]="true"
         [allowSearch]="true"
         (updateProperties)="updateProperties($event)"
+        [propertiesSelected]="propertiesSelected"
       ></app-properties-list>
     </div>
     <div class="text-center">

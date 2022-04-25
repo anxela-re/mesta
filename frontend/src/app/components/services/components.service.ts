@@ -41,6 +41,11 @@ export class ComponentsService {
       .pipe(catchError(this.sharedService.handleError));
   }
 
+  updateComponent(data: ComponentDTO): Observable<any> {
+    return this.http
+      .put(`${this.apiUrl}/api/component`, data)
+      .pipe(catchError(this.sharedService.handleError));
+  }
   deleteComponent(componentId: number): Observable<any> {
     return this.http
       .delete(`${this.apiUrl}/api/component/${componentId}`)
