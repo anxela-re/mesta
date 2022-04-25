@@ -17,7 +17,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { UserService } from '../../services/user.service';
 import { PhasesActions, ProfilesActions } from '../../actions';
-import { IBreacrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
+import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 
 export function minLengthArray(min: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -50,7 +50,7 @@ export class UserProfileComponent implements OnInit {
   userId?: number;
   profiles: ProfileDTO[] = [];
 
-  breacrumbHistory: IBreacrumbHistory[] = [];
+  breadcrumbHistory: IBreadcrumbHistory[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -68,7 +68,7 @@ export class UserProfileComponent implements OnInit {
       );
       if (profileId && foundProfile) {
         this.profile = new ProfileDTO(foundProfile);
-        this.breacrumbHistory = [
+        this.breadcrumbHistory = [
           {
             name: 'Configuración',
             navigateName: 'configuration',
@@ -79,7 +79,7 @@ export class UserProfileComponent implements OnInit {
         ];
       } else {
         this.profile = new ProfileDTO({});
-        this.breacrumbHistory = [
+        this.breadcrumbHistory = [
           {
             name: 'Configuración',
             navigateName: 'configuration',

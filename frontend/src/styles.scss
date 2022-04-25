@@ -117,6 +117,10 @@ input:-webkit-autofill:active {
   @apply bg-white-900 rounded-lg py-2 px-4 w-full focus:outline-none;
 }
 
+.light-input {
+  @apply bg-white-100 rounded-lg py-2 px-4 w-full focus:outline-none;
+}
+
 .form-errors {
   @apply mt-2 mb-2 text-danger text-left fs-xs; 
 }

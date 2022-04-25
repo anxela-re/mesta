@@ -8,7 +8,7 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
-import { IBreacrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
+import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
@@ -27,7 +27,7 @@ export class ComponentDetailsComponent implements OnInit {
   propertiesProfile: PropertyDTO[] = [];
   properties: PropertyDTO[] = [];
 
-  breacrumbHistory: IBreacrumbHistory[] = [];
+  breadcrumbHistory: IBreadcrumbHistory[] = [];
 
   faImage = faImage;
   faPencil = faPencilAlt;
@@ -67,7 +67,7 @@ export class ComponentDetailsComponent implements OnInit {
 
           this.updatePhase();
           this.updateProperties();
-          this.breacrumbHistory = [
+          this.breadcrumbHistory = [
             {
               name: 'Components',
               navigateName: 'components',

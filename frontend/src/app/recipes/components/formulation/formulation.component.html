@@ -1,1 +1,62 @@
-<p>formulation works!</p>
+<div class="p-2 m-auto max-w-[900px]">
+  <app-breadcrumb [breadcrumbHistory]="breadcrumbHistory"></app-breadcrumb>
+  <h2>{{ recipeId ? recipe?.name : "Nuevo formulacion" }}</h2>
+  <form
+    *ngIf="formulationForm"
+    [formGroup]="formulationForm"
+    (ngSubmit)="onSubmit()"
+    class="my-4"
+  >
+    <div class="my-2 custom-input-labeled">
+      <input
+        type="text"
+        [formControl]="name"
+        class="dark-input"
+        placeholder="Nombre"
+      />
+      <label for="name">Nombre</label>
+      <div
+        *ngIf="name?.errors && (name?.touched || name?.dirty)"
+        class="form-errors"
+      >
+        <div *ngIf="name?.errors?.required">Obligatorio</div>
+        <div *ngIf="name?.errors?.maxlength">
+          Name can be max 64 characters long.
+        </div>
+      </div>
+    </div>
+
+    <div class="my-2 custom-input-labeled">
+      <textarea
+        name="description"
+        class="dark-input"
+        placeholder="Descripción"
+        rows="8"
+        [formControl]="description"
+      ></textarea>
+      <label for="description">Descripción</label>
+      <div
+        *ngIf="
+          description?.errors && (description?.touched || description?.dirty)
+        "
+        class="form-errors"
+      >
+        <div *ngIf="description?.errors?.required">Obligatorio</div>
+      </div>
+    </div>
+    <div class="my-2">
+      <h3 class="my-1">Composiciones</h3>
+      <app-compositions-list></app-compositions-list>
+    </div>
+
+    <div class="text-center">
+      <button
+        type="submit"
+        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300"
+        [disabled]="!formulationForm?.valid"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</div>

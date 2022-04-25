@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
-export interface IBreacrumbHistory {
+export interface IBreadcrumbHistory {
   name?: string;
   navigateName?: string;
 }
@@ -12,7 +12,7 @@ export interface IBreacrumbHistory {
 })
 export class BreadcrumbComponent implements OnInit {
   @Input()
-  breacrumbHistory: IBreacrumbHistory[] = [];
+  breadcrumbHistory: IBreadcrumbHistory[] = [];
 
   constructor(private router: Router) {}
 

@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { IBreacrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
+import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
@@ -37,7 +37,7 @@ export class ComponentFormComponent implements OnInit {
   // image_url!: FormControl;
   phase_id!: FormControl;
 
-  breacrumbHistory: IBreacrumbHistory[] = [];
+  breadcrumbHistory: IBreadcrumbHistory[] = [];
 
   faPlus = faPlus;
   faPencil = faPencilAlt;
@@ -74,7 +74,7 @@ export class ComponentFormComponent implements OnInit {
         })
         .subscribe((response) => {
           this.component = new ComponentDTO(response[0]);
-          this.breacrumbHistory = [
+          this.breadcrumbHistory = [
             {
               name: 'Components',
               navigateName: 'components',
@@ -89,7 +89,7 @@ export class ComponentFormComponent implements OnInit {
       this.component = new ComponentDTO({
         profile_id: this.profile_id,
       });
-      this.breacrumbHistory = [
+      this.breadcrumbHistory = [
         {
           name: 'Components',
           navigateName: 'components',
