@@ -2,19 +2,23 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
   OnInit,
+  Output,
   Renderer2,
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 import { ComponentDTO } from '../../models/component.dto';
+import { ISelectProp } from '../components/components.component';
 
 @Component({
   selector: 'app-component-item',
@@ -45,12 +49,23 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
   @Input()
   component: ComponentDTO = new ComponentDTO();
 
+  @Input()
+  fromFormulation: boolean = false;
+
+  @Input()
+  selected: boolean = false;
+
+  @Output()
+  onSelectComponent: EventEmitter<ISelectProp> = new EventEmitter();
+
   isHovered: boolean = false;
 
   phase?: PhaseDTO;
 
   propertiesProfile: PropertyDTO[] = [];
 
+  faPlus = faPlus;
+  faMinus = faMinus;
   constructor(
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
@@ -85,7 +100,9 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.containerDOM.nativeElement,
         'background-color',
-        this.isHovered ? this.phase?.color || '#0f172a' : 'transparent'
+        this.isHovered || this.selected
+          ? this.phase?.color || '#0f172a'
+          : 'transparent'
       );
     }
   }
@@ -94,7 +111,7 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.borderTopDOM.nativeElement,
         'background-image',
-        this.isHovered
+        this.isHovered || this.selected
           ? `linear-gradient(to right, 
           #fff 33%,
           rgba(255, 255, 255, 0) 0%)`
@@ -108,7 +125,7 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.borderBottomDOM.nativeElement,
         'background-image',
-        this.isHovered
+        this.isHovered || this.selected
           ? `linear-gradient(to right, 
           #fff 33%,
           rgba(255, 255, 255, 0) 0%)`
@@ -121,7 +138,7 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.borderLeftDOM.nativeElement,
         'background-image',
-        this.isHovered
+        this.isHovered || this.selected
           ? `linear-gradient(#fff 33%, rgba(255, 255, 255, 0) 0%)`
           : `linear-gradient(to bottom, ${
               this.phase?.color || '#0f172a'
@@ -132,7 +149,7 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.borderRightDOM.nativeElement,
         'background-image',
-        this.isHovered
+        this.isHovered || this.selected
           ? `linear-gradient(#fff 33%, rgba(255, 255, 255, 0) 0%)`
           : `linear-gradient(to bottom, ${
               this.phase?.color || '#0f172a'
@@ -141,7 +158,20 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onDetails() {
-    this.router.navigate(['components', 'details', this.component.id]);
+  onClick() {
+    if (this.fromFormulation) {
+      this.onSelectComponent.emit({
+        component: this.component,
+        selected: !this.selected,
+      });
+    } else {
+      this.router.navigate(['components', 'details', this.component.id]);
+    }
+  }
+
+  onChangePercentage(event: any, value?: number): void {
+    event.stopPropagation();
+    console.info(value);
+    // this.component.percentage = 10;
   }
 }

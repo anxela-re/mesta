@@ -1,7 +1,7 @@
 <form
   [formGroup]="compositionForm"
   (ngSubmit)="onSubmit()"
-  class="bg-white-700 border-2 border-dashed border-secondary-100 rounded-lg p-2 max-w-[300px]"
+  class="bg-white-700 border-2 border-dashed border-secondary-100 rounded-lg p-2 max-w-[300px] m-1"
 >
   <div class="my-2">
     <div class="flex gap-2 flex-col">
@@ -23,10 +23,10 @@
       </div>
     </div>
   </div>
-  <div class="my-2 flex flex-col" formArrayName="phasesPercentage">
+  <div class="my-2 flex flex-col" formArrayName="phases_percentage">
     <div
       class="m-2"
-      *ngFor="let phaseForm of phasesPercentage.controls; let i = index"
+      *ngFor="let phaseForm of phases_percentage.controls; let i = index"
     >
       <div [formGroupName]="i">
         <div class="flex gap-1 justify-between">
@@ -45,14 +45,14 @@
       </div>
     </div>
     <div
-      *ngIf="phasesPercentage?.errors && (phasesPercentage?.touched || phasesPercentage?.dirty)"
+      *ngIf="phases_percentage?.errors && (phases_percentage?.touched || phases_percentage?.dirty)"
       class="form-errors"
     >
       <div
-        *ngIf="phasesPercentage.errors?.additionValidator"
+        *ngIf="phases_percentage.errors?.additionValidator !== null"
         class="form-errors text-wrap"
       >
-        La suma actual es de {{phasesPercentage.errors?.additionValidator}}, debe ser igual 100
+        La suma actual es de {{phases_percentage.errors?.additionValidator}}, debe ser igual 100
       </div>
     </div>
   </div>
@@ -64,6 +64,6 @@
     >
       Añadir
     </button>
-    <button type="button" class="btn btn-secondary">Cancelar</button>
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
   </div>
 </form>

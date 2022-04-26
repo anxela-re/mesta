@@ -46,7 +46,20 @@
     </div>
     <div class="my-2">
       <h3 class="my-1">Composiciones</h3>
-      <app-compositions-list></app-compositions-list>
+      <app-compositions-list
+        [selected]="composition_id.value"
+        (onSelect)="onSelectComposition($event)"
+      ></app-compositions-list>
+    </div>
+    <div class="my-2">
+      <h3 class="my-1">Componentes</h3>
+      <span *ngIf="!selectedComposition">Seleccione una composición antes de los componentes</span>
+      <app-components
+        *ngIf="selectedComposition"
+        [fromFormulation]="true"
+        (onSelectComponent)="onSelectComponent($event)"
+        [phasesPercentage]="selectedComposition.phases_percentage"
+      ></app-components>
     </div>
 
     <div class="text-center">

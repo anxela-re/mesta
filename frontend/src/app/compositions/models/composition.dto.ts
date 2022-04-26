@@ -1,25 +1,27 @@
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
-
 export interface IPhasesPercentage {
   id: number;
   phase_id: number;
   percentage: number;
+  phaseName: string;
 }
 
 export interface IComposition {
   id: number | undefined;
   name: string | undefined;
-  phasesPercentage: IPhasesPercentage[] | [];
+  profile_id: number | undefined;
+  phases_percentage: IPhasesPercentage[] | [];
 }
 
 export class CompositionDTO {
   id!: number | undefined;
   name!: string | undefined;
-  phasesPercentage: IPhasesPercentage[] | undefined = [];
+  profile_id!: number | undefined;
+  phases_percentage: IPhasesPercentage[] | undefined = [];
 
   constructor(data?: IComposition) {
     this.id = data?.id;
     this.name = data?.name;
-    this.phasesPercentage = data?.phasesPercentage;
+    this.profile_id = data?.profile_id;
+    this.phases_percentage = data?.phases_percentage;
   }
 }

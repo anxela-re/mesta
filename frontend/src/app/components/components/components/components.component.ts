@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   faChevronDown,
@@ -14,21 +14,35 @@ import {
   switchMap,
 } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
+import { IPhasesPercentage } from 'src/app/compositions/models/composition.dto';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
-
+export interface ISelectProp {
+  selected: boolean;
+  component: ComponentDTO;
+}
 @Component({
   selector: 'app-components',
   templateUrl: './components.component.html',
   styleUrls: ['./components.component.scss'],
 })
 export class ComponentsComponent implements OnInit {
+  @Input()
+  fromFormulation: boolean = false;
+
+  @Output()
+  onSelectComponent: EventEmitter<ComponentDTO[]> = new EventEmitter();
+
+  @Input()
+  phasesPercentage: IPhasesPercentage[] | undefined = [];
+
   phases: PhaseDTO[] | undefined;
 
   components$: Observable<ComponentDTO[]> | undefined;
   components: ComponentDTO[] = [];
+  selectedComponents: ComponentDTO[] = [];
   searchTerm: string = '';
 
   private searchSubject: Subject<string> = new Subject();
@@ -82,11 +96,28 @@ export class ComponentsComponent implements OnInit {
     this.searchSubject.next(this.searchTerm);
   }
 
+  getPhasePercentage(phaseId: number | undefined): number {
+    return (
+      this.phasesPercentage?.find((p) => p.phase_id === phaseId)?.percentage ||
+      0
+    );
+  }
   filterByPhase(phaseId: number | undefined): ComponentDTO[] {
     if (phaseId) {
       return this.components?.filter((comp) => comp.phase_id === phaseId) || [];
     } else {
       return [];
     }
+  }
+
+  selectComponents(event: ISelectProp): void {
+    if (event.selected) {
+      this.selectedComponents.push(event.component);
+    } else {
+      this.selectedComponents = this.selectedComponents.filter(
+        (component) => component.id !== event.component.id
+      );
+    }
+    this.onSelectComponent.emit(this.selectedComponents);
   }
 }

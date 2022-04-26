@@ -30,5 +30,8 @@ import { ComponentDetailsComponent } from './components/component-details/compon
     FontAwesomeModule,
     FormsModule
   ],
+  exports: [
+    ComponentsComponent
+  ]
 })
 export class ComponentsModule {}

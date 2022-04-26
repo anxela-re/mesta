@@ -1,4 +1,8 @@
-<div #container class="max-w-[150px] p-4 m-2 relative group cursor-pointer" (click)="onDetails()">
+<div
+  #container
+  class="max-w-[150px] p-4 m-2 relative group cursor-pointer"
+  (click)="onClick()"
+>
   <div
     #borderTop
     class="absolute top-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
@@ -16,7 +20,7 @@
     class="absolute bottom-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
   ></div>
   <h4
-    [ngStyle]="{ color: phase && phase.color ? phase.color : '#0f172a' }"
+    [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
     class="font-medium group-hover:!text-white-500"
   >
     {{ component.name }}
@@ -25,8 +29,30 @@
     <span
       class="text-sm group-hover:!text-white-500"
       *ngFor="let property of component.properties"
-      [ngStyle]="{ color: phase && phase.color ? phase.color : '#0f172a' }"
+      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
       >{{ property.name }}.&nbsp;</span
     >
+  </div>
+  <div
+    *ngIf="fromFormulation && selected"
+    class="flex flex-row gap-2 justify-center"
+  >
+    <fa-icon
+      [icon]="faMinus"
+      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
+      (click)="onChangePercentage($event, component?.percentage || 0 - 1)"
+    ></fa-icon>
+    <span
+      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
+      contenteditable="true"
+      (input)="onChangePercentage($event)"
+      class="outline-none underline underline-offset-2 h-[100%]"
+      >{{ component.percentage || 0 }}</span
+    >
+    <fa-icon
+      [icon]="faPlus"
+      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
+      (click)="onChangePercentage($event, component?.percentage || 0 + 1)"
+    ></fa-icon>
   </div>
 </div>

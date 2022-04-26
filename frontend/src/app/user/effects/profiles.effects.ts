@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PhaseDTO } from '../models/phase.dto';
 import * as PropertiesActions from '../../properties/actions';
+import * as CompositionsActions from '../../compositions/actions';
 
 @Injectable()
 export class ProfilesEffects {
@@ -208,6 +209,11 @@ export class ProfilesEffects {
         map(({ profileId }) => {
           this.store.dispatch(
             PropertiesActions.getPropertiesByProfile({ profile_id: profileId })
+          );
+          this.store.dispatch(
+            CompositionsActions.getCompositionsByProfile({
+              profile_id: profileId,
+            })
           );
         })
       ),

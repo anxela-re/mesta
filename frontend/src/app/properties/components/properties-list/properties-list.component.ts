@@ -6,16 +6,7 @@ import {
   faPencilAlt,
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  debounceTime,
-  delay,
-  distinctUntilChanged,
-  mergeMap,
-  startWith,
-  switchMap,
-} from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { merge, Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { OnSelectProps } from '../property-item/property-item.component';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';

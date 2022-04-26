@@ -13,8 +13,17 @@
       {{ phase?.name }}
     </h4>
     <div class="flex">
-      <span class="px-1" [ngStyle]="{ color: phase?.color }"
+      <span
+        *ngIf="!fromFormulation"
+        class="px-1"
+        [ngStyle]="{ color: phase?.color }"
         >{{ components.length }} componentes</span
+      >
+      <span
+        *ngIf="fromFormulation"
+        class="px-1"
+        [ngStyle]="{ color: phase?.color }"
+        >{{ percentage }}%</span
       >
       <fa-icon
         [icon]="open ? faChevronUp : faChevronDown"
@@ -23,10 +32,13 @@
     </div>
   </div>
   <div class="flex-wrap" [ngClass]="{ hidden: !open, flex: open }">
-    <ng-container *ngFor="let component of components ">
+    <ng-container *ngFor="let component of components">
       <app-component-item
         [component]="component"
         *ngIf="component.phase_id === phase?.id"
+        (onSelectComponent)="onSelectComponent.emit($event)"
+        [fromFormulation]="fromFormulation"
+        [selected]="isSelected(component)"
       ></app-component-item
     ></ng-container>
   </div>

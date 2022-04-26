@@ -8,56 +8,56 @@ export const getPropertiesByProfile = createAction(
 );
 
 export const getPropertiesByProfileSuccess = createAction(
-  '[Phases] Get properties success',
+  '[Properties] Get properties success',
   props<{ properties: PropertyDTO[] }>()
 );
 
 export const getPropertiesByProfileFailure = createAction(
-  '[Phases] Get properties failure',
+  '[Properties] Get properties failure',
   props<{ payload: HttpErrorResponse }>()
 );
 
 export const createProperty = createAction(
-  '[Phases] Create phase',
+  '[Properties] Create phase',
   props<{ property: PropertyDTO }>()
 );
 
 export const createPropertySuccess = createAction(
-  '[Phases] Create property success',
+  '[Properties] Create property success',
   props<{ property: PropertyDTO }>()
 );
 
 export const createPropertyFailure = createAction(
-  '[Phases] Create property failure',
+  '[Properties] Create property failure',
   props<{ payload: HttpErrorResponse }>()
 );
 
 export const updateProperty = createAction(
-  '[Phases] Update property',
+  '[Properties] Update property',
   props<{ property: PropertyDTO }>()
 );
 
 export const updatePropertySuccess = createAction(
-  '[Phases] Update property success',
+  '[Properties] Update property success',
   props<{ property: PropertyDTO }>()
 );
 
 export const updatePropertyFailure = createAction(
-  '[Phases] Update property failure',
+  '[Properties] Update property failure',
   props<{ payload: HttpErrorResponse }>()
 );
 
 export const deleteProperty = createAction(
-  '[Phases] Delete property',
+  '[Properties] Delete property',
   props<{ propertyId: number }>()
 );
 
 export const deletePropertySuccess = createAction(
-  '[Phases] Delete property success',
+  '[Properties] Delete property success',
   props<{ propertyId: number }>()
 );
 
 export const deletePropertyFailure = createAction(
-  '[Phases] Delete property failure',
+  '[Properties] Delete property failure',
   props<{ payload: HttpErrorResponse }>()
 );

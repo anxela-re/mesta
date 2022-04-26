@@ -8,6 +8,7 @@ import { RecipesRoutingModule } from './recipes-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from '../shared/shared.module';
 import { CompositionsModule } from '../compositions/compositions.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
   declarations: [RecipesComponent, RecipeDetailComponent, FormulationComponent],
@@ -19,6 +20,7 @@ import { CompositionsModule } from '../compositions/compositions.module';
     FontAwesomeModule,
     SharedModule,
     CompositionsModule,
+    ComponentsModule
   ],
 })
 export class RecipesModule {}

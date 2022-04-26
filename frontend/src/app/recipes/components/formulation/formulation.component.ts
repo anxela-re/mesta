@@ -8,6 +8,10 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
+import { getComponents } from 'src/app/components/actions/components.action';
+import { ComponentDTO } from 'src/app/components/models/component.dto';
+import { ComponentsService } from 'src/app/components/services/components.service';
+import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
@@ -25,16 +29,19 @@ export class FormulationComponent implements OnInit {
   properties: PropertyDTO[] = [];
   profile_id: number | undefined;
   phases: PhaseDTO[] | undefined = [];
+  selectedComposition: CompositionDTO | undefined = undefined;
 
   formulationForm!: FormGroup;
   name!: FormControl;
   description!: FormControl;
+  composition_id!: FormControl;
 
   breadcrumbHistory: IBreadcrumbHistory[] = [];
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private componentsService: ComponentsService
   ) {
     const recipeId = this.route.snapshot.paramMap.get('id');
     if (recipeId) {
@@ -80,10 +87,12 @@ export class FormulationComponent implements OnInit {
       Validators.maxLength(64),
     ]);
     this.description = new FormControl(this.recipe.description);
+    this.composition_id = new FormControl(this.recipe.composition_id);
 
     this.formulationForm = this.fb.group({
       name: this.name,
       description: this.description,
+      composition_id: this.composition_id,
     });
     this.setProperties();
 
@@ -106,6 +115,15 @@ export class FormulationComponent implements OnInit {
       });
       this.properties = props;
     }
+  }
+
+  onSelectComposition(composition: CompositionDTO): void {
+    this.selectedComposition = composition;
+    this.formulationForm.patchValue({ composition_id: composition.id });
+  }
+
+  onSelectComponent(components: ComponentDTO[]): void {
+    console.info(components);
   }
   onSubmit(): void {
     if (this.formulationForm.invalid) {

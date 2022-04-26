@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -16,6 +23,10 @@ import {
   CompositionDTO,
   IPhasesPercentage,
 } from '../../models/composition.dto';
+import * as compositionsActions from '../../actions';
+import { Actions, ofType } from '@ngrx/effects';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 export function additionValidator(value: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -31,16 +42,26 @@ export function additionValidator(value: number): ValidatorFn {
   templateUrl: './composition-form.component.html',
   styleUrls: ['./composition-form.component.scss'],
 })
-export class CompositionFormComponent implements OnInit {
+export class CompositionFormComponent implements OnInit, OnDestroy {
+  @Output()
+  onEndEdition: EventEmitter<void> = new EventEmitter();
+
+  @Input()
+  composition: CompositionDTO = new CompositionDTO();
+
   profile_id!: number | undefined;
   phases: PhaseDTO[] | undefined = [];
 
-  composition: CompositionDTO = new CompositionDTO();
   compositionForm!: FormGroup;
 
   name!: FormControl;
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {
+  private unsubscribe$ = new Subject<void>();
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private actions$: Actions
+  ) {
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
       if (selected) {
         this.phases = profiles?.find((p) => p.id === selected)?.phases;
@@ -48,28 +69,50 @@ export class CompositionFormComponent implements OnInit {
         this.initForm();
       }
     });
+
+    this.actions$
+      .pipe(
+        ofType(compositionsActions.createCompositionSuccess),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(() => {
+        this.onEndEdition.emit();
+      });
+
+    this.actions$
+      .pipe(
+        ofType(compositionsActions.updateCompositionSuccess),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(() => {
+        this.onEndEdition.emit();
+      });
   }
 
   ngOnInit(): void {
     this.initForm();
   }
+  ngOnDestroy() {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 
-  get phasesPercentage(): FormArray {
-    return this.compositionForm.get('phasesPercentage') as FormArray;
+  get phases_percentage(): FormArray {
+    return this.compositionForm.get('phases_percentage') as FormArray;
   }
 
   phasesPercentageNameByIndex(i: number): string {
-    return this.phasesPercentage?.at(i)?.value.phaseName;
+    return this.phases_percentage?.at(i)?.value.phaseName;
   }
   initForm(): void {
     this.name = new FormControl(this.composition.name, [Validators.required]);
 
     this.compositionForm = this.fb.group({
       name: this.name || '',
-      phasesPercentage: this.fb.array(
+      phases_percentage: this.fb.array(
         this.phases?.map((phase: PhaseDTO) => {
-          const phasePercentage: IPhasesPercentage | undefined =
-            this.composition.phasesPercentage?.find(
+          const phases_percentage: IPhasesPercentage | undefined =
+            this.composition.phases_percentage?.find(
               (p) => p.phase_id === phase.id
             );
 
@@ -78,7 +121,7 @@ export class CompositionFormComponent implements OnInit {
             phase: phase,
             phaseName: phase.name,
             percentage: new FormControl(
-              phasePercentage ? phasePercentage.percentage : 0,
+              phases_percentage ? phases_percentage.percentage : 0,
               Validators.required
             ),
           });
@@ -86,8 +129,6 @@ export class CompositionFormComponent implements OnInit {
         additionValidator(100)
       ),
     });
-
-    console.info(this.compositionForm.value);
   }
 
   onSubmit(): void {
@@ -95,6 +136,24 @@ export class CompositionFormComponent implements OnInit {
       return;
     }
 
-    console.info(this.compositionForm.value);
+    this.composition = {
+      ...this.composition,
+      ...this.compositionForm.value,
+      profile_id: this.profile_id,
+    };
+    
+    if (this.composition.id) {
+      this.store.dispatch(
+        compositionsActions.updateComposition({ composition: this.composition })
+      );
+    } else {
+      this.store.dispatch(
+        compositionsActions.createComposition({ composition: this.composition })
+      );
+    }
+  }
+
+  onCancel(): void {
+    this.onEndEdition.emit();
   }
 }

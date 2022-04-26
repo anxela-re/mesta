@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\Auth\ForgotPassController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Recipes\ComponentController;
+use App\Http\Controllers\Api\Recipes\CompositionController;
 use App\Http\Controllers\Api\Recipes\PropertyController;
 use App\Http\Controllers\Api\User\PhaseController;
 use App\Http\Controllers\Api\User\ProfileController;
@@ -67,4 +68,10 @@ Route::middleware(('auth:api'))->group(function () {
     Route::post('/component', [ComponentController::class, 'create']);
     Route::put('/component', [ComponentController::class, 'update']);
     Route::delete('/component/{id}', [ComponentController::class, 'delete']);
+
+    // Compositions
+    Route::get('/compositions', [CompositionController::class, 'get']);
+    Route::post('/compositions', [CompositionController::class, 'create']);
+    Route::put('/compositions', [CompositionController::class, 'update']);
+    Route::delete('/compositions/{id}', [CompositionController::class, 'delete']);
 });
