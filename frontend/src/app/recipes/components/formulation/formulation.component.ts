@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { getComponents } from 'src/app/components/actions/components.action';
@@ -16,7 +20,16 @@ import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { RecipeDTO } from '../../models/recipe.dto';
-
+import { RecipesService } from '../../services/recipes.service';
+export function additionValidator(value: number): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const suma = control.value.reduce(
+      (acc: number, curr: any) => acc + curr?.percentage,
+      0
+    );
+    return suma === value ? null : { additionValidator: suma };
+  };
+}
 @Component({
   selector: 'app-formulation',
   templateUrl: './formulation.component.html',
@@ -41,7 +54,8 @@ export class FormulationComponent implements OnInit {
     private fb: FormBuilder,
     private store: Store<AppState>,
     private route: ActivatedRoute,
-    private componentsService: ComponentsService
+    private recipesService: RecipesService,
+    private router: Router
   ) {
     const recipeId = this.route.snapshot.paramMap.get('id');
     if (recipeId) {
@@ -93,6 +107,10 @@ export class FormulationComponent implements OnInit {
       name: this.name,
       description: this.description,
       composition_id: this.composition_id,
+      components: this.fb.array(
+        this.recipe.components || [],
+        additionValidator(100)
+      ),
     });
     this.setProperties();
 
@@ -103,6 +121,10 @@ export class FormulationComponent implements OnInit {
         props.push(found);
       }
     });
+  }
+
+  get componentArrayControl(): FormArray {
+    return this.formulationForm.get('components') as FormArray;
   }
   setProperties() {
     if (this.recipe?.properties && this.propertiesProfile !== undefined) {
@@ -130,17 +152,28 @@ export class FormulationComponent implements OnInit {
       return;
     }
 
+    const formValue = Object.assign({}, this.formulationForm.value);
     this.recipe = {
       ...this.recipe,
       ...this.formulationForm.value,
+      components: formValue.components.map((c: any) => ({
+        component_id: c.component.id,
+        percentage: c.percentage,
+      })),
+      properties: formValue.components
+        .map((c: any) => c.component.properties.map((p: PropertyDTO) => p.id))
+        .flat()
+        .filter((v: any, i: number, arr: any[]) => arr.indexOf(v) === i),
     };
-    // TODO set properties from components properties
 
     console.info(this.recipe);
     if (this.recipeId) {
+      console.info('update', this.recipe);
       // TODO update
     } else {
-      // TODO create
+      this.recipesService
+        .createRecipe(this.recipe)
+        .subscribe((res) => this.router.navigate(['recipes']));
     }
   }
 }

@@ -31,15 +31,20 @@
       ></fa-icon>
     </div>
   </div>
-  <div class="flex-wrap" [ngClass]="{ hidden: !open, flex: open }">
-    <ng-container *ngFor="let component of components">
-      <app-component-item
-        [component]="component"
-        *ngIf="component.phase_id === phase?.id"
-        (onSelectComponent)="onSelectComponent.emit($event)"
-        [fromFormulation]="fromFormulation"
-        [selected]="isSelected(component)"
-      ></app-component-item
-    ></ng-container>
+  <div class="flex-col" [ngClass]="{ hidden: !open, flex: open }">
+    <div *ngIf="phaseComponentsForm?.errors?.maxAddition" class="text-xs font-bold">
+      El porcentage de los componentes no debe superar al total asignado en la
+      composición
+    </div>
+    <div class="flex-wrap">
+      <ng-container *ngFor="let component of components">
+        <app-component-item
+          [component]="component"
+          *ngIf="component.phase_id === phase?.id"
+          [fromFormulation]="fromFormulation"
+          (onPercentageChange)="onPercentageChange($event)"
+        ></app-component-item
+      ></ng-container>
+    </div>
   </div>
 </div>

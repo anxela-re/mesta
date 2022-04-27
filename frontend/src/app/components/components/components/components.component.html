@@ -23,9 +23,9 @@
     *ngFor="let phase of phases"
     [phase]="phase"
     [components]="filterByPhase(phase.id)"
-    (onSelectComponent)="selectComponents($event)"
     [fromFormulation]="fromFormulation"
     [percentage]="getPhasePercentage(phase.id)"
-    [selectedComponents]="selectedComponents"
+    [componentArrayControl]="componentArrayControl"
+    [recipeComponents]="recipeComponents"
   ></app-components-phase>
 </div>

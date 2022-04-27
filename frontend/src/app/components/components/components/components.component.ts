@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   faChevronDown,
@@ -15,6 +16,7 @@ import {
 } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IPhasesPercentage } from 'src/app/compositions/models/composition.dto';
+import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 import { ComponentDTO } from '../../models/component.dto';
@@ -37,6 +39,12 @@ export class ComponentsComponent implements OnInit {
 
   @Input()
   phasesPercentage: IPhasesPercentage[] | undefined = [];
+
+  @Input()
+  componentArrayControl!: FormArray;
+
+  @Input()
+  recipeComponents: IComponentPercentage[] = [];
 
   phases: PhaseDTO[] | undefined;
 

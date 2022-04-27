@@ -21,8 +21,18 @@
       class="group hover:border-secondary-300 text-center border-2 border-dashed rounded-lg border-secondary-100 bg-white-900 max-w-[150px] p-4 m-2 relative group cursor-pointer"
       (click)="onCreate()"
     >
-      <fa-icon [icon]="faPlus" class="fa-2x text-secondary-100 group-hover:text-secondary-300"></fa-icon>
-      <h4 class="text-secondary-100 group-hover:text-secondary-300">Formular</h4>
+      <fa-icon
+        [icon]="faPlus"
+        class="fa-2x text-secondary-100 group-hover:text-secondary-300"
+      ></fa-icon>
+      <h4 class="text-secondary-100 group-hover:text-secondary-300">
+        Formular
+      </h4>
     </div>
+    <app-recipe-item
+      *ngFor="let recipe of recipes"
+      [recipe]="recipe"
+      [properties]="getPropertiesByRecipe(recipe.properties)"
+    ></app-recipe-item>
   </div>
 </div>

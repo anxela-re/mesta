@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Recipes\ComponentController;
 use App\Http\Controllers\Api\Recipes\CompositionController;
 use App\Http\Controllers\Api\Recipes\PropertyController;
+use App\Http\Controllers\Api\Recipes\RecipeController;
 use App\Http\Controllers\Api\User\PhaseController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\User\UserController;
@@ -74,4 +75,10 @@ Route::middleware(('auth:api'))->group(function () {
     Route::post('/compositions', [CompositionController::class, 'create']);
     Route::put('/compositions', [CompositionController::class, 'update']);
     Route::delete('/compositions/{id}', [CompositionController::class, 'delete']);
+
+    // Recipes
+    Route::get('/recipes', [RecipeController::class, 'get']);
+    Route::post('/recipes', [RecipeController::class, 'create']);
+    Route::put('/recipes', [RecipeController::class, 'update']);
+    Route::delete('/recipes/{id}', [RecipeController::class, 'delete']);
 });

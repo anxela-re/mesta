@@ -25,7 +25,6 @@ export class ProfileService {
   }
 
   addProfile(profile: ProfileDTO): Observable<any> {
-    console.info('add profile -->')
     return this.http
       .post(`${this.apiUrl}/api/profile`, profile)
       .pipe(catchError(this.sharedService.handleError));

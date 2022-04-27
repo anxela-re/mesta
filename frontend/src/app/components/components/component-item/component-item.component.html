@@ -20,7 +20,9 @@
     class="absolute bottom-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
   ></div>
   <h4
-    [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
+    [ngStyle]="{
+      color: percentage > 0 ? '#fff' : phase?.color
+    }"
     class="font-medium group-hover:!text-white-500"
   >
     {{ component.name }}
@@ -29,30 +31,59 @@
     <span
       class="text-sm group-hover:!text-white-500"
       *ngFor="let property of component.properties"
-      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
+      [ngStyle]="{
+        color: percentage > 0 ? '#fff' : phase?.color
+      }"
       >{{ property.name }}.&nbsp;</span
     >
   </div>
-  <div
-    *ngIf="fromFormulation && selected"
-    class="flex flex-row gap-2 justify-center"
-  >
-    <fa-icon
-      [icon]="faMinus"
-      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
-      (click)="onChangePercentage($event, component?.percentage || 0 - 1)"
-    ></fa-icon>
-    <span
-      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
+  <div *ngIf="fromFormulation" class="flex flex-row gap-2 justify-center m-2 font-bold">
+    <button
+      type="button"
+      class="group-hover:!text-white-500 outline-none"
+      [ngStyle]="{
+        color: percentage > 0 ? '#fff' : phase?.color
+      }"
+      (click)="decrement($event)"
+    >
+      <fa-icon [icon]="faMinus"></fa-icon>
+    </button>
+    <div class="w-full">
+      <input
+        type="number"
+        min="0"
+        max="100"
+        [(ngModel)]="percentage"
+        (change)="onChangePercentage($event)"
+        [ngStyle]="{
+          color: percentage > 0 ? '#fff' : phase?.color
+        }"
+        class="outline-none group-hover:!text-white-500 border-none bg-transparent w-[50%] text-right"
+      />
+      <span
+        [ngStyle]="{
+          color: percentage > 0 ? '#fff' : phase?.color
+        }"
+        class="h-[100%] group-hover:!text-white-500 w-[50%]"
+      >
+        %
+      </span>
+    </div>
+    <!-- <span
+      
       contenteditable="true"
       (input)="onChangePercentage($event)"
-      class="outline-none underline underline-offset-2 h-[100%]"
-      >{{ component.percentage || 0 }}</span
+      >{{ percentage }}%</span
+    > -->
+    <button
+      type="button"
+      class="group-hover:!text-white-500 outline-none"
+      [ngStyle]="{
+        color: percentage > 0 ? '#fff' : phase?.color
+      }"
+      (click)="increment($event)"
     >
-    <fa-icon
-      [icon]="faPlus"
-      [ngStyle]="{ color: selected ? '#ffffff' : phase?.color }"
-      (click)="onChangePercentage($event, component?.percentage || 0 + 1)"
-    ></fa-icon>
+      <fa-icon [icon]="faPlus"></fa-icon>
+    </button>
   </div>
 </div>

@@ -78,11 +78,9 @@ export class ProfilesEffects {
       exhaustMap(({ profile, phases }) => {
         return this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
-            console.info(data);
             let profileDTO: ProfileDTO = new ProfileDTO(data);
             if (phases) {
               phases.forEach((phase) => {
-                console.info('creating phase');
                 this.store.dispatch(
                   PhasesActions.createPhase({
                     phase: new PhaseDTO({ ...phase, profile_id: data.id }),

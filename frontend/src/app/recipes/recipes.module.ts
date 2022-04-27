@@ -9,9 +9,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from '../shared/shared.module';
 import { CompositionsModule } from '../compositions/compositions.module';
 import { ComponentsModule } from '../components/components.module';
+import { RecipeItemComponent } from './components/recipe-item/recipe-item.component';
 
 @NgModule({
-  declarations: [RecipesComponent, RecipeDetailComponent, FormulationComponent],
+  declarations: [RecipesComponent, RecipeDetailComponent, FormulationComponent, RecipeItemComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

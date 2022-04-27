@@ -78,7 +78,6 @@ export class PhasesEffects {
     this.actions$.pipe(
       ofType(PhasesActions.createPhase),
       mergeMap(({ phase, profile_id }) => {
-        console.info(phase)
         return this.phaseService.createPhase(phase).pipe(
           map(({ data }) => {
             let phaseDTO: PhaseDTO = new PhaseDTO({ ...data });

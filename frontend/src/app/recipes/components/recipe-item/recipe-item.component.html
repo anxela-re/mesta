@@ -1,0 +1,31 @@
+<div
+  class="max-w-[150px] p-4 m-2 relative group cursor-pointer bg-secondary-500 hover:bg-transparent"
+  (click)="onClick()"
+>
+  <div
+    #borderTop
+    class="absolute top-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
+  ></div>
+  <div
+    #borderLeft
+    class="absolute top-0 left-0 w-[10px] h-full bg-top-left bg-[length:10px_3px] bg-repeat-y"
+  ></div>
+  <div
+    #borderRight
+    class="absolute top-0 right-0 w-[10px] h-full bg-top-left bg-[length:10px_3px] bg-repeat-y"
+  ></div>
+  <div
+    #borderBottom
+    class="absolute bottom-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
+  ></div>
+  <h4 class="font-medium group-hover:!text-white-500 text-secondary-500">
+    {{ recipe.name }}
+  </h4>
+  <div class="flex flex-wrap justify-center text-center">
+    <span
+      class="text-sm group-hover:!text-white-500 text-secondary-500"
+      *ngFor="let property of properties"
+      >{{ property.name }}.&nbsp;</span
+    >
+  </div>
+</div>

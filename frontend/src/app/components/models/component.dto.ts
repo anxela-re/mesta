@@ -8,7 +8,6 @@ export interface IComponent {
   profile_id?: number;
   properties?: any[];
   expiration_date?: Date;
-  percentage?: number;
 }
 
 export class ComponentDTO {
@@ -21,7 +20,6 @@ export class ComponentDTO {
   profile_id?: number;
   properties?: any[];
   expiration_date?: Date;
-  percentage?: number;
 
   constructor(data?: IComponent) {
     this.id = data?.id;
@@ -33,6 +31,5 @@ export class ComponentDTO {
     this.profile_id = data?.profile_id;
     this.properties = data?.properties;
     this.expiration_date = data?.expiration_date;
-    this.percentage = data?.percentage;
   }
 }

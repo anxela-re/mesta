@@ -58,7 +58,7 @@ class CompositionController extends Controller
         ]);
 
         if (Composition::where('id', $request->id)->doesntExist()) {
-            return response(['message' => 'Property id dows not exists.'], 400);
+            return response(['message' => 'Composition id dows not exists.'], 400);
         }
 
         $id = $request->id;

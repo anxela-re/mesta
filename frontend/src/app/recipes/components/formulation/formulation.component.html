@@ -59,6 +59,8 @@
         [fromFormulation]="true"
         (onSelectComponent)="onSelectComponent($event)"
         [phasesPercentage]="selectedComposition.phases_percentage"
+        [componentArrayControl]="componentArrayControl"
+        [recipeComponents]="this.recipe.components"
       ></app-components>
     </div>
 

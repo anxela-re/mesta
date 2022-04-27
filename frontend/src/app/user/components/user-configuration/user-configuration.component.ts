@@ -107,9 +107,6 @@ export class UserConfigurationComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
-    console.info(this.userForm.value);
-    console.info(this.name);
-    console.info({ ...this.user, ...this.userForm.value });
     this.store.dispatch(
       UserActions.updateUser({ user: { ...this.user, ...this.userForm.value } })
     );

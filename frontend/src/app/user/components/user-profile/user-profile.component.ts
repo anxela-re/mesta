@@ -45,7 +45,6 @@ export class UserProfileComponent implements OnInit {
   // phases!: FormArray;
 
   isValidForm: boolean = false;
-  palettes!: any[];
 
   userId?: number;
   profiles: ProfileDTO[] = [];

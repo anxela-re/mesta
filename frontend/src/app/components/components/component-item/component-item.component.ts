@@ -10,14 +10,20 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faGrinTongueSquint,
+  faMinus,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 import { ComponentDTO } from '../../models/component.dto';
+import { IChangePercentage } from '../components-phase/components-phase.component';
 import { ISelectProp } from '../components/components.component';
 
 @Component({
@@ -52,11 +58,11 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
   @Input()
   fromFormulation: boolean = false;
 
-  @Input()
-  selected: boolean = false;
-
   @Output()
-  onSelectComponent: EventEmitter<ISelectProp> = new EventEmitter();
+  onPercentageChange: EventEmitter<IChangePercentage> = new EventEmitter();
+
+  @Input()
+  percentage: number = 0;
 
   isHovered: boolean = false;
 
@@ -88,6 +94,7 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
     this.phase = profile?.phases?.find(
       (phase) => phase.id === this.component.phase_id
     );
+
     this.setBorder();
   }
 
@@ -100,78 +107,68 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.containerDOM.nativeElement,
         'background-color',
-        this.isHovered || this.selected
+        this.isHovered || this.percentage > 0
           ? this.phase?.color || '#0f172a'
           : 'transparent'
       );
     }
   }
   setBorder(): void {
-    if (this.borderTopDOM) {
-      this.renderer.setStyle(
-        this.borderTopDOM.nativeElement,
-        'background-image',
-        this.isHovered || this.selected
-          ? `linear-gradient(to right, 
-          #fff 33%,
-          rgba(255, 255, 255, 0) 0%)`
-          : `linear-gradient(to right, ${
-              this.phase?.color || '#0f172a'
-            } 33%, rgba(255,255,255,0) 0%)`
-      );
-    }
-
-    if (this.borderBottomDOM) {
-      this.renderer.setStyle(
-        this.borderBottomDOM.nativeElement,
-        'background-image',
-        this.isHovered || this.selected
-          ? `linear-gradient(to right, 
-          #fff 33%,
-          rgba(255, 255, 255, 0) 0%)`
-          : `linear-gradient(to right, ${
-              this.phase?.color || '#0f172a'
-            } 33%, rgba(255,255,255,0) 0%)`
-      );
-    }
-    if (this.borderLeftDOM) {
-      this.renderer.setStyle(
-        this.borderLeftDOM.nativeElement,
-        'background-image',
-        this.isHovered || this.selected
-          ? `linear-gradient(#fff 33%, rgba(255, 255, 255, 0) 0%)`
-          : `linear-gradient(to bottom, ${
-              this.phase?.color || '#0f172a'
-            } 33%, rgba(255,255,255,0) 0%)`
-      );
-    }
-    if (this.borderRightDOM) {
-      this.renderer.setStyle(
-        this.borderRightDOM.nativeElement,
-        'background-image',
-        this.isHovered || this.selected
-          ? `linear-gradient(#fff 33%, rgba(255, 255, 255, 0) 0%)`
-          : `linear-gradient(to bottom, ${
-              this.phase?.color || '#0f172a'
-            } 33%, rgba(255,255,255,0) 0%)`
-      );
-    }
+    const listBorders = [
+      this.borderTopDOM,
+      this.borderRightDOM,
+      this.borderBottomDOM,
+      this.borderLeftDOM,
+    ];
+    listBorders.forEach((el: ElementRef, index) => {
+      if (el?.nativeElement) {
+        this.renderer.setStyle(
+          el.nativeElement,
+          'background-image',
+          this.isHovered || this.percentage > 0
+            ? `linear-gradient(${
+                index === 1 || index === 3 ? `to bottom` : `to right`
+              }, 
+            #fff 33%,
+            rgba(255, 255, 255, 0) 0%)`
+            : `linear-gradient(${
+                index === 1 || index === 3 ? `to bottom` : `to right`
+              }, ${this.phase?.color || '#0f172a'} 33%, rgba(255,255,255,0) 0%)`
+        );
+      }
+    });
   }
-
   onClick() {
-    if (this.fromFormulation) {
-      this.onSelectComponent.emit({
-        component: this.component,
-        selected: !this.selected,
-      });
-    } else {
+    if (!this.fromFormulation) {
       this.router.navigate(['components', 'details', this.component.id]);
     }
   }
 
-  onChangePercentage(event: any, value?: number): void {
+  onChangePercentage(event: any): void {
     event.stopPropagation();
-    console.info(value);
-    // this.component.percentage = 10;
+    this.onPercentageChange.emit({
+      component: this.component,
+      percentage: this.percentage,
+    });
+  }
+
+  increment(event: MouseEvent) {
+    event.stopPropagation();
+    this.percentage = this.percentage + 1;
+    this.onPercentageChange.emit({
+      component: this.component,
+      percentage: this.percentage,
+    });
+  }
+
+  decrement(event: MouseEvent) {
+    event.stopPropagation();
+    if (this.percentage > 0) {
+      this.percentage = this.percentage - 1;
+      this.onPercentageChange.emit({
+        component: this.component,
+        percentage: this.percentage,
+      });
+    }
   }
 }

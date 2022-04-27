@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import * as AuthActions from 'src/app/auth/actions';
 import { TokenService } from 'src/app/auth/services/token.service';
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 
 export type IQuery = {
@@ -18,11 +19,18 @@ export interface ResponseError {
   providedIn: 'root',
 })
 export class SharedService {
+  propertiesProfile: PropertyDTO[] = [];
   constructor(
     private store: Store<AppState>,
     private tokenService: TokenService,
     private profileSelectedService: ProfileSelectedService
-  ) {}
+  ) {
+    this.store.select('properties').subscribe((properties) => {
+      if (properties.loaded) {
+        this.propertiesProfile = properties.properties;
+      }
+    });
+  }
 
   async managementToast(
     element: string,
@@ -77,11 +85,14 @@ export class SharedService {
 
   formatQuery(query?: IQuery): string {
     let queryString = '';
-    console.info(query)
+    console.info(query);
     if (query) {
       Object.keys(query).forEach((q) => {
         if (query[q] && query[q] !== '') {
-          queryString = queryString.concat(`${q}=${encodeURIComponent(`${query[q]}`)}`, '&');
+          queryString = queryString.concat(
+            `${q}=${encodeURIComponent(`${query[q]}`)}`,
+            '&'
+          );
         }
       });
     }
@@ -90,5 +101,18 @@ export class SharedService {
 
   handleError(error: HttpErrorResponse) {
     return throwError(error);
+  }
+
+  getFullProperties(propertiesId: number[]): PropertyDTO[] {
+    const properties: PropertyDTO[] = [];
+
+    propertiesId.forEach((id) => {
+      const found = this.propertiesProfile.find((p) => p.id === id);
+      if (found) {
+        properties.push(found);
+      }
+    });
+
+    return properties;
   }
 }
