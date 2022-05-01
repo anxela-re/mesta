@@ -8,6 +8,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { props } from '@ngrx/store';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { RecipeDTO } from '../../models/recipe.dto';
@@ -42,7 +43,7 @@ export class RecipeItemComponent implements OnInit, AfterViewInit {
 
   isHovered: boolean = false;
 
-  constructor(private renderer: Renderer2) {}
+  constructor(private renderer: Renderer2, private router: Router) {}
 
   ngOnInit(): void {
     this.setBorder();
@@ -52,7 +53,7 @@ export class RecipeItemComponent implements OnInit, AfterViewInit {
       this.setBorder()
   }
   onClick(): void {
-    console.info('onClick');
+    this.router.navigate(['recipes', 'details', this.recipe.id])
   }
   setBorder(): void {
     const listBorders = [

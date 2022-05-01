@@ -1,6 +1,5 @@
 import { ComponentDTO } from 'src/app/components/models/component.dto';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
-
 export interface IComponentPercentage {
   component_id: number;
   percentage: number;

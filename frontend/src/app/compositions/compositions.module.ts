@@ -13,6 +13,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CompositionsListComponent,
   ],
   imports: [CommonModule, FontAwesomeModule, FormsModule, ReactiveFormsModule],
-  exports: [CompositionsListComponent],
+  exports: [CompositionsListComponent, CompositionItemComponent],
 })
 export class CompositionsModule {}

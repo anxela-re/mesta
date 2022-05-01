@@ -40,6 +40,9 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   fromFormulation: boolean = false;
 
   @Input()
+  fromRecipeDetails: boolean = false;
+
+  @Input()
   percentage: number = 0;
 
   @Input()
@@ -58,7 +61,8 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    if (this.fromFormulation) {
+    console.info(this.fromRecipeDetails)
+    if (this.fromFormulation || this.fromRecipeDetails) {
       this.initForm();
     }
   }

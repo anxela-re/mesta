@@ -5,7 +5,10 @@ import { throwError } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import * as AuthActions from 'src/app/auth/actions';
 import { TokenService } from 'src/app/auth/services/token.service';
+import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
+import { PhaseDTO } from 'src/app/user/models/phase.dto';
+import { ProfileDTO } from 'src/app/user/models/profile.dto';
 import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
 
 export type IQuery = {
@@ -20,6 +23,10 @@ export interface ResponseError {
 })
 export class SharedService {
   propertiesProfile: PropertyDTO[] = [];
+  profileSelectedId!: number;
+  phasesProfile!: PhaseDTO[];
+  compositionsProfile!: CompositionDTO[];
+  profileSelected!: ProfileDTO;
   constructor(
     private store: Store<AppState>,
     private tokenService: TokenService,
@@ -28,6 +35,27 @@ export class SharedService {
     this.store.select('properties').subscribe((properties) => {
       if (properties.loaded) {
         this.propertiesProfile = properties.properties;
+      }
+    });
+
+    this.store.select('profiles').subscribe((profilesState) => {
+      if (profilesState.loaded && profilesState.selected) {
+        this.profileSelectedId = profilesState.selected;
+        const profileFound = profilesState.profiles.find(
+          (p) => p.id === profilesState.selected
+        );
+        if (profileFound) {
+          this.profileSelected = profileFound;
+        }
+        this.phasesProfile =
+          profilesState.profiles.find((p) => p.id === profilesState.selected)
+            ?.phases || [];
+      }
+    });
+
+    this.store.select('compositions').subscribe((compositionsState) => {
+      if (compositionsState.loaded) {
+        this.compositionsProfile = compositionsState.compositions;
       }
     });
   }
@@ -103,7 +131,7 @@ export class SharedService {
     return throwError(error);
   }
 
-  getFullProperties(propertiesId: number[]): PropertyDTO[] {
+  getPropertiesById(propertiesId: number[]): PropertyDTO[] {
     const properties: PropertyDTO[] = [];
 
     propertiesId.forEach((id) => {
@@ -114,5 +142,25 @@ export class SharedService {
     });
 
     return properties;
+  }
+
+  getProfileSelectedId(): number {
+    return this.profileSelectedId;
+  }
+
+  getProfileSelected(): ProfileDTO {
+    return this.profileSelected;
+  }
+
+  getPhasesProfile(): PhaseDTO[] {
+    return this.phasesProfile;
+  }
+
+  getCompositionsProfile(): CompositionDTO[] {
+    return this.compositionsProfile;
+  }
+
+  getCompositionById(id: number | undefined): CompositionDTO | undefined {
+    return id ? this.compositionsProfile.find((c) => c.id === id) : undefined;
   }
 }

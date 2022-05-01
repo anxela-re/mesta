@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { PhaseDTO } from 'src/app/user/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
@@ -36,11 +37,14 @@ export class ComponentDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private componentsService: ComponentsService,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private sharedService: SharedService
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.id = parseInt(id);
+    } else {
+      this.router.navigate(['components']);
     }
 
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
@@ -60,26 +64,25 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.id) {
-      this.componentsService.getComponents({ id: this.id }).subscribe(
-        (data) => {
-          this.component = data[0];
+    
+    this.componentsService.getComponents({ id: this.id }).subscribe(
+      (data) => {
+        this.component = data[0];
 
-          this.updatePhase();
-          this.updateProperties();
-          this.breadcrumbHistory = [
-            {
-              name: 'Components',
-              navigateName: 'components',
-            },
-            {
-              name: this.component.name,
-            },
-          ];
-        },
-        (error) => this.router.navigate(['components'])
-      );
-    }
+        this.updatePhase();
+        this.updateProperties();
+        this.breadcrumbHistory = [
+          {
+            name: 'Components',
+            navigateName: 'components',
+          },
+          {
+            name: this.component.name,
+          },
+        ];
+      },
+      (error) => this.router.navigate(['components'])
+    );
   }
 
   updatePhase() {

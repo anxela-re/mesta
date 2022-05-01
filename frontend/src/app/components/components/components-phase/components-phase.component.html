@@ -14,13 +14,13 @@
     </h4>
     <div class="flex">
       <span
-        *ngIf="!fromFormulation"
+        *ngIf="!fromFormulation && !fromRecipeDetails"
         class="px-1"
         [ngStyle]="{ color: phase?.color }"
         >{{ components.length }} componentes</span
       >
       <span
-        *ngIf="fromFormulation"
+        *ngIf="fromFormulation || fromRecipeDetails"
         class="px-1"
         [ngStyle]="{ color: phase?.color }"
         >{{ percentage }}%</span
@@ -42,6 +42,7 @@
           [component]="component"
           *ngIf="component.phase_id === phase?.id"
           [fromFormulation]="fromFormulation"
+          [fromRecipeDetails]="fromRecipeDetails"
           (onPercentageChange)="onPercentageChange($event)"
         ></app-component-item
       ></ng-container>

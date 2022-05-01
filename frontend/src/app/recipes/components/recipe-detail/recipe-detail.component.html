@@ -1,1 +1,44 @@
-<p>recipe-detail works!</p>
+<div class="p-2 m-auto max-w-[900px]">
+  <app-breadcrumb [breadcrumbHistory]="breadcrumbHistory"></app-breadcrumb>
+  <div class="flex justify-between">
+    <h2>{{ recipe?.name }}</h2>
+    <div class="flex gap-1">
+      <button type="button" class="btn btn-secondary" (click)="edit()">
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      <button type="button" class="btn btn-danger" (click)="remove()">
+        <fa-icon [icon]="faTrash"></fa-icon>
+      </button>
+    </div>
+  </div>
+  <div class="flex w-full my-2">
+    <div class="w-full">
+      <p>{{ recipe?.description }}</p>
+    </div>
+    <app-composition-item
+      *ngIf="composition"
+      [composition]="composition"
+    ></app-composition-item>
+  </div>
+
+  <div class="my-2">
+    <h4 class="my-1">Propiedades</h4>
+    <div class="flex gap-1">
+      <div
+        class="rounded-full border-2 px-4 border-secondary-500 text-secondary-500 h-[100%] text-white-500 bg-secondary-500"
+        *ngFor="let property of properties"
+      >
+        <span>{{ property.name }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="my-2">
+    <h3 class="my-1">Componentes</h3>
+    <app-components
+      *ngIf="composition"
+      [fromRecipeDetails]="true"
+      [phasesPercentage]="composition.phases_percentage"
+      [recipeComponents]="this.recipe.components"
+    ></app-components>
+  </div>
+</div>

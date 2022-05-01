@@ -1,24 +1,24 @@
 <div
-  class="max-w-[150px] p-4 m-2 relative group cursor-pointer bg-secondary-500 hover:bg-transparent"
+  class="max-w-[150px] p-4 m-2 relative group cursor-pointer hover:bg-secondary-500 bg-transparent rounded"
   (click)="onClick()"
 >
   <div
     #borderTop
-    class="absolute top-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
+    class="absolute top-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x rounded-[5rem]"
   ></div>
   <div
     #borderLeft
-    class="absolute top-0 left-0 w-[10px] h-full bg-top-left bg-[length:10px_3px] bg-repeat-y"
+    class="absolute top-0 left-0 w-[10px] h-full bg-top-left bg-[length:10px_3px] bg-repeat-y rounded-[5rem]"
   ></div>
   <div
     #borderRight
-    class="absolute top-0 right-0 w-[10px] h-full bg-top-left bg-[length:10px_3px] bg-repeat-y"
+    class="absolute top-0 right-0 w-[10px] h-full bg-top-left bg-[length:10px_3px] bg-repeat-y rounded-[5rem]"
   ></div>
   <div
     #borderBottom
-    class="absolute bottom-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x"
+    class="absolute bottom-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x rounded-[5rem]"
   ></div>
-  <h4 class="font-medium group-hover:!text-white-500 text-secondary-500">
+  <h4 class="font-medium group-hover:!text-white-500 text-secondary-500 uppercase">
     {{ recipe.name }}
   </h4>
   <div class="flex flex-wrap justify-center text-center">

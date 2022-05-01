@@ -52,6 +52,6 @@ export class RecipesComponent implements OnInit {
   }
 
   getPropertiesByRecipe(propertiesId: number[]): PropertyDTO[] {
-    return this.sharedService.getFullProperties(propertiesId);
+    return this.sharedService.getPropertiesById(propertiesId);
   }
 }

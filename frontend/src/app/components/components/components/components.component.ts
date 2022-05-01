@@ -34,6 +34,9 @@ export class ComponentsComponent implements OnInit {
   @Input()
   fromFormulation: boolean = false;
 
+  @Input()
+  fromRecipeDetails: boolean = false;
+
   @Output()
   onSelectComponent: EventEmitter<ComponentDTO[]> = new EventEmitter();
 

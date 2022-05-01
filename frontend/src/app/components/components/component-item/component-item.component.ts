@@ -58,6 +58,9 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
   @Input()
   fromFormulation: boolean = false;
 
+  @Input()
+  fromRecipeDetails: boolean = false;
+
   @Output()
   onPercentageChange: EventEmitter<IChangePercentage> = new EventEmitter();
 
