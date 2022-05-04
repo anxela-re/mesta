@@ -11,12 +11,13 @@ import {
 } from '@angular/forms';
 import { ProfileDTO } from '../../models/profile.dto';
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { PhaseDTO } from '../../models/phase.dto';
+import { PhaseDTO } from '../../../phases/models/phase.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { UserService } from '../../services/user.service';
-import { PhasesActions, ProfilesActions } from '../../actions';
+import { UserService } from '../../../user/services/user.service';
+import * as ProfilesActions from '../../actions';
+import * as PhasesActions from '../../../phases/actions';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 
 export function minLengthArray(min: number): ValidatorFn {
@@ -48,6 +49,7 @@ export class UserProfileComponent implements OnInit {
 
   userId?: number;
   profiles: ProfileDTO[] = [];
+  phasesProfile: PhaseDTO[] = [];
 
   breadcrumbHistory: IBreadcrumbHistory[] = [];
 
@@ -88,29 +90,14 @@ export class UserProfileComponent implements OnInit {
           },
         ];
       }
+      this.initForm();
+    });
 
-      this.name = new FormControl(this.profile.name, [
-        Validators.required,
-        Validators.maxLength(64),
-      ]);
-      this.description = new FormControl(this.profile.description);
-      // this.color = new FormControl(this.profile.color, [Validators.required]);
-
-      this.profileForm = this.fb.group({
-        name: this.name,
-        description: this.description,
-        color: this.color,
-        phases: this.fb.array(
-          this.profile?.phases?.map((phase: PhaseDTO) =>
-            this.fb.group({
-              name: new FormControl(phase.name, [Validators.required]),
-              color: new FormControl(phase.color, [Validators.required]),
-              ...phase,
-            })
-          ) || [],
-          minLengthArray(1)
-        ),
-      });
+    this.store.select('phases').subscribe(({ phases, loaded }) => {
+      if (loaded) {
+        this.phasesProfile = phases;
+        this.initForm();
+      }
     });
   }
 
@@ -119,6 +106,31 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  initForm(): void {
+    this.name = new FormControl(this.profile.name, [
+      Validators.required,
+      Validators.maxLength(64),
+    ]);
+    this.description = new FormControl(this.profile.description);
+    // this.color = new FormControl(this.profile.color, [Validators.required]);
+
+    this.profileForm = this.fb.group({
+      name: this.name,
+      description: this.description,
+      color: this.color,
+      phases: this.fb.array(
+        this.phasesProfile?.map((phase: PhaseDTO) =>
+          this.fb.group({
+            name: new FormControl(phase.name, [Validators.required]),
+            color: new FormControl(phase.color, [Validators.required]),
+            ...phase,
+          })
+        ) || [],
+        minLengthArray(1)
+      ),
+    });
+  }
 
   addNewPhase(): void {
     this.phases.push(
@@ -143,7 +155,7 @@ export class UserProfileComponent implements OnInit {
       const updatedProfile = {
         ...this.profile,
         ...this.profileForm.value,
-        phases: this.profile.phases
+        phases: this.phasesProfile
           ?.map((phase) => {
             const phaseFound = this.phases.value.find(
               (formPhase: any) => formPhase.id === phase.id
@@ -180,15 +192,12 @@ export class UserProfileComponent implements OnInit {
                 this.profile.phases?.find((p) => p.id === phase.id)
               )
             ) {
-              this.store.dispatch(
-                PhasesActions.updatePhase({ phase: phase, phaseId: phase.id })
-              );
+              this.store.dispatch(PhasesActions.updatePhase({ phase: phase }));
             }
           } else {
             this.store.dispatch(
               PhasesActions.createPhase({
                 phase: new PhaseDTO({ ...phase, profile_id: this.profile.id }),
-                profile_id: updatedProfile.id,
               })
             );
           }

@@ -13,9 +13,9 @@
     contenteditable="true"
     (input)="onPropertyChange($event)"
     class="outline-none underline underline-offset-2 h-[100%]"
-    >{{ property.name }}</span
+    >{{ property?.name }}</span
   >
-  <span *ngIf="!editing">{{ property.name }}</span>
+  <span *ngIf="!editing">{{ property?.name }}</span>
 
   <fa-icon (click)="onSaveEdition($event)" [icon]="faSave" class="ml-3 text-secondary-500 hover:text-primary-500" *ngIf="edited"></fa-icon>
   <fa-icon (click)="onDeleteProperty($event)" [icon]="faTrash" class="ml-3 text-danger " *ngIf="editing" ></fa-icon>

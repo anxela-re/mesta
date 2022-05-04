@@ -2,18 +2,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { PhaseDTO } from '../models/phase.dto';
-
 @Injectable({
   providedIn: 'root',
 })
-export class PhaseService {
+export class PhasesService {
   apiUrl = 'http://127.0.0.1:8000';
   accessToken!: string;
-
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
@@ -24,10 +22,15 @@ export class PhaseService {
     });
   }
 
-  getPhases(query: IQuery): Observable<any> {
+  getPhases(query?: IQuery): Observable<any> {
     return this.http
-      .get(`${this.apiUrl}/api/phases?${this.sharedService.formatQuery(query)}`)
-      .pipe(catchError(this.sharedService.handleError));
+      .get(
+        `${this.apiUrl}/api/phases?${this.sharedService.formatQuery(query)}`
+      )
+      .pipe(
+        catchError(this.sharedService.handleError),
+        map((res: any) => res.items)
+      );
   }
 
   createPhase(phase: PhaseDTO): Observable<any> {
@@ -46,11 +49,5 @@ export class PhaseService {
     return this.http
       .delete(`${this.apiUrl}/api/phase/${phaseId}`)
       .pipe(catchError(this.sharedService.handleError));
-  }
-
-  headers(): HttpHeaders {
-    return new HttpHeaders({
-      Authorization: `Bearer ${this.accessToken}`,
-    });
   }
 }

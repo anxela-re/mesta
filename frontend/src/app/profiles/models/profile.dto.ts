@@ -1,4 +1,4 @@
-import { PhaseDTO } from './phase.dto';
+import { PhaseDTO } from '../../phases/models/phase.dto';
 
 interface IProfileDTO {
   id?: number;

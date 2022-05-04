@@ -31,7 +31,11 @@ export class CompositionsListComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.selected) {
+      this.onSelect.emit(this.compositions.find((c) => c.id === this.selected));
+    }
+  }
   onCreate(): void {
     this.isAdding = true;
   }

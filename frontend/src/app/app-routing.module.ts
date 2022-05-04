@@ -4,7 +4,7 @@ import { ForgotPasswordComponent } from './auth/components/forgot-password/forgo
 import { LoginComponent } from './auth/components/login/login.component';
 import { RegisterComponent } from './user/components/register/register.component';
 import { ResetPasswordComponent } from './auth/components/reset-password/reset-password.component';
-import { UserProfileComponent } from './user/components/user-profile/user-profile.component';
+import { UserProfileComponent } from './profiles/components/user-profile/user-profile.component';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
 import { UserConfigurationComponent } from './user/components/user-configuration/user-configuration.component';

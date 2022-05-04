@@ -1,11 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  faChevronDown,
-  faChevronUp,
-  faPlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subject } from 'rxjs';
 import {
@@ -17,10 +13,10 @@ import {
 import { AppState } from 'src/app/app.reducers';
 import { IPhasesPercentage } from 'src/app/compositions/models/composition.dto';
 import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
-import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
+
 export interface ISelectProp {
   selected: boolean;
   component: ComponentDTO;
@@ -49,6 +45,8 @@ export class ComponentsComponent implements OnInit {
   @Input()
   recipeComponents: IComponentPercentage[] = [];
 
+  selectedProfileId!: number;
+
   phases: PhaseDTO[] | undefined;
 
   components$: Observable<ComponentDTO[]> | undefined;
@@ -60,16 +58,21 @@ export class ComponentsComponent implements OnInit {
   private reloadList: Subject<any> = new Subject();
 
   faPlus = faPlus;
-
   constructor(
     private componentsService: ComponentsService,
     private router: Router,
-    private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService
+    private store: Store<AppState>
   ) {
-    this.store.select('profiles').subscribe((profilesState) => {
-      if (profilesState.loaded && profilesState.selected) {
-        this.phases = this.profileSelectedService.getProfileSelected()?.phases;
+    this.store.select('profiles').subscribe(({ selected }) => {
+      if (selected && selected !== this.selectedProfileId) {
+        this.selectedProfileId = selected;
+      }
+    });
+
+    this.store.select('phases').subscribe(({ phases, loaded }) => {
+      if (loaded) {
+        this.phases = phases;
+        this.reloadList.next();
       }
     });
   }
@@ -77,7 +80,11 @@ export class ComponentsComponent implements OnInit {
   ngOnInit(): void {
     this.components$ = merge(
       this.reloadList.pipe(
-        switchMap(() => this.componentsService.getComponents())
+        switchMap(() =>
+          this.componentsService.getComponents({
+            profile_id: this.selectedProfileId,
+          })
+        )
       ),
       this.searchSubject.pipe(
         startWith(this.searchTerm),
@@ -85,13 +92,16 @@ export class ComponentsComponent implements OnInit {
         distinctUntilChanged(),
         switchMap(() =>
           this.componentsService.getComponents({
+            profile_id: this.selectedProfileId,
             name: `%${this.searchTerm}%`,
             select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
           })
         )
       )
     );
-    this.components$.subscribe((data) => (this.components = data));
+    this.components$.subscribe((data) => {
+      this.components = data;
+    });
   }
 
   createComponent(): void {

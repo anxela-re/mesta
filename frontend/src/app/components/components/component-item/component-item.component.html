@@ -30,11 +30,11 @@
   <div class="flex flex-wrap justify-end text-right">
     <span
       class="text-sm group-hover:!text-white-500"
-      *ngFor="let property of component.properties"
+      *ngFor="let property of component?.properties"
       [ngStyle]="{
         color: percentage > 0 ? '#fff' : phase?.color
       }"
-      >{{ property.name }}.&nbsp;</span
+      >{{ property?.name }}.&nbsp;</span
     >
   </div>
   <div
@@ -42,6 +42,7 @@
     class="flex flex-row gap-2 justify-center m-2 font-bold"
   >
     <button
+      *ngIf="!fromRecipeDetails"
       type="button"
       class="group-hover:!text-white-500 outline-none"
       [ngStyle]="{
@@ -72,13 +73,8 @@
         %
       </span>
     </div>
-    <!-- <span
-      
-      contenteditable="true"
-      (input)="onChangePercentage($event)"
-      >{{ percentage }}%</span
-    > -->
     <button
+      *ngIf="!fromRecipeDetails"
       type="button"
       class="group-hover:!text-white-500 outline-none"
       [ngStyle]="{

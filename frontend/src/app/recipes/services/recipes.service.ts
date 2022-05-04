@@ -35,7 +35,6 @@ export class RecipesService {
     return this.getRecipes({ profile_id: this.profileSelected, ...query });
   }
   getRecipes(query?: IQuery): Observable<any> {
-    console.info(query)
     return this.http
       .get(`${this.apiUrl}?${this.sharedService.formatQuery(query)}`)
       .pipe(

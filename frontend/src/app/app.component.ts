@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
-import { PhasesActions, ProfilesActions, UserActions } from './user/actions';
-import { ProfileSelectedService } from './user/services/profile-selected.service';
+import * as UserActions from './user/actions';
+import * as ProfilesActions from './profiles/actions';
+import * as PhasesActions from './phases/actions';
+import * as CompositionsActions from './compositions/actions';
+import * as PropertiesActions from './properties/actions';
+import { ProfileSelectedService } from './profiles/services/profile-selected.service';
 import { UserService } from './user/services/user.service';
 
 @Component({
@@ -13,11 +17,12 @@ import { UserService } from './user/services/user.service';
 })
 export class AppComponent {
   isLogged: boolean = false;
+  profileSelectedId!: number | undefined;
 
   constructor(
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
-    private router: Router,
+    private router: Router
   ) {
     this.store.select('auth').subscribe((data) => {
       if (
@@ -47,6 +52,7 @@ export class AppComponent {
     }
 
     this.store.select('profiles').subscribe((data) => {
+      this.profileSelectedId = data.selected;
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
@@ -58,19 +64,33 @@ export class AppComponent {
         this.profileSelectedService.setProfileSelected(data.profiles[0].id);
       }
 
-      if (!data.loading && data.loaded) {
+      if (data.loaded) {
         if (data.profiles.length > 0) {
           data.profiles.map((profile) => {
             if (profile.id && profile.phases === undefined) {
-              this.store.dispatch(
-                PhasesActions.getPhasesByProfile({ profile_id: profile.id })
-              );
+              // this.store.dispatch(
+              //   PhasesActions.getPhasesByProfile({ profile_id: profile.id })
+              // );
             }
           });
         } else {
-          console.info('navigating to profiles new')
-          this.router.navigateByUrl('profile/new')
+          this.router.navigateByUrl('profile/new');
         }
+      }
+
+      if (this.profileSelectedId !== data.selected && data.selected) {
+        this.profileSelectedId = data.selected;
+      }
+    });
+
+    this.store.select('phases').subscribe(({ phases }) => {
+      if (phases && this.profileSelectedId) {
+        // this.store.dispatch(
+        //   ProfilesActions.assignPhases({
+        //     profile_id: this.profileSelectedId,
+        //     phases,
+        //   })
+        // );
       }
     });
   }

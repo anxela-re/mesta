@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { UserService } from '../../services/user.service';
-import { ProfilesActions, UserActions } from '../../actions';
+import * as UserActions from '../../actions';
+import * as ProfilesActions from '../../../profiles/actions';
 import * as AuthActions from '../../../auth/actions';
 import { UserDTO } from '../../models/user.dto';
 import {
@@ -14,7 +15,7 @@ import {
 import { faSave, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
-import { ProfileDTO } from '../../models/profile.dto';
+import { ProfileDTO } from '../../../profiles/models/profile.dto';
 
 class ContactDTO {
   name!: string;
@@ -113,7 +114,7 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   onContact(): void {
-    console.info(this.contactForm);
+    // TODO
   }
 
   editProfile(profileId: number | undefined): void {

@@ -3,16 +3,17 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { PhasesActions, ProfilesActions } from '../actions';
+import * as ProfilesActions from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { ProfileDTO } from '../models/profile.dto';
 import { ProfileService } from '../services/profile.service';
-import { PhaseService } from '../services/phase.service';
+import { PhasesService } from 'src/app/phases/services/phases.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { PhaseDTO } from '../models/phase.dto';
+import { PhaseDTO } from '../../phases/models/phase.dto';
 import * as PropertiesActions from '../../properties/actions';
 import * as CompositionsActions from '../../compositions/actions';
+import * as PhasesActions from '../../phases/actions';
 
 @Injectable()
 export class ProfilesEffects {
@@ -80,14 +81,15 @@ export class ProfilesEffects {
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
             if (phases) {
-              phases.forEach((phase) => {
-                this.store.dispatch(
-                  PhasesActions.createPhase({
-                    phase: new PhaseDTO({ ...phase, profile_id: data.id }),
-                    profile_id: data.id,
-                  })
-                );
-              });
+              // TODO
+              // phases.forEach((phase) => {
+              //   this.store.dispatch(
+              //     PhasesActions.createPhase({
+              //       phase: new PhaseDTO({ ...phase, profile_id: data.id }),
+              //       profile_id: data.id,
+              //     })
+              //   );
+              // });
             }
             return ProfilesActions.createProfileSuccess({
               profile: profileDTO,
@@ -210,6 +212,11 @@ export class ProfilesEffects {
           );
           this.store.dispatch(
             CompositionsActions.getCompositionsByProfile({
+              profile_id: profileId,
+            })
+          );
+          this.store.dispatch(
+            PhasesActions.getPhasesByProfile({
               profile_id: profileId,
             })
           );

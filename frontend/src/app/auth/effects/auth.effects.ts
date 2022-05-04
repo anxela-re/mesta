@@ -8,7 +8,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { AuthService } from '../services/auth.service';
 import { AuthTokenDTO } from '../models/authToken.dto';
 import { TokenService } from '../services/token.service';
-import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
+import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
 @Injectable()
 export class AuthEffects {

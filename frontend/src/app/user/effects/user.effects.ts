@@ -3,12 +3,12 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
-import { UserActions } from '../actions';
+import * as UserActions from '../actions';
 import * as AuthActions from '../../auth/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from '../services/user.service';
 import { UserDTO } from '../models/user.dto';
-import { ProfileDTO } from '../models/profile.dto';
+import { ProfileDTO } from '../../profiles/models/profile.dto';
 
 @Injectable()
 export class UserEffects {

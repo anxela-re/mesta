@@ -18,7 +18,7 @@ import {
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import {
   CompositionDTO,
   IPhasesPercentage,
@@ -64,11 +64,16 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
   ) {
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
       if (selected) {
-        this.phases = profiles?.find((p) => p.id === selected)?.phases;
         this.profile_id = selected;
-        this.initForm();
       }
     });
+
+    this.store.select('phases').subscribe(({phases, loaded}) => {
+      if(loaded) {
+        this.phases = phases;
+        this.initForm();
+      }
+    })
 
     this.actions$
       .pipe(

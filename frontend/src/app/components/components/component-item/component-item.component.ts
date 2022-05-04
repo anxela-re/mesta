@@ -5,9 +5,11 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  OnChanges,
   OnInit,
   Output,
   Renderer2,
+  SimpleChange,
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -20,11 +22,12 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
-import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
+import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { ComponentDTO } from '../../models/component.dto';
 import { IChangePercentage } from '../components-phase/components-phase.component';
 import { ISelectProp } from '../components/components.component';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-component-item',
@@ -77,9 +80,9 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
   faMinus = faMinus;
   constructor(
     private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService,
     private renderer: Renderer2,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService
   ) {
     this.store.select('properties').subscribe((data) => {
       if (data.loaded) {
@@ -91,18 +94,13 @@ export class ComponentItemComponent implements OnInit, AfterViewInit {
     this.component.properties = this.component.properties?.map((prop) =>
       this.propertiesProfile.find((p) => p.id === prop)
     );
-
-    const profile = this.profileSelectedService.getProfileSelected();
-
-    this.phase = profile?.phases?.find(
-      (phase) => phase.id === this.component.phase_id
-    );
-
-    this.setBorder();
+    const phases = this.sharedService.getPhasesProfile();
+    this.phase = phases.find((p) => p.id === this.component.phase_id);
   }
 
   ngAfterViewInit(): void {
     this.setBorder();
+    this.setContainerStyle();
   }
 
   setContainerStyle(): void {

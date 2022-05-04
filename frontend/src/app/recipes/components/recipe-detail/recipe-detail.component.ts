@@ -58,7 +58,7 @@ export class RecipeDetailComponent implements OnInit {
         console.info(this.recipe, this.composition, this.properties);
         this.breadcrumbHistory = [
           {
-            name: 'Reecetas',
+            name: 'Recetas',
             navigateName: 'recipes',
           },
           {
@@ -70,7 +70,9 @@ export class RecipeDetailComponent implements OnInit {
     );
   }
 
-  edit(): void {}
+  edit(): void {
+    this.router.navigate(['recipes', 'formulation', this.recipe.id]);
+  }
 
   remove(): void {}
 }

@@ -10,9 +10,9 @@ import {
   faArrowRightFromBracket,
   faCogs,
 } from '@fortawesome/free-solid-svg-icons';
-import { ProfileDTO } from 'src/app/user/models/profile.dto';
-import { ProfilesActions } from 'src/app/user/actions';
-import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
+import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
+import * as ProfilesActions from 'src/app/profiles/actions';
+import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
 @Component({
   selector: 'app-header',

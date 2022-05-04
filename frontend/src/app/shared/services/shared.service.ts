@@ -4,12 +4,15 @@ import { Store } from '@ngrx/store';
 import { throwError } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
 import * as AuthActions from 'src/app/auth/actions';
+import * as CompositionsActions from 'src/app/compositions/actions';
+import * as PropertiesActions from 'src/app/properties/actions';
+import * as PhasesActions from 'src/app/phases/actions';
 import { TokenService } from 'src/app/auth/services/token.service';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
-import { ProfileDTO } from 'src/app/user/models/profile.dto';
-import { ProfileSelectedService } from 'src/app/user/services/profile-selected.service';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
+import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
+import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
 export type IQuery = {
   [key: string]: string | number | string[];
@@ -27,19 +30,15 @@ export class SharedService {
   phasesProfile!: PhaseDTO[];
   compositionsProfile!: CompositionDTO[];
   profileSelected!: ProfileDTO;
-  constructor(
-    private store: Store<AppState>,
-    private tokenService: TokenService,
-    private profileSelectedService: ProfileSelectedService
-  ) {
-    this.store.select('properties').subscribe((properties) => {
-      if (properties.loaded) {
-        this.propertiesProfile = properties.properties;
-      }
-    });
+  constructor(private store: Store<AppState>) {
 
     this.store.select('profiles').subscribe((profilesState) => {
-      if (profilesState.loaded && profilesState.selected) {
+      if (
+        (profilesState.loaded && profilesState.selected) ||
+        (this.profileSelectedId &&
+          profilesState.selected &&
+          this.profileSelectedId !== profilesState.selected)
+      ) {
         this.profileSelectedId = profilesState.selected;
         const profileFound = profilesState.profiles.find(
           (p) => p.id === profilesState.selected
@@ -47,15 +46,24 @@ export class SharedService {
         if (profileFound) {
           this.profileSelected = profileFound;
         }
-        this.phasesProfile =
-          profilesState.profiles.find((p) => p.id === profilesState.selected)
-            ?.phases || [];
+
+        
       }
     });
 
     this.store.select('compositions').subscribe((compositionsState) => {
       if (compositionsState.loaded) {
         this.compositionsProfile = compositionsState.compositions;
+      }
+    });
+    this.store.select('properties').subscribe((properties) => {
+      if (properties.loaded) {
+        this.propertiesProfile = properties.properties;
+      }
+    });
+    this.store.select('phases').subscribe((phasesState) => {
+      if (phasesState.loaded) {
+        this.phasesProfile = phasesState.phases;
       }
     });
   }
@@ -113,7 +121,6 @@ export class SharedService {
 
   formatQuery(query?: IQuery): string {
     let queryString = '';
-    console.info(query);
     if (query) {
       Object.keys(query).forEach((q) => {
         if (query[q] && query[q] !== '') {

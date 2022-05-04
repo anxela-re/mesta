@@ -1,5 +1,3 @@
-import { ProfileDTO } from './profile.dto';
-
 export class UserDTO {
   id?: number;
   access_token?: string;

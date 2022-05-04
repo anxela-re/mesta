@@ -1,6 +1,6 @@
 import { state } from '@angular/animations';
 import { Action, createReducer, on } from '@ngrx/store';
-import { UserActions } from '../actions';
+import * as UserActions from '../actions';
 import { UserDTO } from '../models/user.dto';
 
 export interface UserState {

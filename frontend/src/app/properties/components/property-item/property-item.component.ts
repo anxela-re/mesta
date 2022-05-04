@@ -94,7 +94,6 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
   }
 
   onPropertyChange(event: any): void {
-    console.info(event);
     this.edited = true;
     if (event?.target?.textContent) {
       this.propertyEdited = event?.target?.textContent;

@@ -1,8 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { PhasesActions, ProfilesActions } from '../actions';
-import { PhaseDTO } from '../models/phase.dto';
+import * as ProfilesActions from '../actions';
 import { ProfileDTO } from '../models/profile.dto';
-import { UserDTO } from '../models/user.dto';
+import { UserDTO } from '../../user/models/user.dto';
 
 export interface ProfilesState {
   profiles: ProfileDTO[];
@@ -110,106 +109,14 @@ const _userReducer = createReducer(
     loaded: false,
     error: { payload },
   })),
-  on(PhasesActions.getPhasesByProfile, (state) => ({
-    ...state,
-    loading: true,
-    loaded: false,
-    error: null,
-  })),
-  on(
-    PhasesActions.getPhasesByProfileSuccess,
-    (state, { profile_id, phases = [] }) => ({
-      ...state,
-      profiles: state.profiles.map((profile) => {
-        if (profile.id === profile_id) {
-          profile.phases = phases;
-        }
-        return profile;
-      }),
-      loading: false,
-      loaded: true,
-      error: null,
-    })
-  ),
-  on(PhasesActions.getPhasesByProfileFailure, (state, { payload }) => ({
-    ...state,
-    loading: false,
-    loaded: false,
-    error: { payload },
-  })),
-  on(PhasesActions.createPhase, (state) => ({
-    ...state,
-    loading: true,
-    loaded: false,
-    error: null,
-  })),
-  on(PhasesActions.createPhaseSuccess, (state, { profile_id, phase }) => ({
+  on(ProfilesActions.assignPhases, (state, { profile_id, phases }) => ({
     ...state,
     profiles: state.profiles.map((profile) => {
-      if (profile.id === profile_id) {
-        profile.phases = [...(profile.phases || []), phase];
+      if (profile_id === profile.id) {
+        profile.phases = phases;
       }
       return profile;
     }),
-    loading: false,
-    loaded: true,
-    error: null,
-  })),
-  on(PhasesActions.createPhaseFailure, (state, { payload }) => ({
-    ...state,
-    loading: false,
-    loaded: false,
-    error: { payload },
-  })),
-  on(PhasesActions.updatePhase, (state) => ({
-    ...state,
-    loading: true,
-    loaded: false,
-    error: null,
-  })),
-  on(PhasesActions.updatePhaseSuccess, (state, { phaseId, phase }) => ({
-    ...state,
-    profiles: state.profiles.map((profile) => {
-      profile.phases = profile.phases?.map((currentPhase) => {
-        if (currentPhase.id === phaseId) {
-          return phase;
-        } else {
-          return currentPhase;
-        }
-      });
-      return profile;
-    }),
-    loading: false,
-    loaded: true,
-    error: null,
-  })),
-  on(PhasesActions.updatePhaseFailure, (state, { payload }) => ({
-    ...state,
-    loading: false,
-    loaded: false,
-    error: { payload },
-  })),
-  on(PhasesActions.deletePhase, (state) => ({
-    ...state,
-    loading: true,
-    loaded: false,
-    error: null,
-  })),
-  on(PhasesActions.deletePhaseSuccess, (state, { phaseId }) => ({
-    ...state,
-    profiles: state.profiles.map((profile) => ({
-      ...profile,
-      phases: profile.phases?.filter(({ id }) => id !== phaseId) || [],
-    })),
-    loading: false,
-    loaded: true,
-    error: null,
-  })),
-  on(PhasesActions.deletePhaseFailure, (state, { payload }) => ({
-    ...state,
-    loading: false,
-    loaded: false,
-    error: { payload },
   }))
 );
 

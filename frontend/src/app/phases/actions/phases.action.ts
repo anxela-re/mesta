@@ -3,28 +3,28 @@ import { createAction, props } from '@ngrx/store';
 import { PhaseDTO } from '../models/phase.dto';
 
 export const getPhasesByProfile = createAction(
-  '[Phases] Get Phases of the profile',
+  '[Phases] Get phases',
   props<{ profile_id: number }>()
 );
 
 export const getPhasesByProfileSuccess = createAction(
-  '[Phases] Get phases of the profile success',
-  props<{ profile_id: number; phases: PhaseDTO[] }>()
+  '[Phases] Get phases success',
+  props<{ phases: PhaseDTO[]; profile_id: number }>()
 );
 
 export const getPhasesByProfileFailure = createAction(
-  '[Phases] Get phases of the profile failure',
+  '[Phases] Get phases failure',
   props<{ payload: HttpErrorResponse }>()
 );
 
 export const createPhase = createAction(
   '[Phases] Create phase',
-  props<{ phase: PhaseDTO; profile_id: number }>()
+  props<{ phase: PhaseDTO }>()
 );
 
 export const createPhaseSuccess = createAction(
   '[Phases] Create phase success',
-  props<{ phase: PhaseDTO; profile_id: number }>()
+  props<{ phase: PhaseDTO }>()
 );
 
 export const createPhaseFailure = createAction(
@@ -34,12 +34,12 @@ export const createPhaseFailure = createAction(
 
 export const updatePhase = createAction(
   '[Phases] Update phase',
-  props<{ phase: PhaseDTO; phaseId: number }>()
+  props<{ phase: PhaseDTO }>()
 );
 
 export const updatePhaseSuccess = createAction(
   '[Phases] Update phase success',
-  props<{ phase: PhaseDTO; phaseId: number }>()
+  props<{ phase: PhaseDTO }>()
 );
 
 export const updatePhaseFailure = createAction(

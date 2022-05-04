@@ -12,13 +12,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { getComponents } from 'src/app/components/actions/components.action';
 import { ComponentDTO } from 'src/app/components/models/component.dto';
-import { ComponentsService } from 'src/app/components/services/components.service';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { RecipeDTO } from '../../models/recipe.dto';
 import { RecipesService } from '../../services/recipes.service';
 export function additionValidator(value: number): ValidatorFn {
@@ -64,8 +62,12 @@ export class FormulationComponent implements OnInit {
 
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
       if (selected) {
-        this.phases = profiles?.find((p) => p.id === selected)?.phases;
         this.profile_id = selected;
+      }
+    });
+    this.store.select('phases').subscribe(({ phases, loaded }) => {
+      if (loaded) {
+        this.phases = phases;
       }
     });
     this.store.select('properties').subscribe(({ properties, loaded }) => {
@@ -78,6 +80,12 @@ export class FormulationComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.recipeId) {
+      this.recipesService
+        .getRecipes({ id: this.recipeId })
+        .subscribe((items) => {
+          this.recipe = items[0];
+          this.initForm();
+        });
     } else {
       this.recipe = new RecipeDTO({
         profile_id: this.profile_id,
@@ -143,21 +151,20 @@ export class FormulationComponent implements OnInit {
     this.selectedComposition = composition;
     this.formulationForm.patchValue({ composition_id: composition.id });
   }
-
-  onSelectComponent(components: ComponentDTO[]): void {
-    console.info(components);
-  }
   onSubmit(): void {
     if (this.formulationForm.invalid) {
       return;
     }
 
     const formValue = Object.assign({}, this.formulationForm.value);
+
+    console.info(formValue);
     this.recipe = {
       ...this.recipe,
       ...this.formulationForm.value,
       components: formValue.components.map((c: any) => ({
-        component_id: c.component.id,
+        component_id:
+          c.component && c.component.id ? c.component.id : c.component_id,
         percentage: c.percentage,
       })),
       properties: formValue.components
@@ -166,10 +173,9 @@ export class FormulationComponent implements OnInit {
         .filter((v: any, i: number, arr: any[]) => arr.indexOf(v) === i),
     };
 
-    console.info(this.recipe);
     if (this.recipeId) {
-      console.info('update', this.recipe);
       // TODO update
+      console.info(this.recipe);
     } else {
       this.recipesService
         .createRecipe(this.recipe)

@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -8,7 +14,7 @@ import {
 } from '@angular/forms';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 
 export interface IChangePercentage {
@@ -61,28 +67,26 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    console.info(this.fromRecipeDetails)
     if (this.fromFormulation || this.fromRecipeDetails) {
       this.initForm();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      if(changes.percentage) {
-        console.info(changes.percentage)
-        this.initForm();
-        this.phaseComponentsForm.reset();
-      }
+    if (changes.percentage) {
+      this.initForm();
+      this.phaseComponentsForm.reset();
+    }
   }
 
   initForm(): void {
     this.phaseComponentsForm = this.fb.array(
-      this.recipeComponents.map(({ component_id, percentage }) =>
-        this.fb.group({
+      this.recipeComponents.map(({ component_id, percentage }) => {
+        return this.fb.group({
           component_id: component_id,
           percentage: percentage,
-        })
-      ),
+        });
+      }),
       maxAddition(this.percentage)
     );
   }
@@ -92,8 +96,9 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     formArray: FormArray
   ): void {
     const found = formArray.value.find(
-      (v: any) => v.component.id === component.id
+      (v: any) => v.component?.id === component.id
     );
+    console.info(found);
     if (found) {
       const index = formArray.value.indexOf(found);
       if (percentage === 0) {
@@ -114,5 +119,15 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       { percentage, component },
       this.componentArrayControl
     );
+  }
+
+  getPercentageByComponentId(componentId: number | undefined): number {
+    if (componentId) {
+      const found = this.phaseComponentsForm.value.find(
+        (v: any) => v.component_id === componentId
+      );
+      return found && found.percentage ? found.percentage : 0;
+    }
+    return 0;
   }
 }

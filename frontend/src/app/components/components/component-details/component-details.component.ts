@@ -10,7 +10,7 @@ import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { PhaseDTO } from 'src/app/user/models/phase.dto';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
 
@@ -47,10 +47,9 @@ export class ComponentDetailsComponent implements OnInit {
       this.router.navigate(['components']);
     }
 
-    this.store.select('profiles').subscribe(({ profiles, selected }) => {
-      if (selected) {
-        this.phases = profiles?.find((p) => p.id === selected)?.phases;
-        this.profile_id = selected;
+    this.store.select('phases').subscribe(({ phases, loaded }) => {
+      if (loaded) {
+        this.phases = phases;
         this.updatePhase();
       }
     });
@@ -64,7 +63,6 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
     this.componentsService.getComponents({ id: this.id }).subscribe(
       (data) => {
         this.component = data[0];
@@ -101,7 +99,6 @@ export class ComponentDetailsComponent implements OnInit {
         }
       });
       this.properties = props;
-      console.info(this.properties);
     }
   }
 
