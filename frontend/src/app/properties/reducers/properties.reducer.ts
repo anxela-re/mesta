@@ -114,14 +114,10 @@ const _propertiesReducer = createReducer(
     loading: false,
     error: { payload },
   })),
-  on(assignCurrentProperties, (state, { properties }) => {
-    console.info(properties)
-    console.info({...state, properties: properties})
-    return {
-      ...state,
-      properties: properties,
-    };
-  })
+  on(assignCurrentProperties, (state, { properties }) => ({
+    ...state,
+    properties: properties,
+  }))
 );
 
 export function propertiesReducer(

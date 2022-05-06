@@ -14,11 +14,12 @@ class ComponentController extends Controller
     public function get(Request $request)
     {
         $query = $request->query();
+        $ids = $request->query('ids');
         $select = $request->query('select');
         $formatQuery = [];
 
         foreach ($query as $key => $value) {
-            if ($key !== 'select') {
+            if ($key !== 'select' && $key !== 'ids') {
                 if ($key === 'name') {
                     array_push($formatQuery, [$key, 'like', $value]);
                 } else {
@@ -27,12 +28,28 @@ class ComponentController extends Controller
             }
         }
 
+        if ($ids) {
+            $idsArray = array_map('intval', explode(',', $ids));
+            $dataId = Component::whereIn('id', $idsArray);
+        }
         if ($select) {
             $selectValues = explode(',', $select);
-            $data = Component::where($formatQuery)->select($selectValues)->get();
+
+            if ($ids) {
+                $idsArray = array_map('intval', explode(',', $ids));
+                $data = Component::where($formatQuery)->whereIn('id', $idsArray)->select($selectValues)->get();
+            } else {
+                $data = Component::where($formatQuery)->select($selectValues)->get();
+            }
         } else {
-            $data = Component::where($formatQuery)->get();
+            if ($ids) {
+                $idsArray = array_map('intval', explode(',', $ids));
+                $data = Component::where($formatQuery)->whereIn('id', $idsArray)->get();
+            } else {
+                $data = Component::where($formatQuery)->get();
+            }
         }
+
 
         return response(['message' => 'Components successfully retrieved', 'items' => $data], 200);
     }

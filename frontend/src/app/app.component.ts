@@ -17,6 +17,7 @@ import { ProfileDTO } from './profiles/models/profile.dto';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title: string = 'testa-revolta-front';
   isLogged: boolean = false;
   profileSelectedId!: number | undefined;
 
@@ -41,20 +42,6 @@ export class AppComponent {
         this.isLogged = true;
       }
     });
-    // const profileSelectedStored =
-    //   this.profileSelectedService.getProfileSelectedStored();
-    // if (profileSelectedStored && data.loaded && data.profiles && !data.selected) {
-    //   const found = data.profiles.find(
-    //     ({ id }) => id === profileSelectedStored
-    //   );
-    //   if (found) {
-    //     this.store.dispatch(
-    //       ProfilesActions.selectProfile({
-    //         profile: found,
-    //       })
-    //     );
-    //   }
-    // }
 
     this.store.select('profiles').subscribe((data) => {
       this.profileSelectedId = data.selected;
@@ -81,9 +68,9 @@ export class AppComponent {
         if (data.profiles.length > 0) {
           data.profiles.map((profile) => {
             if (profile.id && profile.phases === undefined) {
-              // this.store.dispatch(
-              //   PhasesActions.getPhasesByProfile({ profile_id: profile.id })
-              // );
+              this.store.dispatch(
+                PhasesActions.getPhasesByProfile({ profile_id: profile.id })
+              );
             }
           });
         } else {

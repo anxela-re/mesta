@@ -63,6 +63,13 @@ export class PhasesEffects {
           this.store.dispatch(
             profilesActions.assignPhases({ profile_id, phases })
           );
+          this.store.select('profiles').subscribe(({ selected }) => {
+            if (selected === profile_id) {
+              this.store.dispatch(
+                phasesActions.assignCurrentPhases({ phases })
+              );
+            }
+          });
         })
       ),
     { dispatch: false }
@@ -225,7 +232,7 @@ export class PhasesEffects {
         map(({ profile_id }) => {
           this.responseOK = true;
           this.store.select('phases').subscribe(({ phases }) => {
-            console.info(phases)
+            console.info(phases);
             this.store.dispatch(
               profilesActions.assignPhases({ profile_id, phases })
             );

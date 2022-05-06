@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -9,6 +16,7 @@ import {
   distinctUntilChanged,
   startWith,
   switchMap,
+  takeUntil,
 } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IPhasesPercentage } from 'src/app/compositions/models/composition.dto';
@@ -26,7 +34,7 @@ export interface ISelectProp {
   templateUrl: './components.component.html',
   styleUrls: ['./components.component.scss'],
 })
-export class ComponentsComponent implements OnInit {
+export class ComponentsComponent implements OnInit, OnDestroy {
   @Input()
   fromFormulation: boolean = false;
 
@@ -49,6 +57,9 @@ export class ComponentsComponent implements OnInit {
 
   phases: PhaseDTO[] | undefined;
 
+  @Input()
+  defaultQuery?: any;
+
   components$: Observable<ComponentDTO[]> | undefined;
   components: ComponentDTO[] = [];
   selectedComponents: ComponentDTO[] = [];
@@ -58,6 +69,8 @@ export class ComponentsComponent implements OnInit {
   private reloadList: Subject<any> = new Subject();
 
   faPlus = faPlus;
+
+  private unsubscribe$ = new Subject<void>();
   constructor(
     private componentsService: ComponentsService,
     private router: Router,
@@ -69,39 +82,51 @@ export class ComponentsComponent implements OnInit {
       }
     });
 
-    this.store.select('phases').subscribe(({ phases, loaded }) => {
-      if (loaded) {
-        this.phases = phases;
-        this.reloadList.next();
-      }
-    });
+    this.store
+      .select('phases')
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(({ phases, loaded }) => {
+        if (loaded) {
+          this.phases = phases;
+          this.reloadList.next();
+        }
+      });
   }
 
   ngOnInit(): void {
     this.components$ = merge(
       this.reloadList.pipe(
-        switchMap(() =>
-          this.componentsService.getComponents({
+        switchMap(() => {
+          console.info('blabla');
+          return this.componentsService.getComponents({
             profile_id: this.selectedProfileId,
-          })
-        )
+            ...this.defaultQuery,
+          });
+        })
       ),
       this.searchSubject.pipe(
         startWith(this.searchTerm),
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(() =>
-          this.componentsService.getComponents({
+        switchMap(() => {
+          console.info('ggg');
+          return this.componentsService.getComponents({
             profile_id: this.selectedProfileId,
             name: `%${this.searchTerm}%`,
             select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
-          })
-        )
+            ...this.defaultQuery,
+          });
+        })
       )
     );
     this.components$.subscribe((data) => {
       this.components = data;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
   createComponent(): void {

@@ -1,22 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  exhaustMap,
-  finalize,
-  map,
-  subscribeOn,
-} from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as ProfilesActions from '../actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { ProfileDTO } from '../models/profile.dto';
 import { ProfileService } from '../services/profile.service';
-import { PhasesService } from 'src/app/phases/services/phases.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { PhaseDTO } from '../../phases/models/phase.dto';
 import * as PropertiesActions from '../../properties/actions';
 import * as CompositionsActions from '../../compositions/actions';
 import * as PhasesActions from '../../phases/actions';
@@ -213,6 +205,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.selectProfile),
         map(({ profile }) => {
+          this.router.navigateByUrl('recipes');
           if (profile?.id && !profile.compositions) {
             this.store.dispatch(
               CompositionsActions.getCompositionsByProfile({

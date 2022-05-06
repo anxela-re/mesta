@@ -40,7 +40,6 @@ const _phasesReducer = createReducer(
   })),
   on(getPhasesByProfileSuccess, (state, { phases }) => ({
     ...state,
-    phases: phases,
     loaded: true,
     loading: false,
     error: null,

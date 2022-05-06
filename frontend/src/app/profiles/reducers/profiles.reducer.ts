@@ -129,7 +129,6 @@ const _userReducer = createReducer(
       if (profile_id === profile.id) {
         profile.properties = properties;
       }
-      console.info(profile_id, profile_id === profile.id, properties)
       return profile;
     }),
   })),

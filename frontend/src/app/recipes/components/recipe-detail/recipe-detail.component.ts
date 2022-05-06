@@ -75,4 +75,10 @@ export class RecipeDetailComponent implements OnInit {
   }
 
   remove(): void {}
+
+  getDefaultQueryComponents() {
+    return {
+      ids: this.recipe.components.map((c) => c.component_id).join(','),
+    };
+  }
 }
