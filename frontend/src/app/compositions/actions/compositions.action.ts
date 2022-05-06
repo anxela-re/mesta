@@ -9,7 +9,7 @@ export const getCompositionsByProfile = createAction(
   
   export const getCompositionsByProfileSuccess = createAction(
     '[Compositions] Get compositions success',
-    props<{ compositions: CompositionDTO[] }>()
+    props<{ compositions: CompositionDTO[], profile_id: number }>()
   );
   
   export const getCompositionsByProfileFailure = createAction(
@@ -24,7 +24,7 @@ export const getCompositionsByProfile = createAction(
   
   export const createCompositionSuccess = createAction(
     '[Compositions] Create composition success',
-    props<{ composition: CompositionDTO }>()
+    props<{ composition: CompositionDTO, profile_id: number }>()
   );
   
   export const createCompositionFailure = createAction(
@@ -39,7 +39,7 @@ export const getCompositionsByProfile = createAction(
   
   export const updateCompositionSuccess = createAction(
     '[Compositions] Update composition success',
-    props<{ composition: CompositionDTO }>()
+    props<{ composition: CompositionDTO, profile_id: number }>()
   );
   
   export const updateCompositionFailure = createAction(
@@ -49,12 +49,12 @@ export const getCompositionsByProfile = createAction(
   
   export const deleteComposition = createAction(
     '[Compositions] Delete composition',
-    props<{ compositionId: number }>()
+    props<{ compositionId: number; profile_id: number }>()
   );
   
   export const deleteCompositionSuccess = createAction(
     '[Compositions] Delete composition success',
-    props<{ compositionId: number }>()
+    props<{ compositionId: number; profile_id: number }>()
   );
   
   export const deleteCompositionFailure = createAction(
@@ -62,3 +62,8 @@ export const getCompositionsByProfile = createAction(
     props<{ payload: HttpErrorResponse }>()
   );
   
+
+export const assignCurrentCompositions = createAction(
+  '[Phases] Assign current profile compositions',
+  props<{ compositions: CompositionDTO[] }>()
+);

@@ -12,6 +12,7 @@ import {
   updatePhase,
   updatePhaseFailure,
   updatePhaseSuccess,
+  assignCurrentPhases,
 } from '../actions';
 import { PhaseDTO } from '../models/phase.dto';
 
@@ -50,13 +51,13 @@ const _phasesReducer = createReducer(
     loading: false,
     error: { payload },
   })),
-  on(createPhase, (state, { phase }) => ({
+  on(createPhase, (state) => ({
     ...state,
     loaded: false,
     loading: true,
     error: null,
   })),
-  on(createPhaseSuccess, (state, { phase }) => ({
+  on(createPhaseSuccess, (state, { phase, profile_id }) => ({
     ...state,
     phases: [...state.phases, phase],
     loaded: true,
@@ -75,7 +76,7 @@ const _phasesReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(updatePhaseSuccess, (state, { phase }) => ({
+  on(updatePhaseSuccess, (state, { phase, profile_id }) => ({
     ...state,
     phases: state.phases.map((prop) => {
       if (prop.id === phase.id) {
@@ -100,7 +101,7 @@ const _phasesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(deletePhaseSuccess, (state, { phaseId }) => ({
+  on(deletePhaseSuccess, (state, { phaseId, profile_id }) => ({
     ...state,
     phases: state.phases.filter((prop) => prop.id !== phaseId),
     loaded: true,
@@ -112,6 +113,10 @@ const _phasesReducer = createReducer(
     loaded: false,
     loading: false,
     error: { payload },
+  })),
+  on(assignCurrentPhases, (state, { phases }) => ({
+    ...state,
+    phases: phases,
   }))
 );
 

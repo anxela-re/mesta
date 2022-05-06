@@ -41,10 +41,15 @@ export class CompositionItemComponent implements OnInit {
 
   deleteComposition(event: MouseEvent): void {
     event?.stopPropagation();
-    if (this.composition && this.composition.id) {
+    if (
+      this.composition &&
+      this.composition.id &&
+      this.composition.profile_id
+    ) {
       this.store.dispatch(
         compositionsActions.deleteComposition({
           compositionId: this.composition.id,
+          profile_id: this.composition.profile_id,
         })
       );
     }

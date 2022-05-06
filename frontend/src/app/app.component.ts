@@ -9,6 +9,7 @@ import * as CompositionsActions from './compositions/actions';
 import * as PropertiesActions from './properties/actions';
 import { ProfileSelectedService } from './profiles/services/profile-selected.service';
 import { UserService } from './user/services/user.service';
+import { ProfileDTO } from './profiles/models/profile.dto';
 
 @Component({
   selector: 'app-root',
@@ -40,16 +41,20 @@ export class AppComponent {
         this.isLogged = true;
       }
     });
-
-    const profileSelectedStored =
-      this.profileSelectedService.getProfileSelectedStored();
-    if (profileSelectedStored) {
-      this.store.dispatch(
-        ProfilesActions.selectProfile({
-          profileId: profileSelectedStored,
-        })
-      );
-    }
+    // const profileSelectedStored =
+    //   this.profileSelectedService.getProfileSelectedStored();
+    // if (profileSelectedStored && data.loaded && data.profiles && !data.selected) {
+    //   const found = data.profiles.find(
+    //     ({ id }) => id === profileSelectedStored
+    //   );
+    //   if (found) {
+    //     this.store.dispatch(
+    //       ProfilesActions.selectProfile({
+    //         profile: found,
+    //       })
+    //     );
+    //   }
+    // }
 
     this.store.select('profiles').subscribe((data) => {
       this.profileSelectedId = data.selected;
@@ -58,8 +63,16 @@ export class AppComponent {
         data.profiles.length > 0 &&
         data.profiles[0].id
       ) {
+        const profileSelectedStored =
+          this.profileSelectedService.getProfileSelectedStored();
+        let found = undefined;
+        if (profileSelectedStored) {
+          found = data.profiles.find(({ id }) => id === profileSelectedStored);
+        }
         this.store.dispatch(
-          ProfilesActions.selectProfile({ profileId: data.profiles[0].id })
+          ProfilesActions.selectProfile({
+            profile: found ? found : data.profiles[0],
+          })
         );
         this.profileSelectedService.setProfileSelected(data.profiles[0].id);
       }
@@ -80,17 +93,6 @@ export class AppComponent {
 
       if (this.profileSelectedId !== data.selected && data.selected) {
         this.profileSelectedId = data.selected;
-      }
-    });
-
-    this.store.select('phases').subscribe(({ phases }) => {
-      if (phases && this.profileSelectedId) {
-        // this.store.dispatch(
-        //   ProfilesActions.assignPhases({
-        //     profile_id: this.profileSelectedId,
-        //     phases,
-        //   })
-        // );
       }
     });
   }

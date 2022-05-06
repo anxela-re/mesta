@@ -12,6 +12,7 @@ import {
   updateProperty,
   updatePropertyFailure,
   updatePropertySuccess,
+  assignCurrentProperties,
 } from '../actions';
 import { PropertyDTO } from '../models/property.dto';
 
@@ -37,7 +38,7 @@ const _propertiesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(getPropertiesByProfileSuccess, (state, { properties }) => ({
+  on(getPropertiesByProfileSuccess, (state, { properties, profile_id }) => ({
     ...state,
     properties: properties,
     loaded: true,
@@ -56,7 +57,7 @@ const _propertiesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(createPropertySuccess, (state, { property }) => ({
+  on(createPropertySuccess, (state, { property, profile_id }) => ({
     ...state,
     properties: [...state.properties, property],
     loaded: true,
@@ -75,7 +76,7 @@ const _propertiesReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(updatePropertySuccess, (state, { property }) => ({
+  on(updatePropertySuccess, (state, { property, profile_id }) => ({
     ...state,
     properties: state.properties.map((prop) => {
       if (prop.id === property.id) {
@@ -100,7 +101,7 @@ const _propertiesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(deletePropertySuccess, (state, { propertyId }) => ({
+  on(deletePropertySuccess, (state, { propertyId, profile_id }) => ({
     ...state,
     properties: state.properties.filter((prop) => prop.id !== propertyId),
     loaded: true,
@@ -112,7 +113,15 @@ const _propertiesReducer = createReducer(
     loaded: false,
     loading: false,
     error: { payload },
-  }))
+  })),
+  on(assignCurrentProperties, (state, { properties }) => {
+    console.info(properties)
+    console.info({...state, properties: properties})
+    return {
+      ...state,
+      properties: properties,
+    };
+  })
 );
 
 export function propertiesReducer(

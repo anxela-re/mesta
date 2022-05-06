@@ -71,7 +71,7 @@ class PhaseController extends Controller
                 'color' => $request->color,
                 'profile_id' => $request->profile_id,
             ]);
-        $current = Profile::where('id', $id)->get()->first();
+        $current = Phase::where('id', $id)->get()->first();
 
         return response(['message' => 'Phase succesfully updated', 'data' => $current], 200);
     }

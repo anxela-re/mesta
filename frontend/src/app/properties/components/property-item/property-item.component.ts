@@ -48,10 +48,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject<void>();
 
-  constructor(
-    private store: Store<AppState>,
-    private actions$: Actions
-  ) {
+  constructor(private store: Store<AppState>, private actions$: Actions) {
     this.actions$
       .pipe(
         ofType(propertiesActions.updatePropertySuccess),
@@ -99,7 +96,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
       this.propertyEdited = event?.target?.textContent;
     }
   }
-  
+
   onSaveEdition(event: MouseEvent): void {
     event.stopPropagation();
     if (this.edited) {
@@ -112,9 +109,12 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
   }
   onDeleteProperty(event: MouseEvent): void {
     event.stopPropagation();
-    if (this.editing && this.property.id) {
+    if (this.editing && this.property.id && this.property.profile_id) {
       this.store.dispatch(
-        propertiesActions.deleteProperty({ propertyId: this.property.id })
+        propertiesActions.deleteProperty({
+          propertyId: this.property.id,
+          profile_id: this.property.profile_id,
+        })
       );
     }
   }

@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  finalize,
+  map,
+  subscribeOn,
+} from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as ProfilesActions from '../actions';
@@ -206,20 +212,46 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.selectProfile),
-        map(({ profileId }) => {
-          this.store.dispatch(
-            PropertiesActions.getPropertiesByProfile({ profile_id: profileId })
-          );
-          this.store.dispatch(
-            CompositionsActions.getCompositionsByProfile({
-              profile_id: profileId,
-            })
-          );
-          this.store.dispatch(
-            PhasesActions.getPhasesByProfile({
-              profile_id: profileId,
-            })
-          );
+        map(({ profile }) => {
+          if (profile?.id && !profile.compositions) {
+            this.store.dispatch(
+              CompositionsActions.getCompositionsByProfile({
+                profile_id: profile.id,
+              })
+            );
+          } else {
+            this.store.dispatch(
+              CompositionsActions.assignCurrentCompositions({
+                compositions: profile.compositions || [],
+              })
+            );
+          }
+          if (profile?.id && !profile.properties) {
+            this.store.dispatch(
+              PropertiesActions.getPropertiesByProfile({
+                profile_id: profile.id,
+              })
+            );
+          } else {
+            this.store.dispatch(
+              PropertiesActions.assignCurrentProperties({
+                properties: profile.properties || [],
+              })
+            );
+          }
+          if (profile?.id && !profile.phases) {
+            this.store.dispatch(
+              PhasesActions.getPhasesByProfile({
+                profile_id: profile.id,
+              })
+            );
+          } else {
+            this.store.dispatch(
+              PhasesActions.assignCurrentPhases({
+                phases: profile.phases || [],
+              })
+            );
+          }
         })
       ),
     { dispatch: false }

@@ -12,6 +12,7 @@ import {
   updateComposition,
   updateCompositionFailure,
   updateCompositionSuccess,
+  assignCurrentCompositions,
 } from '../actions';
 import { CompositionDTO } from '../models/composition.dto';
 
@@ -38,7 +39,7 @@ const _compositionsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(getCompositionsByProfileSuccess, (state, { compositions }) => ({
+  on(getCompositionsByProfileSuccess, (state, { compositions, profile_id }) => ({
     ...state,
     compositions: compositions,
     loaded: true,
@@ -113,6 +114,10 @@ const _compositionsReducer = createReducer(
     loaded: false,
     loading: false,
     error: { payload },
+  })),
+  on(assignCurrentCompositions, (state, { compositions }) => ({
+    ...state,
+    compositions: compositions,
   }))
 );
 

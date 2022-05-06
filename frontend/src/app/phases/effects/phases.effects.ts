@@ -7,6 +7,8 @@ import * as phasesActions from '../actions';
 import * as profilesActions from '../../profiles/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { PhasesService } from '../services/phases.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class PhasesEffects {
@@ -17,7 +19,8 @@ export class PhasesEffects {
     private actions$: Actions,
     private phasesService: PhasesService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private store: Store<AppState>
   ) {
     this.responseOK = false;
   }
@@ -55,8 +58,11 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.getPhasesByProfileSuccess),
-        map(() => {
+        map(({ phases, profile_id }) => {
           this.responseOK = true;
+          this.store.dispatch(
+            profilesActions.assignPhases({ profile_id, phases })
+          );
         })
       ),
     { dispatch: false }
@@ -82,6 +88,7 @@ export class PhasesEffects {
           map((data) => {
             return phasesActions.createPhaseSuccess({
               phase: data.data,
+              profile_id: data.data.profile_id,
             });
           }),
           catchError((error) => {
@@ -103,8 +110,15 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.createPhaseSuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store
+            .select('phases')
+            .subscribe(({ phases }) =>
+              this.store.dispatch(
+                profilesActions.assignPhases({ profile_id, phases })
+              )
+            );
         })
       ),
     { dispatch: false }
@@ -130,6 +144,7 @@ export class PhasesEffects {
           map((data) => {
             return phasesActions.updatePhaseSuccess({
               phase: data.data,
+              profile_id: data.data.profile_id,
             });
           }),
           catchError((error) => {
@@ -151,8 +166,15 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseSuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store
+            .select('phases')
+            .subscribe(({ phases }) =>
+              this.store.dispatch(
+                profilesActions.assignPhases({ profile_id, phases })
+              )
+            );
         })
       ),
     { dispatch: false }
@@ -173,11 +195,12 @@ export class PhasesEffects {
   deletePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.deletePhase),
-      exhaustMap(({ phaseId }) =>
+      exhaustMap(({ phaseId, profile_id }) =>
         this.phasesService.deletePhase(phaseId).pipe(
           map(() => {
             return phasesActions.deletePhaseSuccess({
               phaseId: phaseId,
+              profile_id: profile_id,
             });
           }),
           catchError((error) => {
@@ -199,8 +222,14 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseSuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('phases').subscribe(({ phases }) => {
+            console.info(phases)
+            this.store.dispatch(
+              profilesActions.assignPhases({ profile_id, phases })
+            );
+          });
         })
       ),
     { dispatch: false }

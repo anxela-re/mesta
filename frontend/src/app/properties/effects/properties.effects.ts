@@ -4,8 +4,11 @@ import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as propertiesActions from '../actions';
+import * as profilesActions from '../../profiles/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { PropertiesService } from '../services/properties.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class PropertiesEffects {
@@ -16,7 +19,8 @@ export class PropertiesEffects {
     private actions$: Actions,
     private propertiesService: PropertiesService,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private store: Store<AppState>
   ) {
     this.responseOK = false;
   }
@@ -28,6 +32,7 @@ export class PropertiesEffects {
           map((data) => {
             return propertiesActions.getPropertiesByProfileSuccess({
               properties: data,
+              profile_id,
             });
           }),
           catchError((error) => {
@@ -53,8 +58,11 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.getPropertiesByProfileSuccess),
-        map(() => {
+        map(({ profile_id, properties }) => {
           this.responseOK = true;
+          this.store.dispatch(
+            profilesActions.assignProperties({ profile_id, properties })
+          );
         })
       ),
     { dispatch: false }
@@ -80,6 +88,7 @@ export class PropertiesEffects {
           map((data) => {
             return propertiesActions.createPropertySuccess({
               property: data.data,
+              profile_id: data.data.profile_id,
             });
           }),
           catchError((error) => {
@@ -103,8 +112,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.createPropertySuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('properties').subscribe(({ properties }) => {
+            this.store.dispatch(
+              profilesActions.assignProperties({ profile_id, properties })
+            );
+          });
         })
       ),
     { dispatch: false }
@@ -130,6 +144,7 @@ export class PropertiesEffects {
           map((data) => {
             return propertiesActions.updatePropertySuccess({
               property: data.data,
+              profile_id: data.data.profile_id,
             });
           }),
           catchError((error) => {
@@ -153,8 +168,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.updatePropertySuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('properties').subscribe(({ properties }) => {
+            this.store.dispatch(
+              profilesActions.assignProperties({ profile_id, properties })
+            );
+          });
         })
       ),
     { dispatch: false }
@@ -175,11 +195,12 @@ export class PropertiesEffects {
   deleteProperty$ = createEffect(() =>
     this.actions$.pipe(
       ofType(propertiesActions.deleteProperty),
-      exhaustMap(({ propertyId }) =>
+      exhaustMap(({ propertyId, profile_id }) =>
         this.propertiesService.deleteProperty(propertyId).pipe(
           map(() => {
             return propertiesActions.deletePropertySuccess({
               propertyId: propertyId,
+              profile_id,
             });
           }),
           catchError((error) => {
@@ -203,8 +224,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.deletePropertySuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('properties').subscribe(({ properties }) => {
+            this.store.dispatch(
+              profilesActions.assignProperties({ profile_id, properties })
+            );
+          });
         })
       ),
     { dispatch: false }

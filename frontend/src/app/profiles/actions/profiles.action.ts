@@ -1,5 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
+import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { PhaseDTO } from '../../phases/models/phase.dto';
 import { ProfileDTO } from '../models/profile.dto';
 
@@ -65,9 +67,17 @@ export const deleteProfileFailure = createAction(
 
 export const selectProfile = createAction(
   '[Profiles] Select profile',
-  props<{ profileId: number }>()
+  props<{ profile: ProfileDTO }>()
 );
 export const assignPhases = createAction(
   '[Profiles] Assign phases',
   props<{ profile_id: number; phases: PhaseDTO[] }>()
+);
+export const assignProperties = createAction(
+  '[Profiles] Assign properties',
+  props<{ profile_id: number; properties: PropertyDTO[] }>()
+);
+export const assignCompositions = createAction(
+  '[Profiles] Assign compositions',
+  props<{ profile_id: number; compositions: CompositionDTO[] }>()
 );

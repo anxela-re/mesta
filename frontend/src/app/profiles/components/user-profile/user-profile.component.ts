@@ -178,8 +178,13 @@ export class UserProfileComponent implements OnInit {
       };
       if (phasesToDelete) {
         phasesToDelete.forEach((p: PhaseDTO) => {
-          if (p.id) {
-            this.store.dispatch(PhasesActions.deletePhase({ phaseId: p.id }));
+          if (p.id && this.profile.id) {
+            this.store.dispatch(
+              PhasesActions.deletePhase({
+                phaseId: p.id,
+                profile_id: this.profile.id,
+              })
+            );
           }
         });
       }

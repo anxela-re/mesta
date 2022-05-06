@@ -98,7 +98,6 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     const found = formArray.value.find(
       (v: any) => v.component?.id === component.id
     );
-    console.info(found);
     if (found) {
       const index = formArray.value.indexOf(found);
       if (percentage === 0) {

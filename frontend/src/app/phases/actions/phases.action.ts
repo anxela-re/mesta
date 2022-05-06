@@ -24,7 +24,7 @@ export const createPhase = createAction(
 
 export const createPhaseSuccess = createAction(
   '[Phases] Create phase success',
-  props<{ phase: PhaseDTO }>()
+  props<{ phase: PhaseDTO; profile_id: number }>()
 );
 
 export const createPhaseFailure = createAction(
@@ -39,7 +39,7 @@ export const updatePhase = createAction(
 
 export const updatePhaseSuccess = createAction(
   '[Phases] Update phase success',
-  props<{ phase: PhaseDTO }>()
+  props<{ phase: PhaseDTO; profile_id: number }>()
 );
 
 export const updatePhaseFailure = createAction(
@@ -49,15 +49,20 @@ export const updatePhaseFailure = createAction(
 
 export const deletePhase = createAction(
   '[Phases] Delete phase',
-  props<{ phaseId: number }>()
+  props<{ phaseId: number; profile_id: number }>()
 );
 
 export const deletePhaseSuccess = createAction(
   '[Phases] Delete phase success',
-  props<{ phaseId: number }>()
+  props<{ phaseId: number; profile_id: number }>()
 );
 
 export const deletePhaseFailure = createAction(
   '[Phases] Delete phase failure',
   props<{ payload: HttpErrorResponse }>()
+);
+
+export const assignCurrentPhases = createAction(
+  '[Phases] Assign current profile phases',
+  props<{ phases: PhaseDTO[] }>()
 );

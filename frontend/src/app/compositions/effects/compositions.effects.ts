@@ -4,8 +4,11 @@ import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as compositionsActions from '../actions';
+import * as profilesActions from '../../profiles/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { CompositionsService } from '../services/compositions.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 @Injectable()
 export class CompositionsEffects {
   private responseOK: boolean;
@@ -14,7 +17,8 @@ export class CompositionsEffects {
   constructor(
     private actions$: Actions,
     private compositionsService: CompositionsService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private store: Store<AppState>
   ) {
     this.responseOK = false;
   }
@@ -26,6 +30,7 @@ export class CompositionsEffects {
           map((data) => {
             return compositionsActions.getCompositionsByProfileSuccess({
               compositions: data,
+              profile_id,
             });
           }),
           catchError((error) => {
@@ -51,8 +56,11 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.getCompositionsByProfileSuccess),
-        map(() => {
+        map(({ profile_id, compositions }) => {
           this.responseOK = true;
+          this.store.dispatch(
+            profilesActions.assignCompositions({ profile_id, compositions })
+          );
         })
       ),
     { dispatch: false }
@@ -78,6 +86,7 @@ export class CompositionsEffects {
           map((data) => {
             return compositionsActions.createCompositionSuccess({
               composition: data.data,
+              profile_id: data.data.profile_id,
             });
           }),
           catchError((error) => {
@@ -101,8 +110,13 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.createCompositionSuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('compositions').subscribe(({ compositions }) => {
+            this.store.dispatch(
+              profilesActions.assignCompositions({ profile_id, compositions })
+            );
+          });
         })
       ),
     { dispatch: false }
@@ -128,6 +142,7 @@ export class CompositionsEffects {
           map((data) => {
             return compositionsActions.updateCompositionSuccess({
               composition: data.data,
+              profile_id: data.data.profile_id,
             });
           }),
           catchError((error) => {
@@ -151,8 +166,13 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.updateCompositionSuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('compositions').subscribe(({ compositions }) => {
+            this.store.dispatch(
+              profilesActions.assignCompositions({ profile_id, compositions })
+            );
+          });
         })
       ),
     { dispatch: false }
@@ -173,11 +193,12 @@ export class CompositionsEffects {
   deleteComposition$ = createEffect(() =>
     this.actions$.pipe(
       ofType(compositionsActions.deleteComposition),
-      exhaustMap(({ compositionId }) =>
+      exhaustMap(({ compositionId, profile_id }) =>
         this.compositionsService.deleteComposition(compositionId).pipe(
           map(() => {
             return compositionsActions.deleteCompositionSuccess({
-              compositionId: compositionId,
+              compositionId,
+              profile_id,
             });
           }),
           catchError((error) => {
@@ -201,8 +222,13 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.deleteCompositionSuccess),
-        map(() => {
+        map(({ profile_id }) => {
           this.responseOK = true;
+          this.store.select('compositions').subscribe(({ compositions }) => {
+            this.store.dispatch(
+              profilesActions.assignCompositions({ profile_id, compositions })
+            );
+          });
         })
       ),
     { dispatch: false }

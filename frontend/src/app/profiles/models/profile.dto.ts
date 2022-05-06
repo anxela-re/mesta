@@ -1,3 +1,5 @@
+import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { PhaseDTO } from '../../phases/models/phase.dto';
 
 interface IProfileDTO {
@@ -7,6 +9,8 @@ interface IProfileDTO {
   color?: string;
   phases?: PhaseDTO[];
   user_id?: number;
+  properties?: PropertyDTO[];
+  compositions?: CompositionDTO[];
 }
 export class ProfileDTO {
   id?: number;
@@ -15,14 +19,17 @@ export class ProfileDTO {
   color?: string;
   phases?: PhaseDTO[];
   user_id?: number;
+  properties?: PropertyDTO[];
+  compositions?: CompositionDTO[];
 
-  constructor({ name = '', description = '', id, phases, color, user_id }: IProfileDTO) {
-    this.name = name;
-    this.description = description;
-    this.phases = phases;
-    this.color = color;
-    this.id = id;
-    this.user_id = user_id;
+  constructor(data: IProfileDTO) {
+    this.name = data.name || '';
+    this.description = data.description || '';
+    this.phases = data.phases;
+    this.color = data.color;
+    this.id = data.id;
+    this.user_id = data.user_id;
+    this.properties = data.properties;
+    this.compositions = data.compositions;
   }
 }
-

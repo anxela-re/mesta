@@ -67,12 +67,12 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
-  selectProfile(profileId: number | undefined) {
-    if (profileId) {
+  selectProfile(profile: ProfileDTO | undefined) {
+    if (profile && profile.id) {
       this.store.dispatch(
-        ProfilesActions.selectProfile({ profileId: profileId })
+        ProfilesActions.selectProfile({ profile: profile })
       );
-      this.profileSelectedService.setProfileSelected(profileId);
+      this.profileSelectedService.setProfileSelected(profile.id);
     }
   }
 

@@ -69,7 +69,12 @@ const _userReducer = createReducer(
     ...state,
     profiles: state.profiles.map((currentProfile) => {
       if (currentProfile.id?.toString() === profile.id?.toString()) {
-        return profile;
+        return {
+          ...profile,
+          phases: currentProfile.phases,
+          properties: currentProfile.properties,
+          compositions: currentProfile.compositions,
+        };
       } else {
         return currentProfile;
       }
@@ -84,9 +89,9 @@ const _userReducer = createReducer(
     loaded: false,
     error: { payload },
   })),
-  on(ProfilesActions.selectProfile, (state, { profileId }) => ({
+  on(ProfilesActions.selectProfile, (state, { profile }) => ({
     ...state,
-    selected: profileId,
+    selected: profile.id,
   })),
   on(ProfilesActions.deleteProfile, (state) => ({
     ...state,
@@ -117,7 +122,29 @@ const _userReducer = createReducer(
       }
       return profile;
     }),
-  }))
+  })),
+  on(ProfilesActions.assignProperties, (state, { profile_id, properties }) => ({
+    ...state,
+    profiles: state.profiles.map((profile) => {
+      if (profile_id === profile.id) {
+        profile.properties = properties;
+      }
+      console.info(profile_id, profile_id === profile.id, properties)
+      return profile;
+    }),
+  })),
+  on(
+    ProfilesActions.assignCompositions,
+    (state, { profile_id, compositions }) => ({
+      ...state,
+      profiles: state.profiles.map((profile) => {
+        if (profile_id === profile.id) {
+          profile.compositions = compositions;
+        }
+        return profile;
+      }),
+    })
+  )
 );
 
 export function profileReducer(
