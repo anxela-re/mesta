@@ -5,6 +5,8 @@ import {
   faPencilAlt,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 import { ComponentDTO } from 'src/app/components/models/component.dto';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
@@ -74,7 +76,14 @@ export class RecipeDetailComponent implements OnInit {
     this.router.navigate(['recipes', 'formulation', this.recipe.id]);
   }
 
-  remove(): void {}
+  remove(): void {
+    if (this.recipe.id) {
+      this.recipesService.deleteRecipe(this.recipe.id).subscribe(
+        (data) => this.router.navigate(['recipes']),
+        (error) => console.error(error),
+      );
+    }
+  }
 
   getDefaultQueryComponents() {
     return {

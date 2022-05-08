@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import {
+  catchError,
+  exhaustMap,
+  finalize,
+  map,
+  mergeMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as phasesActions from '../actions';
@@ -27,7 +33,7 @@ export class PhasesEffects {
   getPhasesByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.getPhasesByProfile),
-      exhaustMap(({ profile_id }) =>
+      mergeMap(({ profile_id }) =>
         this.phasesService.getPhases({ profile_id }).pipe(
           map((data) => {
             return phasesActions.getPhasesByProfileSuccess({
@@ -90,7 +96,7 @@ export class PhasesEffects {
   createPhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.createPhase),
-      exhaustMap(({ phase }) =>
+      mergeMap(({ phase }) =>
         this.phasesService.createPhase(phase).pipe(
           map((data) => {
             return phasesActions.createPhaseSuccess({
@@ -119,13 +125,13 @@ export class PhasesEffects {
         ofType(phasesActions.createPhaseSuccess),
         map(({ profile_id }) => {
           this.responseOK = true;
-          this.store
-            .select('phases')
-            .subscribe(({ phases }) =>
+          this.store.select('phases').subscribe(({ phases, loaded }) => {
+            if (phases && loaded) {
               this.store.dispatch(
                 profilesActions.assignPhases({ profile_id, phases })
-              )
-            );
+              );
+            }
+          });
         })
       ),
     { dispatch: false }
@@ -146,7 +152,7 @@ export class PhasesEffects {
   updatePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.updatePhase),
-      exhaustMap(({ phase }) =>
+      mergeMap(({ phase }) =>
         this.phasesService.updatePhase(phase).pipe(
           map((data) => {
             return phasesActions.updatePhaseSuccess({
@@ -202,7 +208,7 @@ export class PhasesEffects {
   deletePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.deletePhase),
-      exhaustMap(({ phaseId, profile_id }) =>
+      mergeMap(({ phaseId, profile_id }) =>
         this.phasesService.deletePhase(phaseId).pipe(
           map(() => {
             return phasesActions.deletePhaseSuccess({
@@ -232,7 +238,6 @@ export class PhasesEffects {
         map(({ profile_id }) => {
           this.responseOK = true;
           this.store.select('phases').subscribe(({ phases }) => {
-            console.info(phases);
             this.store.dispatch(
               profilesActions.assignPhases({ profile_id, phases })
             );

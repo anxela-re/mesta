@@ -1,15 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import * as UserActions from './user/actions';
 import * as ProfilesActions from './profiles/actions';
 import * as PhasesActions from './phases/actions';
-import * as CompositionsActions from './compositions/actions';
-import * as PropertiesActions from './properties/actions';
 import { ProfileSelectedService } from './profiles/services/profile-selected.service';
-import { UserService } from './user/services/user.service';
-import { ProfileDTO } from './profiles/models/profile.dto';
 
 @Component({
   selector: 'app-root',
@@ -61,7 +57,9 @@ export class AppComponent {
             profile: found ? found : data.profiles[0],
           })
         );
-        this.profileSelectedService.setProfileSelected(data.profiles[0].id);
+        if (!found) {
+          this.profileSelectedService.setProfileSelected(data.profiles[0].id);
+        }
       }
 
       if (data.loaded) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as ProfilesActions from '../actions';
@@ -12,6 +12,7 @@ import { AppState } from 'src/app/app.reducers';
 import * as PropertiesActions from '../../properties/actions';
 import * as CompositionsActions from '../../compositions/actions';
 import * as PhasesActions from '../../phases/actions';
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 
 @Injectable()
 export class ProfilesEffects {
@@ -78,19 +79,9 @@ export class ProfilesEffects {
         return this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
-            if (phases) {
-              // TODO
-              // phases.forEach((phase) => {
-              //   this.store.dispatch(
-              //     PhasesActions.createPhase({
-              //       phase: new PhaseDTO({ ...phase, profile_id: data.id }),
-              //       profile_id: data.id,
-              //     })
-              //   );
-              // });
-            }
             return ProfilesActions.createProfileSuccess({
               profile: profileDTO,
+              phases: phases,
             });
           }),
           catchError((error) => {
@@ -105,13 +96,21 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.createProfileSuccess),
-        map(() => {
+        map(({ phases, profile }) => {
           this.responseOK = true;
+          phases?.forEach((phase) => {
+            this.store.dispatch(
+              PhasesActions.createPhase({
+                phase: { ...phase, profile_id: profile.id },
+              })
+            );
+          });
           this.router.navigateByUrl('configuration');
         })
       ),
     { dispatch: false }
   );
+
 
   createProfileFailure$ = createEffect(
     () =>
@@ -205,7 +204,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.selectProfile),
         map(({ profile }) => {
-          this.router.navigateByUrl('recipes');
+          // this.router.navigateByUrl('recipes');
           if (profile?.id && !profile.compositions) {
             this.store.dispatch(
               CompositionsActions.getCompositionsByProfile({

@@ -30,8 +30,11 @@ export class SharedService {
   phasesProfile!: PhaseDTO[];
   compositionsProfile!: CompositionDTO[];
   profileSelected!: ProfileDTO;
-  constructor(private store: Store<AppState>) {
-
+  constructor(
+    private store: Store<AppState>,
+    private tokenService: TokenService,
+    private profileSelectedService: ProfileSelectedService
+  ) {
     this.store.select('profiles').subscribe((profilesState) => {
       if (
         (profilesState.loaded && profilesState.selected) ||
@@ -46,8 +49,6 @@ export class SharedService {
         if (profileFound) {
           this.profileSelected = profileFound;
         }
-
-        
       }
     });
 
@@ -107,9 +108,9 @@ export class SharedService {
   errorLog(error: ResponseError): void {
     console.error(error);
     if (error.error.includes('Unauthenticated')) {
-      // this.tokenService.removeToken();
-      // this.profileSelectedService.removeSelection();
-      // this.store.dispatch(AuthActions.logout());
+      this.store.dispatch(AuthActions.logout());
+      this.tokenService.removeToken();
+      this.profileSelectedService.removeSelection();
     }
   }
 

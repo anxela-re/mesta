@@ -12,10 +12,9 @@ import {
 import { ProfileDTO } from '../../models/profile.dto';
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { PhaseDTO } from '../../../phases/models/phase.dto';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { UserService } from '../../../user/services/user.service';
 import * as ProfilesActions from '../../actions';
 import * as PhasesActions from '../../../phases/actions';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
@@ -56,7 +55,7 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {
     const profileId = this.route.snapshot.paramMap.get('id');
     this.store.select('user').subscribe(({ user }) => {
@@ -93,12 +92,12 @@ export class UserProfileComponent implements OnInit {
       this.initForm();
     });
 
-    this.store.select('phases').subscribe(({ phases, loaded }) => {
-      if (loaded) {
-        this.phasesProfile = phases;
-        this.initForm();
-      }
-    });
+    // this.store.select('phases').subscribe(({ phases, loaded }) => {
+    //   if (loaded) {
+    //     this.phasesProfile = phases;
+    //     this.initForm();
+    //   }
+    // });
   }
 
   get phases(): FormArray {
@@ -120,7 +119,7 @@ export class UserProfileComponent implements OnInit {
       description: this.description,
       color: this.color,
       phases: this.fb.array(
-        this.phasesProfile?.map((phase: PhaseDTO) =>
+        this.profile.phases?.map((phase: PhaseDTO) =>
           this.fb.group({
             name: new FormControl(phase.name, [Validators.required]),
             color: new FormControl(phase.color, [Validators.required]),
@@ -155,7 +154,7 @@ export class UserProfileComponent implements OnInit {
       const updatedProfile = {
         ...this.profile,
         ...this.profileForm.value,
-        phases: this.phasesProfile
+        phases: this.profile.phases
           ?.map((phase) => {
             const phaseFound = this.phases.value.find(
               (formPhase: any) => formPhase.id === phase.id

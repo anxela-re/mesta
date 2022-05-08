@@ -178,7 +178,7 @@ export class FormulationComponent implements OnInit {
       console.info(this.recipe);
     } else {
       this.recipesService
-        .createRecipe(this.recipe)
+        .createRecipe({ ...this.recipe, profile_id: this.profile_id })
         .subscribe((res) => this.router.navigate(['recipes']));
     }
   }
