@@ -71,36 +71,24 @@ export class SharedService {
 
   async managementToast(
     element: string,
-    validRequest: boolean,
-    error?: ResponseError
+    valid: boolean,
+    msg: string
   ): Promise<void> {
-    const toastMsg = document.getElementById(element);
-    if (toastMsg) {
-      if (validRequest) {
-        toastMsg.className = 'show requestOk';
-        toastMsg.textContent = 'Form submitted successfully.';
-        await this.wait(2500);
-        toastMsg.className = toastMsg.className.replace('show', '');
+    const feedback = document.getElementById(element);
+    if (feedback) {
+      feedback.textContent = msg;
+      if (valid) {
+        feedback.className = feedback.className.replace('hidden', 'block');
+        feedback.className = feedback.className.concat(' bg-success');
+        await this.wait(5000);
+        feedback.className = feedback.className.replace('block', 'hidden');
+        feedback.className = feedback.className.replace('bg-success', '');
       } else {
-        toastMsg.className = 'show requestKo';
-        // if (error?.messageDetail) {
-        //   toastMsg.textContent =
-        //     'Error on form submitted, show logs. Message: ' +
-        //     error?.message +
-        //     '. Message detail: ' +
-        //     error?.messageDetail +
-        //     '. Status code: ' +
-        //     error?.statusCode;
-        // } else {
-        //   toastMsg.textContent =
-        //     'Error on form submitted, show logs. Message: ' +
-        //     error?.message +
-        //     '. Status code: ' +
-        //     error?.statusCode;
-        // }
-
-        await this.wait(2500);
-        toastMsg.className = toastMsg.className.replace('show', '');
+        feedback.className = feedback.className.replace('hidden', 'block');
+        feedback.className = feedback.className.concat(' bg-danger');
+        await this.wait(5000);
+        feedback.className = feedback.className.replace('block', 'hidden');
+        feedback.className = feedback.className.replace('bg-danger', '');
       }
     }
   }
@@ -108,7 +96,7 @@ export class SharedService {
   errorLog(error: ResponseError): void {
     console.error(error);
     if (error.error.includes('Unauthenticated')) {
-      this.store.dispatch(AuthActions.logout());
+      // this.store.dispatch(AuthActions.logout());
       this.tokenService.removeToken();
       this.profileSelectedService.removeSelection();
     }

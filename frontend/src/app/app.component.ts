@@ -27,7 +27,8 @@ export class AppComponent {
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
         data.credentials.access_token &&
-        data.credentials.access_token !== ''
+        data.credentials.access_token !== '' &&
+        data.loaded
       ) {
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({

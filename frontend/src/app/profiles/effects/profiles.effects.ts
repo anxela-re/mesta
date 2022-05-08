@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as ProfilesActions from '../actions';
@@ -32,7 +32,7 @@ export class ProfilesEffects {
   getProfilesByUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.getProfilesByUser),
-      exhaustMap(({ userId }) =>
+      mergeMap(({ userId }) =>
         this.profileService.getProfiles({ user_id: userId }).pipe(
           map(({ items }) => {
             let profilesDTO: ProfileDTO[] = items.map(
@@ -75,7 +75,7 @@ export class ProfilesEffects {
   createProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.createProfile),
-      exhaustMap(({ profile, phases }) => {
+      mergeMap(({ profile, phases }) => {
         return this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
@@ -128,7 +128,7 @@ export class ProfilesEffects {
   updateProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.updateProfile),
-      exhaustMap(({ profile }) =>
+      mergeMap(({ profile }) =>
         this.profileService.updateProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
@@ -172,7 +172,7 @@ export class ProfilesEffects {
   deleteProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.deleteProfile),
-      exhaustMap(({ profileId }) =>
+      mergeMap(({ profileId }) =>
         this.profileService.deleteProfile(profileId).pipe(
           map(() => {
             return ProfilesActions.deleteProfileSuccess({

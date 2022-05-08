@@ -12,8 +12,8 @@ import { ProfileDTO } from '../../profiles/models/profile.dto';
 
 @Injectable()
 export class UserEffects {
-  private responseOK: boolean;
-  private errorResponse: any;
+  // private responseOK: boolean;
+  // private errorResponse: any;
 
   constructor(
     private actions$: Actions,
@@ -21,7 +21,7 @@ export class UserEffects {
     private sharedService: SharedService,
     private userService: UserService
   ) {
-    this.responseOK = false;
+    // this.responseOK = false;
   }
   register$ = createEffect(() =>
     this.actions$.pipe(
@@ -33,17 +33,6 @@ export class UserEffects {
           }),
           catchError((error) => {
             return of(UserActions.registerFailure({ payload: error }));
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'registerFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
-
-            if (this.responseOK) {
-              this.router.navigateByUrl('login');
-            }
           })
         )
       )
@@ -54,8 +43,13 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.registerSuccess),
-        map(() => {
-          this.responseOK = true;
+        map(async () => {
+          await this.sharedService.managementToast(
+            'feedback',
+            true,
+            '¡Bienvenido a Mesta!'
+          );
+          this.router.navigateByUrl('login');
         })
       ),
     { dispatch: false }
@@ -65,10 +59,13 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.registerFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -97,23 +94,26 @@ export class UserEffects {
     )
   );
 
-  getUserSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(UserActions.getUserSuccess),
-        map(() => (this.responseOK = true))
-      ),
-    { dispatch: false }
-  );
+  // getUserSuccess$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(UserActions.getUserSuccess),
+  //       map(() => (this.responseOK = true))
+  //     ),
+  //   { dispatch: false }
+  // );
 
   getUserFailure$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(UserActions.getUserFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -135,25 +135,28 @@ export class UserEffects {
     )
   );
 
-  updateUserSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(UserActions.updateUserSuccess),
-        map(() => {
-          this.responseOK = true;
-        })
-      ),
-    { dispatch: false }
-  );
+  // updateUserSuccess$ = createEffect(
+  //   () =>
+  //     this.actions$.pipe(
+  //       ofType(UserActions.updateUserSuccess),
+  //       map(() => {
+  //         this.responseOK = true;
+  //       })
+  //     ),
+  //   { dispatch: false }
+  // );
 
   updateUserFailure$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(UserActions.updateUserFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -178,9 +181,13 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.deleteUserFailure),
-        map((error) => {
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }

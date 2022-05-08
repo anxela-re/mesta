@@ -12,8 +12,6 @@ import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class PropertiesEffects {
-  private responseOK: boolean;
-  private errorResponse: any;
 
   constructor(
     private actions$: Actions,
@@ -22,7 +20,6 @@ export class PropertiesEffects {
     private sharedService: SharedService,
     private store: Store<AppState>
   ) {
-    this.responseOK = false;
   }
   getPropertiesByProfile$ = createEffect(() =>
     this.actions$.pipe(
@@ -41,13 +38,6 @@ export class PropertiesEffects {
                 payload: error,
               })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -59,7 +49,6 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.getPropertiesByProfileSuccess),
         map(({ profile_id, properties }) => {
-          this.responseOK = true;
           this.store.dispatch(
             profilesActions.assignProperties({ profile_id, properties })
           );
@@ -72,10 +61,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.getPropertiesByProfileFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -95,13 +87,6 @@ export class PropertiesEffects {
             return of(
               propertiesActions.createPropertyFailure({ payload: error })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -113,7 +98,6 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.createPropertySuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('properties').subscribe(({ properties }) => {
             this.store.dispatch(
               profilesActions.assignProperties({ profile_id, properties })
@@ -128,10 +112,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.createPropertyFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -151,13 +138,6 @@ export class PropertiesEffects {
             return of(
               propertiesActions.updatePropertyFailure({ payload: error })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -169,7 +149,6 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.updatePropertySuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('properties').subscribe(({ properties }) => {
             this.store.dispatch(
               profilesActions.assignProperties({ profile_id, properties })
@@ -184,10 +163,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.updatePropertyFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -207,13 +189,6 @@ export class PropertiesEffects {
             return of(
               propertiesActions.deletePropertyFailure({ payload: error })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -225,7 +200,6 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.deletePropertySuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('properties').subscribe(({ properties }) => {
             this.store.dispatch(
               profilesActions.assignProperties({ profile_id, properties })
@@ -240,10 +214,13 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.deletePropertyFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }

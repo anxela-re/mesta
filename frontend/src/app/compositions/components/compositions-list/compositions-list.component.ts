@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
+import { SharedService } from 'src/app/shared/services/shared.service';
 import { CompositionDTO } from '../../models/composition.dto';
 
 @Component({
@@ -23,7 +24,11 @@ export class CompositionsListComponent implements OnInit {
   isAdding: boolean = false;
 
   editing: boolean = false;
-  constructor(private router: Router, private store: Store<AppState>) {
+  constructor(
+    private router: Router,
+    private store: Store<AppState>,
+    private sharedService: SharedService
+  ) {
     this.store.select('compositions').subscribe((compositionsState) => {
       if (compositionsState.loaded) {
         this.compositions = compositionsState.compositions || [];

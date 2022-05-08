@@ -12,6 +12,7 @@ Iniciar servidor Apache y MySQL
 Si es la primera vez que abres la aplicación generar el archivo .env con el nombre de la instancia de la base de datos que se va a utilizar.
 
 ```bash
+npm install
 composer install
 ```
 Una vez tenemos levantado el servidor. La primera vez que levantamos el servidor del proyecto se va a necesitar ejecutar el comando

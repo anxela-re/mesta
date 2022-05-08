@@ -7,6 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { ComponentContainerComponent } from './components/component-container/component-container.component';
+import { FeedbackComponent } from './components/feedback/feedback.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ComponentContainerComponent } from './components/component-container/co
     LandingPageComponent,
     BreadcrumbComponent,
     ComponentContainerComponent,
+    FeedbackComponent,
   ],
   imports: [CommonModule, FontAwesomeModule, RouterModule],
   exports: [
@@ -23,6 +25,7 @@ import { ComponentContainerComponent } from './components/component-container/co
     LandingPageComponent,
     BreadcrumbComponent,
     ComponentContainerComponent,
+    FeedbackComponent
   ],
 })
 export class SharedModule {}

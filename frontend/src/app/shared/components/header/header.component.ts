@@ -40,6 +40,7 @@ export class HeaderComponent implements OnInit {
 
     this.store.select('auth').subscribe((auth) => {
       this.isLogged = false;
+      console.info(auth)
       if (auth.credentials.access_token) {
         this.isLogged = true;
       }

@@ -39,13 +39,6 @@ export class CompositionsEffects {
                 payload: error,
               })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -93,13 +86,6 @@ export class CompositionsEffects {
             return of(
               compositionsActions.createCompositionFailure({ payload: error })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -126,10 +112,15 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.createCompositionFailure),
-        map((error) => {
+        map(async (error) => {
           this.responseOK = false;
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -148,13 +139,6 @@ export class CompositionsEffects {
           catchError((error) => {
             return of(
               compositionsActions.updateCompositionFailure({ payload: error })
-            );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
             );
           })
         )
@@ -182,10 +166,15 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.updateCompositionFailure),
-        map((error) => {
+        map(async (error) => {
           this.responseOK = false;
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -204,13 +193,6 @@ export class CompositionsEffects {
           catchError((error) => {
             return of(
               compositionsActions.deleteCompositionFailure({ payload: error })
-            );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
             );
           })
         )
@@ -238,10 +220,15 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.deleteCompositionFailure),
-        map((error) => {
+        map(async (error) => {
           this.responseOK = false;
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }

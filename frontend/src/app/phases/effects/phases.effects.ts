@@ -18,8 +18,8 @@ import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class PhasesEffects {
-  private responseOK: boolean;
-  private errorResponse: any;
+  // private responseOK: boolean;
+  // private errorResponse: any;
 
   constructor(
     private actions$: Actions,
@@ -27,9 +27,7 @@ export class PhasesEffects {
     private router: Router,
     private sharedService: SharedService,
     private store: Store<AppState>
-  ) {
-    this.responseOK = false;
-  }
+  ) {}
   getPhasesByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.getPhasesByProfile),
@@ -47,13 +45,6 @@ export class PhasesEffects {
                 payload: error,
               })
             );
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -65,7 +56,6 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.getPhasesByProfileSuccess),
         map(({ phases, profile_id }) => {
-          this.responseOK = true;
           this.store.dispatch(
             profilesActions.assignPhases({ profile_id, phases })
           );
@@ -85,10 +75,13 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.getPhasesByProfileFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -106,13 +99,6 @@ export class PhasesEffects {
           }),
           catchError((error) => {
             return of(phasesActions.createPhaseFailure({ payload: error }));
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -124,7 +110,6 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.createPhaseSuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('phases').subscribe(({ phases, loaded }) => {
             if (phases && loaded) {
               this.store.dispatch(
@@ -141,10 +126,13 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.createPhaseFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -162,13 +150,6 @@ export class PhasesEffects {
           }),
           catchError((error) => {
             return of(phasesActions.updatePhaseFailure({ payload: error }));
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -180,7 +161,6 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseSuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store
             .select('phases')
             .subscribe(({ phases }) =>
@@ -197,10 +177,13 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -218,13 +201,6 @@ export class PhasesEffects {
           }),
           catchError((error) => {
             return of(phasesActions.deletePhaseFailure({ payload: error }));
-          }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
           })
         )
       )
@@ -236,7 +212,6 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseSuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('phases').subscribe(({ phases }) => {
             this.store.dispatch(
               profilesActions.assignPhases({ profile_id, phases })
@@ -251,10 +226,13 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }

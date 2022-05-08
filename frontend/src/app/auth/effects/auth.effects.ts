@@ -12,8 +12,8 @@ import { ProfileSelectedService } from 'src/app/profiles/services/profile-select
 
 @Injectable()
 export class AuthEffects {
-  private responseOK: boolean;
-  private errorResponse: any;
+  // private responseOK: boolean;
+  // private errorResponse: any;
 
   constructor(
     private actions$: Actions,
@@ -23,7 +23,7 @@ export class AuthEffects {
     private tokenService: TokenService,
     private profileSelectedService: ProfileSelectedService
   ) {
-    this.responseOK = false;
+    // this.responseOK = false;
   }
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -43,13 +43,6 @@ export class AuthEffects {
           catchError((error) => {
             return of(AuthActions.loginFailure({ payload: error }));
           }),
-          finalize(async () => {
-            await this.sharedService.managementToast(
-              'loginFeedback',
-              this.responseOK,
-              this.errorResponse
-            );
-          })
         )
       )
     )
@@ -59,8 +52,12 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
-        map(() => {
-          this.responseOK = true;
+        map(async () => {
+          await this.sharedService.managementToast(
+            'feedback',
+            true,
+            'Bienvenido/a de nuevo a Mesta'
+          );
         })
       ),
     { dispatch: false }
@@ -70,10 +67,13 @@ export class AuthEffects {
     () =>
       this.actions$.pipe(
         ofType(AuthActions.loginFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
+        map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          await this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
