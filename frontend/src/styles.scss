@@ -122,5 +122,8 @@ input:-webkit-autofill:active {
 }
 
 .form-errors {
-  @apply mt-2 mb-2 text-danger text-left fs-xs; 
+  @apply mt-2 mb-2 text-danger text-left fs-xs;
+}
+.input-search {
+  @apply border-2 border-secondary-500 rounded-xl py-2 px-4 w-full my-2 shadow-thick shadow-secondary-500 outline-none transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px];
 }

@@ -100,6 +100,10 @@ module.exports = {
       transitionProperty: {
         height: "height",
       },
+      boxShadow: {
+        thick: "3px 3px 0px rgba(0, 0,0,1) ",
+        thin: "2px 2px 0px rgba(0, 0,0,1) ",
+      },
     },
   },
   plugins: [],
