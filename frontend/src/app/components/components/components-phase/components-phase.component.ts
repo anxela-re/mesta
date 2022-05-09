@@ -1,9 +1,13 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   Input,
   OnChanges,
   OnInit,
+  Renderer2,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -36,6 +40,8 @@ export function maxAddition(value: number): ValidatorFn {
   styleUrls: ['./components-phase.component.scss'],
 })
 export class ComponentsPhaseComponent implements OnInit, OnChanges {
+  @ViewChild('bodyAccordion') bodyAccordioDOM!: ElementRef;
+
   @Input()
   phase: PhaseDTO | undefined;
 
@@ -60,11 +66,13 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   faChevronUp = faChevronUp;
   faChevronDown = faChevronDown;
 
-  open: boolean = true;
+  open: boolean = false;
 
   phaseComponentsForm!: FormArray;
 
-  constructor(private fb: FormBuilder) {}
+  bodyAccordionHeight!: number;
+
+  constructor(private fb: FormBuilder, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     if (this.fromFormulation || this.fromRecipeDetails) {
@@ -128,5 +136,20 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       return found && found.percentage ? found.percentage : 0;
     }
     return 0;
+  }
+
+  onCollapsing(): void {
+    if (this.bodyAccordioDOM.nativeElement) {
+      if (!this.bodyAccordionHeight) {
+        this.bodyAccordionHeight =
+          this.bodyAccordioDOM.nativeElement.clientHeight;
+      }
+      this.open = !this.open;
+      this.renderer.setStyle(
+        this.bodyAccordioDOM.nativeElement,
+        'height',
+        this.open ? `${this.bodyAccordionHeight}px` : 0
+      );
+    }
   }
 }

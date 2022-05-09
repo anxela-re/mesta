@@ -96,7 +96,11 @@ module.exports = {
         900: "#ff5a2f",
       },
     },
-    extend: {},
+    extend: {
+      transitionProperty: {
+        height: "height",
+      },
+    },
   },
   plugins: [],
 };

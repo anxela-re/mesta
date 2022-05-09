@@ -24,6 +24,8 @@ import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
+import { Actions, ofType } from '@ngrx/effects';
+import * as ProfilesActions from '../../../profiles/actions';
 
 export interface ISelectProp {
   selected: boolean;
@@ -72,9 +74,14 @@ export class ComponentsComponent implements OnInit, OnDestroy {
   constructor(
     private componentsService: ComponentsService,
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private actions$: Actions
   ) {
-
+    this.actions$
+      .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))
+      .subscribe(() => {
+        this.reloadList.next();
+      });
     this.store
       .select('phases')
       .pipe(takeUntil(this.unsubscribe$))
@@ -90,7 +97,6 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     this.components$ = merge(
       this.reloadList.pipe(
         switchMap(() => {
-          console.info('blabla');
           return this.componentsService.getComponentsByProfile({
             ...this.defaultQuery,
           });
