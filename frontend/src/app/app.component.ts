@@ -23,12 +23,12 @@ export class AppComponent {
     private router: Router
   ) {
     this.store.select('auth').subscribe((data) => {
+      console.info(data)
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
         data.credentials.access_token &&
-        data.credentials.access_token !== '' &&
-        data.loaded
+        data.credentials.access_token !== ''
       ) {
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({
@@ -41,43 +41,47 @@ export class AppComponent {
     });
 
     this.store.select('profiles').subscribe((data) => {
-      this.profileSelectedId = data.selected;
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
         data.profiles[0].id
       ) {
+        console.info('app --> 49')
         const profileSelectedStored =
           this.profileSelectedService.getProfileSelectedStored();
         let found = undefined;
         if (profileSelectedStored) {
           found = data.profiles.find(({ id }) => id === profileSelectedStored);
         }
+        if (!found) {
+          this.profileSelectedService.setProfileSelected(data.profiles[0].id);
+        }
         this.store.dispatch(
           ProfilesActions.selectProfile({
             profile: found ? found : data.profiles[0],
           })
         );
-        if (!found) {
-          this.profileSelectedService.setProfileSelected(data.profiles[0].id);
-        }
       }
 
-      if (data.loaded) {
-        if (data.profiles.length > 0) {
-          data.profiles.map((profile) => {
-            if (profile.id && profile.phases === undefined) {
-              this.store.dispatch(
-                PhasesActions.getPhasesByProfile({ profile_id: profile.id })
-              );
-            }
-          });
-        } else {
-          this.router.navigateByUrl('profile/new');
-        }
-      }
+      // if (data.loaded && this.profileSelectedId === undefined) {
+        // if (data.profiles.length > 0) {
+        //   data.profiles.map((profile) => {
+        //     if (profile.id && profile.phases === undefined) {
+        //       this.store.dispatch(
+        //         PhasesActions.getPhasesByProfile({ profile_id: profile.id })
+        //       );
+        //     }
+        //   });
+        // } else {
+        //   this.router.navigateByUrl('profile/new');
+        // }
+        // if(data.profiles.length === 0) {
+        //   this.router.navigateByUrl('profile/new')
+        // }
+      // }
 
       if (this.profileSelectedId !== data.selected && data.selected) {
+        console.info('app --> 82')
         this.profileSelectedId = data.selected;
       }
     });

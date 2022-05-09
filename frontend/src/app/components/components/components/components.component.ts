@@ -53,8 +53,6 @@ export class ComponentsComponent implements OnInit, OnDestroy {
   @Input()
   recipeComponents: IComponentPercentage[] = [];
 
-  selectedProfileId!: number;
-
   phases: PhaseDTO[] | undefined;
 
   @Input()
@@ -76,11 +74,6 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<AppState>
   ) {
-    this.store.select('profiles').subscribe(({ selected }) => {
-      if (selected && selected !== this.selectedProfileId) {
-        this.selectedProfileId = selected;
-      }
-    });
 
     this.store
       .select('phases')
@@ -98,8 +91,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
       this.reloadList.pipe(
         switchMap(() => {
           console.info('blabla');
-          return this.componentsService.getComponents({
-            profile_id: this.selectedProfileId,
+          return this.componentsService.getComponentsByProfile({
             ...this.defaultQuery,
           });
         })
@@ -110,8 +102,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         switchMap(() => {
           console.info('ggg');
-          return this.componentsService.getComponents({
-            profile_id: this.selectedProfileId,
+          return this.componentsService.getComponentsByProfile({
             name: `%${this.searchTerm}%`,
             select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
             ...this.defaultQuery,

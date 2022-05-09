@@ -32,7 +32,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   faPlus = faPlus;
 
-  propertiesProfile: PropertyDTO[] = [];
+  propertiesProfile!: PropertyDTO[];
 
   private reloadList: Subject<any> = new Subject();
   private unsubscribe$ = new Subject<void>();
@@ -73,10 +73,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
       )
     );
     this.recipes$.subscribe((data) => (this.recipes = data));
-
-    // this.recipesService
-    //   .getRecipesByProfile()
-    //   .subscribe((res) => (this.recipes = res));
   }
 
   ngOnDestroy(): void {
@@ -92,7 +88,14 @@ export class RecipesComponent implements OnInit, OnDestroy {
     this.router.navigate(['recipes', 'formulation']);
   }
 
-  getPropertiesByRecipe(propertiesId: number[]): PropertyDTO[] {
-    return this.sharedService.getPropertiesById(propertiesId);
+  getPropertiesByRecipe(propertiesId: number[]): PropertyDTO[] | null {
+    if (this.propertiesProfile) {
+      return this.sharedService.getPropertiesById(
+        this.propertiesProfile,
+        propertiesId
+      );
+    } else {
+      return null;
+    }
   }
 }

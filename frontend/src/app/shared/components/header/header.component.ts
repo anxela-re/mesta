@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
     this.store.select('profiles').subscribe((data) => {
       this.profiles = data.profiles;
       if (data.selected) {
+        console.info('A')
         this.profileSelected = data.selected;
       }
     });
@@ -79,6 +80,5 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.store.dispatch(logout());
-    this.router.navigateByUrl('/');
   }
 }

@@ -1,6 +1,7 @@
 <div
-  class="max-w-[150px] p-4 m-2 relative group cursor-pointer hover:bg-secondary-500 bg-transparent rounded"
+  class="min-w-[150px] max-w-[280px] p-4 m-2 relative group cursor-pointer hover:bg-secondary-500 bg-transparent rounded transform transition delay-10 duration-300 ease-in-out scale-0"
   (click)="onClick()"
+  [ngClass]="{'scale-100': properties}"
 >
   <div
     #borderTop
@@ -18,7 +19,9 @@
     #borderBottom
     class="absolute bottom-0 right-0 w-full h-[10px] bg-[length:3px_10px] bg-repeat-x rounded-[5rem]"
   ></div>
-  <h4 class="font-medium group-hover:!text-white-500 text-secondary-500 uppercase">
+  <h4
+    class="font-bold group-hover:!text-white-500 text-secondary-500 uppercase text-center text-lg"
+  >
     {{ recipe.name }}
   </h4>
   <div class="flex flex-wrap justify-center text-center">

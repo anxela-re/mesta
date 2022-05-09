@@ -47,6 +47,7 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   ) {
     this.store.select('profiles').subscribe(({ selected }) => {
       if (selected) {
+        console.info('A')
         this.profileId = selected;
       }
     });

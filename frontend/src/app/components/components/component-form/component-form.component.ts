@@ -14,6 +14,7 @@ import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
 import { faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { PropertyDTO } from '../../../properties/models/property.dto';
+import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
 @Component({
   selector: 'app-component-form',
@@ -47,7 +48,8 @@ export class ComponentFormComponent implements OnInit {
     private store: Store<AppState>,
     private fb: FormBuilder,
     private componentsService: ComponentsService,
-    private router: Router
+    private router: Router,
+    private profileSelectedService: ProfileSelectedService
   ) {
     this.componentId = this.route.snapshot.paramMap.get('id');
 
@@ -57,18 +59,14 @@ export class ComponentFormComponent implements OnInit {
       }
     });
 
-    this.store.select('profiles').subscribe(({ selected }) => {
-      if (selected) {
-        this.profile_id = selected;
-      }
-    });
-
     this.store.select('properties').subscribe(({ properties, loaded }) => {
       if (loaded) {
         this.propertiesProfile = properties;
         this.setProperties();
       }
     });
+
+    this.profile_id = this.profileSelectedService.getProfileSelectedStored();
   }
 
   ngOnInit(): void {

@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  exhaustMap,
+  map,
+  mergeMap,
+  switchMap,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as ProfilesActions from '../actions';
@@ -16,18 +23,13 @@ import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 
 @Injectable()
 export class ProfilesEffects {
-  private responseOK: boolean;
-  private errorResponse: any;
-
   constructor(
     private actions$: Actions,
     private router: Router,
     private sharedService: SharedService,
     private profileService: ProfileService,
     private store: Store<AppState>
-  ) {
-    this.responseOK = false;
-  }
+  ) {}
 
   getProfilesByUser$ = createEffect(() =>
     this.actions$.pipe(
@@ -54,7 +56,19 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.getProfilesByUserSuccess),
-        map(() => (this.responseOK = true))
+        map(({ profiles }) => {
+          if (profiles.length === 0) {
+            this.router.navigate(['profiles', 'new']);
+          } else {
+            profiles.forEach((profile) => {
+              if (profile.id) {
+                this.store.dispatch(
+                  PhasesActions.getPhasesByProfile({ profile_id: profile.id })
+                );
+              }
+            });
+          }
+        })
       ),
     { dispatch: false }
   );
@@ -64,9 +78,12 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.getProfilesByUserFailure),
         map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -75,7 +92,7 @@ export class ProfilesEffects {
   createProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.createProfile),
-      mergeMap(({ profile, phases }) => {
+      concatMap(({ profile, phases }) => {
         return this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
@@ -97,7 +114,6 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.createProfileSuccess),
         map(({ phases, profile }) => {
-          this.responseOK = true;
           phases?.forEach((phase) => {
             this.store.dispatch(
               PhasesActions.createPhase({
@@ -111,15 +127,17 @@ export class ProfilesEffects {
     { dispatch: false }
   );
 
-
   createProfileFailure$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.createProfileFailure),
         map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -149,7 +167,6 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.updateProfileSuccess),
         map(() => {
-          this.responseOK = true;
           this.router.navigateByUrl('configuration');
         })
       ),
@@ -161,9 +178,12 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.updateProfileFailure),
         map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }
@@ -192,8 +212,12 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.deleteProfileFailure),
         map((error) => {
-          this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
+          this.sharedService.managementToast(
+            'feedback',
+            false,
+            '¡Algo está fallando!'
+          );
         })
       ),
     { dispatch: false }

@@ -11,7 +11,8 @@ export class ProfileSelectedService {
   profile!: ProfileDTO | undefined;
   constructor(private store: Store<AppState>) {
     this.store.select('profiles').subscribe((profilesState) => {
-      if (profilesState.selected !== undefined) {
+      if (profilesState.selected !== undefined && this.profile?.id !== profilesState.selected) {
+        console.info('A')
         this.profile = profilesState.profiles.find(
           (p) => p.id === profilesState.selected
         );

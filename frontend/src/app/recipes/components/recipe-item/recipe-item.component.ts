@@ -18,7 +18,7 @@ import { RecipeDTO } from '../../models/recipe.dto';
   templateUrl: './recipe-item.component.html',
   styleUrls: ['./recipe-item.component.scss'],
 })
-export class RecipeItemComponent implements OnInit, AfterViewInit {
+export class RecipeItemComponent implements AfterViewInit {
   @ViewChild('borderTop') borderTopDOM!: ElementRef;
   @ViewChild('borderLeft') borderLeftDOM!: ElementRef;
   @ViewChild('borderRight') borderRightDOM!: ElementRef;
@@ -39,22 +39,20 @@ export class RecipeItemComponent implements OnInit, AfterViewInit {
   recipe!: RecipeDTO;
 
   @Input()
-  properties: PropertyDTO[] = [];
+  properties!: PropertyDTO[] | null;
 
   isHovered: boolean = false;
 
   constructor(private renderer: Renderer2, private router: Router) {}
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    console.info(this.properties);
     this.setBorder();
   }
-
-  ngAfterViewInit(): void {
-      this.setBorder()
-  }
   onClick(): void {
-    this.router.navigate(['recipes', 'details', this.recipe.id])
+    this.router.navigate(['recipes', 'details', this.recipe.id]);
   }
+
   setBorder(): void {
     const listBorders = [
       this.borderTopDOM,
@@ -71,11 +69,11 @@ export class RecipeItemComponent implements OnInit, AfterViewInit {
             ? `linear-gradient(${
                 index === 1 || index === 3 ? `to bottom` : `to right`
               }, 
-            #fff 33%,
+            #fff 36%,
             rgba(255, 255, 255, 0) 0%)`
             : `linear-gradient(${
                 index === 1 || index === 3 ? `to bottom` : `to right`
-              }, #0f172a 33%, rgba(255,255,255,0) 0%)`
+              }, #0f172a 36%, rgba(255,255,255,0) 0%)`
         );
       }
     });

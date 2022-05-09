@@ -62,6 +62,7 @@ export class FormulationComponent implements OnInit {
 
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
       if (selected) {
+        console.info('A')
         this.profile_id = selected;
       }
     });

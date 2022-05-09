@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
-  exhaustMap,
-  finalize,
+  concatMap,
   map,
   mergeMap,
+  takeUntil,
 } from 'rxjs/operators';
-import { of } from 'rxjs';
-import { Router } from '@angular/router';
+import { of, Subject } from 'rxjs';
 import * as phasesActions from '../actions';
 import * as profilesActions from '../../profiles/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
@@ -18,20 +17,16 @@ import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class PhasesEffects {
-  // private responseOK: boolean;
-  // private errorResponse: any;
-
   constructor(
     private actions$: Actions,
     private phasesService: PhasesService,
-    private router: Router,
     private sharedService: SharedService,
     private store: Store<AppState>
   ) {}
   getPhasesByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.getPhasesByProfile),
-      mergeMap(({ profile_id }) =>
+      concatMap(({ profile_id }) =>
         this.phasesService.getPhases({ profile_id }).pipe(
           map((data) => {
             return phasesActions.getPhasesByProfileSuccess({
@@ -61,6 +56,7 @@ export class PhasesEffects {
           );
           this.store.select('profiles').subscribe(({ selected }) => {
             if (selected === profile_id) {
+              console.info('A');
               this.store.dispatch(
                 phasesActions.assignCurrentPhases({ phases })
               );
@@ -89,7 +85,7 @@ export class PhasesEffects {
   createPhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.createPhase),
-      mergeMap(({ phase }) =>
+      concatMap(({ phase }) =>
         this.phasesService.createPhase(phase).pipe(
           map((data) => {
             return phasesActions.createPhaseSuccess({
@@ -109,19 +105,27 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.createPhaseSuccess),
-        map(({ profile_id }) => {
-          this.store.select('phases').subscribe(({ phases, loaded }) => {
-            if (phases && loaded) {
+        map(({ profile_id, phase }) => {
+          const unsubscribe$ = new Subject<void>();
+          this.store
+            .select('profiles')
+            .pipe(takeUntil(unsubscribe$))
+            .subscribe(({ profiles }) => {
+              const found = profiles.find(({ id }) => id === profile_id);
+              const currentPhases = found?.phases || [];
               this.store.dispatch(
-                profilesActions.assignPhases({ profile_id, phases })
+                profilesActions.assignPhases({
+                  profile_id,
+                  phases: [...currentPhases, phase],
+                })
               );
-            }
-          });
+              unsubscribe$.next();
+              unsubscribe$.complete();
+            });
         })
       ),
     { dispatch: false }
   );
-
   createPhaseFailure$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -140,7 +144,7 @@ export class PhasesEffects {
   updatePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.updatePhase),
-      mergeMap(({ phase }) =>
+      concatMap(({ phase }) =>
         this.phasesService.updatePhase(phase).pipe(
           map((data) => {
             return phasesActions.updatePhaseSuccess({
@@ -155,19 +159,33 @@ export class PhasesEffects {
       )
     )
   );
-
   updatePhaseSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseSuccess),
-        map(({ profile_id }) => {
+        map(({ profile_id, phase }) => {
+          const unsubscribe$ = new Subject<void>();
           this.store
-            .select('phases')
-            .subscribe(({ phases }) =>
+            .select('profiles')
+            .pipe(takeUntil(unsubscribe$))
+            .subscribe(({ profiles }) => {
+              const found = profiles.find(({ id }) => id === profile_id);
+              const currentPhases = found?.phases || [];
               this.store.dispatch(
-                profilesActions.assignPhases({ profile_id, phases })
-              )
-            );
+                profilesActions.assignPhases({
+                  profile_id,
+                  phases: currentPhases.map((prop) => {
+                    if (prop.id === phase.id) {
+                      return phase;
+                    } else {
+                      return prop;
+                    }
+                  }),
+                })
+              );
+              unsubscribe$.next();
+              unsubscribe$.complete();
+            });
         })
       ),
     { dispatch: false }
@@ -211,12 +229,23 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseSuccess),
-        map(({ profile_id }) => {
-          this.store.select('phases').subscribe(({ phases }) => {
-            this.store.dispatch(
-              profilesActions.assignPhases({ profile_id, phases })
-            );
-          });
+        map(({ profile_id, phaseId }) => {
+          const unsubscribe$ = new Subject<void>();
+          this.store
+            .select('profiles')
+            .pipe(takeUntil(unsubscribe$))
+            .subscribe(({ profiles }) => {
+              const found = profiles.find(({ id }) => id === profile_id);
+              const currentPhases = found?.phases || [];
+              this.store.dispatch(
+                profilesActions.assignPhases({
+                  profile_id,
+                  phases: currentPhases.filter((prop) => prop.id !== phaseId),
+                })
+              );
+              unsubscribe$.next();
+              unsubscribe$.complete();
+            });
         })
       ),
     { dispatch: false }

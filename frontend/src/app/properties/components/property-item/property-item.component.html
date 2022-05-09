@@ -12,7 +12,7 @@
     *ngIf="editing"
     contenteditable="true"
     (input)="onPropertyChange($event)"
-    class="outline-none underline underline-offset-2 h-[100%]"
+    class="outline-none underline underline-offset-2 h-[100%] text-xs"
     >{{ property?.name }}</span
   >
   <span *ngIf="!editing">{{ property?.name }}</span>

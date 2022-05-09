@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   faPencil,
@@ -33,43 +33,71 @@ export class RecipeDetailComponent implements OnInit {
 
   faPencil = faPencilAlt;
   faTrash = faTrash;
+
+  compositionsProfile!: CompositionDTO[];
+  propertiesProfile!: PropertyDTO[];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private recipesService: RecipesService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private store: Store<AppState>
   ) {
     const id = this.route.snapshot.paramMap.get('id');
+    console.info(id);
     if (id) {
       this.id = parseInt(id);
     } else {
       this.router.navigate(['recipes']);
     }
+    this.store.select('compositions').subscribe((compositionsState) => {
+      if (compositionsState.loaded) {
+        this.compositionsProfile = compositionsState.compositions;
+        this.getRecipe();
+      }
+    });
+    this.store.select('properties').subscribe((propertiesState) => {
+      if (propertiesState.loaded) {
+        this.propertiesProfile = propertiesState.properties;
+        this.getRecipe();
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.recipesService.getRecipes({ id: this.id }).subscribe(
-      (data) => {
-        this.recipe = data[0];
-        this.composition = this.sharedService.getCompositionById(
-          this.recipe.composition_id
-        );
-        this.properties = this.sharedService.getPropertiesById(
-          this.recipe.properties
-        );
-        console.info(this.recipe, this.composition, this.properties);
-        this.breadcrumbHistory = [
-          {
-            name: 'Recetas',
-            navigateName: 'recipes',
-          },
-          {
-            name: this.recipe.name,
-          },
-        ];
-      },
-      (error) => this.router.navigate(['recipes'])
-    );
+    this.getRecipe();
+  }
+
+  getRecipe(): void {
+    if (this.compositionsProfile && this.propertiesProfile) {
+      this.recipesService.getRecipes({ id: this.id }).subscribe(
+        (data) => {
+          this.recipe = data[0];
+          this.composition = this.sharedService.getCompositionById(
+            this.compositionsProfile,
+            this.recipe.composition_id
+          );
+          this.properties = this.sharedService.getPropertiesById(
+            this.propertiesProfile,
+            this.recipe.properties
+          );
+          this.breadcrumbHistory = [
+            {
+              name: 'Recetas',
+              navigateName: 'recipes',
+            },
+            {
+              name: this.recipe.name,
+            },
+          ];
+        },
+        (error) => {
+          this.sharedService.managementToast('feedback', false, '¡Algo está fallando!')
+          this.router.navigate(['recipes']);
+        }
+      );
+    }
   }
 
   edit(): void {
@@ -80,7 +108,7 @@ export class RecipeDetailComponent implements OnInit {
     if (this.recipe.id) {
       this.recipesService.deleteRecipe(this.recipe.id).subscribe(
         (data) => this.router.navigate(['recipes']),
-        (error) => console.error(error),
+        (error) => console.error(error)
       );
     }
   }

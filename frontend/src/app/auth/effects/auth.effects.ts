@@ -1,6 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  exhaustMap,
+  finalize,
+  map,
+} from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as AuthActions from '../actions';
@@ -28,7 +34,7 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      exhaustMap(({ credentials }) =>
+      concatMap(({ credentials }) =>
         this.authService.login(credentials).pipe(
           map((userToken) => {
             const credentialsTemp: AuthTokenDTO = {
@@ -42,7 +48,7 @@ export class AuthEffects {
           }),
           catchError((error) => {
             return of(AuthActions.loginFailure({ payload: error }));
-          }),
+          })
         )
       )
     )
@@ -74,6 +80,19 @@ export class AuthEffects {
             false,
             '¡Algo está fallando!'
           );
+        })
+      ),
+    { dispatch: false }
+  );
+
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        map(() => {
+          this.tokenService.removeToken();
+          this.profileSelectedService.removeSelection();
+          this.router.navigateByUrl('/');
         })
       ),
     { dispatch: false }

@@ -42,6 +42,7 @@ export class SharedService {
           profilesState.selected &&
           this.profileSelectedId !== profilesState.selected)
       ) {
+        console.info('A')
         this.profileSelectedId = profilesState.selected;
         const profileFound = profilesState.profiles.find(
           (p) => p.id === profilesState.selected
@@ -78,16 +79,34 @@ export class SharedService {
     if (feedback) {
       feedback.textContent = msg;
       if (valid) {
-        feedback.className = feedback.className.replace('hidden', 'block');
+        feedback.className = feedback.className.replace(
+          '-translate-y-full',
+          'transform-none'
+        );
+        feedback.className = feedback.className.replace('p-0', 'p-2');
         feedback.className = feedback.className.concat(' bg-success');
         await this.wait(5000);
-        feedback.className = feedback.className.replace('block', 'hidden');
+        feedback.textContent = '';
+        feedback.className = feedback.className.replace(
+          'transform-none',
+          '-translate-y-full'
+        );
+        feedback.className = feedback.className.replace('p-2', 'p-0');
         feedback.className = feedback.className.replace('bg-success', '');
       } else {
-        feedback.className = feedback.className.replace('hidden', 'block');
+        feedback.className = feedback.className.replace(
+          '-translate-y-full',
+          'transform-none'
+        );
+        feedback.className = feedback.className.replace('p-0', 'p-2');
         feedback.className = feedback.className.concat(' bg-danger');
         await this.wait(5000);
-        feedback.className = feedback.className.replace('block', 'hidden');
+        feedback.textContent = '';
+        feedback.className = feedback.className.replace(
+          'transform-none',
+          '-translate-y-full'
+        );
+        feedback.className = feedback.className.replace('p-2', 'p-0');
         feedback.className = feedback.className.replace('bg-danger', '');
       }
     }
@@ -97,8 +116,8 @@ export class SharedService {
     console.error(error);
     if (error.error.includes('Unauthenticated')) {
       // this.store.dispatch(AuthActions.logout());
-      this.tokenService.removeToken();
-      this.profileSelectedService.removeSelection();
+      // this.tokenService.removeToken();
+      // this.profileSelectedService.removeSelection();
     }
   }
 
@@ -127,11 +146,14 @@ export class SharedService {
     return throwError(error);
   }
 
-  getPropertiesById(propertiesId: number[]): PropertyDTO[] {
+  getPropertiesById(
+    props: PropertyDTO[],
+    propertiesId: number[]
+  ): PropertyDTO[] {
     const properties: PropertyDTO[] = [];
 
     propertiesId.forEach((id) => {
-      const found = this.propertiesProfile.find((p) => p.id === id);
+      const found = props.find((p) => p.id === id);
       if (found) {
         properties.push(found);
       }
@@ -156,7 +178,10 @@ export class SharedService {
     return this.compositionsProfile;
   }
 
-  getCompositionById(id: number | undefined): CompositionDTO | undefined {
-    return id ? this.compositionsProfile.find((c) => c.id === id) : undefined;
+  getCompositionById(
+    compositions: CompositionDTO[],
+    id: number | undefined
+  ): CompositionDTO | undefined {
+    return id ? compositions.find((c) => c.id === id) : undefined;
   }
 }

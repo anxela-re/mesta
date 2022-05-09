@@ -60,7 +60,7 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private store: Store<AppState>,
-    private actions$: Actions
+    private actions$: Actions,
   ) {
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
       if (selected) {
