@@ -62,19 +62,20 @@ export class FormulationComponent implements OnInit {
 
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
       if (selected) {
-        console.info('A')
         this.profile_id = selected;
+        this.initForm();
       }
     });
     this.store.select('phases').subscribe(({ phases, loaded }) => {
       if (loaded) {
         this.phases = phases;
+        this.initForm();
       }
     });
     this.store.select('properties').subscribe(({ properties, loaded }) => {
       if (loaded) {
         this.propertiesProfile = properties;
-        this.setProperties();
+        this.initForm();
       }
     });
   }

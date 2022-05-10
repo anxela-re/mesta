@@ -79,11 +79,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.getProfilesByUserFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(
-            'feedback',
-            false,
-            '¡Algo está fallando!'
-          );
+          this.sharedService.managementToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -133,11 +129,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.createProfileFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(
-            'feedback',
-            false,
-            '¡Algo está fallando!'
-          );
+          this.sharedService.managementToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -179,11 +171,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.updateProfileFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(
-            'feedback',
-            false,
-            '¡Algo está fallando!'
-          );
+          this.sharedService.managementToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -213,11 +201,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.deleteProfileFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(
-            'feedback',
-            false,
-            '¡Algo está fallando!'
-          );
+          this.sharedService.managementToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }

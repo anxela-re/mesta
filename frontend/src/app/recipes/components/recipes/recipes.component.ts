@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subject } from 'rxjs';
@@ -29,8 +29,10 @@ export class RecipesComponent implements OnInit, OnDestroy {
   recipes$: Observable<RecipeDTO[]> | undefined;
   recipes: RecipeDTO[] = [];
   searchTerm: string = '';
+  propertiesIdSelected: string = '';
 
   faPlus = faPlus;
+  faSearch = faSearch;
 
   propertiesProfile!: PropertyDTO[];
 
@@ -59,7 +61,12 @@ export class RecipesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.recipes$ = merge(
       this.reloadList.pipe(
-        switchMap(() => this.recipesService.getRecipesByProfile())
+        switchMap(() =>
+          this.recipesService.getRecipesByProfile({
+            name: this.searchTerm,
+            properties: this.propertiesIdSelected,
+          })
+        )
       ),
       this.searchSubject.pipe(
         startWith(this.searchTerm),
@@ -67,7 +74,8 @@ export class RecipesComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         switchMap(() =>
           this.recipesService.getRecipesByProfile({
-            name: `%${this.searchTerm}%`,
+            name: this.searchTerm,
+            properties: this.propertiesIdSelected,
           })
         )
       )
@@ -97,5 +105,10 @@ export class RecipesComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
+  }
+
+  searchProperties(properties: PropertyDTO[]): void {
+    this.propertiesIdSelected = properties.map((p) => p.id).join(',');
+    this.reloadList.next();
   }
 }

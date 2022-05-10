@@ -21,7 +21,12 @@ class ComponentController extends Controller
         foreach ($query as $key => $value) {
             if ($key !== 'select' && $key !== 'ids') {
                 if ($key === 'name') {
-                    array_push($formatQuery, [$key, 'like', $value]);
+                    array_push($formatQuery, [$key, 'like', '%' . $value . '%']);
+                } else if ($key === 'properties') {
+                    $propertiesIds = explode(',', $value);
+                    foreach ($propertiesIds as $pKey => $pValue) {
+                        array_push($formatQuery, [$key, 'like', '%' . $pValue . '%']);
+                    }
                 } else {
                     array_push($formatQuery, [$key, '=', $value]);
                 }

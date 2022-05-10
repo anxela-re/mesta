@@ -3,15 +3,25 @@
   <div class="flex justify-between">
     <h2>{{ component?.name }}</h2>
     <div class="flex gap-1">
-      <button type="button" class="btn btn-secondary" (click)="edit()">
+      <button
+        type="button"
+        class="btn btn-outline-secondary shadow-thick-secondary"
+        (click)="edit()"
+      >
         <fa-icon [icon]="faPencil"></fa-icon>
       </button>
-      <button type="button" class="btn btn-danger" (click)="remove()">
+      <button
+        type="button"
+        class="btn btn-outline-danger shadow-thick-secondary"
+        (click)="remove()"
+      >
         <fa-icon [icon]="faTrash"></fa-icon>
       </button>
     </div>
   </div>
-  <span class="font-bold uppercase text-xs">{{ component?.scientific_name }}</span>
+  <span class="font-bold uppercase text-xs">{{
+    component?.scientific_name
+  }}</span>
   <div class="flex gap-2 flex-col my-4 md:flex-row">
     <div class="bg-white-900 rounded-lg w-full md:w-[30%] text-center">
       <fa-icon

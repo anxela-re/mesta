@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subject } from 'rxjs';
 import {
@@ -26,6 +26,8 @@ import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
 import { Actions, ofType } from '@ngrx/effects';
 import * as ProfilesActions from '../../../profiles/actions';
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 export interface ISelectProp {
   selected: boolean;
@@ -55,27 +57,31 @@ export class ComponentsComponent implements OnInit, OnDestroy {
   @Input()
   recipeComponents: IComponentPercentage[] = [];
 
-  phases: PhaseDTO[] | undefined;
+  phases!: PhaseDTO[];
+  propertiesProfile!: PropertyDTO[];
 
   @Input()
   defaultQuery?: any;
 
-  components$: Observable<ComponentDTO[]> | undefined;
+  components$!: Observable<ComponentDTO[]>;
   components: ComponentDTO[] = [];
   selectedComponents: ComponentDTO[] = [];
   searchTerm: string = '';
+  propertiesIdSelected: string = '';
 
   private searchSubject: Subject<string> = new Subject();
   private reloadList: Subject<any> = new Subject();
 
   faPlus = faPlus;
+  faSearch = faSearch;
 
   private unsubscribe$ = new Subject<void>();
   constructor(
     private componentsService: ComponentsService,
     private router: Router,
     private store: Store<AppState>,
-    private actions$: Actions
+    private actions$: Actions,
+    private sharedService: SharedService
   ) {
     this.actions$
       .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))
@@ -88,28 +94,36 @@ export class ComponentsComponent implements OnInit, OnDestroy {
       .subscribe(({ phases, loaded }) => {
         if (loaded) {
           this.phases = phases;
-          this.reloadList.next();
         }
       });
+
+    this.store.select('properties').subscribe(({ properties, loaded }) => {
+      if (loaded) {
+        this.propertiesProfile = properties;
+      }
+    });
   }
 
   ngOnInit(): void {
     this.components$ = merge(
       this.reloadList.pipe(
-        switchMap(() => {
-          return this.componentsService.getComponentsByProfile({
+        switchMap(() =>
+          this.componentsService.getComponentsByProfile({
+            name: this.searchTerm,
+            properties: this.propertiesIdSelected,
+            select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
             ...this.defaultQuery,
-          });
-        })
+          })
+        )
       ),
       this.searchSubject.pipe(
         startWith(this.searchTerm),
         debounceTime(300),
         distinctUntilChanged(),
         switchMap(() => {
-          console.info('ggg');
           return this.componentsService.getComponentsByProfile({
-            name: `%${this.searchTerm}%`,
+            name: this.searchTerm,
+            properties: this.propertiesIdSelected,
             select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
             ...this.defaultQuery,
           });
@@ -162,5 +176,23 @@ export class ComponentsComponent implements OnInit, OnDestroy {
       );
     }
     this.onSelectComponent.emit(this.selectedComponents);
+  }
+
+  searchProperties(properties: PropertyDTO[]): void {
+    this.propertiesIdSelected = properties.map((p) => p.id).join(',');
+    this.reloadList.next();
+  }
+  // getPropertiesByComponent(propertiesId: number[]): PropertyDTO[] | null {
+  //   if (this.propertiesProfile) {
+  //     return this.sharedService.getPropertiesById(
+  //       this.propertiesProfile,
+  //       propertiesId
+  //     );
+  //   } else {
+  //     return null;
+  //   }
+  // }
+  getProperties(): PropertyDTO[] | null {
+    return this.propertiesProfile;
   }
 }

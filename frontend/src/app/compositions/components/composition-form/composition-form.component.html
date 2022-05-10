@@ -59,11 +59,11 @@
   <div class="flex justify-around">
     <button
       type="submit"
-      class="btn btn-primary disabled:cursor-default disabled:bg-primary-300"
+      class="btn btn-primary disabled:cursor-default disabled:bg-primary-300  shadow-thick-secondary"
       [disabled]="!compositionForm.valid"
     >
       Añadir
     </button>
-    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-secondary shadow-thick-secondary" (click)="onCancel()">Cancelar</button>
   </div>
 </form>

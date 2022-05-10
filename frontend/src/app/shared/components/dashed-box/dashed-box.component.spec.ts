@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComponentContainerComponent } from './component-container.component';
+import { DashedBoxComponent } from './dashed-box.component';
 
-describe('ComponentContainerComponent', () => {
-  let component: ComponentContainerComponent;
-  let fixture: ComponentFixture<ComponentContainerComponent>;
+describe('DashedBoxComponent', () => {
+  let component: DashedBoxComponent;
+  let fixture: ComponentFixture<DashedBoxComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ComponentContainerComponent ]
+      declarations: [ DashedBoxComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ComponentContainerComponent);
+    fixture = TestBed.createComponent(DashedBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

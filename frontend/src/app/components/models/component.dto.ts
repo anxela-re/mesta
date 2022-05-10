@@ -1,3 +1,5 @@
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
+
 export interface IComponent {
   id?: number;
   name?: string;
@@ -6,7 +8,7 @@ export interface IComponent {
   image_url?: string;
   phase_id?: number;
   profile_id?: number;
-  properties?: any[];
+  properties?: number[];
   expiration_date?: Date;
 }
 
@@ -18,8 +20,9 @@ export class ComponentDTO {
   image_url?: string;
   phase_id?: number;
   profile_id?: number;
-  properties?: any[];
+  properties: number[] = [];
   expiration_date?: Date;
+
 
   constructor(data?: IComponent) {
     this.id = data?.id;
@@ -29,7 +32,8 @@ export class ComponentDTO {
     this.image_url = data?.image_url;
     this.phase_id = data?.phase_id;
     this.profile_id = data?.profile_id;
-    this.properties = data?.properties;
+    this.properties = data?.properties || [];
     this.expiration_date = data?.expiration_date;
+    console.info(data)
   }
 }

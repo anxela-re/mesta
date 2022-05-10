@@ -56,7 +56,6 @@ export class PhasesEffects {
           );
           this.store.select('profiles').subscribe(({ selected }) => {
             if (selected === profile_id) {
-              console.info('A');
               this.store.dispatch(
                 phasesActions.assignCurrentPhases({ phases })
               );
@@ -74,7 +73,6 @@ export class PhasesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -133,7 +131,6 @@ export class PhasesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -198,7 +195,6 @@ export class PhasesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -258,7 +254,6 @@ export class PhasesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );

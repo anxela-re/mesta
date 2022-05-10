@@ -17,8 +17,13 @@ class RecipeController extends Controller
         $formatQuery = [];
 
         foreach ($query as $key => $value) {
-            if ($key === 'name' ) {
-                array_push($formatQuery, [$key, 'like', $value]);
+            if ($key === 'name') {
+                array_push($formatQuery, [$key, 'like', '%' . $value . '%']);
+            } else if ($key === 'properties') {
+                $propertiesIds = explode(',', $value);
+                foreach ($propertiesIds as $pKey => $pValue) {
+                    array_push($formatQuery, [$key, 'like', '%' . $pValue . '%']);
+                }
             } else {
                 array_push($formatQuery, [$key, '=', $value]);
             }

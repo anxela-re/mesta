@@ -46,7 +46,6 @@ export class AppComponent {
         data.profiles.length > 0 &&
         data.profiles[0].id
       ) {
-        console.info('app --> 49')
         const profileSelectedStored =
           this.profileSelectedService.getProfileSelectedStored();
         let found = undefined;
@@ -63,25 +62,7 @@ export class AppComponent {
         );
       }
 
-      // if (data.loaded && this.profileSelectedId === undefined) {
-        // if (data.profiles.length > 0) {
-        //   data.profiles.map((profile) => {
-        //     if (profile.id && profile.phases === undefined) {
-        //       this.store.dispatch(
-        //         PhasesActions.getPhasesByProfile({ profile_id: profile.id })
-        //       );
-        //     }
-        //   });
-        // } else {
-        //   this.router.navigateByUrl('profile/new');
-        // }
-        // if(data.profiles.length === 0) {
-        //   this.router.navigateByUrl('profile/new')
-        // }
-      // }
-
       if (this.profileSelectedId !== data.selected && data.selected) {
-        console.info('app --> 82')
         this.profileSelectedId = data.selected;
       }
     });

@@ -20,6 +20,8 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 export interface IChangePercentage {
   component: ComponentDTO;
@@ -43,10 +45,13 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   @ViewChild('bodyAccordion') bodyAccordioDOM!: ElementRef;
 
   @Input()
-  phase: PhaseDTO | undefined;
+  properties!: PropertyDTO[] | null;
 
   @Input()
-  components: ComponentDTO[] = [];
+  phase!: PhaseDTO;
+
+  @Input()
+  components!: ComponentDTO[];
 
   @Input()
   fromFormulation: boolean = false;
@@ -72,7 +77,11 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
 
   bodyAccordionHeight!: number;
 
-  constructor(private fb: FormBuilder, private renderer: Renderer2) {}
+  constructor(
+    private fb: FormBuilder,
+    private renderer: Renderer2,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {
     if (this.fromFormulation || this.fromRecipeDetails) {
@@ -150,6 +159,16 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
         'height',
         this.open ? `${this.bodyAccordionHeight}px` : 0
       );
+    }
+  }
+  getPropertiesByComponent(propertiesId: number[]): PropertyDTO[] | null {
+    if (this.properties) {
+      return this.sharedService.getPropertiesById(
+        this.properties,
+        propertiesId
+      );
+    } else {
+      return null;
     }
   }
 }

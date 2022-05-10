@@ -67,7 +67,6 @@ export class UserProfileComponent implements OnInit {
         ({ id }) => id?.toString() === profileId?.toString()
       );
       if (profileId && foundProfile) {
-        console.info('A')
         this.profile = new ProfileDTO(foundProfile);
         this.breadcrumbHistory = [
           {
@@ -79,7 +78,6 @@ export class UserProfileComponent implements OnInit {
           },
         ];
       } else {
-        console.info('A')
         this.profile = new ProfileDTO({});
         this.breadcrumbHistory = [
           {

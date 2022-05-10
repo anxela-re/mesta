@@ -17,7 +17,7 @@ class PropertyController extends Controller
 
         foreach ($query as $key => $value) {
             if ($key === 'name') {
-                array_push($formatQuery, [$key, 'like', $value]);
+                array_push($formatQuery, [$key, 'like', '%' . $value . '%']);
             } else {
                 array_push($formatQuery, [$key, '=', $value]);
             }

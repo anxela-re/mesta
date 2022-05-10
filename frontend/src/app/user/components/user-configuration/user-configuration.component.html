@@ -40,7 +40,7 @@
               />
               <button
                 type="submit"
-                class="btn btn-secondary"
+                class="btn btn-primary shadow-thick-secondary"
                 [disabled]="!name.touched && !name.errors"
                 (click)="onSubmit()"
               >
@@ -73,7 +73,7 @@
               />
               <button
                 type="submit"
-                class="btn btn-secondary"
+                class="btn btn-primary shadow-thick-secondary"
                 [disabled]="!name.touched && !name.errors"
                 (click)="onSubmit()"
               >
@@ -166,11 +166,14 @@
                 the data without option of recovery?
               </p>
               <div class="flex flex-row gap-2 justify-end mt-2">
-                <button class="btn btn-danger" (click)="deleteUser()">
+                <button
+                  class="btn btn-danger shadow-thick-secondary"
+                  (click)="deleteUser()"
+                >
                   Confirmar
                 </button>
                 <button
-                  class="btn btn-white"
+                  class="btn btn-white shadow-thick-secondary"
                   (click)="deleteUserPrompt = false"
                 >
                   Cancelar
@@ -263,7 +266,7 @@
           <button
             type="submit"
             [disabled]="!contactForm.valid"
-            class="btn btn-primary text-light mt-2 mb-2"
+            class="btn btn-primary text-light mt-2 mb-2 shadow-thick-secondary"
           >
             Enviar
           </button>

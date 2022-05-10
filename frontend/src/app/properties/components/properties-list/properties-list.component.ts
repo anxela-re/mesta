@@ -27,9 +27,6 @@ export class PropertiesListComponent implements OnInit {
   allowSearch: boolean = true;
 
   @Output()
-  updateSelection: EventEmitter<any> = new EventEmitter();
-
-  @Output()
   updateProperties: EventEmitter<PropertyDTO[]> = new EventEmitter();
 
   properties: PropertyDTO[] = [];
@@ -42,14 +39,11 @@ export class PropertiesListComponent implements OnInit {
   newProperty: boolean = false;
   editingProperties: boolean = false;
 
-  // properties$: Observable<PropertyDTO[]> | undefined;
   searchTerm: string = '';
 
-  private searchSubject: Subject<string> = new Subject();
   private reloadList: Subject<any> = new Subject();
 
   constructor(
-    private propertiesService: PropertiesService,
     private store: Store<AppState>
   ) {
     this.store.select('properties').subscribe((propertiesState) => {
@@ -60,24 +54,9 @@ export class PropertiesListComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    // this.properties =
-    // this.properties$ = merge(
-    //   this.reloadList.pipe(
-    //     switchMap(() => this.propertiesService.getProperties())
-    //   ),
-    //   this.searchSubject.pipe(
-    //     startWith(this.searchTerm),
-    //     debounceTime(300),
-    //     distinctUntilChanged(),
-    //     switchMap(() =>
-    //     )
-    //   )
-    // );
-  }
+  ngOnInit(): void {}
 
   search() {
-    // this.searchSubject.next(this.searchTerm);
     this.properties = this.propertiesProfile.filter(
       ({ name }) => name && name.includes(this.searchTerm)
     );

@@ -25,7 +25,7 @@ export class ComponentFormComponent implements OnInit {
   componentId!: string | null;
   phases!: PhaseDTO[] | undefined;
   properties: PropertyDTO[] = [];
-  propertiesProfile: PropertyDTO[] = [];
+  propertiesProfile!: PropertyDTO[];
   propertiesSelected: PropertyDTO[] = [];
   profile_id: number | undefined;
 
@@ -62,7 +62,7 @@ export class ComponentFormComponent implements OnInit {
     this.store.select('properties').subscribe(({ properties, loaded }) => {
       if (loaded) {
         this.propertiesProfile = properties;
-        this.setProperties();
+        this.initForm();
       }
     });
 
@@ -161,7 +161,6 @@ export class ComponentFormComponent implements OnInit {
     if (this.componentForm.invalid) {
       return;
     }
-
     this.component = {
       ...this.component,
       ...this.componentForm.value,

@@ -12,15 +12,13 @@ import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class PropertiesEffects {
-
   constructor(
     private actions$: Actions,
     private propertiesService: PropertiesService,
     private router: Router,
     private sharedService: SharedService,
     private store: Store<AppState>
-  ) {
-  }
+  ) {}
   getPropertiesByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(propertiesActions.getPropertiesByProfile),
@@ -64,7 +62,6 @@ export class PropertiesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -115,7 +112,6 @@ export class PropertiesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -166,7 +162,6 @@ export class PropertiesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -217,7 +212,6 @@ export class PropertiesEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );

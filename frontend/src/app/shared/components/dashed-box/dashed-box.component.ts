@@ -12,13 +12,12 @@ import {
 } from '@angular/core';
 import { ComponentDTO } from 'src/app/components/models/component.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
-
 @Component({
-  selector: 'app-component-container',
-  templateUrl: './component-container.component.html',
-  styleUrls: ['./component-container.component.scss'],
+  selector: 'app-dashed-box',
+  templateUrl: './dashed-box.component.html',
+  styleUrls: ['./dashed-box.component.scss'],
 })
-export class ComponentContainerComponent implements OnInit, AfterViewInit {
+export class DashedBoxComponent implements OnInit {
   @ViewChild('borderTop') borderTopDOM!: ElementRef;
   @ViewChild('borderLeft') borderLeftDOM!: ElementRef;
   @ViewChild('borderRight') borderRightDOM!: ElementRef;
@@ -40,13 +39,10 @@ export class ComponentContainerComponent implements OnInit, AfterViewInit {
   }
 
   @Input()
-  percentage: number = 0;
+  selected: boolean = false;
 
   @Input()
-  phase: PhaseDTO | undefined;
-
-  @Input()
-  component: ComponentDTO | undefined;
+  color?: string = '#0f172a';
 
   isHovered: boolean = false;
 
@@ -63,9 +59,7 @@ export class ComponentContainerComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.containerDOM.nativeElement,
         'background-color',
-        this.isHovered || this.percentage > 0
-          ? this.phase?.color || '#0f172a'
-          : 'transparent'
+        this.isHovered || this.selected ? this.color : 'transparent'
       );
     }
   }
@@ -81,7 +75,7 @@ export class ComponentContainerComponent implements OnInit, AfterViewInit {
         this.renderer.setStyle(
           el.nativeElement,
           'background-image',
-          this.isHovered || this.percentage > 0
+          this.isHovered || this.selected
             ? `linear-gradient(${
                 index === 1 || index === 3 ? `to bottom` : `to right`
               }, 
@@ -89,11 +83,9 @@ export class ComponentContainerComponent implements OnInit, AfterViewInit {
             rgba(255, 255, 255, 0) 0%)`
             : `linear-gradient(${
                 index === 1 || index === 3 ? `to bottom` : `to right`
-              }, ${this.phase?.color || '#0f172a'} 33%, rgba(255,255,255,0) 0%)`
+              }, ${this.color} 33%, rgba(255,255,255,0) 0%)`
         );
       }
     });
   }
-
-  onClick(): void {}
 }

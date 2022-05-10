@@ -10,9 +10,15 @@ import { SharedModule } from '../shared/shared.module';
 import { CompositionsModule } from '../compositions/compositions.module';
 import { ComponentsModule } from '../components/components.module';
 import { RecipeItemComponent } from './components/recipe-item/recipe-item.component';
+import { PropertiesModule } from '../properties/properties.module';
 
 @NgModule({
-  declarations: [RecipesComponent, RecipeDetailComponent, FormulationComponent, RecipeItemComponent],
+  declarations: [
+    RecipesComponent,
+    RecipeDetailComponent,
+    FormulationComponent,
+    RecipeItemComponent,
+  ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -21,7 +27,8 @@ import { RecipeItemComponent } from './components/recipe-item/recipe-item.compon
     FontAwesomeModule,
     SharedModule,
     CompositionsModule,
-    ComponentsModule
+    ComponentsModule,
+    PropertiesModule,
   ],
 })
 export class RecipesModule {}

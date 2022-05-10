@@ -6,8 +6,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { FooterComponent } from './components/footer/footer.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { ComponentContainerComponent } from './components/component-container/component-container.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
+import { DashedBoxComponent } from './components/dashed-box/dashed-box.component';
 
 @NgModule({
   declarations: [
@@ -15,8 +15,8 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     FooterComponent,
     LandingPageComponent,
     BreadcrumbComponent,
-    ComponentContainerComponent,
     FeedbackComponent,
+    DashedBoxComponent,
   ],
   imports: [CommonModule, FontAwesomeModule, RouterModule],
   exports: [
@@ -24,8 +24,8 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
     FooterComponent,
     LandingPageComponent,
     BreadcrumbComponent,
-    ComponentContainerComponent,
-    FeedbackComponent
+    FeedbackComponent,
+    DashedBoxComponent,
   ],
 })
 export class SharedModule {}

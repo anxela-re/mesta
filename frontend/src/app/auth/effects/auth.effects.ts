@@ -60,7 +60,6 @@ export class AuthEffects {
         ofType(AuthActions.loginSuccess),
         map(async () => {
           await this.sharedService.managementToast(
-            'feedback',
             true,
             'Bienvenido/a de nuevo a Mesta'
           );
@@ -76,7 +75,6 @@ export class AuthEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );

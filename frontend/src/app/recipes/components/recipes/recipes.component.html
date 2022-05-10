@@ -7,14 +7,23 @@
       >
     </div>
   </div>
-  <div class="flex flex-column">
-    <input
-      type="text"
-      class="input-search"
-      placeholder="Buscar receta"
-      [(ngModel)]="searchTerm"
-      (keyup)="search()"
-    />
+  <div class="flex flex-col mt-2 mb-4">
+    <div class="relative w-full">
+      <input
+        type="text"
+        class="input-search"
+        placeholder="Buscar receta"
+        [(ngModel)]="searchTerm"
+        (keyup)="search()"
+      />
+      <fa-icon
+        [icon]="faSearch"
+        class="absolute top-2 right-0 px-4 fa-2x text-white-900"
+      ></fa-icon>
+    </div>
+    <div>
+      <app-properties-list (updateProperties)="searchProperties($event)"></app-properties-list>
+    </div>
   </div>
   <div class="flex flex-wrap">
     <div

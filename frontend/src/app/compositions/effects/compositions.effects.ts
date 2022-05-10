@@ -117,7 +117,6 @@ export class CompositionsEffects {
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -171,7 +170,6 @@ export class CompositionsEffects {
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -225,7 +223,6 @@ export class CompositionsEffects {
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );

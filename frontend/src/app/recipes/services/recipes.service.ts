@@ -33,7 +33,6 @@ export class RecipesService {
 
     this.store.select('profiles').subscribe((profiles) => {
       if (profiles.selected) {
-        console.info('A')
         this.profileSelected = profiles.selected;
       }
     });

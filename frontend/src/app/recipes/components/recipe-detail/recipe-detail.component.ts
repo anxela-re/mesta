@@ -4,6 +4,7 @@ import {
   faPencil,
   faPencilAlt,
   faTrash,
+  faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
@@ -32,7 +33,7 @@ export class RecipeDetailComponent implements OnInit {
   properties: PropertyDTO[] = [];
 
   faPencil = faPencilAlt;
-  faTrash = faTrash;
+  faTrash = faTrashAlt;
 
   compositionsProfile!: CompositionDTO[];
   propertiesProfile!: PropertyDTO[];
@@ -93,7 +94,7 @@ export class RecipeDetailComponent implements OnInit {
           ];
         },
         (error) => {
-          this.sharedService.managementToast('feedback', false, '¡Algo está fallando!')
+          this.sharedService.managementToast(false, '¡Algo está fallando!');
           this.router.navigate(['recipes']);
         }
       );

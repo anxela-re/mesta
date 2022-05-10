@@ -3,16 +3,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { throwError } from 'rxjs';
 import { AppState } from 'src/app/app.reducers';
-import * as AuthActions from 'src/app/auth/actions';
-import * as CompositionsActions from 'src/app/compositions/actions';
-import * as PropertiesActions from 'src/app/properties/actions';
-import * as PhasesActions from 'src/app/phases/actions';
-import { TokenService } from 'src/app/auth/services/token.service';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
-import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
 export type IQuery = {
   [key: string]: string | number | string[];
@@ -30,11 +24,7 @@ export class SharedService {
   phasesProfile!: PhaseDTO[];
   compositionsProfile!: CompositionDTO[];
   profileSelected!: ProfileDTO;
-  constructor(
-    private store: Store<AppState>,
-    private tokenService: TokenService,
-    private profileSelectedService: ProfileSelectedService
-  ) {
+  constructor(private store: Store<AppState>) {
     this.store.select('profiles').subscribe((profilesState) => {
       if (
         (profilesState.loaded && profilesState.selected) ||
@@ -42,7 +32,6 @@ export class SharedService {
           profilesState.selected &&
           this.profileSelectedId !== profilesState.selected)
       ) {
-        console.info('A')
         this.profileSelectedId = profilesState.selected;
         const profileFound = profilesState.profiles.find(
           (p) => p.id === profilesState.selected
@@ -70,14 +59,11 @@ export class SharedService {
     });
   }
 
-  async managementToast(
-    element: string,
-    valid: boolean,
-    msg: string
-  ): Promise<void> {
-    const feedback = document.getElementById(element);
-    if (feedback) {
-      feedback.textContent = msg;
+  async managementToast(valid: boolean, msg: string): Promise<void> {
+    const feedback = document.getElementById('feedback');
+    const feedbackMsg = document.getElementById('feedback-msg');
+    if (feedback && feedbackMsg) {
+      feedbackMsg.textContent = msg;
       if (valid) {
         feedback.className = feedback.className.replace(
           '-translate-y-full',
@@ -114,11 +100,6 @@ export class SharedService {
 
   errorLog(error: ResponseError): void {
     console.error(error);
-    if (error.error.includes('Unauthenticated')) {
-      // this.store.dispatch(AuthActions.logout());
-      // this.tokenService.removeToken();
-      // this.profileSelectedService.removeSelection();
-    }
   }
 
   async wait(ms: number) {
@@ -183,5 +164,9 @@ export class SharedService {
     id: number | undefined
   ): CompositionDTO | undefined {
     return id ? compositions.find((c) => c.id === id) : undefined;
+  }
+
+  getPhaseById(phases: PhaseDTO[], id: number): PhaseDTO | undefined {
+    return id ? phases.find((p) => p.id === id) : undefined;
   }
 }

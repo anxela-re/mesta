@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-feedback',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedbackComponent implements OnInit {
 
+  faTimes = faTimes;
   constructor() { }
 
   ngOnInit(): void {

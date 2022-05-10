@@ -45,7 +45,6 @@ export class UserEffects {
         ofType(UserActions.registerSuccess),
         map(async () => {
           await this.sharedService.managementToast(
-            'feedback',
             true,
             '¡Bienvenido a Mesta!'
           );
@@ -62,7 +61,6 @@ export class UserEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -110,7 +108,6 @@ export class UserEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -153,7 +150,6 @@ export class UserEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );
@@ -184,7 +180,6 @@ export class UserEffects {
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
           await this.sharedService.managementToast(
-            'feedback',
             false,
             '¡Algo está fallando!'
           );

@@ -46,7 +46,6 @@ export class RecipeItemComponent implements AfterViewInit {
   constructor(private renderer: Renderer2, private router: Router) {}
 
   ngAfterViewInit(): void {
-    console.info(this.properties);
     this.setBorder();
   }
   onClick(): void {

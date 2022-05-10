@@ -73,7 +73,7 @@
               />
               <button
                 type="button"
-                class="btn btn-secondary"
+                class="btn btn-secondary  shadow-thick-secondary"
                 (click)="phases.removeAt(i)"
               >
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
@@ -98,7 +98,7 @@
     <div class="text-center">
       <button
         type="submit"
-        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300"
+        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300  shadow-thick-secondary"
         [disabled]="!profileForm.valid"
       >
         Guardar

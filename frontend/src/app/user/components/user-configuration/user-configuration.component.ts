@@ -83,7 +83,6 @@ export class UserConfigurationComponent implements OnInit {
     });
 
     this.store.select('profiles').subscribe(({ profiles }) => {
-      console.info('A')
       this.profiles = profiles;
     });
 

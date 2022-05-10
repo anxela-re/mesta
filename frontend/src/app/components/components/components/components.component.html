@@ -9,33 +9,53 @@
         >{{ components?.length || 0 }} componentes</span
       >
 
-      <button type="button" (click)="createComponent()" class="btn btn-primary">
+      <button
+        type="button"
+        (click)="createComponent()"
+        class="btn btn-primary shadow-thick-secondary"
+      >
         <fa-icon [icon]="faPlus"></fa-icon>
       </button>
     </div>
   </div>
-  <div class="flex flex-column">
-    <input
-      type="text"
-      class="input-search"
-      placeholder="Buscar componente"
-      [(ngModel)]="searchTerm"
-      (keyup)="search()"
-    />
+  <div class="flex flex-col mt-2 mb-4">
+    <div class="relative w-full">
+      <input
+        type="text"
+        class="input-search"
+        placeholder="Buscar componente"
+        [(ngModel)]="searchTerm"
+        (keyup)="search()"
+      />
+      <fa-icon
+        [icon]="faSearch"
+        class="absolute top-2 right-0 px-4 fa-2x text-white-900"
+      ></fa-icon>
+    </div>
     <div>
-
+      <app-properties-list
+        (updateProperties)="searchProperties($event)"
+      ></app-properties-list>
     </div>
   </div>
-  <div class="accordion">
-    <app-components-phase
-      *ngFor="let phase of phases"
-      [phase]="phase"
-      [components]="filterByPhase(phase.id)"
-      [fromFormulation]="fromFormulation"
-      [fromRecipeDetails]="fromRecipeDetails"
-      [percentage]="getPhasePercentage(phase.id)"
-      [componentArrayControl]="componentArrayControl"
-      [recipeComponents]="recipeComponents"
-    ></app-components-phase>
+  <div>
+    <div *ngFor="let phase of phases">
+      <app-components-phase
+        [phase]="phase"
+        [components]="filterByPhase(phase.id)"
+        [fromFormulation]="fromFormulation"
+        [fromRecipeDetails]="fromRecipeDetails"
+        [percentage]="getPhasePercentage(phase?.id)"
+        [componentArrayControl]="componentArrayControl"
+        [recipeComponents]="recipeComponents"
+        [properties]="getProperties()"
+      ></app-components-phase>
+    </div>
+    <!-- <app-component-item
+        *ngFor="let component of components"
+        [component]="component"
+        [phase]="phases[0]"
+        [properties]="getPropertiesByComponent(component.properties)"
+      ></app-component-item> -->
   </div>
 </div>

@@ -11,6 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ComponentItemComponent } from './components/component-item/component-item.component';
 import { ComponentsPhaseComponent } from './components/components-phase/components-phase.component';
 import { ComponentDetailsComponent } from './components/component-details/component-details.component';
+import { PropertiesComponentComponent } from './components/properties-component/properties-component.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ComponentDetailsComponent } from './components/component-details/compon
     ComponentItemComponent,
     ComponentsPhaseComponent,
     ComponentDetailsComponent,
+    PropertiesComponentComponent,
   ],
   imports: [
     CommonModule,
@@ -28,10 +30,8 @@ import { ComponentDetailsComponent } from './components/component-details/compon
     SharedModule,
     PropertiesModule,
     FontAwesomeModule,
-    FormsModule
+    FormsModule,
   ],
-  exports: [
-    ComponentsComponent
-  ]
+  exports: [ComponentsComponent],
 })
 export class ComponentsModule {}
