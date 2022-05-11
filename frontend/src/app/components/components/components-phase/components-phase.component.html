@@ -20,10 +20,16 @@
         >{{ components.length }} componentes</span
       >
       <span
-        *ngIf="fromFormulation || fromRecipeDetails"
+        *ngIf="fromRecipeDetails"
         class="px-1"
         [ngStyle]="{ color: phase?.color }"
         >{{ percentage }}%</span
+      >
+      <span
+        *ngIf="fromFormulation"
+        class="px-1"
+        [ngStyle]="{ color: phase?.color }"
+        >Queda por asignar el {{ phaseComponentsForm.value | currentPercentageAssign: percentage}} de {{ percentage }}%</span
       >
       <fa-icon
         [icon]="faChevronUp"
@@ -39,7 +45,7 @@
   >
     <div
       *ngIf="phaseComponentsForm?.errors?.maxAddition && fromFormulation"
-      class="text-xs font-bold"
+      class="text-xs font-bold form-errors"
     >
       El porcentage de los componentes no debe superar al total asignado en la
       composición

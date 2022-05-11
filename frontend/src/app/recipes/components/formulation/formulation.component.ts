@@ -36,11 +36,11 @@ export function additionValidator(value: number): ValidatorFn {
 export class FormulationComponent implements OnInit {
   recipeId!: number;
   recipe!: RecipeDTO;
-  propertiesProfile: PropertyDTO[] = [];
+  propertiesProfile!: PropertyDTO[];
   properties: PropertyDTO[] = [];
-  profile_id: number | undefined;
-  phases: PhaseDTO[] | undefined = [];
-  selectedComposition: CompositionDTO | undefined = undefined;
+  profile_id!: number;
+  phases!: PhaseDTO[];
+  selectedComposition!: CompositionDTO;
 
   formulationForm!: FormGroup;
   name!: FormControl;
@@ -73,7 +73,10 @@ export class FormulationComponent implements OnInit {
       }
     });
     this.store.select('properties').subscribe(({ properties, loaded }) => {
-      if (loaded) {
+      if (
+        loaded &&
+        JSON.stringify(properties) !== JSON.stringify(this.propertiesProfile)
+      ) {
         this.propertiesProfile = properties;
         this.initForm();
       }
@@ -86,6 +89,15 @@ export class FormulationComponent implements OnInit {
         .getRecipes({ id: this.recipeId })
         .subscribe((items) => {
           this.recipe = items[0];
+          this.breadcrumbHistory = [
+            {
+              name: 'Recetas',
+              navigateName: 'recipes',
+            },
+            {
+              name: this.recipe.name,
+            },
+          ];
           this.initForm();
         });
     } else {
@@ -106,31 +118,40 @@ export class FormulationComponent implements OnInit {
   }
 
   initForm() {
-    this.name = new FormControl(this.recipe.name, [
-      Validators.required,
-      Validators.maxLength(64),
-    ]);
-    this.description = new FormControl(this.recipe.description);
-    this.composition_id = new FormControl(this.recipe.composition_id);
+    if (
+      this.recipe &&
+      this.phases &&
+      this.profile_id &&
+      this.propertiesProfile
+    ) {
+      this.name = new FormControl(this.recipe.name, [
+        Validators.required,
+        Validators.maxLength(64),
+      ]);
+      this.description = new FormControl(this.recipe.description);
+      this.composition_id = new FormControl(this.recipe.composition_id);
 
-    this.formulationForm = this.fb.group({
-      name: this.name,
-      description: this.description,
-      composition_id: this.composition_id,
-      components: this.fb.array(
-        this.recipe.components || [],
-        additionValidator(100)
-      ),
-    });
-    this.setProperties();
+      this.formulationForm = this.fb.group({
+        name: this.name,
+        description: this.description,
+        composition_id: this.composition_id,
+        components: this.fb.array(
+          this.recipe.components || [],
+          additionValidator(100)
+        ),
+      });
+      this.setProperties();
 
-    const props: PropertyDTO[] = [];
-    this.recipe.properties?.forEach((p) => {
-      const found = this.properties?.find((prop: PropertyDTO) => prop.id === p);
-      if (found) {
-        props.push(found);
-      }
-    });
+      const props: PropertyDTO[] = [];
+      this.recipe.properties?.forEach((p) => {
+        const found = this.properties?.find(
+          (prop: PropertyDTO) => prop.id === p
+        );
+        if (found) {
+          props.push(found);
+        }
+      });
+    }
   }
 
   get componentArrayControl(): FormArray {
@@ -170,7 +191,9 @@ export class FormulationComponent implements OnInit {
         percentage: c.percentage,
       })),
       properties: formValue.components
-        .map((c: any) => c.component.properties.map((p: PropertyDTO) => p.id))
+        .map((c: any) =>
+          c.component.properties.map((p: PropertyDTO) => p?.id || p)
+        )
         .flat()
         .filter((v: any, i: number, arr: any[]) => arr.indexOf(v) === i),
     };
@@ -178,6 +201,9 @@ export class FormulationComponent implements OnInit {
     if (this.recipeId) {
       // TODO update
       console.info(this.recipe);
+      this.recipesService
+        .updateRecipe(this.recipe)
+        .subscribe((res) => this.router.navigate(['recipes']));
     } else {
       this.recipesService
         .createRecipe({ ...this.recipe, profile_id: this.profile_id })

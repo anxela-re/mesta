@@ -94,16 +94,25 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       this.initForm();
       this.phaseComponentsForm.reset();
     }
+    if (changes.components || changes.componentArrayControl) {
+      this.initForm();
+    }
   }
 
   initForm(): void {
     this.phaseComponentsForm = this.fb.array(
-      this.recipeComponents.map(({ component_id, percentage }) => {
-        return this.fb.group({
-          component_id: component_id,
-          percentage: percentage,
-        });
-      }),
+      this.recipeComponents
+        .map(({ component_id, percentage }) => ({
+          component: this.components.find(({ id }) => id === component_id),
+          percentage,
+        }))
+        .filter(({ component }) => component?.phase_id === this.phase.id)
+        .map(({ component, percentage }) => {
+          return this.fb.group({
+            component: component,
+            percentage,
+          });
+        }),
       maxAddition(this.percentage)
     );
   }
@@ -120,11 +129,16 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       if (percentage === 0) {
         formArray.removeAt(index);
       } else {
-        formArray.at(index).patchValue({ percentage });
+        console.info('cc', percentage)
+        formArray
+          .at(index)
+          .patchValue({ component: found.component, percentage: percentage });
       }
     } else {
       formArray.push(this.fb.group({ component, percentage }));
     }
+
+    console.info('bbb', formArray.value);
   }
   onPercentageChange({ percentage, component }: IChangePercentage) {
     this.changeArrayControl(
@@ -140,7 +154,7 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   getPercentageByComponentId(componentId: number | undefined): number {
     if (componentId) {
       const found = this.phaseComponentsForm.value.find(
-        (v: any) => v.component_id === componentId
+        (v: any) => v.component?.id === componentId
       );
       return found && found.percentage ? found.percentage : 0;
     }

@@ -97,11 +97,17 @@ export class ComponentsComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.store.select('properties').subscribe(({ properties, loaded }) => {
-      if (loaded) {
-        this.propertiesProfile = properties;
-      }
-    });
+    this.store
+      .select('properties')
+      .subscribe(({ properties, loaded, filtered }) => {
+        if (loaded && properties !== this.propertiesProfile) {
+          this.propertiesProfile = properties;
+        }
+        if (filtered) {
+          this.propertiesIdSelected = filtered.map((p) => p.id).join(',');
+          this.reloadList.next();
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -132,6 +138,15 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     );
     this.components$.subscribe((data) => {
       this.components = data;
+      if (this.fromFormulation) {
+        this.componentArrayControl.value.map((v: any) => {
+          v.component = v.component
+            ? v.component
+            : this.components.find((c) => c.id === v.component_id);
+          return v;
+        });
+        console.info(this.componentArrayControl);
+      }
     });
   }
 
@@ -178,20 +193,6 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     this.onSelectComponent.emit(this.selectedComponents);
   }
 
-  searchProperties(properties: PropertyDTO[]): void {
-    this.propertiesIdSelected = properties.map((p) => p.id).join(',');
-    this.reloadList.next();
-  }
-  // getPropertiesByComponent(propertiesId: number[]): PropertyDTO[] | null {
-  //   if (this.propertiesProfile) {
-  //     return this.sharedService.getPropertiesById(
-  //       this.propertiesProfile,
-  //       propertiesId
-  //     );
-  //   } else {
-  //     return null;
-  //   }
-  // }
   getProperties(): PropertyDTO[] | null {
     return this.propertiesProfile;
   }

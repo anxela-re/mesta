@@ -25,7 +25,7 @@ interface IComponentWithPercentage {
   templateUrl: './recipe-detail.component.html',
   styleUrls: ['./recipe-detail.component.scss'],
 })
-export class RecipeDetailComponent implements OnInit {
+export class RecipeDetailComponent {
   id!: number;
   recipe!: RecipeDTO;
   breadcrumbHistory: IBreadcrumbHistory[] = [];
@@ -59,15 +59,14 @@ export class RecipeDetailComponent implements OnInit {
       }
     });
     this.store.select('properties').subscribe((propertiesState) => {
-      if (propertiesState.loaded) {
+      if (
+        propertiesState.loaded &&
+        propertiesState.properties !== this.propertiesProfile
+      ) {
         this.propertiesProfile = propertiesState.properties;
         this.getRecipe();
       }
     });
-  }
-
-  ngOnInit(): void {
-    this.getRecipe();
   }
 
   getRecipe(): void {

@@ -1,1 +1,40 @@
-<p>footer works!</p>
+<div class="w-full">
+  <nav class="m-2">
+    <ul class="flex justify-center m-auto p-1 max-w-[400px] flex-wrap">
+      <li class="mx-1">
+        <a
+          class="text-sm text-white-500 hover:text-primary-500"
+          (click)="navigate('configuration')"
+          >Mi cuenta</a
+        >
+      </li>
+      <li class="mx-1">
+        <a
+          class="text-sm text-white-500 hover:text-primary-500"
+          (click)="navigate('recipes')"
+          >Formulaciones</a
+        >
+      </li>
+      <li class="mx-1">
+        <a
+          class="text-sm text-white-500 hover:text-primary-500"
+          (click)="navigate('components')"
+          >Componentes</a
+        >
+      </li>
+      <li class="mx-1">
+        <a
+          class="text-sm text-white-500 hover:text-primary-500"
+          (click)="navigate('configuration')"
+          >Contacto</a
+        >
+      </li>
+    </ul>
+  </nav>
+  <div class="text-center">
+    <span class="text-white-400 text-xs"
+      ><fa-icon [icon]="faCopyright"></fa-icon> 2022. Todos los derechos
+      reservados.</span
+    >
+  </div>
+</div>

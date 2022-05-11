@@ -7,12 +7,14 @@ import { SharedModule } from '../shared/shared.module';
 import { PropertyFormComponent } from './components/property-form/property-form.component';
 import { PropertiesListComponent } from './components/properties-list/properties-list.component';
 import { PropertyItemComponent } from './components/property-item/property-item.component';
+import { PropertiesDisplayComponent } from './components/properties-display/properties-display.component';
 
 @NgModule({
   declarations: [
     PropertyFormComponent,
     PropertiesListComponent,
-    PropertyItemComponent
+    PropertyItemComponent,
+    PropertiesDisplayComponent,
   ],
   imports: [
     CommonModule,
@@ -23,7 +25,8 @@ import { PropertyItemComponent } from './components/property-item/property-item.
   ],
   exports: [
     PropertyFormComponent,
-    PropertiesListComponent
-  ]
+    PropertiesListComponent,
+    PropertiesDisplayComponent,
+  ],
 })
 export class PropertiesModule {}

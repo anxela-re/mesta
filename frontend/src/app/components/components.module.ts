@@ -11,7 +11,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ComponentItemComponent } from './components/component-item/component-item.component';
 import { ComponentsPhaseComponent } from './components/components-phase/components-phase.component';
 import { ComponentDetailsComponent } from './components/component-details/component-details.component';
-import { PropertiesComponentComponent } from './components/properties-component/properties-component.component';
+import { CurrentPercentageAssignPipe } from './services/current-percentage-assign.pipe';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,7 @@ import { PropertiesComponentComponent } from './components/properties-component/
     ComponentItemComponent,
     ComponentsPhaseComponent,
     ComponentDetailsComponent,
-    PropertiesComponentComponent,
+    CurrentPercentageAssignPipe,
   ],
   imports: [
     CommonModule,

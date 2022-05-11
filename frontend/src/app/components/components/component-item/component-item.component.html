@@ -12,11 +12,12 @@
     >
       {{ component?.name }}
     </h4>
-    <app-properties-component
+    <app-properties-display
       [properties]="properties"
-      [phase]="phase"
+      [color]="phase.color"
       [selected]="percentage > 0"
-    ></app-properties-component>
+      [alignRight]="true"
+    ></app-properties-display>
     <div
       *ngIf="fromFormulation || fromRecipeDetails"
       class="flex flex-row gap-2 justify-center font-bold"

@@ -70,7 +70,7 @@ export class UserProfileComponent implements OnInit {
         this.profile = new ProfileDTO(foundProfile);
         this.breadcrumbHistory = [
           {
-            name: 'Configuración',
+            name: 'Mi cuenta',
             navigateName: 'configuration',
           },
           {

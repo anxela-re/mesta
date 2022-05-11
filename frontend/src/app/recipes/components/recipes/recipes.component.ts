@@ -51,11 +51,17 @@ export class RecipesComponent implements OnInit, OnDestroy {
         this.reloadList.next();
       });
 
-    this.store.select('properties').subscribe(({ properties, loaded }) => {
-      if (loaded) {
-        this.propertiesProfile = properties;
-      }
-    });
+    this.store
+      .select('properties')
+      .subscribe(({ properties, loaded, filtered }) => {
+        if (loaded && this.propertiesProfile !== properties) {
+          this.propertiesProfile = properties;
+        }
+        if (filtered) {
+          this.propertiesIdSelected = filtered.map((p) => p.id).join(',');
+          this.reloadList.next();
+        }
+      });
   }
 
   ngOnInit(): void {
@@ -105,10 +111,5 @@ export class RecipesComponent implements OnInit, OnDestroy {
     } else {
       return null;
     }
-  }
-
-  searchProperties(properties: PropertyDTO[]): void {
-    this.propertiesIdSelected = properties.map((p) => p.id).join(',');
-    this.reloadList.next();
   }
 }

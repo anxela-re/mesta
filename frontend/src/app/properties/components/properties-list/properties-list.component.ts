@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { OnSelectProps } from '../property-item/property-item.component';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
+import * as propertiesActions from '../../actions';
 
 @Component({
   selector: 'app-properties-list',
@@ -25,6 +26,9 @@ export class PropertiesListComponent implements OnInit {
 
   @Input()
   allowSearch: boolean = true;
+
+  @Input()
+  filtering: boolean = false;
 
   @Output()
   updateProperties: EventEmitter<PropertyDTO[]> = new EventEmitter();
@@ -43,9 +47,7 @@ export class PropertiesListComponent implements OnInit {
 
   private reloadList: Subject<any> = new Subject();
 
-  constructor(
-    private store: Store<AppState>
-  ) {
+  constructor(private store: Store<AppState>) {
     this.store.select('properties').subscribe((propertiesState) => {
       if (propertiesState.loaded) {
         this.propertiesProfile = propertiesState.properties;
@@ -71,6 +73,13 @@ export class PropertiesListComponent implements OnInit {
       );
     }
 
+    if (this.filtering) {
+      this.store.dispatch(
+        propertiesActions.filteredProperties({
+          properties: this.propertiesSelected,
+        })
+      );
+    }
     this.updateProperties.emit(this.propertiesSelected);
   }
 

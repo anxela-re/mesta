@@ -33,9 +33,7 @@
       ></fa-icon>
     </div>
     <div>
-      <app-properties-list
-        (updateProperties)="searchProperties($event)"
-      ></app-properties-list>
+      <app-properties-list [filtering]="true"></app-properties-list>
     </div>
   </div>
   <div>

@@ -13,11 +13,13 @@ import {
   updatePropertyFailure,
   updatePropertySuccess,
   assignCurrentProperties,
+  filteredProperties,
 } from '../actions';
 import { PropertyDTO } from '../models/property.dto';
 
 export interface PropertiesState {
   properties: PropertyDTO[];
+  filtered: PropertyDTO[];
   loading: boolean;
   loaded: boolean;
   error: any;
@@ -25,6 +27,7 @@ export interface PropertiesState {
 
 export const initialState: PropertiesState = {
   properties: [],
+  filtered: [],
   loading: false,
   loaded: false,
   error: null,
@@ -41,6 +44,7 @@ const _propertiesReducer = createReducer(
   on(getPropertiesByProfileSuccess, (state, { properties, profile_id }) => ({
     ...state,
     properties: properties,
+    filtered: [],
     loaded: true,
     loading: false,
     error: null,
@@ -85,6 +89,7 @@ const _propertiesReducer = createReducer(
         return prop;
       }
     }),
+    filtered: [],
     loading: false,
     loaded: true,
     error: null,
@@ -104,6 +109,7 @@ const _propertiesReducer = createReducer(
   on(deletePropertySuccess, (state, { propertyId, profile_id }) => ({
     ...state,
     properties: state.properties.filter((prop) => prop.id !== propertyId),
+    filtered: [],
     loaded: true,
     loading: false,
     error: null,
@@ -117,6 +123,11 @@ const _propertiesReducer = createReducer(
   on(assignCurrentProperties, (state, { properties }) => ({
     ...state,
     properties: properties,
+    filtered: [],
+  })),
+  on(filteredProperties, (state, { properties }) => ({
+    ...state,
+    filtered: properties,
   }))
 );
 
