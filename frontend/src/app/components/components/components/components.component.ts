@@ -86,12 +86,14 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))
       .subscribe(() => {
+        console.info('components');
         this.reloadList.next();
       });
     this.store
       .select('phases')
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(({ phases, loaded }) => {
+        console.info('components');
         if (loaded) {
           this.phases = phases;
         }
@@ -100,6 +102,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     this.store
       .select('properties')
       .subscribe(({ properties, loaded, filtered }) => {
+        console.info('components');
         if (loaded && properties !== this.propertiesProfile) {
           this.propertiesProfile = properties;
         }

@@ -19,45 +19,8 @@ export interface ResponseError {
   providedIn: 'root',
 })
 export class SharedService {
-  propertiesProfile: PropertyDTO[] = [];
-  profileSelectedId!: number;
-  phasesProfile!: PhaseDTO[];
-  compositionsProfile!: CompositionDTO[];
-  profileSelected!: ProfileDTO;
-  constructor(private store: Store<AppState>) {
-    this.store.select('profiles').subscribe((profilesState) => {
-      if (
-        (profilesState.loaded && profilesState.selected) ||
-        (this.profileSelectedId &&
-          profilesState.selected &&
-          this.profileSelectedId !== profilesState.selected)
-      ) {
-        this.profileSelectedId = profilesState.selected;
-        const profileFound = profilesState.profiles.find(
-          (p) => p.id === profilesState.selected
-        );
-        if (profileFound) {
-          this.profileSelected = profileFound;
-        }
-      }
-    });
-
-    this.store.select('compositions').subscribe((compositionsState) => {
-      if (compositionsState.loaded) {
-        this.compositionsProfile = compositionsState.compositions;
-      }
-    });
-    this.store.select('properties').subscribe((properties) => {
-      if (properties.loaded) {
-        this.propertiesProfile = properties.properties;
-      }
-    });
-    this.store.select('phases').subscribe((phasesState) => {
-      if (phasesState.loaded) {
-        this.phasesProfile = phasesState.phases;
-      }
-    });
-  }
+  private modals: any[] = [];
+  constructor() {}
 
   async managementToast(valid: boolean, msg: string): Promise<void> {
     const feedback = document.getElementById('feedback');
@@ -143,22 +106,6 @@ export class SharedService {
     return properties;
   }
 
-  getProfileSelectedId(): number {
-    return this.profileSelectedId;
-  }
-
-  getProfileSelected(): ProfileDTO {
-    return this.profileSelected;
-  }
-
-  getPhasesProfile(): PhaseDTO[] {
-    return this.phasesProfile;
-  }
-
-  getCompositionsProfile(): CompositionDTO[] {
-    return this.compositionsProfile;
-  }
-
   getCompositionById(
     compositions: CompositionDTO[],
     id: number | undefined
@@ -166,40 +113,25 @@ export class SharedService {
     return id ? compositions.find((c) => c.id === id) : undefined;
   }
 
-  getPhaseById(phases: PhaseDTO[], id: number): PhaseDTO | undefined {
-    return id ? phases.find((p) => p.id === id) : undefined;
+  addModal(modal: any) {
+    this.modals.push(modal);
   }
 
-  manageModal(
-    title: string,
-    content: string,
-    open: boolean = true,
-    proceedFn?: CallableFunction
-  ): void {
-    const popupEl = document.getElementById('popup');
-    const titlepopupEl = document.getElementById('popup-title');
-    const contentpopupEl = document.getElementById('popup-content');
-    const onProceedBtn = document.getElementById('popup-on-proceed');
+  getModals(): any {
+    return this.modals;
+  }
 
-    if (onProceedBtn && proceedFn) {
-      onProceedBtn.addEventListener('click', () => proceedFn());
-    }
-    if (popupEl) {
-      if (open) {
-        popupEl.className = popupEl.className.replace('invisible', 'visible');
-        popupEl.className = popupEl.className.replace('opacity-0', 'opacity-1');
-        if (titlepopupEl && contentpopupEl) {
-          titlepopupEl.textContent = title;
-          contentpopupEl.textContent = content;
-        }
-      } else {
-        popupEl.className = popupEl.className.replace('visible', 'invisible');
-        popupEl.className = popupEl.className.replace('opacity-1', 'opacity-0');
-        if (titlepopupEl && contentpopupEl) {
-          titlepopupEl.textContent = '';
-          contentpopupEl.textContent = '';
-        }
-      }
-    }
+  removeModal(id: string) {
+    this.modals = this.modals.filter((x) => x.id !== id);
+  }
+
+  openModal(id: string, title: string, content: string) {
+    const modal = this.modals.find((x) => x.id === id);
+    modal.open(title, content);
+  }
+
+  closeModal(id: string) {
+    const modal = this.modals.find((x) => x.id === id);
+    modal.close();
   }
 }

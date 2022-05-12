@@ -25,7 +25,7 @@ export class AppComponent {
     private sharedService: SharedService
   ) {
     this.store.select('auth').subscribe((data) => {
-      console.info(data);
+      console.info('app');
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
@@ -43,6 +43,7 @@ export class AppComponent {
     });
 
     this.store.select('profiles').subscribe((data) => {
+      console.info('app');
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
@@ -71,6 +72,14 @@ export class AppComponent {
   }
 
   openPopup(): void {
-    this.sharedService.manageModal('aa', 'bb', true, () => console.info('arrive to app component'));
+    this.sharedService.openModal(
+      'custom',
+      'custom title',
+      'custom description'
+    );
+  }
+
+  onProceed(): void {
+    console.info('custom')
   }
 }

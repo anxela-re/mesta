@@ -61,18 +61,21 @@ export class FormulationComponent implements OnInit {
     }
 
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
+      console.info('formulation');
       if (selected) {
         this.profile_id = selected;
         this.initForm();
       }
     });
     this.store.select('phases').subscribe(({ phases, loaded }) => {
+      console.info('formulation');
       if (loaded) {
         this.phases = phases;
         this.initForm();
       }
     });
     this.store.select('properties').subscribe(({ properties, loaded }) => {
+      console.info('formulation');
       if (
         loaded &&
         JSON.stringify(properties) !== JSON.stringify(this.propertiesProfile)
@@ -118,6 +121,7 @@ export class FormulationComponent implements OnInit {
   }
 
   initForm() {
+    console.info('formulation');
     if (
       this.recipe &&
       this.phases &&

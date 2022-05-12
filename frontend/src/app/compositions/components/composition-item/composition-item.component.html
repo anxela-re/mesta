@@ -4,14 +4,24 @@
   (click)="onSelecting()"
   [ngClass]="{
     'bg-secondary-500 text-white-500': selected,
-    'bg-white-700 hover:opacity-70': !selected,
-    'animate-pulse': editing
+    'bg-white-700 hover:opacity-70': !selected
   }"
 >
   <div class="flex flex-row justify-between">
-    <h4>{{ composition.name }}</h4>
-    <div *ngIf="editing" class="flex flex-row gap-2">
-      <button class="text-danger" (click)="deleteComposition($event)"><fa-icon [icon]="faTrash"></fa-icon></button>
+    <h4 class="font-bold">{{ composition.name }}</h4>
+    <div *ngIf="editing" class="flex flex-row gap-2 my-1">
+      <button
+        [ngClass]="{
+          'text-secondary-500': !selected,
+          'text-white-500': selected
+        }"
+        (click)="editionMode = true"
+      >
+        <fa-icon [icon]="faPencil"></fa-icon>
+      </button>
+      <button class="text-danger" (click)="deleteComposition($event)">
+        <fa-icon [icon]="faTrash"></fa-icon>
+      </button>
     </div>
   </div>
   <div class="flex flex-col">
@@ -33,3 +43,5 @@
   *ngIf="editionMode"
   (onEndEdition)="editionMode = false"
 ></app-composition-form>
+
+<app-modal [id]="getIdModal()" (onProceed)="deleteCompositionConfirm()"></app-modal>

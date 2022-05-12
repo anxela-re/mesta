@@ -18,6 +18,7 @@ export class PhasesService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
+      console.info('phases');
       this.accessToken = auth.credentials.access_token;
     });
   }

@@ -24,6 +24,7 @@ export class AuthService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
+      console.info('auth');
       this.accessToken = auth.credentials.access_token;
     });
   }

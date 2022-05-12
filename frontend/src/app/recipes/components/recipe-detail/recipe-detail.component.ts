@@ -53,12 +53,14 @@ export class RecipeDetailComponent {
       this.router.navigate(['recipes']);
     }
     this.store.select('compositions').subscribe((compositionsState) => {
+      console.info('recipe detail');
       if (compositionsState.loaded) {
         this.compositionsProfile = compositionsState.compositions;
         this.getRecipe();
       }
     });
     this.store.select('properties').subscribe((propertiesState) => {
+      console.info('recipe detail');
       if (
         propertiesState.loaded &&
         propertiesState.properties !== this.propertiesProfile

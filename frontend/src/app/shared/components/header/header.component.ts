@@ -39,6 +39,7 @@ export class HeaderComponent implements OnInit {
     this.isLogged = false;
 
     this.store.select('auth').subscribe((auth) => {
+      console.info('header');
       this.isLogged = false;
       console.info(auth)
       if (auth.credentials.access_token) {
@@ -48,6 +49,7 @@ export class HeaderComponent implements OnInit {
     });
 
     this.store.select('profiles').subscribe((data) => {
+      console.info('header');
       this.profiles = data.profiles;
       if (data.selected) {
         this.profileSelected = data.selected;

@@ -55,6 +55,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe((data) => {
+        console.info('property item');
         this.edited = false;
       });
 
@@ -64,6 +65,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe((data) => {
+        console.info('property item');
         this.onRemoved.emit();
       });
   }

@@ -59,10 +59,12 @@ export class UserProfileComponent implements OnInit {
   ) {
     const profileId = this.route.snapshot.paramMap.get('id');
     this.store.select('user').subscribe(({ user }) => {
+      console.info('user profile');
       this.userId = user.id;
     });
 
     this.store.select('profiles').subscribe(({ profiles }) => {
+      console.info('user profile');
       const foundProfile = profiles.find(
         ({ id }) => id?.toString() === profileId?.toString()
       );
@@ -100,6 +102,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {}
 
   initForm(): void {
+    console.info('user profile');
     this.name = new FormControl(this.profile.name, [
       Validators.required,
       Validators.maxLength(64),

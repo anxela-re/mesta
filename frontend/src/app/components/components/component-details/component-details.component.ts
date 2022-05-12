@@ -48,6 +48,7 @@ export class ComponentDetailsComponent implements OnInit {
     }
 
     this.store.select('phases').subscribe(({ phases, loaded }) => {
+      console.info('component details');
       if (loaded) {
         this.phases = phases;
         this.updatePhase();
@@ -55,6 +56,7 @@ export class ComponentDetailsComponent implements OnInit {
     });
 
     this.store.select('properties').subscribe(({ properties, loaded }) => {
+      console.info('component details');
       if (loaded) {
         this.propertiesProfile = properties;
         this.updateProperties();

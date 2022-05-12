@@ -20,6 +20,7 @@ export class ProfileService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
+      console.info('profile');
       this.accessToken = auth.credentials.access_token;
     });
   }

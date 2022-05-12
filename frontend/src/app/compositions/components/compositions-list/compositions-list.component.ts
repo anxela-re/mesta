@@ -30,6 +30,7 @@ export class CompositionsListComponent implements OnInit {
     private sharedService: SharedService
   ) {
     this.store.select('compositions').subscribe((compositionsState) => {
+      console.info('compositions list');
       if (compositionsState.loaded) {
         this.compositions = compositionsState.compositions || [];
       }

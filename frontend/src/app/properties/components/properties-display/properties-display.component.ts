@@ -26,6 +26,7 @@ export class PropertiesDisplayComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.store.select('properties').subscribe(({ filtered }) => {
+      console.info('properties diplay');
       this.propertiesFiltered = filtered;
     });
   }

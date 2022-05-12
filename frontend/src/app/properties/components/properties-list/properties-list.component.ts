@@ -49,6 +49,7 @@ export class PropertiesListComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.store.select('properties').subscribe((propertiesState) => {
+      console.info('properties list');
       if (propertiesState.loaded) {
         this.propertiesProfile = propertiesState.properties;
         this.properties = propertiesState.properties;

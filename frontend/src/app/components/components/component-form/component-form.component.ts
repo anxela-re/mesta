@@ -54,6 +54,7 @@ export class ComponentFormComponent implements OnInit {
     this.componentId = this.route.snapshot.paramMap.get('id');
 
     this.store.select('phases').subscribe(({ phases, loaded }) => {
+      console.info('component form');
       if (loaded) {
         this.phases = phases;
       }
@@ -62,6 +63,7 @@ export class ComponentFormComponent implements OnInit {
     this.store
       .select('properties')
       .subscribe(({ properties, loaded }) => {
+        console.info('component form');
         if (loaded && this.propertiesProfile !== properties) {
           this.propertiesProfile = properties;
           this.initForm();

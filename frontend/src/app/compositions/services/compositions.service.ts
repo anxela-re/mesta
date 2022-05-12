@@ -20,6 +20,7 @@ export class CompositionsService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
+      console.info('compositions');
       this.accessToken = auth.credentials.access_token;
     });
   }
