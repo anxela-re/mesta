@@ -6,6 +6,7 @@ import * as UserActions from './user/actions';
 import * as ProfilesActions from './profiles/actions';
 import * as PhasesActions from './phases/actions';
 import { ProfileSelectedService } from './profiles/services/profile-selected.service';
+import { SharedService } from './shared/services/shared.service';
 
 @Component({
   selector: 'app-root',
@@ -20,10 +21,11 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService
   ) {
     this.store.select('auth').subscribe((data) => {
-      console.info(data)
+      console.info(data);
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
@@ -66,5 +68,9 @@ export class AppComponent {
         this.profileSelectedId = data.selected;
       }
     });
+  }
+
+  openPopup(): void {
+    this.sharedService.manageModal('aa', 'bb', true, () => console.info('arrive to app component'));
   }
 }

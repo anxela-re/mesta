@@ -1,0 +1,30 @@
+<div
+  id="popup"
+  class="z-10 fixed inset-0 bg-secondary-500/[.2] transition duration-500 transition-opacity invisible opacity-0"
+>
+  <div
+    class="translate-y-2/4 mx-auto p-2 md:p-4 bg-white-500 rounded-lg w-[90%] md:w-[40%] max-w-[400px] relative transition ease-in-out duration-500"
+  >
+    <div class="flex flex-row justify-between">
+      <h2 id="popup-title"></h2>
+      <a class="text-secondary-500 hover:text-primary-500" (click)="onClose()"
+        >&times;</a
+      >
+    </div>
+    <div id="popup-content" class="content max-h-[30%] overflow-auto my-2"></div>
+    <div class="flex flex-row justify-center gap-5 my-2">
+      <button
+        class="btn btn-primary shadow-thick-secondary"
+        id="popup-on-proceed"
+      >
+        Continuar
+      </button>
+      <button
+        class="btn btn-outline-secondary shadow-thick-secondary"
+        (click)="onClose()"
+      >
+        Cancelar
+      </button>
+    </div>
+  </div>
+</div>

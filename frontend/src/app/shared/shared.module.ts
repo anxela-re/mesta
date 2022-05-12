@@ -8,6 +8,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { DashedBoxComponent } from './components/dashed-box/dashed-box.component';
+import { ModalComponent } from './components/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DashedBoxComponent } from './components/dashed-box/dashed-box.component
     BreadcrumbComponent,
     FeedbackComponent,
     DashedBoxComponent,
+    ModalComponent,
   ],
   imports: [CommonModule, FontAwesomeModule, RouterModule],
   exports: [
@@ -26,6 +28,7 @@ import { DashedBoxComponent } from './components/dashed-box/dashed-box.component
     BreadcrumbComponent,
     FeedbackComponent,
     DashedBoxComponent,
+    ModalComponent,
   ],
 })
 export class SharedModule {}

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from '../../models/composition.dto';
 import * as compositionsActions from '../../actions';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Component({
   selector: 'app-composition-item',
@@ -25,7 +26,10 @@ export class CompositionItemComponent implements OnInit {
 
   faTrash = faTrashAlt;
   editionMode: boolean = false;
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private sharedService: SharedService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -39,19 +43,34 @@ export class CompositionItemComponent implements OnInit {
     }
   }
 
+  warningDeleteComposition(): void {
+    this.sharedService;
+  }
   deleteComposition(event: MouseEvent): void {
     event?.stopPropagation();
+    //TODO compositions delete warning -> deleting recipes
+    this.sharedService.manageModal(
+      '¡Cuidado!',
+      'Si elimina una composición, todas las recetas que la utilizan serán eliminadas, ¿Desea continuar de todas formas?',
+      true,
+      this.deleteCompositionConfirm
+    );
+  }
+  deleteCompositionConfirm(): void {
+    console.info('deleteCompositionConfirm')
+    this.sharedService.manageModal('','',false);
+    console.info(this.composition)
     if (
       this.composition &&
-      this.composition.id &&
-      this.composition.profile_id
+      this.composition?.id &&
+      this.composition?.profile_id
     ) {
-      this.store.dispatch(
-        compositionsActions.deleteComposition({
-          compositionId: this.composition.id,
-          profile_id: this.composition.profile_id,
-        })
-      );
+      // this.store.dispatch(
+      //   compositionsActions.deleteComposition({
+      //     compositionId: this.composition.id,
+      //     profile_id: this.composition.profile_id,
+      //   })
+      // );
     }
   }
 }

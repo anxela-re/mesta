@@ -169,4 +169,37 @@ export class SharedService {
   getPhaseById(phases: PhaseDTO[], id: number): PhaseDTO | undefined {
     return id ? phases.find((p) => p.id === id) : undefined;
   }
+
+  manageModal(
+    title: string,
+    content: string,
+    open: boolean = true,
+    proceedFn?: CallableFunction
+  ): void {
+    const popupEl = document.getElementById('popup');
+    const titlepopupEl = document.getElementById('popup-title');
+    const contentpopupEl = document.getElementById('popup-content');
+    const onProceedBtn = document.getElementById('popup-on-proceed');
+
+    if (onProceedBtn && proceedFn) {
+      onProceedBtn.addEventListener('click', () => proceedFn());
+    }
+    if (popupEl) {
+      if (open) {
+        popupEl.className = popupEl.className.replace('invisible', 'visible');
+        popupEl.className = popupEl.className.replace('opacity-0', 'opacity-1');
+        if (titlepopupEl && contentpopupEl) {
+          titlepopupEl.textContent = title;
+          contentpopupEl.textContent = content;
+        }
+      } else {
+        popupEl.className = popupEl.className.replace('visible', 'invisible');
+        popupEl.className = popupEl.className.replace('opacity-1', 'opacity-0');
+        if (titlepopupEl && contentpopupEl) {
+          titlepopupEl.textContent = '';
+          contentpopupEl.textContent = '';
+        }
+      }
+    }
+  }
 }

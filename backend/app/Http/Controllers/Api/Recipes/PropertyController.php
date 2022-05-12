@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\Recipes;
 
 use App\Http\Controllers\Controller;
+use App\Models\Component;
 use App\Models\Profile;
 use App\Models\Property;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -72,9 +74,43 @@ class PropertyController extends Controller
         return response(['message' => 'Property succesfully updated', 'data' => $current], 200);
     }
 
+    function isNotSameValue($var, $const)
+    {
+        return $var !== $const;
+    }
     public function delete($id)
     {
+        $componentsWithProperty = Component::where('properties', 'like', '%' . $id . '%')->get();
+        foreach ($componentsWithProperty as $component) {
+            $propertiesComponent = $component->properties;
+            $propertiesComponent = array_values(array_filter($propertiesComponent, function ($var) use ($id) {
+                return $var !== (int)$id;
+            }));
+
+            DB::table('components')
+                ->where('id', $component->id)
+                ->update([
+                    'properties' => $propertiesComponent,
+                ]);
+        }
+
+
+        $recipesWithProperty = Recipe::where('properties', 'like', '%' . $id . '%')->get();
+        foreach ($recipesWithProperty as $recipe) {
+            $propertiesRecipe = $recipe->properties;
+            $propertiesRecipe = array_values(array_filter($propertiesRecipe, function ($var) use ($id) {
+                return $var !== (int)$id;
+            }));
+
+            DB::table('recipes')
+                ->where('id', $recipe->id)
+                ->update([
+                    'properties' => $propertiesRecipe,
+                ]);
+        }
+
         $item = Property::where('id', $id)->delete();
+
         return response(['message' => 'Property succesfully deleted'], 200);
     }
 }

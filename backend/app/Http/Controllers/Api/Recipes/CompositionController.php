@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Recipes;
 use App\Http\Controllers\Controller;
 use App\Models\Composition;
 use App\Models\Profile;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -77,6 +78,10 @@ class CompositionController extends Controller
 
     public function delete($id)
     {
+        $recipesWithComposition = Recipe::where('composition_id', '=', $id)->get();
+        foreach ($recipesWithComposition as $recipe) {
+            Recipe::where('id', $recipe->id)->delete();
+        }
         $item = Composition::where('id', $id)->delete();
         return response(['message' => 'Composition succesfully deleted'], 200);
     }
