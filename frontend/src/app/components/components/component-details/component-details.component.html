@@ -13,7 +13,7 @@
       <button
         type="button"
         class="btn btn-outline-danger shadow-thick-secondary"
-        (click)="remove()"
+        (click)="delete()"
       >
         <fa-icon [icon]="faTrash"></fa-icon>
       </button>
@@ -60,3 +60,5 @@
     </div>
   </div>
 </div>
+
+<app-modal [id]="getIdModal()" (onProceed)="deleteComponentConfirm()"></app-modal>

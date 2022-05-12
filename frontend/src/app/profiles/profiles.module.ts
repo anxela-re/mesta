@@ -5,9 +5,10 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxColorsModule } from 'ngx-colors';
 import { SharedModule } from '../shared/shared.module';
+import { ProfileItemComponent } from './components/profile-item/profile-item.component';
 
 @NgModule({
-  declarations: [UserProfileComponent],
+  declarations: [UserProfileComponent, ProfileItemComponent],
   imports: [
     CommonModule,
     FontAwesomeModule,
@@ -15,8 +16,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     NgxColorsModule,
     SharedModule,
-    
   ],
-  exports: [UserProfileComponent],
+  exports: [UserProfileComponent, ProfileItemComponent],
 })
 export class ProfilesModule {}

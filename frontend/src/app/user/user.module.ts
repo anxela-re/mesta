@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AppRoutingModule } from '../app-routing.module';
 import { RegisterComponent } from './components/register/register.component';
@@ -8,19 +8,18 @@ import { UserConfigurationComponent } from './components/user-configuration/user
 import { NgxColorsModule } from 'ngx-colors';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from '../shared/shared.module';
+import { ProfilesModule } from '../profiles/profiles.module';
 
 @NgModule({
-  declarations: [
-    RegisterComponent,
-    UserConfigurationComponent,
-  ],
+  declarations: [RegisterComponent, UserConfigurationComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     AppRoutingModule,
     FontAwesomeModule,
     NgxColorsModule,
-    SharedModule
+    SharedModule,
+    ProfilesModule,
   ],
 })
 export class UserModule {}

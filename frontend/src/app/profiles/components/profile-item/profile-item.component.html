@@ -1,0 +1,33 @@
+<div
+  class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:border-secondary-200 group"
+  (click)="editProfile(profile?.id)"
+>
+  <div class="flex flex-row justify-between">
+    <div class="flex flex-row gap-2">
+      <h4 class="text-secondary-500 group-hover:text-secondary-200">
+        {{ profile?.name }}
+      </h4>
+    </div>
+    <fa-icon
+      [icon]="faTrash"
+      class="hover:text-danger z-10"
+      (click)="deleteProfile($event)"
+    ></fa-icon>
+  </div>
+  <div
+    class="body-profile my-2 text-sm text-secondary-500 group-hover:text-secondary-200"
+  >
+    {{ profile?.description }}
+  </div>
+  <div class="profile-phases flex flex-row gap-1 mb-2">
+    <h4
+      *ngFor="let phase of profile?.phases"
+      class="text-white-500 rounded-full px-2 py-1 text-sm"
+      [ngStyle]="{ 'background-color': phase.color }"
+    >
+      {{ phase?.name }}
+    </h4>
+  </div>
+</div>
+
+<app-modal [id]="getIdModal()" (onProceed)="deleteProfileConfirm()"></app-modal>

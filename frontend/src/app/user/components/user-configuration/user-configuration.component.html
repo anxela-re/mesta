@@ -99,42 +99,7 @@
       </section>
       <section id="profiles">
         <h2>Perfiles</h2>
-        <div
-          *ngFor="let profile of profiles"
-          class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:border-secondary-200 group"
-          (click)="editProfile(profile.id)"
-        >
-          <div class="flex flex-row justify-between">
-            <div class="flex flex-row gap-2">
-              <div
-                class="w-[10px] h-[25px] rounded"
-                [ngStyle]="{ 'background-color': profile.color }"
-              ></div>
-              <h4 class="text-secondary-500 group-hover:text-secondary-200">
-                {{ profile.name }}
-              </h4>
-            </div>
-            <fa-icon
-              [icon]="faTrash"
-              class="hover:text-danger z-10"
-              (click)="deleteProfile($event, profile.id)"
-            ></fa-icon>
-          </div>
-          <div
-            class="body-profile my-2 text-sm text-secondary-500 group-hover:text-secondary-200"
-          >
-            {{ profile.description }}
-          </div>
-          <div class="profile-phases flex flex-row gap-1 mb-2">
-            <h4
-              *ngFor="let phase of profile.phases"
-              class="text-white-500 rounded-full px-2 py-1 text-sm"
-              [ngStyle]="{ 'background-color': phase.color }"
-            >
-              {{ phase.name }}
-            </h4>
-          </div>
-        </div>
+        <app-profile-item *ngFor="let profile of profiles" [profile]="profile"></app-profile-item>
         <div
           class="add-profile rounded-lg text-center py-4 w-full cursor-pointer text-secondary-100 bg-secondary-50 border-secondary-100 hover:text-secondary-50 hover:bg-secondary-100 hover:border-secondary-50"
           (click)="createProfile()"
@@ -154,33 +119,9 @@
           >
           <a
             class="text-danger cursor-pointer"
-            (click)="deleteUserPrompt = !deleteUserPrompt"
+            (click)="deleteUser()"
             >Eliminar cuenta</a
           >
-          <div *ngIf="deleteUserPrompt">
-            <div
-              class="m-4 p-4 border-[1px] border-secondary-100 rounded-xl bg-secondary-500"
-            >
-              <p class="text-white-500">
-                Area you sure you want to close your account? You will loose all
-                the data without option of recovery?
-              </p>
-              <div class="flex flex-row gap-2 justify-end mt-2">
-                <button
-                  class="btn btn-danger shadow-thick-secondary"
-                  (click)="deleteUser()"
-                >
-                  Confirmar
-                </button>
-                <button
-                  class="btn btn-white shadow-thick-secondary"
-                  (click)="deleteUserPrompt = false"
-                >
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          </div>
         </div>
         <hr class="text-secondary-50 my-8" />
       </section>
@@ -275,3 +216,5 @@
     </div>
   </div>
 </div>
+
+<app-modal [id]="getIdModal()" (onProceed)="deleteUserConfirm()"></app-modal>

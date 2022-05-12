@@ -16,6 +16,7 @@ import { faSave, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProfileDTO } from '../../../profiles/models/profile.dto';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 class ContactDTO {
   name!: string;
@@ -56,14 +57,13 @@ export class UserConfigurationComponent implements OnInit {
 
   profiles: ProfileDTO[] = [];
 
-  deleteUserPrompt: boolean = false;
-
   constructor(
     public userService: UserService,
     private store: Store<AppState>,
     private fb: FormBuilder,
     public scroller: ViewportScroller,
-    private router: Router
+    private router: Router,
+    private sharedService: SharedService
   ) {
     this.isValidForm = null;
     this.store.select('user').subscribe(({ user }) => {
@@ -107,6 +107,10 @@ export class UserConfigurationComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  getIdModal(): string {
+    return 'user-delete-' + this.user.id;
+  }
+
   onSubmit(): void {
     this.store.dispatch(
       UserActions.updateUser({ user: { ...this.user, ...this.userForm.value } })
@@ -117,26 +121,19 @@ export class UserConfigurationComponent implements OnInit {
     // TODO
   }
 
-  editProfile(profileId: number | undefined): void {
-    if (profileId) {
-      this.router.navigate(['/profile', profileId]);
-    }
-  }
-
-  deleteProfile(e: MouseEvent, profileId: number | undefined): void {
-    e.stopPropagation();
-
-    if (profileId) {
-      this.store.dispatch(
-        ProfilesActions.deleteProfile({ profileId: profileId })
-      );
-    }
-  }
   createProfile(): void {
     this.router.navigate(['/profile', 'new']);
   }
 
   deleteUser(): void {
+    this.sharedService.openModal(
+      this.getIdModal(),
+      '¡Cuidado!',
+      'Si elimina la cuenta no podrá recuperar los datos almacenados, ¿Desea continuar de todas formas?'
+    );
+  }
+
+  deleteUserConfirm(): void {
     if (this.user.id) {
       const id = this.user.id;
       localStorage.clear();

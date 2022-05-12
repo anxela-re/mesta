@@ -60,15 +60,13 @@ export class ComponentFormComponent implements OnInit {
       }
     });
 
-    this.store
-      .select('properties')
-      .subscribe(({ properties, loaded }) => {
-        console.info('component form');
-        if (loaded && this.propertiesProfile !== properties) {
-          this.propertiesProfile = properties;
-          this.initForm();
-        }
-      });
+    this.store.select('properties').subscribe(({ properties, loaded }) => {
+      console.info('component form');
+      if (loaded && this.propertiesProfile !== properties) {
+        this.propertiesProfile = properties;
+        this.initForm();
+      }
+    });
 
     this.profile_id = this.profileSelectedService.getProfileSelectedStored();
   }
@@ -122,35 +120,39 @@ export class ComponentFormComponent implements OnInit {
   }
 
   initForm() {
-    this.name = new FormControl(this.component.name, [
-      Validators.required,
-      Validators.maxLength(64),
-    ]);
-    this.scientific_name = new FormControl(this.component.scientific_name);
-    this.description = new FormControl(this.component.description);
-    this.expiration_date = new FormControl(this.component.expiration_date);
-    this.phase_id = new FormControl(this.component.phase_id, [
-      Validators.required,
-    ]);
+    if (this.component) {
+      this.name = new FormControl(this.component.name, [
+        Validators.required,
+        Validators.maxLength(64),
+      ]);
+      this.scientific_name = new FormControl(this.component.scientific_name);
+      this.description = new FormControl(this.component.description);
+      this.expiration_date = new FormControl(this.component.expiration_date);
+      this.phase_id = new FormControl(this.component.phase_id, [
+        Validators.required,
+      ]);
 
-    this.componentForm = this.fb.group({
-      name: this.name,
-      scientific_name: this.scientific_name,
-      description: this.description,
-      phase_id: this.phase_id,
-      expiration_date: this.expiration_date,
-    });
-    this.setProperties();
+      this.componentForm = this.fb.group({
+        name: this.name,
+        scientific_name: this.scientific_name,
+        description: this.description,
+        phase_id: this.phase_id,
+        expiration_date: this.expiration_date,
+      });
+      this.setProperties();
 
-    const props: PropertyDTO[] = [];
-    this.component.properties?.forEach((p) => {
-      const found = this.properties?.find((prop: PropertyDTO) => prop.id === p);
-      if (found) {
-        props.push(found);
-      }
-    });
+      const props: PropertyDTO[] = [];
+      this.component.properties?.forEach((p) => {
+        const found = this.properties?.find(
+          (prop: PropertyDTO) => prop.id === p
+        );
+        if (found) {
+          props.push(found);
+        }
+      });
 
-    this.updateProperties(props);
+      this.updateProperties(props);
+    }
   }
 
   selectPhase(phase: PhaseDTO): void {

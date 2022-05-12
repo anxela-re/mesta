@@ -85,6 +85,9 @@ export class ComponentDetailsComponent implements OnInit {
     );
   }
 
+  getIdModal(): string {
+    return 'component-delete-' + this.component.id;
+  }
   updatePhase() {
     if (this.component && this.phases) {
       this.phase = this.phases?.find((p) => p.id === this.component.phase_id);
@@ -108,7 +111,15 @@ export class ComponentDetailsComponent implements OnInit {
     this.router.navigate(['components', 'edit', this.component.id]);
   }
 
-  remove(): void {
+  delete(): void {
+    this.sharedService.openModal(
+      this.getIdModal(),
+      '¡Cuidado!',
+      '¿Está seguro de que quiere borrar este componente?'
+    );
+  }
+
+  deleteComponentConfirm(): void {
     if (this.component.id) {
       this.componentsService
         .deleteComponent(this.component.id)

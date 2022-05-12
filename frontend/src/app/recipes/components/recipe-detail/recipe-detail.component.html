@@ -13,7 +13,7 @@
       <button
         type="button"
         class="btn btn-outline-danger shadow-thick-secondary"
-        (click)="remove()"
+        (click)="delete()"
       >
         <fa-icon [icon]="faTrash"></fa-icon>
       </button>
@@ -51,3 +51,5 @@
     ></app-components>
   </div>
 </div>
+
+<app-modal [id]="getIdModal()" (onProceed)="deleteRecipeConfirm()"></app-modal>

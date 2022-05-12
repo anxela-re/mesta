@@ -71,6 +71,9 @@ export class RecipeDetailComponent {
     });
   }
 
+  getIdModal(): string {
+    return 'recipe-delete-' + this.recipe.id;
+  }
   getRecipe(): void {
     if (this.compositionsProfile && this.propertiesProfile) {
       this.recipesService.getRecipes({ id: this.id }).subscribe(
@@ -106,7 +109,14 @@ export class RecipeDetailComponent {
     this.router.navigate(['recipes', 'formulation', this.recipe.id]);
   }
 
-  remove(): void {
+  delete(): void {
+    this.sharedService.openModal(
+      this.getIdModal(),
+      '¡Cuidado!',
+      '¿Está seguro de que quiere borrar la receta?'
+    );
+  }
+  deleteRecipeConfirm(): void {
     if (this.recipe.id) {
       this.recipesService.deleteRecipe(this.recipe.id).subscribe(
         (data) => this.router.navigate(['recipes']),

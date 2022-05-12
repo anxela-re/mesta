@@ -70,16 +70,4 @@ export class AppComponent {
       }
     });
   }
-
-  openPopup(): void {
-    this.sharedService.openModal(
-      'custom',
-      'custom title',
-      'custom description'
-    );
-  }
-
-  onProceed(): void {
-    console.info('custom')
-  }
 }
