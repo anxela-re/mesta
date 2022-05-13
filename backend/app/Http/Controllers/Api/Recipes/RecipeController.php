@@ -39,6 +39,7 @@ class RecipeController extends Controller
             'profile_id' => 'required',
             'components' => 'required',
             'composition_id' => 'required',
+            'components_id' => 'required'
         ]);
 
         $profileId = $request->profile_id;
@@ -60,6 +61,7 @@ class RecipeController extends Controller
             'composition_id' => $request->composition_id,
             'components' => $request->components,
             'properties' => $request->properties,
+            'components_id' => $request->components_id,
         ]);
 
 
@@ -87,6 +89,7 @@ class RecipeController extends Controller
                 'composition_id' => $request->composition_id,
                 'components' => $request->components,
                 'properties' => $request->properties,
+                'components_id' => $request->components_id,
             ]);
         $current = Recipe::where('id', $id)->get()->first();
 

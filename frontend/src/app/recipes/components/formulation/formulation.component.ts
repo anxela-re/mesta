@@ -194,6 +194,9 @@ export class FormulationComponent implements OnInit {
           c.component && c.component.id ? c.component.id : c.component_id,
         percentage: c.percentage,
       })),
+      components_id: formValue.components.map((c: any) =>
+        c.component?.id ? c.component.id : c.component
+      ),
       properties: formValue.components
         .map((c: any) =>
           c.component.properties.map((p: PropertyDTO) => p?.id || p)

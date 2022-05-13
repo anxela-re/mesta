@@ -16,7 +16,8 @@ class Recipe extends Model
         'profile_id',
         'composition_id',
         'components',
-        'properties'
+        'properties', 
+        'components_id'
     ];
 
     /**
@@ -26,6 +27,7 @@ class Recipe extends Model
      */
     protected $casts = [
         'properties' => 'array',
-        'components' => 'array'
+        'components' => 'array',
+        'components_id' => 'array'
     ];
 }

@@ -76,6 +76,10 @@ class PhaseController extends Controller
         return response(['message' => 'Phase succesfully updated', 'data' => $current], 200);
     }
     public function delete($id) {
+        
+
+
+        return response(['message' => 'Phase succesfully deleted'], 400);
         $phase = Phase::where('id', $id)->delete();
         return response(['message' => 'Phase succesfully deleted'], 200);
     }

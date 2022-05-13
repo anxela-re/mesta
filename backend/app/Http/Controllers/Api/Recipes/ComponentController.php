@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Component;
 use App\Models\Phase;
 use App\Models\Profile;
+use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -124,7 +125,28 @@ class ComponentController extends Controller
     }
     public function delete($id)
     {
+        $recipes = Recipe::where('components_id', 'like', '%' . $id . '%')->get();
+
+        foreach ($recipes as $recipe) {
+            $componentsWithPercentage = $recipe->components;
+            $componentsId = $recipe->components_id;
+            $newComponentsWithPercentage = array_values(array_filter($componentsWithPercentage, function($v) use ($id) {
+                return $v['component_id'] !== (int)$id;
+            }));
+            $newComponentsId = array_values(array_filter($componentsId, function ($var) use ($id) {
+                return $var !== (int)$id;
+            }));
+
+            DB::table('recipes')
+                ->where('id', $recipe->id)
+                ->update([
+                    'components' => $newComponentsWithPercentage,
+                    'components_id' => $newComponentsId,
+                ]);
+        }
+
         $item = Component::where('id', $id)->delete();
+
         return response(['message' => 'Component succesfully deleted'], 200);
     }
 }

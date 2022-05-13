@@ -113,7 +113,7 @@ export class RecipeDetailComponent {
     this.sharedService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
-      '¿Está seguro de que quiere borrar la receta?'
+      'Una vez eliminada, no podrá recuperar la receta ¿Está seguro que quiere eliminarla?'
     );
   }
   deleteRecipeConfirm(): void {

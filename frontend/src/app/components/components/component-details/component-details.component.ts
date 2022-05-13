@@ -115,7 +115,7 @@ export class ComponentDetailsComponent implements OnInit {
     this.sharedService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
-      '¿Está seguro de que quiere borrar este componente?'
+      'También será eliminado el componente de las recetas que lo utilicen ¿Está seguro de que quiere borrar este componente?'
     );
   }
 
