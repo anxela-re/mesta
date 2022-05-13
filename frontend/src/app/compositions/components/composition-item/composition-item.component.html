@@ -3,8 +3,8 @@
   class="border-2 border-dashed border-secondary-100 rounded-lg p-2 min-w-[200px] m-1 cursor-pointer"
   (click)="onSelecting()"
   [ngClass]="{
-    'bg-secondary-500 text-white-500': selected,
-    'bg-white-700 hover:opacity-70': !selected
+    'bg-secondary-500 text-basic-500': selected,
+    'bg-basic-700 hover:opacity-70': !selected
   }"
 >
   <div class="flex flex-row justify-between">
@@ -13,7 +13,7 @@
       <button
         [ngClass]="{
           'text-secondary-500': !selected,
-          'text-white-500': selected
+          'text-basic-500': selected
         }"
         (click)="editionMode = true"
       >

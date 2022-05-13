@@ -18,6 +18,7 @@ import { AppState } from 'src/app/app.reducers';
 import * as ProfilesActions from '../../actions';
 import * as PhasesActions from '../../../phases/actions';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 export function minLengthArray(min: number): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -52,10 +53,13 @@ export class UserProfileComponent implements OnInit {
 
   breadcrumbHistory: IBreadcrumbHistory[] = [];
 
+  warnRemoval: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private store: Store<AppState>,
+    private sharedService: SharedService
   ) {
     const profileId = this.route.snapshot.paramMap.get('id');
     this.store.select('user').subscribe(({ user }) => {
@@ -101,6 +105,14 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  getIdModal(): string {
+    return 'warning-phase-removal';
+  }
+
+  setWarnGiven() {
+    this.warnRemoval = true;
+  }
+
   initForm(): void {
     console.info('user profile');
     this.name = new FormControl(this.profile.name, [
@@ -134,6 +146,19 @@ export class UserProfileComponent implements OnInit {
         color: new FormControl('#ea526f', [Validators.required]),
       })
     );
+  }
+
+  removePhase(i: number, phaseForm: AbstractControl): void {
+    if (this.warnRemoval || !phaseForm.value.id) {
+      this.phases.removeAt(i);
+    } else {
+      this.sharedService.openModal(
+        this.getIdModal(),
+        '¡Cuidado!',
+        'Si elimina una fase los componentes asociados se eliminarán, así como las composiciones y las recetas en las que esté presente, ¿Desea continuar de todas formas?'
+      );
+      this.setWarnGiven();
+    }
   }
 
   onSubmit(): void {

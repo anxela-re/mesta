@@ -1,7 +1,7 @@
-<div class="p-2 limit-container">
+<div class="p-2">
   <div
     *ngIf="!fromFormulation && !fromRecipeDetails"
-    class="flex flex-row align-items-center w-full flex-wrap md:flex-nowrap"
+    class="flex flex-row align-items-center w-full flex-wrap md:flex-nowrap p-3"
   >
     <h2>Componentes</h2>
     <div class="flex flex-row justify-between w-full">
@@ -18,42 +18,48 @@
       </button>
     </div>
   </div>
-  <div class="flex flex-col mt-2 mb-4">
-    <div class="relative w-full">
-      <input
-        type="text"
-        class="input-search"
-        placeholder="Buscar componente"
-        [(ngModel)]="searchTerm"
-        (keyup)="search()"
-      />
-      <fa-icon
-        [icon]="faSearch"
-        class="absolute top-2 right-0 px-4 fa-2x text-white-900"
-      ></fa-icon>
+  <div
+    class="flex justify-between mx-auto my-0 relative grow shrink-0 basis-auto text-left flex-col md:flex-row"
+  >
+    <div class="flex flex-col w-full md:w-[30%] lg:w-[20%] shrink-0">
+      <div class="md:sticky w-auto p-2 md:overflow-y-auto md:top-[10px]">
+        <div class="relative w-full md:w-[90%]">
+          <input
+            type="text"
+            class="input-search"
+            placeholder="Buscar componente"
+            [(ngModel)]="searchTerm"
+            (keyup)="search()"
+          />
+          <fa-icon
+            [icon]="faSearch"
+            class="absolute top-2 right-0 px-4 fa-2x text-basic-900"
+          ></fa-icon>
+        </div>
+        <div class="w-full md:w-[90%]">
+          <app-properties-list [filtering]="true"></app-properties-list>
+        </div>
+      </div>
     </div>
-    <div>
-      <app-properties-list [filtering]="true"></app-properties-list>
-    </div>
-  </div>
-  <div>
-    <div *ngFor="let phase of phases">
-      <app-components-phase
-        [phase]="phase"
-        [components]="filterByPhase(phase.id)"
-        [fromFormulation]="fromFormulation"
-        [fromRecipeDetails]="fromRecipeDetails"
-        [percentage]="getPhasePercentage(phase?.id)"
-        [componentArrayControl]="componentArrayControl"
-        [recipeComponents]="recipeComponents"
-        [properties]="getProperties()"
-      ></app-components-phase>
-    </div>
-    <!-- <app-component-item
+    <div class="w-full md:w-[70%] lg:w-[80%] mx-auto my-0">
+      <div *ngFor="let phase of phases">
+        <app-components-phase
+          [phase]="phase"
+          [components]="filterByPhase(phase.id)"
+          [fromFormulation]="fromFormulation"
+          [fromRecipeDetails]="fromRecipeDetails"
+          [percentage]="getPhasePercentage(phase?.id)"
+          [componentArrayControl]="componentArrayControl"
+          [recipeComponents]="recipeComponents"
+          [properties]="getProperties()"
+        ></app-components-phase>
+      </div>
+      <!-- <app-component-item
         *ngFor="let component of components"
         [component]="component"
         [phase]="phases[0]"
         [properties]="getPropertiesByComponent(component.properties)"
       ></app-component-item> -->
+    </div>
   </div>
 </div>

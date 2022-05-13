@@ -23,7 +23,7 @@
     component?.scientific_name
   }}</span>
   <div class="flex gap-2 flex-col my-4 md:flex-row">
-    <div class="bg-white-900 rounded-lg w-full md:w-[30%] text-center">
+    <div class="bg-basic-900 rounded-lg w-full md:w-[30%] text-center">
       <fa-icon
         [icon]="faImage"
         class="text-secondary-100 fa-6x m-auto"
@@ -52,7 +52,7 @@
     <h4 class="my-1">Propiedades</h4>
     <div class="flex gap-1">
       <div
-        class="rounded-full border-2 px-4 border-secondary-500 text-secondary-500 h-[100%] text-white-500 bg-secondary-500"
+        class="rounded-full border-2 px-4 border-secondary-500 text-secondary-500 h-[100%] text-basic-500 bg-secondary-500"
         *ngFor="let property of properties"
       >
         <span>{{ property?.name }}</span>

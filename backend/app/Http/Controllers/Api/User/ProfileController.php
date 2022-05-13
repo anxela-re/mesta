@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Component;
+use App\Models\Composition;
 use App\Models\Phase;
 use App\Models\Profile;
+use App\Models\Property;
+use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -76,6 +80,10 @@ class ProfileController extends Controller
     public function delete($id)
     {
         $phases = Phase::where('profile_id', $id)->delete();
+        $components = Component::where('profile_id', $id)->delete();
+        $properties = Property::where('profile_id', $id)->delete();
+        $recipes = Recipe::where('profile_id', $id)->delete();
+        $compositions = Composition::where('profile_id', $id)->delete();
         $profiles = Profile::where('id', $id)->delete();
         return response(['message' => 'Profile succesfully deleted'], 200);
     }

@@ -43,17 +43,17 @@
           ></fa-icon>
         </button>
         <ul
-          class="z-10 min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-white-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
+          class="z-10 min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-basic-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
           aria-labelledby="dropdownMenu"
           [ngClass]="{ 'scale-100': isMenuOpen, 'scale-0': !isMenuOpen }"
         >
           <li
-            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           >
             Contacto
           </li>
           <li
-            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
             (click)="navigateTo('login')"
           >
             Log in
@@ -105,12 +105,12 @@
         ></fa-icon>
       </button>
       <ul
-        class="z-10 min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-white-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
+        class="z-10 min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-basic-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
         aria-labelledby="dropdownMenu"
         [ngClass]="{ 'scale-100': isMenuOpen, 'scale-0': !isMenuOpen }"
       >
         <li
-          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           (click)="navigateTo('configuration')"
         >
           <fa-icon [icon]="faCogs" class="m-1"></fa-icon>Configuración
@@ -120,13 +120,13 @@
           Perfiles
           <ul>
             <li
-              class="m-1 border-2 border-primary-500 hover:bg-primary-500 hover:text-white-500 rounded-full px-3 cursor-pointer"
+              class="m-1 border-2 border-primary-500 hover:bg-primary-500 hover:text-basic-500 rounded-full px-3 cursor-pointer"
               *ngFor="let profile of profiles"
               (click)="selectProfile(profile)"
               [ngClass]="{
-                'bg-primary-500 text-white-500 cursor-default':
+                'bg-primary-500 text-basic-500 cursor-default':
                   profileSelected === profile.id,
-                'bg-white-500 text-primary-500': profileSelected !== profile.id
+                'bg-basic-500 text-primary-500': profileSelected !== profile.id
               }"
             >
               {{ profile.name }}
@@ -135,7 +135,7 @@
           <hr class="text-secondary-50" />
         </li>
         <li
-          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-white-500 cursor-pointer"
+          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           (click)="logout()"
         >
           <fa-icon [icon]="faArrowRightFromBracket" class="m-1"></fa-icon>Log

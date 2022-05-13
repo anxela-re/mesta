@@ -151,6 +151,14 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
       ...this.compositionForm.value,
       profile_id: this.profile_id,
     };
+    this.composition = {
+      ...this.composition,
+      phases_percentage: this.composition.phases_percentage?.filter((p) => p.percentage !== 0)
+    }
+    this.composition = {
+      ...this.composition,
+      phases_id: this.composition.phases_percentage?.map((p) => p.phase_id)
+    }
     
     if (this.composition.id) {
       this.store.dispatch(

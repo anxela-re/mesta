@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Component;
+use App\Models\Composition;
 use App\Models\Phase;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -75,11 +77,31 @@ class PhaseController extends Controller
 
         return response(['message' => 'Phase succesfully updated', 'data' => $current], 200);
     }
-    public function delete($id) {
-        
+    public function delete($id)
+    {
 
 
-        return response(['message' => 'Phase succesfully deleted'], 400);
+        $components = Component::where('phase_id', '=', $id)->delete();
+        $compositions = Composition::where('phases_id', 'like', '%' . $id . '%')->get();
+
+        foreach ($compositions as $composition) {
+            $compositionsWithPhasePercentage = $composition->phases_percentage;
+            $compositionsId = $composition->phases_id;
+            $newCompositionsWithPhasePercentage = array_values(array_filter($compositionsWithPhasePercentage, function ($v) use ($id) {
+                return $v['phase_id'] !== (int)$id;
+            }));
+            $newCompositionsId = array_values(array_filter($compositionsId, function ($var) use ($id) {
+                return $var !== (int)$id;
+            }));
+
+            DB::table('compositions')
+                ->where('id', $composition->id)
+                ->update([
+                    'phases_percentage' => $newCompositionsWithPhasePercentage,
+                    'phases_id' => $newCompositionsId,
+                ]);
+        }
+
         $phase = Phase::where('id', $id)->delete();
         return response(['message' => 'Phase succesfully deleted'], 200);
     }

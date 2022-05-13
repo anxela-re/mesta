@@ -33,6 +33,7 @@ class CompositionController extends Controller
             'name' => 'required',
             'profile_id' => 'required',
             'phases_percentage' => 'required',
+            'phases_id' => 'required',
         ]);
 
         $profileId = $request->profile_id;
@@ -45,6 +46,7 @@ class CompositionController extends Controller
             'name' => $request->name,
             'profile_id' => $request->profile_id,
             'phases_percentage' => $request->phases_percentage,
+            'phases_id' => $request->phases_id,
         ]);
 
 
@@ -70,6 +72,7 @@ class CompositionController extends Controller
                 'name' => $request->name,
                 'profile_id' => $request->profile_id,
                 'phases_percentage' => $request->phases_percentage,
+                'phases_id' => $request->phases_id,
             ]);
         $current = Composition::where('id', $id)->get()->first();
 
@@ -78,10 +81,7 @@ class CompositionController extends Controller
 
     public function delete($id)
     {
-        $recipesWithComposition = Recipe::where('composition_id', '=', $id)->get();
-        foreach ($recipesWithComposition as $recipe) {
-            Recipe::where('id', $recipe->id)->delete();
-        }
+        $recipesWithComposition = Recipe::where('composition_id', '=', $id)->delete();
         $item = Composition::where('id', $id)->delete();
         return response(['message' => 'Composition succesfully deleted'], 200);
     }

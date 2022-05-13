@@ -78,7 +78,7 @@ const _phasesReducer = createReducer(
   on(updatePhaseSuccess, (state, { phase, profile_id }) => ({
     ...state,
     phases: state.phases.map((prop) => {
-      if (prop.id === phase.id) {
+      if (prop.profile_id === profile_id && prop.id === phase.id) {
         return phase;
       } else {
         return prop;

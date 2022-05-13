@@ -13,7 +13,8 @@ class Composition extends Model
     protected $fillable = [
         'name',
         'phases_percentage',
-        'profile_id'
+        'profile_id',
+        'phases_id'
     ];
 
     /**
@@ -22,6 +23,7 @@ class Composition extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'phases_percentage' => 'array'
+        'phases_percentage' => 'array',
+        'phases_id' => 'array'
     ];
 }

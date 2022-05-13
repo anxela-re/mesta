@@ -11,7 +11,8 @@ module.exports = {
       danger: "#bb2124",
       success: "#22bb33",
       warn: "#f0ad4e",
-      white: {
+      white: '#fff',
+      basic: {
         50: "#fefefe",
         100: "#fcfcfc",
         200: "#fafafa",
