@@ -52,7 +52,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
   phasesPercentage: IPhasesPercentage[] | undefined = [];
 
   @Input()
-  componentArrayControl!: FormArray;
+  recipeComponentsArrayControl!: FormArray;
 
   @Input()
   recipeComponents: IComponentPercentage[] = [];
@@ -142,13 +142,13 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     this.components$.subscribe((data) => {
       this.components = data;
       if (this.fromFormulation) {
-        this.componentArrayControl.value.map((v: any) => {
+        this.recipeComponentsArrayControl.value.map((v: any) => {
           v.component = v.component
             ? v.component
             : this.components.find((c) => c.id === v.component_id);
           return v;
         });
-        console.info(this.componentArrayControl);
+        console.info(this.recipeComponentsArrayControl);
       }
     });
   }

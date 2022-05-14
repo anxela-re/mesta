@@ -72,7 +72,7 @@ export class RecipeDetailComponent {
   }
 
   getIdModal(): string {
-    return 'recipe-delete-' + this.recipe.id;
+    return 'recipe-delete-' + this.recipe?.id;
   }
   getRecipe(): void {
     if (this.compositionsProfile && this.propertiesProfile) {

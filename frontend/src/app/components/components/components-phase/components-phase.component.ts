@@ -63,7 +63,7 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   percentage: number = 0;
 
   @Input()
-  componentArrayControl!: FormArray;
+  recipeComponentsArrayControl!: FormArray;
 
   @Input()
   recipeComponents: IComponentPercentage[] = [];
@@ -94,27 +94,48 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       this.initForm();
       this.phaseComponentsForm.reset();
     }
-    if (changes.components || changes.componentArrayControl) {
+    if (changes.components || changes.recipeComponentsArrayControl) {
       this.initForm();
     }
+    console.info(this);
   }
 
   initForm(): void {
-    this.phaseComponentsForm = this.fb.array(
-      this.recipeComponents
-        .map(({ component_id, percentage }) => ({
-          component: this.components.find(({ id }) => id === component_id),
-          percentage,
-        }))
-        .filter(({ component }) => component?.phase_id === this.phase.id)
-        .map(({ component, percentage }) => {
-          return this.fb.group({
-            component: component,
+    if (this.fromFormulation) {
+      this.phaseComponentsForm = this.fb.array(
+        this.recipeComponentsArrayControl.value
+          .map((c: any) => ({
+            component: this.components.find(
+              ({ id }) => id === c.component_id || id === c.component.id
+            ),
+            percentage: c.percentage,
+          }))
+          .filter((c: any) => c.component?.phase_id === this.phase.id)
+          .map((c: any) => {
+            return this.fb.group({
+              component: c.component,
+              percentage: c.percentage,
+            });
+          }),
+        maxAddition(this.percentage)
+      );
+    } else {
+      this.phaseComponentsForm = this.fb.array(
+        this.recipeComponents
+          .map(({ component_id, percentage }) => ({
+            component: this.components.find(({ id }) => id === component_id),
             percentage,
-          });
-        }),
-      maxAddition(this.percentage)
-    );
+          }))
+          .filter(({ component }) => component?.phase_id === this.phase.id)
+          .map(({ component, percentage }) => {
+            return this.fb.group({
+              component: component,
+              percentage,
+            });
+          }),
+        maxAddition(this.percentage)
+      );
+    }
   }
 
   changeArrayControl(
@@ -129,7 +150,7 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       if (percentage === 0) {
         formArray.removeAt(index);
       } else {
-        console.info('cc', percentage)
+        console.info('cc', percentage);
         formArray
           .at(index)
           .patchValue({ component: found.component, percentage: percentage });
@@ -147,7 +168,7 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     );
     this.changeArrayControl(
       { percentage, component },
-      this.componentArrayControl
+      this.recipeComponentsArrayControl
     );
   }
 

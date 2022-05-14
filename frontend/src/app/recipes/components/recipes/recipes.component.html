@@ -1,5 +1,7 @@
-<div class="p-2 limit-container">
-  <div class="flex flex-row align-items-center w-full flex-wrap md:flex-nowrap">
+<div class="p-2">
+  <div
+    class="flex flex-row align-items-center w-full flex-wrap md:flex-nowrap p-3"
+  >
     <h2>Recetas</h2>
     <div class="flex flex-row justify-between w-full">
       <span class="md:before:content-['|'] md:before:mx-4"
@@ -14,41 +16,47 @@
       </button> -->
     </div>
   </div>
-  <div class="flex flex-col mt-2 mb-4">
-    <div class="relative w-full">
-      <input
-        type="text"
-        class="input-search"
-        placeholder="Buscar receta"
-        [(ngModel)]="searchTerm"
-        (keyup)="search()"
-      />
-      <fa-icon
-        [icon]="faSearch"
-        class="absolute top-2 right-0 px-4 fa-2x text-basic-900"
-      ></fa-icon>
+  <div
+    class="flex justify-between mx-auto my-0 relative grow shrink-0 basis-auto text-left flex-col md:flex-row"
+  >
+    <div class="flex flex-col w-full md:w-[30%] lg:w-[20%] shrink-0">
+      <div class="md:sticky w-auto p-2 md:overflow-y-auto md:top-[10px]">
+        <div class="relative w-full md:w-[90%]">
+          <input
+            type="text"
+            class="input-search"
+            placeholder="Buscar receta"
+            [(ngModel)]="searchTerm"
+            (keyup)="search()"
+          />
+          <!-- <fa-icon
+            [icon]="faSearch"
+            class="absolute top-2 right-0 px-4 fa-2x text-basic-900"
+          ></fa-icon> -->
+        </div>
+        <div class="w-full md:w-[90%]">
+          <app-properties-list [filtering]="true"></app-properties-list>
+        </div>
+      </div>
     </div>
-    <div>
-      <app-properties-list [filtering]="true"></app-properties-list>
+    <div class="w-full md:w-[70%] lg:w-[80%] mx-auto my-0">
+      <div
+        class="flex flex-col justify-center hover:border-secondary-300 text-center border-2 border-dashed rounded-lg border-secondary-100 bg-basic-900 max-w-[150px] p-4 m-2 relative cursor-pointer"
+        (click)="onCreate()"
+      >
+        <fa-icon
+          [icon]="faPlus"
+          class="fa-2x text-secondary-100 group-hover:text-secondary-300"
+        ></fa-icon>
+        <h4 class="text-secondary-100 group-hover:text-secondary-300">
+          Formular
+        </h4>
+      </div>
+      <app-recipe-item
+        *ngFor="let recipe of recipes"
+        [recipe]="recipe"
+        [properties]="getPropertiesByRecipe(recipe.properties)"
+      ></app-recipe-item>
     </div>
-  </div>
-  <div class="flex flex-wrap">
-    <div
-      class="flex flex-col justify-center hover:border-secondary-300 text-center border-2 border-dashed rounded-lg border-secondary-100 bg-basic-900 max-w-[150px] p-4 m-2 relative cursor-pointer"
-      (click)="onCreate()"
-    >
-      <fa-icon
-        [icon]="faPlus"
-        class="fa-2x text-secondary-100 group-hover:text-secondary-300"
-      ></fa-icon>
-      <h4 class="text-secondary-100 group-hover:text-secondary-300">
-        Formular
-      </h4>
-    </div>
-    <app-recipe-item
-      *ngFor="let recipe of recipes"
-      [recipe]="recipe"
-      [properties]="getPropertiesByRecipe(recipe.properties)"
-    ></app-recipe-item>
   </div>
 </div>

@@ -158,7 +158,7 @@ export class FormulationComponent implements OnInit {
     }
   }
 
-  get componentArrayControl(): FormArray {
+  get recipeComponentsArrayControl(): FormArray {
     return this.formulationForm.get('components') as FormArray;
   }
   setProperties() {
@@ -185,7 +185,6 @@ export class FormulationComponent implements OnInit {
 
     const formValue = Object.assign({}, this.formulationForm.value);
 
-    console.info(formValue);
     this.recipe = {
       ...this.recipe,
       ...this.formulationForm.value,
@@ -206,8 +205,6 @@ export class FormulationComponent implements OnInit {
     };
 
     if (this.recipeId) {
-      // TODO update
-      console.info(this.recipe);
       this.recipesService
         .updateRecipe(this.recipe)
         .subscribe((res) => this.router.navigate(['recipes']));
