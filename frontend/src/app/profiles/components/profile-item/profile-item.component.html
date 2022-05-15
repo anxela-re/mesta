@@ -1,10 +1,10 @@
 <div
-  class="mt-2 border-dashed border-secondary-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:border-secondary-200 group"
+  class="mt-2 border-dashed border-secondary-400 dark:border-basic-400 border-2 cursor-pointer p-3 rounded-lg mb-3 hover:border-secondary-200 group"
   (click)="editProfile(profile?.id)"
 >
   <div class="flex flex-row justify-between">
     <div class="flex flex-row gap-2">
-      <h4 class="text-secondary-500 group-hover:text-secondary-200">
+      <h4 class="text-secondary-500 dark:text-basic-500 group-hover:text-secondary-200">
         {{ profile?.name }}
       </h4>
     </div>
@@ -15,7 +15,7 @@
     ></fa-icon>
   </div>
   <div
-    class="body-profile my-2 text-sm text-secondary-500 group-hover:text-secondary-200"
+    class="body-profile my-2 text-sm text-secondary-500 dark:text-basic-500 group-hover:text-secondary-200"
   >
     {{ profile?.description }}
   </div>

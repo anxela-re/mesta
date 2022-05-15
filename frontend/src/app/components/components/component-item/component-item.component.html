@@ -3,10 +3,10 @@
   (click)="onClick()"
   [ngClass]="{ 'scale-100': properties }"
 >
-  <app-dashed-box [color]="phase?.color" [selected]="percentage > 0">
+  <app-dashed-box [color]="phase?.color" [selected]="percentage > 0 || !fromFormulation">
     <h4
       [ngStyle]="{
-        color: percentage > 0 ? '#fff' : phase?.color
+        color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
       }"
       class="font-bold group-hover:!text-basic-500"
     >
@@ -15,7 +15,7 @@
     <app-properties-display
       [properties]="properties"
       [color]="phase.color"
-      [selected]="percentage > 0"
+      [selected]="percentage > 0 || !fromFormulation"
       [alignRight]="true"
     ></app-properties-display>
     <div
@@ -27,7 +27,7 @@
         type="button"
         class="group-hover:!text-basic-500 outline-none"
         [ngStyle]="{
-          color: percentage > 0 ? '#fff' : phase?.color
+          color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
         }"
         (click)="decrement($event)"
       >
@@ -41,13 +41,13 @@
           [(ngModel)]="percentage"
           (change)="onChangePercentage($event)"
           [ngStyle]="{
-            color: percentage > 0 ? '#fff' : phase?.color
+            color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
           }"
           class="outline-none group-hover:!text-basic-500 border-none bg-transparent w-[50%] text-right"
         />
         <span
           [ngStyle]="{
-            color: percentage > 0 ? '#fff' : phase?.color
+            color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
           }"
           class="h-[100%] group-hover:!text-basic-500 w-[50%]"
         >
@@ -59,7 +59,7 @@
         type="button"
         class="group-hover:!text-basic-500 outline-none"
         [ngStyle]="{
-          color: percentage > 0 ? '#fff' : phase?.color
+          color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
         }"
         (click)="increment($event)"
       >

@@ -19,21 +19,23 @@
 
 @tailwind utilities;
 
-// @each $color, $value in $theme-colors {
-//   .color-#{$color} {
-//     color: $value !important;
-//   }
-//   .bg-#{$color} {
-//     background-color: $value !important;
-//   }
-// }
-
-.backgroung-image {
-  background: url("./assets/images/bg-image.png"), #fbfbfb;
+html {
+  scroll-behavior: smooth;
+}
+:not(.dark) .background-image {
+  background: url("./assets/images/bg-image.png");
   background-size: 200%;
 }
+.dark .background-image {
+  background: url("./assets/images/bg-image-dark.png");
+  background-size: 200%;
+
+}
+body {
+  @apply dark:text-basic-500;
+}
 h1 {
-  @apply font-serif;
+  @apply font-serif dark:text-basic-500;
 }
 
 a {
@@ -57,6 +59,10 @@ a:hover {
 .btn-secondary {
   @apply bg-secondary-400 text-basic-500 border-secondary-500 hover:bg-secondary-500 disabled:cursor-default disabled:bg-secondary-300;
 }
+
+.dark .btn-danger {
+  @apply bg-danger text-basic-500 border-danger hover:bg-danger;
+}
 .btn-danger {
   @apply bg-danger text-basic-500 border-danger hover:bg-danger;
 }
@@ -68,19 +74,22 @@ a:hover {
   @apply text-secondary-500 border-2 border-secondary-500 hover:bg-secondary-500 hover:text-basic-500 disabled:cursor-default disabled:bg-secondary-300;
 }
 
+.dark .btn-outline-danger {
+  @apply text-danger border-2 border-danger hover:bg-danger hover:text-basic-500 disabled:cursor-default disabled:bg-danger;
+}
 .btn-outline-danger {
   @apply text-danger border-2 border-danger hover:bg-danger hover:text-basic-500 disabled:cursor-default disabled:bg-danger;
 }
 
 h2 {
-  @apply tracking-widest text-xl;
+  @apply tracking-widest text-xl dark:text-basic-500;
 }
 
 h3 {
-  @apply text-lg;
+  @apply text-lg dark:text-basic-500;
 }
 p {
-  @apply text-sm;
+  @apply text-sm dark:text-basic-500;
 }
 
 .fs-xs {
@@ -126,7 +135,7 @@ input:-webkit-autofill:active {
 }
 
 .dark-input {
-  @apply bg-basic-900 rounded-lg py-2 px-4 w-full focus:outline-none;
+  @apply bg-basic-900 rounded-lg py-2 px-4 w-full focus:outline-none dark:text-secondary-500;
 }
 
 .light-input {
@@ -137,11 +146,11 @@ input:-webkit-autofill:active {
   @apply mt-2 mb-2 text-danger text-left fs-xs;
 }
 .input-search {
-  @apply border-2 border-secondary-500 rounded-xl py-2 px-4 w-full my-2 shadow-thick shadow-secondary-500 outline-none transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px];
+  @apply border-2 border-secondary-500 dark:border-none rounded-xl py-2 px-4 w-full my-2 shadow-thick shadow-secondary-500 dark:shadow-primary-500 outline-none transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px];
 }
 
 .shadow-thick-secondary {
-  @apply shadow-thick shadow-secondary-500  transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;
+  @apply shadow-thick shadow-secondary-500 dark:shadow-basic-500 transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;
 }
 .shadow-thick-danger {
   @apply shadow-thick shadow-danger transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;

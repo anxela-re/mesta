@@ -79,11 +79,11 @@ export class DashedBoxComponent implements OnInit {
             ? `linear-gradient(${
                 index === 1 || index === 3 ? `to bottom` : `to right`
               }, 
-            #fff 33%,
+            ${localStorage.theme === 'dark' ? '#0f172a' : '#fff'} 50%,
             rgba(255, 255, 255, 0) 0%)`
             : `linear-gradient(${
                 index === 1 || index === 3 ? `to bottom` : `to right`
-              }, ${this.color} 33%, rgba(255,255,255,0) 0%)`
+              }, ${this.color} 50%, rgba(255,255,255,0) 0%)`
         );
       }
     });

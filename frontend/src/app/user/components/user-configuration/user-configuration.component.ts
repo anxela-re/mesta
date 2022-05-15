@@ -142,4 +142,10 @@ export class UserConfigurationComponent implements OnInit {
       this.router.navigateByUrl('/');
     }
   }
+
+  toggleTheme () :void {
+    console.info(localStorage.theme)
+    // this.sharedService.changeTheme('')
+    this.sharedService.toggleTheme();
+  }
 }

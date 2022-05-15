@@ -13,7 +13,6 @@ import {
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
 import * as ProfilesActions from 'src/app/profiles/actions';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -30,6 +29,12 @@ export class HeaderComponent implements OnInit {
 
   profiles: ProfileDTO[] = [];
   profileSelected?: number | undefined;
+
+  currnetLogoPath: string =
+    localStorage.theme === 'dark'
+      ? '../../../../assets/images/logo-white.png'
+      : '../../../../assets/images/logo.png';
+
   constructor(
     private router: Router,
     private store: Store<AppState>,
@@ -41,7 +46,7 @@ export class HeaderComponent implements OnInit {
     this.store.select('auth').subscribe((auth) => {
       console.info('header');
       this.isLogged = false;
-      console.info(auth)
+      console.info(auth);
       if (auth.credentials.access_token) {
         this.isLogged = true;
       }
@@ -64,17 +69,25 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  @HostListener('window:changeTheme', [])
+  onChangeTheme() {
+    console.info(localStorage.theme);
+  }
+
   ngOnInit(): void {}
 
+  getLogoPath(): string {
+    return localStorage.theme === 'dark'
+      ? '../../../../assets/images/logo-white.png'
+      : '../../../../assets/images/logo.png';
+  }
   navigateTo(url: string) {
     this.router.navigateByUrl(url);
   }
 
   selectProfile(profile: ProfileDTO | undefined) {
     if (profile && profile.id) {
-      this.store.dispatch(
-        ProfilesActions.selectProfile({ profile: profile })
-      );
+      this.store.dispatch(ProfilesActions.selectProfile({ profile: profile }));
       this.profileSelectedService.setProfileSelected(profile.id);
     }
   }

@@ -9,16 +9,15 @@
   padding-right: 0.75rem;
   padding-left: 0.75rem;
 }
-.app-menu a:first-child::after {
-  @apply text-secondary-500;
-}
+// .app-menu a:first-child::after {
+//   @apply text-secondary-500 dark:text-basic-500;
+// }
 .app-menu a {
   // font-size: 0.8rem;
   letter-spacing: 0.1rem;
-  padding-top: 4px;
 }
 .app-menu a {
-  @apply text-secondary-500 text-xs hover:text-primary-500 md:text-xs;
+  @apply text-xs hover:text-primary-500 md:text-xs;
 }
 .app-menu a.router-link-active {
   @apply text-primary-500 text-base font-bold pt-0 md:text-sm;

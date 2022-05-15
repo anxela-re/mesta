@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import * as UserActions from './user/actions';
 import * as ProfilesActions from './profiles/actions';
-import * as PhasesActions from './phases/actions';
 import { ProfileSelectedService } from './profiles/services/profile-selected.service';
 import { SharedService } from './shared/services/shared.service';
 
@@ -24,6 +23,8 @@ export class AppComponent {
     private router: Router,
     private sharedService: SharedService
   ) {
+
+    this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
       console.info('app');
       if (
@@ -44,6 +45,7 @@ export class AppComponent {
 
     this.store.select('profiles').subscribe((data) => {
       console.info('app');
+      console.info(data)
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
@@ -69,5 +71,9 @@ export class AppComponent {
         this.profileSelectedId = data.selected;
       }
     });
+  }
+
+  toggle() {
+    this.sharedService.toggleTheme();
   }
 }

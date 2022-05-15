@@ -3,17 +3,24 @@
   <div *ngIf="!isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/']" class="flex items-center gap-1"
       ><img
-        src="../../../../assets/images/logo.png"
+        [src]="getLogoPath()"
         alt="Mesta"
         width="auto"
         height="100%"
         class="logo-img"
       />
-      <h1 class="text-secondary-500 text-4xl mb-0 hidden md:block">Mesta</h1></a
+      <h1
+        class="text-secondary-500 dark:text-basic-500 text-4xl mb-0 hidden md:block"
+      >
+        Mesta
+      </h1></a
     >
     <div class="flex items-center menu-buttons md:flex-row-reverse">
       <div>
-        <button (click)="navigateTo('register')" class="mr-2 btn btn-primary  shadow-thick-secondary">
+        <button
+          (click)="navigateTo('register')"
+          class="mr-2 btn btn-primary shadow-thick-secondary"
+        >
           Registrarse
         </button>
       </div>
@@ -22,7 +29,7 @@
         <a
           [routerLink]="['/login']"
           routerLinkActive="router-link-active"
-          class="m-3 text-secondary-500"
+          class="m-3 text-secondary-500 dark:text-basic-500"
         >
           Login
         </a>
@@ -39,7 +46,7 @@
             id="button-menu-svg"
             [icon]="faBars"
             size="lg"
-            class="text-secondary-300 hover:text-secondary-500"
+            class="text-secondary-300 dark:text-basic-300 hover:text-secondary-500"
           ></fa-icon>
         </button>
         <ul
@@ -48,12 +55,12 @@
           [ngClass]="{ 'scale-100': isMenuOpen, 'scale-0': !isMenuOpen }"
         >
           <li
-            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
+            class="p-1 text-secondary-500 dark:text-basic-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           >
             Contacto
           </li>
           <li
-            class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
+            class="p-1 text-secondary-500 dark:text-basic-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
             (click)="navigateTo('login')"
           >
             Log in
@@ -67,13 +74,17 @@
   <div *ngIf="isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/recipes']" class="flex items-center gap-1"
       ><img
-        src="../../../../assets/images/logo.png"
+        [src]="getLogoPath()"
         alt="Mesta"
         width="auto"
         height="100%"
         class="logo-img"
       />
-      <h1 class="text-secondary-500 text-4xl mb-0 hidden md:block">Mesta</h1></a
+      <h1
+        class="text-secondary-500 dark:text-basic-500 text-4xl mb-0 hidden md:block"
+      >
+        Mesta
+      </h1></a
     >
     <div class="flex items-center app-menu">
       <a
@@ -101,7 +112,7 @@
           id="button-menu-svg"
           [icon]="faUser"
           size="lg"
-          class="text-secondary-300 hover:text-secondary-500"
+          class="text-secondary-300 dark:text-basic-500 hover:text-secondary-500"
         ></fa-icon>
       </button>
       <ul
