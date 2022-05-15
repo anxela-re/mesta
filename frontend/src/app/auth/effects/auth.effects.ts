@@ -18,9 +18,6 @@ import { ProfileSelectedService } from 'src/app/profiles/services/profile-select
 
 @Injectable()
 export class AuthEffects {
-  // private responseOK: boolean;
-  // private errorResponse: any;
-
   constructor(
     private actions$: Actions,
     private authService: AuthService,
@@ -28,9 +25,7 @@ export class AuthEffects {
     private sharedService: SharedService,
     private tokenService: TokenService,
     private profileSelectedService: ProfileSelectedService
-  ) {
-    // this.responseOK = false;
-  }
+  ) {}
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),

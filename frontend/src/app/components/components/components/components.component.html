@@ -37,7 +37,7 @@
         }"
       >
         <div
-          class="relative w-full md:w-[90%]"
+          class="relative w-full"
           [ngClass]="{ 'md:w-[90%]': !fromFormulation && !fromRecipeDetails }"
         >
           <input
@@ -52,7 +52,10 @@
             class="absolute top-2 right-0 px-4 fa-2x text-basic-900"
           ></fa-icon> -->
         </div>
-        <div class="w-full md:w-[90%]">
+        <div
+          class="w-full"
+          [ngClass]="{ 'md:w-[90%]': !fromFormulation && !fromRecipeDetails }"
+        >
           <app-properties-list [filtering]="true"></app-properties-list>
         </div>
       </div>

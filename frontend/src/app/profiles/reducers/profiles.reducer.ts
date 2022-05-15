@@ -104,6 +104,7 @@ const _userReducer = createReducer(
     profiles: state.profiles.filter(
       (currentProfile) => currentProfile.id !== profileId
     ),
+    selected: state.selected === profileId ? undefined : state.selected,
     loading: false,
     loaded: true,
     error: null,

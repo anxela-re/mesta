@@ -9,7 +9,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { props } from '@ngrx/store';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { RecipeDTO } from '../../models/recipe.dto';
 

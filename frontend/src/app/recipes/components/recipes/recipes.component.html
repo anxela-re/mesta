@@ -39,9 +39,11 @@
         </div>
       </div>
     </div>
-    <div class="w-full md:w-[70%] lg:w-[80%] mx-auto my-0">
+    <div
+      class="w-full md:w-[70%] lg:w-[80%] mx-auto my-0 h-fit grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+    >
       <div
-        class="flex flex-col justify-center hover:border-secondary-300 text-center border-2 border-dashed rounded-lg border-secondary-100 bg-basic-900 max-w-[150px] p-4 m-2 relative cursor-pointer"
+        class="flex flex-col justify-center hover:border-secondary-300 text-center border-2 border-dashed rounded-lg border-secondary-100 bg-basic-900 p-4 m-2 relative cursor-pointer"
         (click)="onCreate()"
       >
         <fa-icon
@@ -52,11 +54,12 @@
           Formular
         </h4>
       </div>
-      <app-recipe-item
-        *ngFor="let recipe of recipes"
-        [recipe]="recipe"
-        [properties]="getPropertiesByRecipe(recipe.properties)"
-      ></app-recipe-item>
+      <div class="p-2" *ngFor="let recipe of recipes">
+        <app-recipe-item
+          [recipe]="recipe"
+          [properties]="getPropertiesByRecipe(recipe.properties)"
+        ></app-recipe-item>
+      </div>
     </div>
   </div>
 </div>

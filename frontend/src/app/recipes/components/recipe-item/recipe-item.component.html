@@ -1,5 +1,5 @@
 <div
-  class="min-w-[150px] max-w-[280px] m-2 transform transition delay-10 duration-300 ease-in-out scale-0"
+  class="transform transition delay-10 duration-300 ease-in-out scale-0"
   (click)="onClick()"
   [ngClass]="{ 'scale-100': properties }"
 >
@@ -10,12 +10,5 @@
       {{ recipe.name }}
     </h4>
     <app-properties-display [properties]="properties"></app-properties-display>
-    <!-- <div class="flex flex-wrap justify-center text-center">
-      <span
-        class="text-sm group-hover:!text-basic-500 text-secondary-500"
-        *ngFor="let property of properties"
-        >{{ property?.name }}.&nbsp;</span
-      >
-    </div> -->
   </app-dashed-box>
 </div>

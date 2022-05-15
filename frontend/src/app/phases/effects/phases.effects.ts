@@ -54,13 +54,19 @@ export class PhasesEffects {
           this.store.dispatch(
             profilesActions.assignPhases({ profile_id, phases })
           );
-          this.store.select('profiles').subscribe(({ selected }) => {
-            if (selected === profile_id) {
-              this.store.dispatch(
-                phasesActions.assignCurrentPhases({ phases })
-              );
-            }
-          });
+          const unsubscribe$ = new Subject<void>();
+          this.store
+            .select('profiles')
+            .pipe(takeUntil(unsubscribe$))
+            .subscribe(({ selected }) => {
+              if (selected === profile_id) {
+                this.store.dispatch(
+                  phasesActions.assignCurrentPhases({ phases })
+                );
+              }
+              unsubscribe$.next();
+              unsubscribe$.complete();
+            });
         })
       ),
     { dispatch: false }
@@ -108,7 +114,7 @@ export class PhasesEffects {
           this.store
             .select('profiles')
             .pipe(takeUntil(unsubscribe$))
-            .subscribe(({ profiles }) => {
+            .subscribe(({ profiles, selected }) => {
               const found = profiles.find(({ id }) => id === profile_id);
               const currentPhases = found?.phases || [];
               this.store.dispatch(
@@ -117,6 +123,13 @@ export class PhasesEffects {
                   phases: [...currentPhases, phase],
                 })
               );
+              if (selected === profile_id) {
+                this.store.dispatch(
+                  phasesActions.assignCurrentPhases({
+                    phases: [...currentPhases, phase],
+                  })
+                );
+              }
               unsubscribe$.next();
               unsubscribe$.complete();
             });
@@ -165,21 +178,29 @@ export class PhasesEffects {
           this.store
             .select('profiles')
             .pipe(takeUntil(unsubscribe$))
-            .subscribe(({ profiles }) => {
+            .subscribe(({ profiles, selected }) => {
               const found = profiles.find(({ id }) => id === profile_id);
               const currentPhases = found?.phases || [];
+              const newPhases = currentPhases.map((prop) => {
+                if (prop.id === phase.id) {
+                  return phase;
+                } else {
+                  return prop;
+                }
+              });
               this.store.dispatch(
                 profilesActions.assignPhases({
                   profile_id,
-                  phases: currentPhases.map((prop) => {
-                    if (prop.id === phase.id) {
-                      return phase;
-                    } else {
-                      return prop;
-                    }
-                  }),
+                  phases: newPhases,
                 })
               );
+              if (selected === profile_id) {
+                this.store.dispatch(
+                  phasesActions.assignCurrentPhases({
+                    phases: newPhases,
+                  })
+                );
+              }
               unsubscribe$.next();
               unsubscribe$.complete();
             });
@@ -230,15 +251,23 @@ export class PhasesEffects {
           this.store
             .select('profiles')
             .pipe(takeUntil(unsubscribe$))
-            .subscribe(({ profiles }) => {
+            .subscribe(({ profiles, selected }) => {
               const found = profiles.find(({ id }) => id === profile_id);
               const currentPhases = found?.phases || [];
+              const newPhases = currentPhases.filter((prop) => prop.id !== phaseId);
               this.store.dispatch(
                 profilesActions.assignPhases({
                   profile_id,
-                  phases: currentPhases.filter((prop) => prop.id !== phaseId),
+                  phases: newPhases,
                 })
               );
+              if (selected === profile_id) {
+                this.store.dispatch(
+                  phasesActions.assignCurrentPhases({
+                    phases: newPhases,
+                  })
+                );
+              }
               unsubscribe$.next();
               unsubscribe$.complete();
             });

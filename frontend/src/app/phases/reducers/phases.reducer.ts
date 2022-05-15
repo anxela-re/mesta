@@ -58,7 +58,6 @@ const _phasesReducer = createReducer(
   })),
   on(createPhaseSuccess, (state, { phase, profile_id }) => ({
     ...state,
-    phases: [...state.phases, phase],
     loaded: true,
     loading: false,
     error: null,
@@ -77,13 +76,6 @@ const _phasesReducer = createReducer(
   })),
   on(updatePhaseSuccess, (state, { phase, profile_id }) => ({
     ...state,
-    phases: state.phases.map((prop) => {
-      if (prop.profile_id === profile_id && prop.id === phase.id) {
-        return phase;
-      } else {
-        return prop;
-      }
-    }),
     loading: false,
     loaded: true,
     error: null,
@@ -102,7 +94,6 @@ const _phasesReducer = createReducer(
   })),
   on(deletePhaseSuccess, (state, { phaseId, profile_id }) => ({
     ...state,
-    phases: state.phases.filter((prop) => prop.id !== phaseId),
     loaded: true,
     loading: false,
     error: null,

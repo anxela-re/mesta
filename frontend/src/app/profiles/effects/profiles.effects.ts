@@ -20,6 +20,7 @@ import * as PropertiesActions from '../../properties/actions';
 import * as CompositionsActions from '../../compositions/actions';
 import * as PhasesActions from '../../phases/actions';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
+import { ProfileSelectedService } from '../services/profile-selected.service';
 
 @Injectable()
 export class ProfilesEffects {
@@ -28,7 +29,8 @@ export class ProfilesEffects {
     private router: Router,
     private sharedService: SharedService,
     private profileService: ProfileService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private profileSelectedService: ProfileSelectedService
   ) {}
 
   getProfilesByUser$ = createEffect(() =>
