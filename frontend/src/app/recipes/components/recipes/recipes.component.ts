@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subject } from 'rxjs';
@@ -32,7 +32,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
   propertiesIdSelected: string = '';
 
   faPlus = faPlus;
-  faSearch = faSearch;
 
   propertiesProfile!: PropertyDTO[];
 

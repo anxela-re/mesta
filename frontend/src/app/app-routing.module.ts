@@ -9,6 +9,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
 import { UserConfigurationComponent } from './user/components/user-configuration/user-configuration.component';
 import { IsLoggedGuard } from './shared/guards/is-logged.guard';
+import { ProfileSelectedGuard } from './shared/guards/profile-selected.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -31,13 +32,13 @@ const routes: Routes = [
     path: 'recipes',
     loadChildren: () =>
       import('./recipes/recipes.module').then((m) => m.RecipesModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProfileSelectedGuard],
   },
   {
     path: 'components',
     loadChildren: () =>
       import('./components/components.module').then((m) => m.ComponentsModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, ProfileSelectedGuard],
   },
 ];
 

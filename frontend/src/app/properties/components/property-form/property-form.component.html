@@ -6,14 +6,10 @@
   <input
     type="text"
     [formControl]="name"
-    class="underline outline-none underline-offset-2 decoration-secondary-300 mx-3 bg-transparent my-1"
+    class="underline outline-none underline-offset-2 decoration-secondary-300 mx-3 bg-transparent my-1 text-secondary-500"
     placeholder="Nueva propiedad"
   />
-  <button
-    type="submit"
-    class="text-secondary-400 hover:text-primary-500 px-2"
-  >
-    <fa-icon [icon]="faSave"></fa-icon>
+  <button type="submit" class="text-secondary-400 hover:text-primary-500 px-2">
+    <fa-icon [icon]="faSave" class="text-3xl sm:text-base"></fa-icon>
   </button>
 </form>
-

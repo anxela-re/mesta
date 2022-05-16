@@ -1,14 +1,14 @@
 <div
-  class="transform transition delay-10 duration-300 ease-in-out scale-0 dark:bg-basic-500"
+  class="transform transition delay-10 duration-300 ease-in-out scale-0 dark:bg-basic-200"
   (click)="onClick()"
   [ngClass]="{ 'scale-100': properties }"
 >
-  <app-dashed-box>
+  <app-dashed-box [selected]="!(currentTheme === 'dark')">
     <h4
-      class="font-bold group-hover:!text-basic-500 text-secondary-500 uppercase text-center text-lg"
+      class="font-bold group-hover:!text-basic-500 dark:text-secondary-500 uppercase text-center text-lg text-basic-500"
     >
       {{ recipe.name }}
     </h4>
-    <app-properties-display [properties]="properties"></app-properties-display>
+    <app-properties-display [properties]="properties" [selected]="!(currentTheme === 'dark')"></app-properties-display>
   </app-dashed-box>
 </div>

@@ -42,6 +42,8 @@ export class RecipeItemComponent implements AfterViewInit {
 
   isHovered: boolean = false;
 
+  currentTheme: string = localStorage.theme;
+
   constructor(private renderer: Renderer2, private router: Router) {}
 
   ngAfterViewInit(): void {

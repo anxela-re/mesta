@@ -5,13 +5,14 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
+import { environment } from 'src/environments/environment';
 import { ProfileDTO } from '../models/profile.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProfileService {
-  apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = environment.apiUrl;
   accessToken!: string;
 
   constructor(

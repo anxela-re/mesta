@@ -4,15 +4,24 @@
 >
   <div class="flex flex-row justify-between">
     <div class="flex flex-row gap-2">
-      <h4 class="text-secondary-500 dark:text-basic-500 group-hover:text-secondary-200">
+      <h4
+        class="text-secondary-500 dark:text-basic-500 group-hover:text-secondary-200"
+      >
         {{ profile?.name }}
       </h4>
     </div>
-    <fa-icon
-      [icon]="faTrash"
-      class="hover:text-danger z-10"
-      (click)="deleteProfile($event)"
-    ></fa-icon>
+    <div class="flex justify-between gap-2">
+      <fa-icon
+        [icon]="faTrash"
+        class="text-secondary-500 dark:text-basic-500 hover:text-danger z-10 fa-2x"
+        (click)="deleteProfile($event)"
+      ></fa-icon>
+      <fa-icon
+        [icon]="faPencil"
+        class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 z-10 fa-2x"
+        (click)="editProfile(profile?.id)"
+      ></fa-icon>
+    </div>
   </div>
   <div
     class="body-profile my-2 text-sm text-secondary-500 dark:text-basic-500 group-hover:text-secondary-200"

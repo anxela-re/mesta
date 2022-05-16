@@ -1,36 +1,26 @@
-<!-- <div class="text-right">
-  <button
-    type="button"
-    class="text-primary-400 hover:text-primary-700 italic"
-    (click)="editing = !editing"
-  >
-    Editar composiciones
-  </button>
-</div> -->
-
-<div class="flex flex-wrap">
+<div class="h-fit grid grid-cols-1 sm:flex sm:flex-wrap">
   <div
     *ngIf="!isAdding"
-    class="flex flex-col justify-center group hover:border-secondary-300 text-center border-2 border-dashed rounded-lg border-secondary-100 bg-basic-900 max-w-[150px] m-1 relative group cursor-pointer"
+    class="flex flex-col justify-center border-2 border-dashed rounded-lg p-4 m-2 relative cursor-pointer text-center hover:opacity-50 border-secondary-300 bg-basic-900 dark:bg-secondary-400"
     (click)="onCreate()"
   >
     <fa-icon
       [icon]="faPlus"
-      class="fa-2x text-secondary-100 group-hover:text-secondary-300"
+      class="fa-2x text-secondary-300 dark:text-basic-700"
     ></fa-icon>
-    <h4 class="text-secondary-100 group-hover:text-secondary-300">
-      Nueva composición
-    </h4>
+    <h4 class="text-secondary-300 dark:text-basic-700">Nueva composición</h4>
   </div>
-  <app-composition-form
-    *ngIf="isAdding"
-    (onEndEdition)="onEndEdition()"
-  ></app-composition-form>
-  <app-composition-item
-    [editing]="true"
-    *ngFor="let composition of compositions"
-    [composition]="composition"
-    [selected]="isSelected(composition.id)"
-    (onSelect)="onSelect.emit($event)"
-  ></app-composition-item>
+  <div *ngIf="isAdding" class="sm:max-w-[300px]">
+    <app-composition-form
+      (onEndEdition)="onEndEdition()"
+    ></app-composition-form>
+  </div>
+  <div *ngFor="let composition of compositions" class="sm:max-w-[300px]">
+    <app-composition-item
+      [editing]="true"
+      [composition]="composition"
+      [selected]="isSelected(composition.id)"
+      (onSelect)="onSelect.emit($event)"
+    ></app-composition-item>
+  </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ProfileDTO } from '../../models/profile.dto';
@@ -17,6 +17,7 @@ export class ProfileItemComponent implements OnInit {
   profile!: ProfileDTO;
 
   faTrash = faTrashAlt;
+  faPencil = faPencilAlt;
   constructor(
     private router: Router,
     private store: Store<AppState>,

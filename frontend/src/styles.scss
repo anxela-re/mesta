@@ -23,13 +23,12 @@ html {
   scroll-behavior: smooth;
 }
 :not(.dark) .background-image {
-  background: url("./assets/images/bg-image.png");
+  background: url("./assets/images/bg-image.png") #f4f4f4;
   background-size: 200%;
 }
 .dark .background-image {
-  background: url("./assets/images/bg-image-dark.png");
+  background: url("./assets/images/bg-image-dark.png") #0f172a;
   background-size: 200%;
-
 }
 body {
   @apply dark:text-basic-500;
@@ -57,6 +56,10 @@ a:hover {
   @apply bg-primary-400 text-basic-500 border-primary-500 hover:bg-primary-500  disabled:cursor-default disabled:bg-primary-300;
 }
 .btn-secondary {
+  @apply bg-secondary-400 text-basic-500 border-secondary-500 hover:bg-secondary-500 disabled:cursor-default disabled:bg-secondary-300 dark:bg-primary-400 dark:border-primary-500 dark:hover:bg-primary-500 dark:disabled:bg-primary-300;
+}
+
+.btn-secondary-dark {
   @apply bg-secondary-400 text-basic-500 border-secondary-500 hover:bg-secondary-500 disabled:cursor-default disabled:bg-secondary-300;
 }
 
@@ -71,25 +74,22 @@ a:hover {
 }
 
 .btn-outline-secondary {
-  @apply text-secondary-500 border-2 border-secondary-500 hover:bg-secondary-500 hover:text-basic-500 disabled:cursor-default disabled:bg-secondary-300;
+  @apply text-secondary-500 border-2 border-secondary-500 dark:bg-primary-500 dark:text-basic-500 dark:border-primary-500 hover:bg-secondary-500 hover:text-basic-500 disabled:cursor-default disabled:bg-secondary-300;
 }
 
-.dark .btn-outline-danger {
-  @apply text-danger border-2 border-danger hover:bg-danger hover:text-basic-500 disabled:cursor-default disabled:bg-danger;
-}
 .btn-outline-danger {
-  @apply text-danger border-2 border-danger hover:bg-danger hover:text-basic-500 disabled:cursor-default disabled:bg-danger;
+  @apply text-danger border-2 border-danger hover:bg-danger hover:text-basic-500 disabled:cursor-default disabled:bg-danger dark:bg-basic-500 dark:text-secondary-500 dark:border-secondary-500 dark:hover:text-danger;
 }
 
 h2 {
-  @apply tracking-widest text-xl dark:text-basic-500;
+  @apply tracking-widest text-xl;
 }
 
 h3 {
-  @apply text-lg dark:text-basic-500;
+  @apply text-lg;
 }
 p {
-  @apply text-sm dark:text-basic-500;
+  @apply text-sm;
 }
 
 .fs-xs {
@@ -114,18 +114,31 @@ p {
 .limit-container {
   @apply max-w-[1100px] m-auto;
 }
-
+.custom-input-labeled-container {
+  @apply mt-3 mb-2;
+}
 .custom-input-labeled {
   @apply relative;
 }
-.custom-input-labeled .form-errors {
-  @apply text-left text-danger font-bold fs-xs;
-}
 .custom-input-labeled input {
-  @apply rounded-md py-3 px-4 text-sm w-full leading-tight focus:outline-none /*focus:shadow-outline*/;
+  @apply rounded-md py-3 px-4 text-sm w-full leading-tight outline-primary-400 text-secondary-500;
+}
+.custom-input-labeled input + label {
+  @apply absolute top-2/4 left-3 -translate-y-1/2 transition-all transform duration-300 delay-75 ease-in-out text-secondary-200;
+}
+.custom-input-labeled input:focus + label,
+.custom-input-labeled input.ng-dirty + label,
+.custom-input-labeled input.ng-invalid.ng-touched + label {
+  @apply transition-all transform duration-300 delay-75 absolute top-[-2px] left-3 text-xs font-bold py-1 -translate-y-1/2 text-primary-500 z-10;
+}
+.custom-input-labeled input.ng-invalid.ng-touched {
+  @apply ring-danger outline-danger;
+}
+.custom-input-labeled input.ng-invalid.ng-touched + label {
+  @apply text-danger;
 }
 .custom-input-labeled label {
-  @apply block absolute top-0 left-3 text-xs font-bold py-1 -translate-y-1/2 text-primary-500;
+  background: linear-gradient(to top, #fff 54%, transparent 0%);
 }
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -135,7 +148,7 @@ input:-webkit-autofill:active {
 }
 
 .dark-input {
-  @apply bg-basic-900 rounded-lg py-2 px-4 w-full focus:outline-none dark:text-secondary-500;
+  @apply bg-basic-900 rounded-lg py-2 px-4 w-full dark:text-secondary-500;
 }
 
 .light-input {
@@ -143,7 +156,7 @@ input:-webkit-autofill:active {
 }
 
 .form-errors {
-  @apply mt-2 mb-2 text-danger text-left fs-xs;
+  @apply mt-0 mb-2 text-danger text-left fs-xs;
 }
 .input-search {
   @apply border-2 border-secondary-500 dark:border-none rounded-xl py-2 px-4 w-full my-2 shadow-thick shadow-secondary-500 dark:shadow-primary-500 outline-none transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px];
@@ -151,6 +164,9 @@ input:-webkit-autofill:active {
 
 .shadow-thick-secondary {
   @apply shadow-thick shadow-secondary-500 dark:shadow-basic-500 transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;
+}
+.shadow-thick-secondary-dark {
+  @apply shadow-thick shadow-secondary-500 transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;
 }
 .shadow-thick-danger {
   @apply shadow-thick shadow-danger transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;

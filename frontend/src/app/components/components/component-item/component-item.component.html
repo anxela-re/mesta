@@ -31,9 +31,9 @@
         }"
         (click)="decrement($event)"
       >
-        <fa-icon [icon]="faMinus"></fa-icon>
+        <fa-icon [icon]="faMinus" class="text-3xl sm:text-base"></fa-icon>
       </button>
-      <div class="w-full">
+      <div class="w-full self-center">
         <input
           type="number"
           min="0"
@@ -49,7 +49,7 @@
           [ngStyle]="{
             color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
           }"
-          class="h-[100%] group-hover:!text-basic-500 w-[50%]"
+          class="h-[100%] group-hover:!text-basic-500 w-[50%] self-center"
         >
           %
         </span>
@@ -63,7 +63,7 @@
         }"
         (click)="increment($event)"
       >
-        <fa-icon [icon]="faPlus"></fa-icon>
+        <fa-icon [icon]="faPlus" class="text-3xl sm:text-base"></fa-icon>
       </button>
     </div>
   </app-dashed-box>

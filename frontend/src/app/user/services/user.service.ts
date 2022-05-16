@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { environment } from 'src/environments/environment';
 import { RegisterDTO } from '../models/register.dto';
 import { UserDTO } from '../models/user.dto';
 
@@ -12,7 +13,7 @@ import { UserDTO } from '../models/user.dto';
   providedIn: 'root',
 })
 export class UserService {
-  apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = environment.apiUrl;
   accessToken!: string;
 
   constructor(

@@ -10,12 +10,13 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { RegisterDTO } from '../../user/models/register.dto';
 import { AuthTokenDTO } from '../models/authToken.dto';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = environment.apiUrl;
   accessToken!: string;
 
   constructor(

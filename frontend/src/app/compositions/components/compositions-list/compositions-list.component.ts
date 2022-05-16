@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { CompositionDTO } from '../../models/composition.dto';
 
 @Component({
@@ -22,15 +20,8 @@ export class CompositionsListComponent implements OnInit {
   faPlus = faPlus;
 
   isAdding: boolean = false;
-
-  editing: boolean = false;
-  constructor(
-    private router: Router,
-    private store: Store<AppState>,
-    private sharedService: SharedService
-  ) {
+  constructor(private store: Store<AppState>) {
     this.store.select('compositions').subscribe((compositionsState) => {
-      console.info('compositions list');
       if (compositionsState.loaded) {
         this.compositions = compositionsState.compositions || [];
       }

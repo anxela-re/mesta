@@ -1,14 +1,22 @@
 <div
   *ngIf="!editionMode"
-  class="border-2 border-dashed border-secondary-100 rounded-lg p-2 min-w-[200px] m-1 cursor-pointer"
+  class="border-2 rounded-lg p-2 m-1 cursor-pointer"
   (click)="onSelecting()"
   [ngClass]="{
-    'bg-secondary-500 text-basic-500': selected,
-    'bg-basic-700 hover:opacity-70': !selected
+    'bg-secondary-500 text-basic-500 borer-solid border-basic-500': selected,
+    'bg-basic-700 hover:opacity-70 border-secondary-500 border-dashed': !selected
   }"
 >
   <div class="flex flex-row justify-between">
-    <h4 class="font-bold">{{ composition.name }}</h4>
+    <h4
+      class="font-bold self-center text-xl sm:text-base"
+      [ngClass]="{
+        'dark:text-secondary-500': !selected,
+        'dark:text-basic-500': selected
+      }"
+    >
+      {{ composition.name }}
+    </h4>
     <div *ngIf="editing" class="flex flex-row gap-2 my-1">
       <button
         [ngClass]="{
@@ -17,10 +25,10 @@
         }"
         (click)="editionMode = true"
       >
-        <fa-icon [icon]="faPencil"></fa-icon>
+        <fa-icon [icon]="faPencil" class="text-3xl sm:text-base"></fa-icon>
       </button>
       <button class="text-danger" (click)="deleteComposition($event)">
-        <fa-icon [icon]="faTrash"></fa-icon>
+        <fa-icon [icon]="faTrash" class="text-3xl sm:text-base"></fa-icon>
       </button>
     </div>
   </div>
@@ -28,6 +36,10 @@
     <div
       class="flex justify-between gap-2"
       *ngFor="let phasePercentage of composition?.phases_percentage"
+      [ngClass]="{
+        'dark:text-secondary-500': !selected,
+        'dark:text-basic-500': selected
+      }"
     >
       <p>{{ phasePercentage.phaseName }}</p>
       <div class="flex flex-row">
@@ -44,4 +56,7 @@
   (onEndEdition)="editionMode = false"
 ></app-composition-form>
 
-<app-modal [id]="getIdModal()" (onProceed)="deleteCompositionConfirm()"></app-modal>
+<app-modal
+  [id]="getIdModal()"
+  (onProceed)="deleteCompositionConfirm()"
+></app-modal>

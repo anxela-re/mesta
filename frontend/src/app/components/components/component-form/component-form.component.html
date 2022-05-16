@@ -1,4 +1,4 @@
-<div class="p-2 m-auto max-w-[900px]">
+<div class="py-2 px-4 m-auto max-w-[900px]">
   <app-breadcrumb [breadcrumbHistory]="breadcrumbHistory"></app-breadcrumb>
   <h2>{{ componentId ? component?.name : "Nuevo componente" }}</h2>
   <form
@@ -7,14 +7,14 @@
     (ngSubmit)="onSubmit()"
     class="my-4"
   >
-    <div class="my-2 custom-input-labeled">
+    <label for="name" class="fs-xs mb-0">Nombre</label>
+    <div class="mb-2 custom-input-labeled">
       <input
         type="text"
         [formControl]="name"
         class="dark-input"
         placeholder="Nombre"
       />
-      <label for="name">Nombre</label>
       <div
         *ngIf="name?.errors && (name?.touched || name?.dirty)"
         class="form-errors"
@@ -25,33 +25,32 @@
         </div>
       </div>
     </div>
-    <div class="my-2 custom-input-labeled">
+    <label for="scientific_name" class="fs-xs mb-0">Nombre científico</label>
+    <div class="mb-2 custom-input-labeled">
       <input
         type="text"
         [formControl]="scientific_name"
         class="dark-input"
         placeholder="Nombre científico"
       />
-      <label for="scientific_name">Nombre científico</label>
     </div>
-    <div class="my-2 custom-input-labeled">
+    <label for="expiration_date" class="fs-xs mb-0">Fecha de caducidad</label>
+    <div class="mb-2 custom-input-labeled">
       <input
         type="date"
         min="new Date()"
         [formControl]="expiration_date"
         class="dark-input"
       />
-      <label for="expiration_date">Fecha de caducidad</label>
     </div>
-    <div class="my-2 custom-input-labeled">
+    <label for="description" class="fs-xs mb-0">Descripción</label>
+    <div class="mb-2 custom-input-labeled">
       <textarea
         name="description"
         class="dark-input"
-        placeholder="Descripción"
         rows="8"
         [formControl]="description"
       ></textarea>
-      <label for="description">Descripción</label>
       <div
         *ngIf="
           description?.errors && (description?.touched || description?.dirty)
@@ -88,7 +87,7 @@
         [propertiesSelected]="propertiesSelected"
       ></app-properties-list>
     </div>
-    <div class="text-center">
+    <div class="text-center mt-4">
       <button
         type="submit"
         class="btn btn-primary shadow-thick-secondary"

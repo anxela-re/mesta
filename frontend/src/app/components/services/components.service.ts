@@ -6,13 +6,14 @@ import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
+import { environment } from 'src/environments/environment';
 import { ComponentDTO } from '../models/component.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComponentsService {
-  apiUrl = 'http://127.0.0.1:8000';
+  apiUrl = environment.apiUrl;
   accessToken!: string;
   profileSelected!: number;
 

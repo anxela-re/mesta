@@ -23,7 +23,6 @@ export class AppComponent {
     private router: Router,
     private sharedService: SharedService
   ) {
-
     this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
       console.info('app');
@@ -45,7 +44,7 @@ export class AppComponent {
 
     this.store.select('profiles').subscribe((data) => {
       console.info('app');
-      console.info(data)
+      console.info(data);
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&

@@ -1,18 +1,15 @@
-<div class="m-auto text-center maxw-500">
+<div class="m-auto text-center maxw-500 pb-6">
   <div class="m-4 px-6 py-10 rounded-lg full-shadow bg-basic-600">
-    <h2 class="text-2xl uppercase my-">Registrarse</h2>
+    <h2 class="text-2xl uppercase my-2 dark:text-secondary-500">Registrarse</h2>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="mt-10">
-      <div class="my-5 custom-input-labeled">
-        <input
-          type="text"
-          [formControl]="name"
-          aria-label="Name"
-          placeholder="Nombre"
-        />
-        <label for="name">Nombre</label>
+      <div class="custom-input-labeled-container">
+        <div class="custom-input-labeled">
+          <input type="text" [formControl]="name" aria-label="Name" placeholder="Nombre" />
+          <label for="name">Nombre</label>
+        </div>
         <div
-          *ngIf="name.errors && isValidForm != null && !isValidForm"
-          class="mt-2 mb-2 form-errors"
+          *ngIf="name.errors && (name.touched || name.dirty)"
+          class="form-errors"
         >
           <div *ngIf="name.errors.required">Name is required</div>
           <div *ngIf="name.errors.minlength">
@@ -24,87 +21,85 @@
         </div>
       </div>
 
-      <div class="my-5 custom-input-labeled">
-        <input
-          type="email"
-          [formControl]="email"
-          aria-label="Email"
-          placeholder="Email"
-        />
-        <label for="email">Email</label>
-        <div *ngIf="email.errors" class="mt-2 mb-2 form-errors">
-          <span *ngIf="email.errors && (email.touched || email.dirty)">
-            <span *ngIf="email.errors.required">Email is required</span>
-            <div *ngIf="email.errors.pattern">Email not a valid format.</div>
-          </span>
+      <div class="custom-input-labeled-container">
+        <div class="custom-input-labeled">
+          <input type="email" [formControl]="email" aria-label="Email" />
+          <label for="email">Email</label>
         </div>
-      </div>
-
-      <div class="my-5 custom-input-labeled">
-        <input
-          type="password"
-          [formControl]="password"
-          aria-label="Password"
-          placeholder="Contraseña"
-        />
-        <label for="password">Contraseña</label>
-        <div *ngIf="password.errors" class="mt-2 mb-2 form-errors">
-          <span *ngIf="password.errors && (password.touched || password.dirty)">
-            <span *ngIf="password.errors.required">Password is required</span>
-            <span *ngIf="password.errors.minlength"
-              >Password must be greater tha 8 characters</span
-            >
-            <span *ngIf="password.errors.maxlength"
-              >Password can be max 16 characters long</span
-            >
-          </span>
-        </div>
-      </div>
-
-      <div class="my-5 custom-input-labeled">
-        <input
-          type="password"
-          [formControl]="password_confirmation"
-          aria-label="Password"
-          placeholder="Repita contraseña"
-        />
-        <label for="password_confirmation"
-          >Repita contraseña</label
+        <div
+          *ngIf="email.errors && (email.touched || email.dirty)"
+          class="form-errors"
         >
+          <span *ngIf="email.errors.required">Email is required</span>
+          <div *ngIf="email.errors.pattern">Email not a valid format.</div>
+        </div>
+      </div>
 
-        <div *ngIf="password_confirmation.errors" class="mt-2 mb-2 form-errors">
-          <span
-            *ngIf="
-              password_confirmation.errors &&
-              (password_confirmation.touched || password_confirmation.dirty)
-            "
+      <div class="custom-input-labeled-container">
+        <div class="custom-input-labeled">
+          <input
+            type="password"
+            [formControl]="password"
+            aria-label="Password"
+          />
+          <label for="password">Contraseña</label>
+        </div>
+        <div
+          *ngIf="password.errors && (password.touched || password.dirty)"
+          class="form-errors"
+        >
+          <span *ngIf="password.errors.required">Password is required</span>
+          <span *ngIf="password.errors.minlength"
+            >Password must be greater tha 8 characters</span
           >
-            <span *ngIf="password_confirmation.errors.required"
-              >Password is required</span
-            >
-            <span *ngIf="password_confirmation.errors.minlength"
-              >Password must be greater tha 8 characters</span
-            >
-            <span *ngIf="password_confirmation.errors.maxlength"
-              >Password can be max 16 characters long</span
-            >
-          </span>
+          <span *ngIf="password.errors.maxlength"
+            >Password can be max 16 characters long</span
+          >
+        </div>
+      </div>
+
+      <div class="custom-input-labeled-container">
+        <div class="custom-input-labeled">
+          <input
+            type="password"
+            [formControl]="password_confirmation"
+            aria-label="Password"
+          />
+          <label for="password_confirmation">Repita contraseña</label>
+        </div>
+
+        <div
+          *ngIf="
+            password_confirmation.errors &&
+            (password_confirmation.touched || password_confirmation.dirty)
+          "
+          class="form-errors"
+        >
+          <span *ngIf="password_confirmation.errors.required"
+            >Password is required</span
+          >
+          <span *ngIf="password_confirmation.errors.minlength"
+            >Password must be greater tha 8 characters</span
+          >
+          <span *ngIf="password_confirmation.errors.maxlength"
+            >Password can be max 16 characters long</span
+          >
         </div>
       </div>
 
       <button
         type="submit"
         [disabled]="!registerForm.valid"
-        class="btn btn-primary  shadow-thick-secondary"
+        class="btn btn-primary shadow-thick-secondary mt-2"
       >
         Registrarse
       </button>
     </form>
   </div>
-</div>
-
-<div class="text-center">
-  <p>
-    ¿Ya tienes cuenta en Mesta? <a [routerLink]="['/login']" class="text-primary-500 hover:text-primary-700">Inicia sesión</a>
+  <p class="text-wrap">
+    ¿Ya tienes cuenta en Mesta?
+    <a [routerLink]="['/login']" class="text-primary-500 hover:text-primary-700"
+      >Inicia sesión</a
+    >
   </p>
 </div>

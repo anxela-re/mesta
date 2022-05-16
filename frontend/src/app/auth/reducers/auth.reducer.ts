@@ -36,12 +36,14 @@ const _authReducer = createReducer(
     loaded: true,
     error: null,
   })),
-  on(loginFailure, (state, { payload }) => ({
-    ...state,
-    loading: false,
-    loaded: false,
-    error: { payload },
-  })),
+  on(loginFailure, (state, { payload }) => {
+    return {
+      ...state,
+      loading: false,
+      loaded: false,
+      error: { payload },
+    };
+  }),
   on(logout, (state) => ({ ...initialState, credentials: new AuthTokenDTO() }))
 );
 

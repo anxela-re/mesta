@@ -6,10 +6,6 @@
     [(ngModel)]="searchTerm"
     (keyup)="search()"
   />
-  <!-- <fa-icon
-    [icon]="faSearch"
-    class="absolute top-2 right-0 px-4 fa-2x text-basic-900"
-  ></fa-icon> -->
 </div>
 
 <div class="flex flex-row flex-wrap gap-2">
@@ -19,11 +15,13 @@
       class="transition ease-in-out delay-50 duration-200 rotate-0"
       (click)="newProperty = !newProperty"
       [ngClass]="{
-        'rotate-45 text-primary-500 hover:text-secondary-500': newProperty,
-        'text-secondary-500 hover:text-primary-500': !newProperty
+        'rotate-45 text-primary-500 hover:text-primary-800':
+          newProperty,
+        'text-secondary-500 hover:text-primary-800 dark:text-basic-500':
+          !newProperty
       }"
     >
-      <fa-icon [icon]="faPlus"></fa-icon>
+      <fa-icon [icon]="faPlus" class="hover:text-primary-800 text-3xl sm:text-base"></fa-icon>
     </button>
     <div
       class="inline-block transition ease-in-out delay-250 duration-200 scale-0"
@@ -36,15 +34,15 @@
     </div>
   </div>
   <button
-    *ngIf="allowEdition"
+    *ngIf="allowEdition && properties.length > 0"
     type="button"
     (click)="editingProperties = !editingProperties"
     [ngClass]="{
-      'text-primary-500 hover:text-secondary-500': editingProperties,
-      'text-secondary-500 hover:text-primary-500': !editingProperties
+      'text-primary-500 hover:text-primary-800': editingProperties,
+      'text-secondary-500 hover:text-primary-800 dark:text-basic-500': !editingProperties
     }"
   >
-    <fa-icon *ngIf="allowEdition" [icon]="faPencil"></fa-icon>
+    <fa-icon *ngIf="allowEdition" [icon]="faPencil" class="hover:text-primary-800 text-3xl sm:text-base"></fa-icon>
   </button>
   <app-property-item
     *ngFor="let property of properties"

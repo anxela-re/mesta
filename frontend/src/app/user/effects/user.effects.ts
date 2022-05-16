@@ -12,17 +12,12 @@ import { ProfileDTO } from '../../profiles/models/profile.dto';
 
 @Injectable()
 export class UserEffects {
-  // private responseOK: boolean;
-  // private errorResponse: any;
-
   constructor(
     private actions$: Actions,
     private router: Router,
     private sharedService: SharedService,
     private userService: UserService
-  ) {
-    // this.responseOK = false;
-  }
+  ) {}
   register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.register),
@@ -60,9 +55,11 @@ export class UserEffects {
         ofType(UserActions.registerFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
+          console.info(Object.values(error.payload.error.errors));
+          const errors: string[] = Object.values(error.payload.error.errors);
           await this.sharedService.managementToast(
             false,
-            '¡Algo está fallando!'
+            errors?.length > 0 ? errors[0] : '¡Algo está fallando!'
           );
         })
       ),
@@ -91,15 +88,6 @@ export class UserEffects {
       )
     )
   );
-
-  // getUserSuccess$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(UserActions.getUserSuccess),
-  //       map(() => (this.responseOK = true))
-  //     ),
-  //   { dispatch: false }
-  // );
 
   getUserFailure$ = createEffect(
     () =>
@@ -131,17 +119,6 @@ export class UserEffects {
       )
     )
   );
-
-  // updateUserSuccess$ = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(UserActions.updateUserSuccess),
-  //       map(() => {
-  //         this.responseOK = true;
-  //       })
-  //     ),
-  //   { dispatch: false }
-  // );
 
   updateUserFailure$ = createEffect(
     () =>

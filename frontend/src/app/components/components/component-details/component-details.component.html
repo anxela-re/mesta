@@ -50,9 +50,9 @@
 
   <div class="my-2">
     <h4 class="my-1">Propiedades</h4>
-    <div class="flex gap-1">
+    <div class="flex gap-1 flex-wrap">
       <div
-        class="rounded-full border-2 px-4 border-secondary-500 text-secondary-500 h-[100%] text-basic-500 bg-secondary-500"
+        class="rounded-full border-2 px-4 h-[100%] border-secondary-500 text-basic-500 bg-secondary-500 dark:text-basic-500 dark:bg-primary-500"
         *ngFor="let property of properties"
       >
         <span>{{ property?.name }}</span>
@@ -61,4 +61,7 @@
   </div>
 </div>
 
-<app-modal [id]="getIdModal()" (onProceed)="deleteComponentConfirm()"></app-modal>
+<app-modal
+  [id]="getIdModal()"
+  (onProceed)="deleteComponentConfirm()"
+></app-modal>

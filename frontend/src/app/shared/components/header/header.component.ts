@@ -34,11 +34,9 @@ export class HeaderComponent implements OnInit {
     localStorage.theme === 'dark'
       ? '../../../../assets/images/logo-white.png'
       : '../../../../assets/images/logo.png';
-
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private tokenService: TokenService,
     private profileSelectedService: ProfileSelectedService
   ) {
     this.isLogged = false;
@@ -62,6 +60,9 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  ngOnInit(): void {
+      
+  }
   @HostListener('document:click', ['$event'])
   onClickOutside(event: any) {
     if (event.target && event.target.closest('#button-menu') === null) {
@@ -72,12 +73,11 @@ export class HeaderComponent implements OnInit {
   @HostListener('window:changeTheme', [])
   onChangeTheme() {
     console.info(localStorage.theme);
+    this.updateLogoPath();
   }
 
-  ngOnInit(): void {}
-
-  getLogoPath(): string {
-    return localStorage.theme === 'dark'
+  updateLogoPath(): void {
+    this.currnetLogoPath = localStorage.theme === 'dark'
       ? '../../../../assets/images/logo-white.png'
       : '../../../../assets/images/logo.png';
   }

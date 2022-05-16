@@ -140,10 +140,12 @@ export class SharedService {
         window.matchMedia('(prefers-color-scheme: dark)').matches)
     ) {
       document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
     const customE = new CustomEvent('changeTheme');
+    console.info('update theme')
     window.dispatchEvent(customE);
   }
 

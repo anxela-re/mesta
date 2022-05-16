@@ -1,16 +1,16 @@
-<div class="header-container p-6">
+<div class="header-container p-4">
   <!-- NO AUTH -->
   <div *ngIf="!isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/']" class="flex items-center gap-1"
       ><img
-        [src]="getLogoPath()"
+        [src]="currnetLogoPath"
         alt="Mesta"
         width="auto"
         height="100%"
         class="logo-img"
       />
       <h1
-        class="text-secondary-500 dark:text-basic-500 text-4xl mb-0 hidden md:block"
+        class="text-secondary-500 dark:text-basic-500 text-4xl mb-0 block"
       >
         Mesta
       </h1></a
@@ -41,26 +41,27 @@
           aria-expanded="false"
           (click)="isMenuOpen = !isMenuOpen"
           id="button-menu"
+          class="ml-2"
         >
           <fa-icon
             id="button-menu-svg"
             [icon]="faBars"
-            size="lg"
-            class="text-secondary-300 dark:text-basic-300 hover:text-secondary-500"
+            size="2x"
+            class="m-auto text-secondary-300 dark:text-basic-300 hover:text-secondary-500"
           ></fa-icon>
         </button>
         <ul
-          class="z-10 min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-basic-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
+          class="z-10 min-w-[100px] origin-top-right absolute right-0 mr-6 rounded-md shadow-lg bg-basic-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
           aria-labelledby="dropdownMenu"
           [ngClass]="{ 'scale-100': isMenuOpen, 'scale-0': !isMenuOpen }"
         >
           <li
-            class="p-1 text-secondary-500 dark:text-basic-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
+            class="py-2 px-3 sm:py-1 sm:px-2 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           >
             Contacto
           </li>
           <li
-            class="p-1 text-secondary-500 dark:text-basic-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
+            class="py-2 px-3 sm:py-1 sm:px-2 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
             (click)="navigateTo('login')"
           >
             Log in
@@ -74,7 +75,7 @@
   <div *ngIf="isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/recipes']" class="flex items-center gap-1"
       ><img
-        [src]="getLogoPath()"
+        [src]="currnetLogoPath"
         alt="Mesta"
         width="auto"
         height="100%"

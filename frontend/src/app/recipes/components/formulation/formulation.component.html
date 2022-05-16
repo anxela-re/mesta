@@ -1,20 +1,15 @@
 <div class="p-2 m-auto max-w-[900px]">
   <app-breadcrumb [breadcrumbHistory]="breadcrumbHistory"></app-breadcrumb>
-  <h2>{{ recipeId ? recipe?.name : "Nuevo formulacion" }}</h2>
+  <h2>{{ recipeId ? recipe?.name : "Nueva formulacion" }}</h2>
   <form
     *ngIf="formulationForm"
     [formGroup]="formulationForm"
     (ngSubmit)="onSubmit()"
     class="my-4"
   >
-    <div class="my-2 custom-input-labeled">
-      <input
-        type="text"
-        [formControl]="name"
-        class="dark-input"
-        placeholder="Nombre"
-      />
-      <label for="name">Nombre</label>
+    <label for="name" class="fs-xs mb-0">Nombre</label>
+    <div class="mb-2 custom-input-labeled">
+      <input type="text" [formControl]="name" class="dark-input" />
       <div
         *ngIf="name?.errors && (name?.touched || name?.dirty)"
         class="form-errors"
@@ -26,15 +21,14 @@
       </div>
     </div>
 
-    <div class="my-2 custom-input-labeled">
+    <label for="description" class="fs-xs mb-0">Descripción</label>
+    <div class="mb-2 custom-input-labeled">
       <textarea
         name="description"
         class="dark-input"
-        placeholder="Descripción"
         rows="8"
         [formControl]="description"
       ></textarea>
-      <label for="description">Descripción</label>
       <div
         *ngIf="
           description?.errors && (description?.touched || description?.dirty)
@@ -53,7 +47,9 @@
     </div>
     <div class="my-2">
       <h3 class="my-1">Componentes</h3>
-      <span class="form-errors" *ngIf="!selectedComposition">Seleccione una composición antes de los componentes</span>
+      <span class="form-errors" *ngIf="!selectedComposition"
+        >Seleccione una composición antes de los componentes</span
+      >
       <app-components
         *ngIf="selectedComposition"
         [fromFormulation]="true"
@@ -66,7 +62,7 @@
     <div class="text-center">
       <button
         type="submit"
-        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300  shadow-thick-secondary"
+        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300 shadow-thick-secondary"
         [disabled]="!formulationForm?.valid"
       >
         Guardar

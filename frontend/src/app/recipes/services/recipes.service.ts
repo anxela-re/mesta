@@ -7,13 +7,14 @@ import { AppState } from 'src/app/app.reducers';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
+import { environment } from 'src/environments/environment';
 import { RecipeDTO } from '../models/recipe.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RecipesService {
-  apiUrl = 'http://127.0.0.1:8000/api/recipes';
+  apiUrl = environment.apiUrl + '/api/recipes';
   accessToken!: string;
   profileSelected!: number;
   constructor(
@@ -26,7 +27,7 @@ export class RecipesService {
     if (profileId) {
       this.profileSelected = profileId;
     }
-    
+
     this.store.select('auth').subscribe((auth) => {
       this.accessToken = auth.credentials.access_token;
     });

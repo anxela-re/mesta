@@ -38,10 +38,8 @@
     <div class="my-2">
       <h3>Fases del proceso de formulación</h3>
       <p class="mb-2">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-        rutrum neque id magna accumsan tincidunt. Nam venenatis, turpis nec
-        sodales dapibus, velit massa tincidunt arcu, bibendum dapibus eros dolor
-        in urna.
+        Las fases del proceso de formulación se refieren a las partes
+        diferenciadas que forman la formulación del producto de este perfil
       </p>
       <a
         (click)="addNewPhase()"
@@ -73,7 +71,7 @@
               />
               <button
                 type="button"
-                class="btn btn-secondary shadow-thick-secondary dark:btn-outline-danger"
+                class="btn btn-secondary shadow-thick-secondary"
                 (click)="removePhase(i, phaseForm)"
               >
                 <fa-icon [icon]="faTrashAlt"></fa-icon>
@@ -98,7 +96,7 @@
     <div class="text-center">
       <button
         type="submit"
-        class="btn btn-secondary disabled:cursor-default disabled:bg-secondary-300 shadow-thick-secondary"
+        class="btn btn-secondary dark:btn-primary shadow-thick-secondary"
         [disabled]="!profileForm.valid"
       >
         Guardar

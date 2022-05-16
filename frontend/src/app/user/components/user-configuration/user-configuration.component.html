@@ -1,8 +1,10 @@
-<button (click)="toggleTheme()">toggle</button>
-
-<div class="p-2 flex justify-between mx-auto my-0 relative grow shrink-0 basis-auto text-left flex-col md:flex-row">
+<div
+  class="p-2 flex justify-between mx-auto my-0 relative grow shrink-0 basis-auto text-left flex-col md:flex-row"
+>
   <div class="flex flex-col w-full md:w-[30%] lg:w-[20%] shrink-0">
-    <div class="hidden md:flex flex-col justify-end text-right md:sticky w-auto p-2 md:overflow-y-auto md:top-[10px]">
+    <div
+      class="hidden md:flex flex-col justify-end text-right md:sticky w-auto p-2 md:overflow-y-auto md:top-[10px]"
+    >
       <a
         class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
         (click)="scroller.scrollToAnchor('personal-information')"
@@ -15,8 +17,13 @@
       >
       <a
         class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
-        (click)="scroller.scrollToAnchor('configuration')"
+        (click)="scroller.scrollToAnchor('account')"
         >Mi cuenta</a
+      >
+      <a
+        class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
+        (click)="scroller.scrollToAnchor('theme')"
+        >Temática</a
       >
       <a
         class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
@@ -101,30 +108,45 @@
       </section>
       <section id="profiles">
         <h2>Perfiles</h2>
-        <app-profile-item *ngFor="let profile of profiles" [profile]="profile"></app-profile-item>
+        <app-profile-item
+          *ngFor="let profile of profiles"
+          [profile]="profile"
+        ></app-profile-item>
         <div
-          class="add-profile rounded-lg text-center py-4 w-full cursor-pointer text-secondary-100 bg-secondary-50 border-secondary-100 hover:text-secondary-50 hover:bg-secondary-100 hover:border-secondary-50"
+          class="group flex flex-col justify-center border-2 border-dashed rounded-lg p-4 m-2 relative cursor-pointer text-center hover:opacity-50 border-secondary-300 bg-basic-900 dark:bg-secondary-400"
           (click)="createProfile()"
         >
-          <fa-icon [icon]="faPlus" size="4x"></fa-icon>
+          <fa-icon
+            [icon]="faPlus"
+            class="fa-2x text-secondary-300 dark:text-basic-700"
+            size="2x"
+          ></fa-icon>
+          <h4 class="text-secondary-300 dark:text-basic-700">
+            Crear nuevo perfil
+          </h4>
         </div>
         <hr class="text-secondary-50 my-8" />
       </section>
-      <section id="configuration">
+      <section id="account">
         <h2>Configuración</h2>
         <div class="flex flex-col mt-2">
           <a
-            class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 dark:hover:text-primary-500"
+            class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 dark:hover:text-primary-500 py-2 "
             [routerLink]="['/reset-password']"
             routerLinkActive="router-link-active"
             >Cambiar contraseña</a
           >
-          <a
-            class="text-danger cursor-pointer"
-            (click)="deleteUser()"
+          <a class="text-danger cursor-pointer py-2 underline" (click)="deleteUser()"
             >Eliminar cuenta</a
           >
         </div>
+        <hr class="text-secondary-50 my-8" />
+      </section>
+      <section id="theme">
+        <h2>Temática</h2>
+        <button (click)="toggleTheme()" class="mt-2 btn btn-primary">
+          Cambiar temática
+        </button>
         <hr class="text-secondary-50 my-8" />
       </section>
       <section id="contact">

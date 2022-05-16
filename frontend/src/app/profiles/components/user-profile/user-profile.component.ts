@@ -63,12 +63,10 @@ export class UserProfileComponent implements OnInit {
   ) {
     const profileId = this.route.snapshot.paramMap.get('id');
     this.store.select('user').subscribe(({ user }) => {
-      console.info('user profile');
       this.userId = user.id;
     });
 
     this.store.select('profiles').subscribe(({ profiles }) => {
-      console.info('user profile');
       const foundProfile = profiles.find(
         ({ id }) => id?.toString() === profileId?.toString()
       );
@@ -120,7 +118,6 @@ export class UserProfileComponent implements OnInit {
       Validators.maxLength(64),
     ]);
     this.description = new FormControl(this.profile.description);
-    // this.color = new FormControl(this.profile.color, [Validators.required]);
 
     this.profileForm = this.fb.group({
       name: this.name,

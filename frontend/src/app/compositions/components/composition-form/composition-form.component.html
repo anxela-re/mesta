@@ -1,11 +1,11 @@
 <form
   [formGroup]="compositionForm"
   (ngSubmit)="onSubmit()"
-  class="bg-basic-700 border-2 border-dashed border-secondary-100 rounded-lg p-2 max-w-[300px] m-1"
+  class="bg-basic-700 border-2 border-dashed border-secondary-100 rounded-lg p-2 m-1 text-secondary-500"
 >
   <div class="my-2">
     <div class="flex gap-2 flex-col">
-      <label for="name">Nombre</label>
+      <label for="name" class="fs-xs mb-0">Nombre</label>
       <input
         type="text"
         [formControl]="name"
@@ -30,7 +30,7 @@
     >
       <div [formGroupName]="i">
         <div class="flex gap-1 justify-between">
-          <label for="percentage">{{ phasesPercentageNameByIndex(i) }}</label>
+          <label for="percentage" class="self-center">{{ phasesPercentageNameByIndex(i) }}</label>
           <div class="flex">
             <input
               type="number"
@@ -39,7 +39,7 @@
               formControlName="percentage"
               class="light-input w-[100px]"
             />
-            <span>%</span>
+            <span class="self-center">%</span>
           </div>
         </div>
       </div>
@@ -52,18 +52,18 @@
         *ngIf="phases_percentage.errors?.additionValidator !== null"
         class="form-errors text-wrap"
       >
-        La suma actual es de {{phases_percentage.errors?.additionValidator}}, debe ser igual 100
+        Falta el {{100 - phases_percentage.errors?.additionValidator}} para llegar al 100%
       </div>
     </div>
   </div>
   <div class="flex justify-center gap-2">
     <button
       type="submit"
-      class="btn btn-primary disabled:cursor-default disabled:bg-primary-300  shadow-thick-secondary"
+      class="btn btn-primary disabled:cursor-default disabled:bg-primary-300  shadow-thick-secondary-dark"
       [disabled]="!compositionForm.valid"
     >
       Añadir
     </button>
-    <button type="button" class="btn btn-secondary shadow-thick-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-secondary-dark shadow-thick-secondary-dark" (click)="onCancel()">Cancelar</button>
   </div>
 </form>

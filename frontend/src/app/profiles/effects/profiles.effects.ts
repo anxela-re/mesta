@@ -60,7 +60,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.getProfilesByUserSuccess),
         map(({ profiles }) => {
           if (profiles.length === 0) {
-            this.router.navigate(['profiles', 'new']);
+            this.router.navigate(['profile', 'new']);
           } else {
             profiles.forEach((profile) => {
               if (profile.id) {

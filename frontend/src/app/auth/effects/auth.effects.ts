@@ -29,8 +29,8 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      concatMap(({ credentials }) =>
-        this.authService.login(credentials).pipe(
+      concatMap(({ credentials }) => {
+        return this.authService.login(credentials).pipe(
           map((userToken) => {
             const credentialsTemp: AuthTokenDTO = {
               user_id: userToken.id,
@@ -44,8 +44,8 @@ export class AuthEffects {
           catchError((error) => {
             return of(AuthActions.loginFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
 
