@@ -136,10 +136,7 @@ export class UserConfigurationComponent implements OnInit {
   deleteUserConfirm(): void {
     if (this.user.id) {
       const id = this.user.id;
-      localStorage.clear();
-      this.store.dispatch(AuthActions.logout());
       this.store.dispatch(UserActions.deleteUser({ userId: id }));
-      this.router.navigateByUrl('/');
     }
   }
 

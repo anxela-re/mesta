@@ -20,16 +20,16 @@ export class ComponentsService {
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
-    private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService
+    private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
       this.accessToken = auth.credentials.access_token;
     });
-    const profileId = this.profileSelectedService.getProfileSelectedStored();
-    if (profileId) {
-      this.profileSelected = profileId;
-    }
+    this.store.select('profiles').subscribe((profiles) => {
+      if (profiles.selected) {
+        this.profileSelected = profiles.selected;
+      }
+    });
   }
   getComponentsByProfile(query?: IQuery): Observable<any> {
     return this.getComponents({ profile_id: this.profileSelected, ...query });

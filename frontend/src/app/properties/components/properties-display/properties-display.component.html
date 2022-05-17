@@ -1,12 +1,12 @@
 <div
-  class="flex flex-wrap"
+  class="block"
   [ngClass]="{
-    'justify-end text-right': alignRight,
-    'justify-center text-center': !alignRight
+    'text-right': alignRight,
+    'text-center': !alignRight
   }"
 >
-  <div
-    class="text-sm group-hover:!text-basic-500"
+  <span
+    class="inline text-sm group-hover:!text-basic-500 break-words w-full"
     *ngFor="let property of properties"
     [ngStyle]="{
       color: selected ? '#fff' : color
@@ -14,5 +14,5 @@
     [ngClass]="{ 'font-bold': getIsFiltered(property?.id) }"
   >
     {{ property?.name }}.&nbsp;
-  </div>
+  </span>
 </div>

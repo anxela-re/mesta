@@ -1,8 +1,10 @@
+import { PhaseDTO } from 'src/app/phases/models/phase.dto';
+
 export interface IPhasesPercentage {
   id: number;
   phase_id: number;
   percentage: number;
-  phaseName: string;
+  phase: PhaseDTO;
   phases_id: number[];
 }
 

@@ -22,6 +22,7 @@ class Component extends Model
         'profile_id',
         'phase_id',
         'properties',
+        'scientific_name'
     ];
 
     /**

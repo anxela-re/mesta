@@ -13,12 +13,12 @@
     <div class="flex justify-between gap-2">
       <fa-icon
         [icon]="faTrash"
-        class="text-secondary-500 dark:text-basic-500 hover:text-danger z-10 fa-2x"
+        class="text-secondary-500 dark:text-basic-500 hover:text-danger z-10 text-3xl sm:text-base"
         (click)="deleteProfile($event)"
       ></fa-icon>
       <fa-icon
         [icon]="faPencil"
-        class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 z-10 fa-2x"
+        class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 z-10 text-3xl sm:text-base"
         (click)="editProfile(profile?.id)"
       ></fa-icon>
     </div>
@@ -28,10 +28,10 @@
   >
     {{ profile?.description }}
   </div>
-  <div class="profile-phases flex flex-row gap-1 mb-2">
+  <div class="profile-phases flex flex-row flex-wrap gap-1 mb-2">
     <h4
       *ngFor="let phase of profile?.phases"
-      class="text-basic-500 rounded-full px-2 py-1 text-sm"
+      class="text-basic-500 rounded-full px-2 py-1 text-sm text-nowrap self-center"
       [ngStyle]="{ 'background-color': phase.color }"
     >
       {{ phase?.name }}

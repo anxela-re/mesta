@@ -48,11 +48,14 @@ export class UserService {
 
   deleteUser(userId: number): Observable<any> {
     return this.http
-      .delete(`${this.apiUrl}/api/user/${userId}`)
+      .delete(`${this.apiUrl}/api/user/${userId}`, {
+        headers: this.headers(),
+      })
       .pipe(catchError(this.sharedService.handleError));
   }
 
   headers(): HttpHeaders {
+    console.info(this.accessToken)
     return new HttpHeaders({
       Authorization: `Bearer ${this.accessToken}`,
     });

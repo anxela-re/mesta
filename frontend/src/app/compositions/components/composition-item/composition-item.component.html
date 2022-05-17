@@ -7,7 +7,7 @@
     'bg-basic-700 hover:opacity-70 border-secondary-500 border-dashed': !selected
   }"
 >
-  <div class="flex flex-row justify-between">
+  <div class="flex flex-row justify-between gap-2">
     <h4
       class="font-bold self-center text-xl sm:text-base"
       [ngClass]="{
@@ -41,7 +41,7 @@
         'dark:text-basic-500': selected
       }"
     >
-      <p>{{ phasePercentage.phaseName }}</p>
+      <p>{{ phasePercentage?.phase?.name }}</p>
       <div class="flex flex-row">
         <p>{{ phasePercentage.percentage }}</p>
         <p>%</p>

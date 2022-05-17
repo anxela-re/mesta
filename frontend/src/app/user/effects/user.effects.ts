@@ -9,6 +9,8 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from '../services/user.service';
 import { UserDTO } from '../models/user.dto';
 import { ProfileDTO } from '../../profiles/models/profile.dto';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 
 @Injectable()
 export class UserEffects {
@@ -16,7 +18,8 @@ export class UserEffects {
     private actions$: Actions,
     private router: Router,
     private sharedService: SharedService,
-    private userService: UserService
+    private userService: UserService,
+    private store: Store<AppState>
   ) {}
   register$ = createEffect(() =>
     this.actions$.pipe(
@@ -148,6 +151,19 @@ export class UserEffects {
         )
       )
     )
+  );
+
+  deleteUserSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.deleteUserSuccess),
+        map(() => {
+          localStorage.clear();
+          this.store.dispatch(AuthActions.logout());
+          this.router.navigateByUrl('/');
+        })
+      ),
+    { dispatch: false }
   );
 
   deleteUserFailure$ = createEffect(

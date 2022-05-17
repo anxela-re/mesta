@@ -40,11 +40,7 @@ Route::middleware(('auth:api'))->group(function () {
         return $request->user();
     });
     Route::put('/user', [UserController::class, 'update']);
-    Route::delete('/user/{id}', function ($id) {
-        $profiles = Profile::where('user_id', $id)->delete();
-        $user = User::where('id', $id)->delete();
-        return response(['message' => 'Profiles and user successfully deleted'], 200);
-    });
+    Route::delete('/user/{id}', [UserController::class, 'delete']);
 
     // Profiles 
     Route::get('/profiles', [ProfileController::class, 'get']);
