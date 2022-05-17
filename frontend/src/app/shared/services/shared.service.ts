@@ -132,8 +132,6 @@ export class SharedService {
   }
 
   updateTheme() {
-    // On page load or when changing themes, best to add inline in `head` to avoid FOUC
-    console.info(localStorage.theme);
     if (
       localStorage.theme === 'dark' ||
       (!('theme' in localStorage) &&
@@ -145,7 +143,6 @@ export class SharedService {
       document.documentElement.classList.remove('dark');
     }
     const customE = new CustomEvent('changeTheme');
-    console.info('update theme')
     window.dispatchEvent(customE);
   }
 

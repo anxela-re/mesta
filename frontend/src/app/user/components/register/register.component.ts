@@ -88,19 +88,5 @@ export class RegisterComponent implements OnInit {
     };
 
     this.store.dispatch(UserActions.register({ user }));
-
-    // this.authService.register(this.registerForm.value).subscribe(
-    //   (result) => {
-    //     console.log(result);
-    //   },
-    //   (error) => {
-    //     console.info(error)
-    //     this.errors = error.error;
-    //   },
-    //   () => {
-    //     this.registerForm.reset();
-    //     this.router.navigate(['login']);
-    //   }
-    // );
   }
 }

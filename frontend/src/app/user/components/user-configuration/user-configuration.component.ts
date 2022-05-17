@@ -141,8 +141,6 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   toggleTheme () :void {
-    console.info(localStorage.theme)
-    // this.sharedService.changeTheme('')
     this.sharedService.toggleTheme();
   }
 }

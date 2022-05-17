@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
@@ -11,7 +10,6 @@ export class ProfileSelectedService {
   profile!: ProfileDTO | undefined;
   constructor(private store: Store<AppState>) {
     this.store.select('profiles').subscribe((profilesState) => {
-      console.info('profile selected');
       if (profilesState.selected !== undefined && this.profile?.id !== profilesState.selected) {
         this.profile = profilesState.profiles.find(
           (p) => p.id === profilesState.selected

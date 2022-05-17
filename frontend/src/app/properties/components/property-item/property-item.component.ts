@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 import { PropertyDTO } from '../../models/property.dto';
 import { faSave, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { PropertiesService } from '../../services/properties.service';
-import { Action, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import * as propertiesActions from '../../actions';
 import { Actions, ofType } from '@ngrx/effects';
@@ -55,7 +54,6 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe((data) => {
-        console.info('property item');
         this.edited = false;
       });
 
@@ -65,7 +63,6 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe((data) => {
-        console.info('property item');
         this.onRemoved.emit();
       });
   }

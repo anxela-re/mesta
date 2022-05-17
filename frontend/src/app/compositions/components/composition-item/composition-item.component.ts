@@ -37,7 +37,6 @@ export class CompositionItemComponent implements OnInit {
     if (!this.composition) {
       return;
     }
-    console.info(this.composition)
   }
 
   getIdModal(): string {

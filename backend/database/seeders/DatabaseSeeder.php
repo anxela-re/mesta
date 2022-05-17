@@ -872,6 +872,8 @@ class DatabaseSeeder extends Seeder
             array_push($properties, $prop);
         }
 
+        $properties = array_unique($properties);
+
         Recipe::create([
             'name' => 'Bernal',
             'description' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean condimentum suscipit tortor, non laoreet neque condimentum eu. Maecenas at sodales purus. Sed vel varius risus, sed ultrices felis. Duis finibus varius fermentum. In congue odio non sem laoreet, sed auctor lorem porttitor. Suspendisse venenatis ante leo, id eleifend elit lacinia id. Morbi eleifend, enim gravida facilisis interdum, mauris dolor consequat eros, aliquet lobortis orci libero ut lectus. Nunc eu cursus mi, et tristique metus. Vestibulum ante lacus, iaculis id elit non, placerat maximus dui. Etiam eget leo nibh.',

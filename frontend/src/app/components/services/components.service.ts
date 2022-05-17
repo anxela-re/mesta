@@ -4,16 +4,15 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
-import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
-import { environment } from 'src/environments/environment';
+import { apiUrl } from 'src/contants';
 import { ComponentDTO } from '../models/component.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ComponentsService {
-  apiUrl = environment.apiUrl;
+  apiUrl = apiUrl;
   accessToken!: string;
   profileSelected!: number;
 

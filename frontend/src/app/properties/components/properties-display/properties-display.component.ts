@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 
 @Component({
@@ -26,7 +25,6 @@ export class PropertiesDisplayComponent implements OnInit {
 
   constructor(private store: Store<AppState>) {
     this.store.select('properties').subscribe(({ filtered }) => {
-      console.info('properties diplay');
       this.propertiesFiltered = filtered;
     });
   }

@@ -14,7 +14,6 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from '../../models/property.dto';
-import { PropertiesService } from '../../services/properties.service';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
 import * as propretyActions from '../../actions';
 import { Actions, ofType } from '@ngrx/effects';
@@ -46,7 +45,6 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
     private actions$: Actions
   ) {
     this.store.select('profiles').subscribe(({ selected }) => {
-      console.info('property form');
       if (selected) {
         this.profileId = selected;
       }
@@ -57,7 +55,6 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe(() => {
-        console.info('property form');
         this.onFinishCreating.emit();
         this.propertyForm.reset();
       });

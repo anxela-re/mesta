@@ -17,6 +17,7 @@ import { UserModule } from './user/user.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from './shared/shared.module';
 import { ProfilesModule } from './profiles/profiles.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
   return function (state, action) {
@@ -56,6 +57,12 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
     UserModule,
     BrowserAnimationsModule,
     SharedModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {

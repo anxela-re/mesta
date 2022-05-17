@@ -1,14 +1,8 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  faPencil,
-  faPencilAlt,
-  faTrash,
-  faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { ComponentDTO } from 'src/app/components/models/component.dto';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
@@ -16,10 +10,6 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { RecipeDTO } from '../../models/recipe.dto';
 import { RecipesService } from '../../services/recipes.service';
 
-interface IComponentWithPercentage {
-  component: ComponentDTO;
-  percentage: number;
-}
 @Component({
   selector: 'app-recipe-detail',
   templateUrl: './recipe-detail.component.html',
@@ -46,21 +36,18 @@ export class RecipeDetailComponent {
     private store: Store<AppState>
   ) {
     const id = this.route.snapshot.paramMap.get('id');
-    console.info(id);
     if (id) {
       this.id = parseInt(id);
     } else {
       this.router.navigate(['recipes']);
     }
     this.store.select('compositions').subscribe((compositionsState) => {
-      console.info('recipe detail');
       if (compositionsState.loaded) {
         this.compositionsProfile = compositionsState.compositions;
         this.getRecipe();
       }
     });
     this.store.select('properties').subscribe((propertiesState) => {
-      console.info('recipe detail');
       if (
         propertiesState.loaded &&
         propertiesState.properties !== this.propertiesProfile

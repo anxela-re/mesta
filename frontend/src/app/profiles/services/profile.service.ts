@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
+import { apiUrl } from 'src/contants';
 import { environment } from 'src/environments/environment';
 import { ProfileDTO } from '../models/profile.dto';
 
@@ -12,7 +13,7 @@ import { ProfileDTO } from '../models/profile.dto';
   providedIn: 'root',
 })
 export class ProfileService {
-  apiUrl = environment.apiUrl;
+  apiUrl = apiUrl;
   accessToken!: string;
 
   constructor(
@@ -21,7 +22,6 @@ export class ProfileService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
-      console.info('profile');
       this.accessToken = auth.credentials.access_token;
     });
   }

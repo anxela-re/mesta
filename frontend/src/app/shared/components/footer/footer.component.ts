@@ -16,13 +16,10 @@ export class FooterComponent implements OnInit {
     this.isLogged = false;
 
     this.store.select('auth').subscribe((auth) => {
-      console.info('header');
       this.isLogged = false;
-      console.info(auth);
       if (auth.credentials.access_token) {
         this.isLogged = true;
       }
-      console.info('Authentication -->', this.isLogged);
     });
   }
 

@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
@@ -97,7 +96,6 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     if (changes.components || changes.recipeComponentsArrayControl) {
       this.initForm();
     }
-    console.info(this);
   }
 
   initForm(): void {
@@ -150,7 +148,6 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       if (percentage === 0) {
         formArray.removeAt(index);
       } else {
-        console.info('cc', percentage);
         formArray
           .at(index)
           .patchValue({ component: found.component, percentage: percentage });
@@ -158,8 +155,6 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     } else {
       formArray.push(this.fb.group({ component, percentage }));
     }
-
-    console.info('bbb', formArray.value);
   }
   onPercentageChange({ percentage, component }: IChangePercentage) {
     this.changeArrayControl(

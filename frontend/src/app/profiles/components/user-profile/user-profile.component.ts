@@ -112,7 +112,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   initForm(): void {
-    console.info('user profile');
     this.name = new FormControl(this.profile.name, [
       Validators.required,
       Validators.maxLength(64),

@@ -1,22 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { TokenService } from './token.service';
 import { catchError } from 'rxjs/operators';
 import { SharedService } from 'src/app/shared/services/shared.service';
-import { UserDTO } from 'src/app/user/models/user.dto';
 import { AuthDTO } from '../models/auth.dto';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { RegisterDTO } from '../../user/models/register.dto';
-import { AuthTokenDTO } from '../models/authToken.dto';
-import { environment } from 'src/environments/environment';
+import { apiUrl } from 'src/contants';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  apiUrl = environment.apiUrl;
+  apiUrl = apiUrl;
   accessToken!: string;
 
   constructor(
@@ -25,7 +21,6 @@ export class AuthService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
-      console.info('auth');
       this.accessToken = auth.credentials.access_token;
     });
   }

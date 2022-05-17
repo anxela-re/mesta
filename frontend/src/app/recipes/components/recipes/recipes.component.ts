@@ -47,14 +47,12 @@ export class RecipesComponent implements OnInit, OnDestroy {
     this.actions$
       .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))
       .subscribe(() => {
-        console.info('recipes');
         this.reloadList.next();
       });
 
     this.store
       .select('properties')
       .subscribe(({ properties, loaded, filtered }) => {
-        console.info('recipes');
         if (loaded && this.propertiesProfile !== properties) {
           this.propertiesProfile = properties;
         }

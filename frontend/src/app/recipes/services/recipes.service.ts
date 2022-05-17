@@ -7,6 +7,7 @@ import { AppState } from 'src/app/app.reducers';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
+import { apiUrl } from 'src/contants';
 import { environment } from 'src/environments/environment';
 import { RecipeDTO } from '../models/recipe.dto';
 
@@ -14,7 +15,7 @@ import { RecipeDTO } from '../models/recipe.dto';
   providedIn: 'root',
 })
 export class RecipesService {
-  apiUrl = environment.apiUrl + '/api/recipes';
+  apiUrl = apiUrl + '/api/recipes';
   accessToken!: string;
   profileSelected!: number;
   constructor(

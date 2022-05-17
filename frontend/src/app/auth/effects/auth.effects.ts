@@ -3,8 +3,6 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
   concatMap,
-  exhaustMap,
-  finalize,
   map,
 } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -69,7 +67,6 @@ export class AuthEffects {
         ofType(AuthActions.loginFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          console.info(error.payload.error.errors)
           const errors: string[] = error.payload.error.errors !== undefined
             ? Object.values(error.payload.error.errors)
             : [error.payload.error.message];

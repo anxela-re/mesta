@@ -63,14 +63,12 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
     private actions$: Actions,
   ) {
     this.store.select('profiles').subscribe(({ profiles, selected }) => {
-      console.info('composition form');
       if (selected) {
         this.profile_id = selected;
       }
     });
 
     this.store.select('phases').subscribe(({phases, loaded}) => {
-      console.info('composition form');
       if(loaded) {
         this.phases = phases;
         this.initForm();
@@ -83,7 +81,6 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe(() => {
-        console.info('composition form');
         this.onEndEdition.emit();
       });
 
@@ -93,7 +90,6 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
         takeUntil(this.unsubscribe$)
       )
       .subscribe(() => {
-        console.info('composition form');
         this.onEndEdition.emit();
       });
   }
@@ -114,7 +110,6 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
     return this.phases_percentage?.at(i)?.value.phaseName;
   }
   initForm(): void {
-    console.info('composition form');
     this.name = new FormControl(this.composition.name, [Validators.required]);
 
     this.compositionForm = this.fb.group({

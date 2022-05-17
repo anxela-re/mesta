@@ -1,5 +1,3 @@
-import { PropertyDTO } from 'src/app/properties/models/property.dto';
-
 export interface IComponent {
   id?: number;
   name?: string;
@@ -34,6 +32,5 @@ export class ComponentDTO {
     this.profile_id = data?.profile_id;
     this.properties = data?.properties || [];
     this.expiration_date = data?.expiration_date;
-    console.info(data)
   }
 }

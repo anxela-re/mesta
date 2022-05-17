@@ -5,14 +5,14 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
-import { environment } from 'src/environments/environment';
+import { apiUrl } from 'src/contants';
 import { CompositionDTO } from '../models/composition.dto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CompositionsService {
-  apiUrl = environment.apiUrl + '/api/compositions';
+  apiUrl = apiUrl + '/api/compositions';
   accessToken!: string;
 
   constructor(
@@ -21,7 +21,6 @@ export class CompositionsService {
     private store: Store<AppState>
   ) {
     this.store.select('auth').subscribe((auth) => {
-      console.info('compositions');
       this.accessToken = auth.credentials.access_token;
     });
   }

@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import * as UserActions from './user/actions';
@@ -20,12 +19,10 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
-    private router: Router,
     private sharedService: SharedService
   ) {
     this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
-      console.info('app');
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
@@ -43,8 +40,6 @@ export class AppComponent {
     });
 
     this.store.select('profiles').subscribe((data) => {
-      console.info('app');
-      console.info(data);
       if (
         data.selected === undefined &&
         data.profiles.length > 0 &&
@@ -70,9 +65,5 @@ export class AppComponent {
         this.profileSelectedId = data.selected;
       }
     });
-  }
-
-  toggle() {
-    this.sharedService.toggleTheme();
   }
 }

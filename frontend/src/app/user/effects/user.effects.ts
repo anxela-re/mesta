@@ -58,7 +58,6 @@ export class UserEffects {
         ofType(UserActions.registerFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          console.info(Object.values(error.payload.error.errors));
           const errors: string[] = Object.values(error.payload.error.errors);
           await this.sharedService.managementToast(
             false,
