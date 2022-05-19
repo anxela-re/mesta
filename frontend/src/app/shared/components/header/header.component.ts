@@ -56,9 +56,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-      
-  }
+  ngOnInit(): void {}
   @HostListener('document:click', ['$event'])
   onClickOutside(event: any) {
     if (event.target && event.target.closest('#button-menu') === null) {
@@ -72,9 +70,10 @@ export class HeaderComponent implements OnInit {
   }
 
   updateLogoPath(): void {
-    this.currentLogoPath = localStorage.theme === 'dark'
-      ? '../../../../assets/images/logo-white.png'
-      : '../../../../assets/images/logo.png';
+    this.currentLogoPath =
+      localStorage.theme === 'dark'
+        ? '../../../../assets/images/logo-white.png'
+        : '../../../../assets/images/logo.png';
   }
   navigateTo(url: string) {
     this.router.navigateByUrl(url);
@@ -89,5 +88,9 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.store.dispatch(logout());
+  }
+
+  navigateToContact(): void {
+    this.router.navigate(['#contact']);
   }
 }

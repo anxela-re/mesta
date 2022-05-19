@@ -41,6 +41,10 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private sharedService: SharedService
   ) {
+    const token = this.route.snapshot.paramMap.get('id');
+    if(token) {
+      this.token = token;
+    }
     this.isValidForm = null;
     this.resetPassword = new ResetPasswordDTO('', '');
     this.password = new FormControl(this.resetPassword.password, [
@@ -81,7 +85,7 @@ export class ResetPasswordComponent implements OnInit {
       })
       .subscribe(
         (result) => {
-          this.sharedService.managementToast(true, 'Contraseña cambiada');
+          this.sharedService.managementToast(true, 'Contraseña actualizada');
         },
         (error) => {
           this.errors = error.error;
