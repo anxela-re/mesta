@@ -5,8 +5,6 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ProfileDTO } from '../../models/profile.dto';
@@ -19,15 +17,7 @@ import * as ProfilesActions from '../../actions';
 import * as PhasesActions from '../../../phases/actions';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
 import { SharedService } from 'src/app/shared/services/shared.service';
-
-export function minLengthArray(min: number): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    if (control.value.length >= min)
-      return control.value.length >= min ? null : { minLengthArray: true };
-
-    return { minLengthArray: true };
-  };
-}
+import { minLengthArray } from 'src/app/validators';
 
 @Component({
   selector: 'app-user-profile',

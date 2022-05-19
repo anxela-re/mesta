@@ -1,12 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,15 +15,8 @@ import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcr
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { RecipeDTO } from '../../models/recipe.dto';
 import { RecipesService } from '../../services/recipes.service';
-export function additionValidator(value: number): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const suma = control.value.reduce(
-      (acc: number, curr: any) => acc + curr?.percentage,
-      0
-    );
-    return suma === value ? null : { additionValidator: suma };
-  };
-}
+import { additionValidator } from 'src/app/validators';
+
 @Component({
   selector: 'app-formulation',
   templateUrl: './formulation.component.html',

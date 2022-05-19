@@ -9,11 +9,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
-  ValidationErrors,
-  ValidatorFn,
 } from '@angular/forms';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
@@ -21,19 +18,11 @@ import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { maxAddition } from 'src/app/validators';
 
 export interface IChangePercentage {
   component: ComponentDTO;
   percentage: number;
-}
-export function maxAddition(value: number): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const suma = control.value.reduce(
-      (acc: number, curr: any) => acc + curr?.percentage,
-      0
-    );
-    return suma <= value ? null : { maxAddition: true };
-  };
 }
 @Component({
   selector: 'app-components-phase',
@@ -192,7 +181,8 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     }
   }
   getPropertiesByComponent(propertiesId: number[]): PropertyDTO[] | null {
-    if (this.properties) {
+    console.info(propertiesId)
+    if (this.properties && propertiesId) {
       return this.sharedService.getPropertiesById(
         this.properties,
         propertiesId

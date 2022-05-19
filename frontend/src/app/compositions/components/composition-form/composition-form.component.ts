@@ -7,13 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -27,16 +24,8 @@ import * as compositionsActions from '../../actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { additionValidator } from 'src/app/validators';
 
-export function additionValidator(value: number): ValidatorFn {
-  return (control: AbstractControl): ValidationErrors | null => {
-    const suma = control.value.reduce(
-      (acc: number, curr: any) => acc + curr?.percentage,
-      0
-    );
-    return suma === 100 ? null : { additionValidator: suma };
-  };
-}
 @Component({
   selector: 'app-composition-form',
   templateUrl: './composition-form.component.html',

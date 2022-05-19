@@ -11,6 +11,7 @@ import { RegisterDTO } from '../../models/register.dto';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import * as UserActions from '../../actions';
+import { matchEqual } from 'src/app/validators';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -50,15 +51,15 @@ export class RegisterComponent implements OnInit {
 
     this.password = new FormControl(this.registerUser.password, [
       Validators.required,
-      // Validators.minLength(8),
+      Validators.minLength(6),
+      Validators.maxLength(16),
     ]);
 
     this.password_confirmation = new FormControl(
       this.registerUser.password_confirmation,
       [
         Validators.required,
-        // Validators.minLength(8),
-        //Validartor equal
+        matchEqual(this.password)
       ]
     );
 

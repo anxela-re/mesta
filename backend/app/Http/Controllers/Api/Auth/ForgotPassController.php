@@ -21,7 +21,7 @@ class ForgotPassController extends Controller
         $email = $request->email;
 
         if (User::where('email', $email)->doesntExist()) {
-            return response(['message' => 'Email dows not exists.'], 400);
+            return response(['message' => 'El correo electrónico no existe.'], 400);
         }
         $token = Str::random(10);
 
@@ -34,10 +34,10 @@ class ForgotPassController extends Controller
         // Send email
         Mail::send('mail.password_reset', ['token' => $token], function ($message) use ($email) {
             $message->to($email);
-            $message->subject('Reset your password');
+            $message->subject('Restaurar contraseña');
         });
 
-        return response(['message' => 'Check your email.'], 200);
+        return response(['message' => 'Compruebe su email'], 200);
     }
 
     public function reset(Request $request)
@@ -51,16 +51,16 @@ class ForgotPassController extends Controller
         $passwordRest = DB::table('password_resets')->where('token', $token)->first();
 
         if (!$passwordRest) {
-            return response(['message' => 'Token not found'], 200);
+            return response(['message' => 'No se encuentra el token'], 200);
         }
         if (!$passwordRest->created_at >= now()) {
-            return response(['message' => 'Token has expired.'], 200);
+            return response(['message' => 'El token ha expirado.'], 200);
         }
 
         $user = User::where('email', $passwordRest->email)->first();
 
         if (!$user) {
-            return response(['message' => 'User does not exists.'], 200);
+            return response(['message' => 'El usuario no existe'], 200);
         }
 
         $user->password = Hash::make($request->password);
@@ -68,6 +68,6 @@ class ForgotPassController extends Controller
 
         DB::table('password_resets')->where('token', $token)->delete();
 
-        return response(['message' => 'Password successfully updated.'], 200);
+        return response(['message' => 'Contraseña resturada correctamente.'], 200);
     }
 }

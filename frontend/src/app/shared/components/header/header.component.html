@@ -3,7 +3,7 @@
   <div *ngIf="!isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/']" class="flex items-center gap-1"
       ><img
-        [src]="currnetLogoPath"
+        [src]="currentLogoPath"
         alt="Mesta"
         width="auto"
         height="100%"
@@ -75,7 +75,7 @@
   <div *ngIf="isLogged" class="flex gap-2 justify-between items-center w-full">
     <a [routerLink]="['/recipes']" class="flex items-center gap-1"
       ><img
-        [src]="currnetLogoPath"
+        [src]="currentLogoPath"
         alt="Mesta"
         width="auto"
         height="100%"

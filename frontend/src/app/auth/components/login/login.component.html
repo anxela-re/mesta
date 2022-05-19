@@ -11,7 +11,7 @@
           *ngIf="email.errors && (email.touched || email.dirty)"
           class="form-errors"
         >
-          <span *ngIf="email.errors.required">Email is required</span>
+          <span *ngIf="email.errors.required">Campo obligatorio</span>
           <div *ngIf="email.errors.pattern">Email not a valid format.</div>
         </div>
       </div>
@@ -27,7 +27,7 @@
             *ngIf="password.errors && (password.touched || password.dirty)"
             class="form-errors"
           >
-            <span *ngIf="password.errors.required">Password is required</span>
+            <span *ngIf="password.errors.required">Campo obligatorio</span>
             <span *ngIf="password.errors.minlength"
               >Password must be greater tha 8 characters</span
             >
@@ -48,7 +48,7 @@
       <button
         type="submit"
         [disabled]="!loginForm.valid"
-        class="mr-2 btn btn-primary shadow-thick-secondary mt-2"
+        class="mr-2 btn btn-primary shadow-thick-secondary-dark mt-2"
       >
         Login
       </button>

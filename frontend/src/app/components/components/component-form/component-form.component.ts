@@ -62,7 +62,6 @@ export class ComponentFormComponent implements OnInit {
     this.store.select('properties').subscribe(({ properties, loaded }) => {
       if (loaded && this.propertiesProfile !== properties) {
         this.propertiesProfile = properties;
-        this.initForm();
       }
     });
 

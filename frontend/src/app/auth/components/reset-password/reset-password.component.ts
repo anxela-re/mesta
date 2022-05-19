@@ -1,12 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SharedService } from 'src/app/shared/services/shared.service';
+import { matchEqual } from 'src/app/validators';
 import { AuthService } from '../../services/auth.service';
 class ResetPasswordDTO {
   password: string;
   password_confirmation: string;
 
-  constructor(password: string, password_confirmation:string) {
+  constructor(password: string, password_confirmation: string) {
     this.password = password;
     this.password_confirmation = password_confirmation;
   }
@@ -31,22 +38,20 @@ export class ResetPasswordComponent implements OnInit {
     public router: Router,
     public fb: FormBuilder,
     public authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private sharedService: SharedService
   ) {
     this.isValidForm = null;
     this.resetPassword = new ResetPasswordDTO('', '');
     this.password = new FormControl(this.resetPassword.password, [
       Validators.required,
-      // Validators.minLength(8),
+      Validators.minLength(6),
+      Validators.maxLength(16),
     ]);
 
     this.password_confirmation = new FormControl(
       this.resetPassword.password_confirmation,
-      [
-        Validators.required,
-        // Validators.minLength(8),
-        //Validartor equal
-      ]
+      [Validators.required, matchEqual(this.password)]
     );
     this.resetPasswordForm = this.fb.group({
       password: this.password,
@@ -56,7 +61,7 @@ export class ResetPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: any) => {
       this.token = params.token;
-    })
+    });
   }
   onSubmit() {
     this.isValidForm = false;
@@ -70,13 +75,13 @@ export class ResetPasswordComponent implements OnInit {
     this.resetPassword = this.resetPasswordForm.value;
     this.authService
       .resetPassword({
-        token: this.token, 
+        token: this.token,
         password: this.resetPassword.password,
         password_confirmation: this.resetPassword.password_confirmation,
       })
       .subscribe(
         (result) => {
-          console.log(result);
+          this.sharedService.managementToast(true, 'Contraseña cambiada');
         },
         (error) => {
           this.errors = error.error;

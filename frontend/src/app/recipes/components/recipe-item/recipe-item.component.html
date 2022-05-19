@@ -1,11 +1,11 @@
 <div
-  class="transform transition delay-10 duration-300 ease-in-out scale-0 dark:bg-basic-200"
+  class="group transform transition delay-10 duration-300 ease-in-out scale-0 dark:bg-basic-200"
   (click)="onClick()"
   [ngClass]="{ 'scale-100': properties }"
 >
   <app-dashed-box [selected]="!(currentTheme === 'dark')">
     <h4
-      class="font-bold group-hover:!text-basic-500 dark:text-secondary-500 uppercase text-center text-lg text-basic-500"
+      class="font-bold dark:group-hover:text-basic-500 dark:text-secondary-500 uppercase text-center text-lg text-basic-500"
     >
       {{ recipe.name }}
     </h4>

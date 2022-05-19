@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   profiles: ProfileDTO[] = [];
   profileSelected?: number | undefined;
 
-  currnetLogoPath: string =
+  currentLogoPath: string =
     localStorage.theme === 'dark'
       ? '../../../../assets/images/logo-white.png'
       : '../../../../assets/images/logo.png';
@@ -72,7 +72,7 @@ export class HeaderComponent implements OnInit {
   }
 
   updateLogoPath(): void {
-    this.currnetLogoPath = localStorage.theme === 'dark'
+    this.currentLogoPath = localStorage.theme === 'dark'
       ? '../../../../assets/images/logo-white.png'
       : '../../../../assets/images/logo.png';
   }

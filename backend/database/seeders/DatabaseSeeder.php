@@ -153,7 +153,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -166,7 +165,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -179,8 +177,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -193,9 +189,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -208,9 +201,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_2->id,
             'properties' => array(
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -223,9 +213,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -238,9 +225,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_2->id,
             'properties' => array(
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -253,10 +237,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -269,10 +249,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_2->id,
             'properties' => array(
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -285,10 +261,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -301,9 +273,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_2->id,
             'properties' => array(
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -316,9 +285,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -331,10 +297,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -347,10 +309,6 @@ class DatabaseSeeder extends Seeder
             'profile_id' => $profile_1->id,
             'properties' => array(
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
         ]);
@@ -362,11 +320,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -379,10 +332,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -395,10 +344,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -411,11 +356,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -428,10 +368,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_4_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -444,9 +380,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_2_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -459,9 +392,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_4_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -474,9 +404,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_2_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -489,9 +416,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_4_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -504,9 +428,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_2_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -519,9 +440,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_4_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -534,9 +452,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_2_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -549,9 +464,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_4_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -564,9 +476,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_2_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -579,9 +488,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_5_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -594,9 +500,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -609,9 +512,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_5_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -624,9 +524,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -639,9 +536,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_5_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -654,10 +548,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -670,10 +560,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_5_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -686,10 +572,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_5_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -702,10 +584,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_5_profile_1->id,
             'profile_id' => $profile_1->id,
             'properties' => array(
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
-                $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id,
                 $properties_profile_1[random_int(0, count($properties_profile_1) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -718,10 +596,6 @@ class DatabaseSeeder extends Seeder
             'phase_id' => $phase_3_profile_2->id,
             'profile_id' => $profile_2->id,
             'properties' => array(
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
-                $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id,
                 $properties_profile_2[random_int(0, count($properties_profile_2) - 1)]->id
             ),
             'expiration_date' => Carbon::now()->addDays(random_int(0, 365))
@@ -836,7 +710,7 @@ class DatabaseSeeder extends Seeder
             (object)['component_id' => $component_1_phase_3_profile_1->id, 'percentage' => 6],
             (object)['component_id' => $component_2_phase_3_profile_1->id, 'percentage' => 6],
             (object)['component_id' => $component_1_phase_4_profile_1->id, 'percentage' => 7],
-            (object)['component_id' => $component_2_phase_4_profile_1->id, 'percentage' => 7],
+            (object)['component_id' => $component_2_phase_4_profile_1->id, 'percentage' => 6],
             (object)['component_id' => $component_2_phase_5_profile_1->id, 'percentage' => 2],
             (object)['component_id' => $component_1_phase_5_profile_1->id, 'percentage' => 3],
         );
@@ -872,7 +746,7 @@ class DatabaseSeeder extends Seeder
             array_push($properties, $prop);
         }
 
-        $properties = array_unique($properties);
+        // $properties = array_unique($properties);
 
         Recipe::create([
             'name' => 'Bernal',

@@ -23,11 +23,11 @@ html {
   scroll-behavior: smooth;
 }
 :not(.dark) .background-image {
-  background: url("./assets/images/bg-image.png") #f4f4f4;
+  background: url("./assets/images/bg-image.svg") #f4f4f4;
   background-size: 200%;
 }
 .dark .background-image {
-  background: url("./assets/images/bg-image-dark.png") #0f172a;
+  background: url("./assets/images/bg-image-dark.svg") #0f172a;
   background-size: 200%;
 }
 body {
@@ -156,7 +156,7 @@ input:-webkit-autofill:active {
 }
 
 .form-errors {
-  @apply mt-0 mb-2 text-danger text-left fs-xs;
+  @apply mt-0 mb-2 text-danger text-left fs-xs flex flex-col;
 }
 .input-search {
   @apply border-2 border-secondary-500 dark:border-none rounded-xl py-2 px-4 w-full my-2 shadow-thick shadow-secondary-500 dark:shadow-primary-500 outline-none transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px];

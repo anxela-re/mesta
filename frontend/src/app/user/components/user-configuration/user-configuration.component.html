@@ -60,7 +60,7 @@
               *ngIf="name.errors && (name.touched || name.dirty)"
               class="form-errors"
             >
-              <div *ngIf="name.errors.required">Name is required</div>
+              <div *ngIf="name.errors.required">Campo obligatorio</div>
               <div *ngIf="name.errors.minlength">
                 Name must be at least 5 characters long.
               </div>
@@ -95,7 +95,7 @@
                 *ngIf="email.errors && (email.touched || email.dirty)"
               >
                 <span *ngIf="email.errors.required" class="fs-xs"
-                  >Email is required</span
+                  >Campo obligatorio</span
                 >
                 <div *ngIf="email.errors.pattern" class="fs-xs">
                   Email not a valid format.
@@ -171,7 +171,7 @@
             "
             class="form-errors"
           >
-            <div *ngIf="nameContact.errors.required">Name is required</div>
+            <div *ngIf="nameContact.errors.required">Campo obligatorio</div>
             <div *ngIf="nameContact.errors.minlength">
               Name must be at least 5 characters long.
             </div>
@@ -197,7 +197,7 @@
               "
             >
               <span *ngIf="emailContact.errors.required"
-                >Email is required</span
+                >Campo obligatorio</span
               >
               <div *ngIf="emailContact.errors.pattern">
                 Email not a valid format.
@@ -219,7 +219,7 @@
             "
             class="form-errors"
           >
-            <div *ngIf="bodyContact.errors.required">Name is required</div>
+            <div *ngIf="bodyContact.errors.required">Campo obligatorio</div>
             <div *ngIf="bodyContact.errors.minlength">
               Name must be at least 5 characters long.
             </div>
