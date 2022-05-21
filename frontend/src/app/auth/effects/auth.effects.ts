@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  concatMap,
-  map,
-} from 'rxjs/operators';
+import { catchError, concatMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as AuthActions from '../actions';
@@ -67,12 +63,15 @@ export class AuthEffects {
         ofType(AuthActions.loginFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          const errors: string[] = error.payload.error.errors !== undefined
-            ? Object.values(error.payload.error.errors)
-            : [error.payload.error.message];
+          const errors: string[] =
+            error.payload.error.errors !== undefined
+              ? Object.values(error.payload.error.errors)
+              : [error.payload.error.message];
           await this.sharedService.managementToast(
             false,
-            errors?.length > 0 ? errors[0] : '¡Algo está fallando!'
+            errors?.length > 0 && errors[0] !== undefined
+              ? errors[0]
+              : '¡Algo está fallando!'
           );
         })
       ),

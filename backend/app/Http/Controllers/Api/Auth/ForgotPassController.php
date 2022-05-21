@@ -51,16 +51,16 @@ class ForgotPassController extends Controller
         $passwordRest = DB::table('password_resets')->where('token', $token)->first();
 
         if (!$passwordRest) {
-            return response(['message' => 'No se encuentra el token'], 200);
+            return response(['message' => 'No se encuentra el token'], 400);
         }
         if (!$passwordRest->created_at >= now()) {
-            return response(['message' => 'El token ha expirado.'], 200);
+            return response(['message' => 'El token ha expirado.'], 400);
         }
 
         $user = User::where('email', $passwordRest->email)->first();
 
         if (!$user) {
-            return response(['message' => 'El usuario no existe'], 200);
+            return response(['message' => 'El usuario no existe'], 400);
         }
 
         $user->password = Hash::make($request->password);

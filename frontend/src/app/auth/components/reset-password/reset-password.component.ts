@@ -6,7 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/app.reducers';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { UserDTO } from 'src/app/user/models/user.dto';
+import { UserService } from 'src/app/user/services/user.service';
 import { matchEqual } from 'src/app/validators';
 import { AuthService } from '../../services/auth.service';
 class ResetPasswordDTO {
@@ -26,7 +30,6 @@ class ResetPasswordDTO {
 export class ResetPasswordComponent implements OnInit {
   resetPassword: ResetPasswordDTO;
   resetPasswordForm: FormGroup;
-  errors: any = null;
   token!: string;
 
   password: FormControl;
@@ -34,17 +37,28 @@ export class ResetPasswordComponent implements OnInit {
 
   isValidForm: boolean | null;
 
+  user!: UserDTO;
+
   constructor(
     public router: Router,
     public fb: FormBuilder,
     public authService: AuthService,
     private route: ActivatedRoute,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private userService: UserService,
+    private store: Store<AppState>
   ) {
     const token = this.route.snapshot.paramMap.get('id');
-    if(token) {
+    if (token) {
       this.token = token;
     }
+
+    this.store.select('user').subscribe((userState) => {
+      if (userState.user) {
+        this.user = userState.user;
+      }
+    });
+
     this.isValidForm = null;
     this.resetPassword = new ResetPasswordDTO('', '');
     this.password = new FormControl(this.resetPassword.password, [
@@ -62,11 +76,7 @@ export class ResetPasswordComponent implements OnInit {
       password_confirmation: this.password_confirmation,
     });
   }
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params: any) => {
-      this.token = params.token;
-    });
-  }
+  ngOnInit(): void {}
   onSubmit() {
     this.isValidForm = false;
 
@@ -77,23 +87,46 @@ export class ResetPasswordComponent implements OnInit {
     this.isValidForm = true;
 
     this.resetPassword = this.resetPasswordForm.value;
-    this.authService
-      .resetPassword({
-        token: this.token,
-        password: this.resetPassword.password,
-        password_confirmation: this.resetPassword.password_confirmation,
-      })
-      .subscribe(
-        (result) => {
-          this.sharedService.managementToast(true, 'Contraseña actualizada');
-        },
-        (error) => {
-          this.errors = error.error;
-        },
-        () => {
-          this.resetPasswordForm.reset();
-          this.router.navigate(['login']);
-        }
-      );
+    if (this.token) {
+      this.authService
+        .resetPassword({
+          token: this.token,
+          password: this.resetPassword.password,
+          password_confirmation: this.resetPassword.password_confirmation,
+        })
+        .subscribe(
+          (result) => {
+            this.sharedService.managementToast(true, 'Contraseña actualizada');
+          },
+          (error) => {
+            this.sharedService.managementToast(
+              false,
+              error?.error?.message || '¡Algo está fallando!'
+            );
+          },
+          () => {
+            this.resetPasswordForm.reset();
+            this.router.navigate(['login']);
+          }
+        );
+    } else if (this.user) {
+      this.userService
+        .updateUser({ ...this.user, password: this.resetPassword.password })
+        .subscribe(
+          (result) => {
+            this.sharedService.managementToast(true, 'Contraseña actualizada');
+          },
+          (error) => {
+            this.sharedService.managementToast(
+              false,
+              error?.error?.message || '¡Algo está fallando!'
+            );
+          },
+          () => {
+            this.resetPasswordForm.reset();
+            this.router.navigate(['configuration']);
+          }
+        );
+    }
   }
 }
