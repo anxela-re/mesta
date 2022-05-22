@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('expiration_date');
             $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade')->onUpdate('cascade');
-            $table->json('properties')->default(new Expression('(JSON_ARRAY())'));
+            $table->json('properties')->default(new Expression('[]'));
             $table->timestamps();
         });
     }
