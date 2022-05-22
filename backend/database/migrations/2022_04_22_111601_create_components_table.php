@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
@@ -16,14 +15,17 @@ return new class extends Migration
     {
         Schema::create('components', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('description');
-            $table->string('image_url');
-            $table->date('expiration_date');
-            $table->foreignId('profile_id')->constrained('profiles')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('phase_id')->constrained('phases')->onDelete('cascade')->onUpdate('cascade');
-            $table->json('properties')->default(new Expression('[]'))->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('profile_id');
+            $table->foreign('profile_id')->references('id')->on('profiles');
+            $table->unsignedBigInteger('phase_id');
+            $table->foreign('phase_id')->references('id')->on('phases');
+            $table->string('name');
+            $table->string('scientific_name')->nullable();
+            $table->string('description')->nullable();
+            $table->json('properties')->nullable();
+            $table->string('image_url')->nullable();
+            $table->date('expiration_date')->nullable();
         });
     }
 
