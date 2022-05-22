@@ -3,8 +3,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import * as UserActions from './user/actions';
 import * as ProfilesActions from './profiles/actions';
+import * as AuthActions from './auth/actions';
 import { ProfileSelectedService } from './profiles/services/profile-selected.service';
 import { SharedService } from './shared/services/shared.service';
+import { TokenService } from './auth/services/token.service';
 
 @Component({
   selector: 'app-root',
@@ -19,16 +21,22 @@ export class AppComponent {
   constructor(
     private store: Store<AppState>,
     private profileSelectedService: ProfileSelectedService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private tokenService: TokenService
   ) {
     this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
+      console.info(this.tokenService.isValidToken());
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&
         data.credentials.access_token &&
         data.credentials.access_token !== ''
       ) {
+        if (!this.tokenService.isValidToken()) {
+          this.store.dispatch(AuthActions.logout());
+          return;
+        }
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({
             userId: data.credentials.user_id,

@@ -18,7 +18,6 @@ import * as ProfilesActions from '../../../profiles/actions';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
   email: FormControl;
@@ -66,6 +65,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       password: this.password.value,
       id: '',
       access_token: '',
+      token_expires_at: '',
     };
 
     this.store.dispatch(login({ credentials }));

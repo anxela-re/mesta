@@ -89,10 +89,6 @@ const _userReducer = createReducer(
     loaded: false,
     error: { payload },
   })),
-  on(ProfilesActions.selectProfile, (state, { profile }) => ({
-    ...state,
-    selected: profile.id,
-  })),
   on(ProfilesActions.deleteProfile, (state) => ({
     ...state,
     loading: true,
@@ -114,6 +110,10 @@ const _userReducer = createReducer(
     loading: false,
     loaded: false,
     error: { payload },
+  })),
+  on(ProfilesActions.selectProfile, (state, { profile }) => ({
+    ...state,
+    selected: profile.id,
   })),
   on(ProfilesActions.assignPhases, (state, { profile_id, phases }) => ({
     ...state,

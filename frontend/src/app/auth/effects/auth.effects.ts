@@ -29,6 +29,7 @@ export class AuthEffects {
             const credentialsTemp: AuthTokenDTO = {
               user_id: userToken.id,
               access_token: userToken.access_token,
+              token_expires_at: userToken.token_expires_at
             };
 
             this.tokenService.handleData(credentialsTemp);

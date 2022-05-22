@@ -26,6 +26,7 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
       localStorage.removeItem('access_token');
       localStorage.removeItem('selected_profile');
       localStorage.removeItem('user_id');
+      localStorage.removeItem('token_expires_at');
       state = undefined;
     }
 
