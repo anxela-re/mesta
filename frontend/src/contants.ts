@@ -1,3 +1,3 @@
-const apiUrl = 'https://mesta-formulation.herokuapp.com';
+const apiUrl = 'https://mesta-formulation-api.herokuapp.com';
 
 export { apiUrl };
