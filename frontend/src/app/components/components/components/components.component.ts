@@ -36,7 +36,6 @@ export interface ISelectProp {
 @Component({
   selector: 'app-components',
   templateUrl: './components.component.html',
-  styleUrls: ['./components.component.scss'],
 })
 export class ComponentsComponent implements OnInit, OnDestroy {
   @Input()
@@ -99,6 +98,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
 
     this.store
       .select('properties')
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(({ properties, loaded, filtered }) => {
         if (loaded && properties !== this.propertiesProfile) {
           this.propertiesProfile = properties;

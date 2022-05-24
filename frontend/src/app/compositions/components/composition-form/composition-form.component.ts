@@ -29,7 +29,6 @@ import { additionValidator } from 'src/app/validators';
 @Component({
   selector: 'app-composition-form',
   templateUrl: './composition-form.component.html',
-  styleUrls: ['./composition-form.component.scss'],
 })
 export class CompositionFormComponent implements OnInit, OnDestroy {
   @Output()

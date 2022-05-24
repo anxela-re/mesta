@@ -17,7 +17,6 @@ import { ComponentsService } from '../../services/components.service';
 @Component({
   selector: 'app-component-details',
   templateUrl: './component-details.component.html',
-  styleUrls: ['./component-details.component.scss'],
 })
 export class ComponentDetailsComponent implements OnInit {
   id!: number;

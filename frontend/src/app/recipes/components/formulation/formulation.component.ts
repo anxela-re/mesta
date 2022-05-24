@@ -20,7 +20,6 @@ import { additionValidator } from 'src/app/validators';
 @Component({
   selector: 'app-formulation',
   templateUrl: './formulation.component.html',
-  styleUrls: ['./formulation.component.scss'],
 })
 export class FormulationComponent implements OnInit {
   recipeId!: number;

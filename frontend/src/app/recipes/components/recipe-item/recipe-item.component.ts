@@ -15,7 +15,6 @@ import { RecipeDTO } from '../../models/recipe.dto';
 @Component({
   selector: 'app-recipe-item',
   templateUrl: './recipe-item.component.html',
-  styleUrls: ['./recipe-item.component.scss'],
 })
 export class RecipeItemComponent implements AfterViewInit {
   @ViewChild('borderTop') borderTopDOM!: ElementRef;

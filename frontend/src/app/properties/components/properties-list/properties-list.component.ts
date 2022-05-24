@@ -13,7 +13,6 @@ import * as propertiesActions from '../../actions';
 @Component({
   selector: 'app-properties-list',
   templateUrl: './properties-list.component.html',
-  styleUrls: ['./properties-list.component.scss'],
 })
 export class PropertiesListComponent implements OnInit {
   @Input()

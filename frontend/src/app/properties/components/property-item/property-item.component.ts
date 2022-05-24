@@ -23,7 +23,6 @@ export interface OnSelectProps {
 @Component({
   selector: 'app-property-item',
   templateUrl: './property-item.component.html',
-  styleUrls: ['./property-item.component.scss'],
 })
 export class PropertyItemComponent implements OnInit, OnDestroy {
   @Input()

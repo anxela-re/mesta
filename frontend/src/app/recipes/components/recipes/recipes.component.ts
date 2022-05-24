@@ -21,7 +21,6 @@ import * as ProfilesActions from '../../../profiles/actions';
 @Component({
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
-  styleUrls: ['./recipes.component.scss'],
 })
 export class RecipesComponent implements OnInit, OnDestroy {
   private searchSubject: Subject<string> = new Subject();
@@ -52,6 +51,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
     this.store
       .select('properties')
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(({ properties, loaded, filtered }) => {
         if (loaded && this.propertiesProfile !== properties) {
           this.propertiesProfile = properties;

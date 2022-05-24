@@ -23,7 +23,6 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-property-form',
   templateUrl: './property-form.component.html',
-  styleUrls: ['./property-form.component.scss'],
 })
 export class PropertyFormComponent implements OnInit, OnDestroy {
   @Output()

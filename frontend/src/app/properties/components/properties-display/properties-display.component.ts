@@ -6,7 +6,6 @@ import { PropertyDTO } from 'src/app/properties/models/property.dto';
 @Component({
   selector: 'app-properties-display',
   templateUrl: './properties-display.component.html',
-  styleUrls: ['./properties-display.component.scss'],
 })
 export class PropertiesDisplayComponent implements OnInit {
   @Input()

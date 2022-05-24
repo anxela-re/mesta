@@ -26,7 +26,6 @@ export class AppComponent {
   ) {
     this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
-      console.info(this.tokenService.isValidToken());
       if (
         data.credentials.user_id &&
         data.credentials.user_id !== '' &&

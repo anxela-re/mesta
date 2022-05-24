@@ -36,7 +36,7 @@
     {
       "name": "mesta-api",
       "urls": [
-        "https://"
+        "https://mesta-formulation-api.herokuapp.com/"
       ],
       "cacheConfig": {
         "maxSize": 10,

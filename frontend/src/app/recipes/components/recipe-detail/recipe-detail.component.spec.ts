@@ -1,5 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { CompositionsModule } from 'src/app/compositions/compositions.module';
+import { PropertiesModule } from 'src/app/properties/properties.module';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { RecipesRoutingModule } from '../../recipes-routing.module';
 import { RecipeDetailComponent } from './recipe-detail.component';
 
 describe('RecipeDetailComponent', () => {
@@ -8,7 +15,18 @@ describe('RecipeDetailComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RecipeDetailComponent ]
+      declarations: [ RecipeDetailComponent ],
+      imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        FormsModule,
+        RecipesRoutingModule,
+        FontAwesomeModule,
+        SharedModule,
+        CompositionsModule,
+        ComponentsModule,
+        PropertiesModule,
+      ],
     })
     .compileComponents();
   });

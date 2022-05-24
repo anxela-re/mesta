@@ -13,10 +13,10 @@ import { ProfileSelectedGuard } from './shared/guards/profile-selected.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: '', component: LandingPageComponent },
+  { path: '', component: LandingPageComponent, canActivate: [IsLoggedGuard] },
   { path: 'login', component: LoginComponent, canActivate: [IsLoggedGuard] },
-  { path: 'register', component: RegisterComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'register', component: RegisterComponent, canActivate: [IsLoggedGuard] },
+  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [IsLoggedGuard] },
   { path: 'reset-password', component: ResetPasswordComponent },
   {
     path: 'configuration',
