@@ -4,7 +4,6 @@ import { catchError, concatMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as AuthActions from '../actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { AuthService } from '../services/auth.service';
 import { AuthTokenDTO } from '../models/authToken.dto';
 import { TokenService } from '../services/token.service';
@@ -17,7 +16,6 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private sharedService: SharedService,
     private tokenService: TokenService,
     private profileSelectedService: ProfileSelectedService,
     private toastService: ToastService
@@ -62,7 +60,6 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginFailure),
         map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
           const errors: string[] =
             error.payload.error.errors !== undefined
               ? Object.values(error.payload.error.errors)

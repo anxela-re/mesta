@@ -1,17 +1,12 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   HostListener,
   Input,
   OnInit,
-  Output,
   Renderer2,
   ViewChild,
-  ViewChildren,
 } from '@angular/core';
-import { ComponentDTO } from 'src/app/components/models/component.dto';
-import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 @Component({
   selector: 'app-dashed-box',
   templateUrl: './dashed-box.component.html',

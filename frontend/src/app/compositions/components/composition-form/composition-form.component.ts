@@ -50,7 +50,7 @@ export class CompositionFormComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private actions$: Actions,
   ) {
-    this.store.select('profiles').subscribe(({ profiles, selected }) => {
+    this.store.select('profiles').subscribe(({ selected }) => {
       if (selected) {
         this.profile_id = selected;
       }

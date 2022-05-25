@@ -1,29 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
 import * as compositionsActions from '../actions';
 import * as profilesActions from '../../profiles/actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { CompositionsService } from '../services/compositions.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ToastService } from 'src/app/shared/services/toast.service';
 @Injectable()
 export class CompositionsEffects {
-  private responseOK: boolean;
-  private errorResponse: any;
-
   constructor(
     private actions$: Actions,
     private compositionsService: CompositionsService,
-    private sharedService: SharedService,
     private store: Store<AppState>,
     private toastService: ToastService
-  ) {
-    this.responseOK = false;
-  }
+  ) {}
   getCompositionsByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(compositionsActions.getCompositionsByProfile),
@@ -52,7 +44,6 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.getCompositionsByProfileSuccess),
         map(({ profile_id, compositions }) => {
-          this.responseOK = true;
           this.store.dispatch(
             profilesActions.assignCompositions({ profile_id, compositions })
           );
@@ -65,10 +56,8 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.getCompositionsByProfileFailure),
-        map((error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
-          this.sharedService.errorLog(error.payload.error);
+        map(() => {
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -99,7 +88,6 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.createCompositionSuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('compositions').subscribe(({ compositions }) => {
             this.store.dispatch(
               profilesActions.assignCompositions({ profile_id, compositions })
@@ -114,10 +102,7 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.createCompositionFailure),
-        map(async (error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -149,7 +134,6 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.updateCompositionSuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('compositions').subscribe(({ compositions }) => {
             this.store.dispatch(
               profilesActions.assignCompositions({ profile_id, compositions })
@@ -164,10 +148,7 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.updateCompositionFailure),
-        map(async (error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -199,7 +180,6 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.deleteCompositionSuccess),
         map(({ profile_id }) => {
-          this.responseOK = true;
           this.store.select('compositions').subscribe(({ compositions }) => {
             this.store.dispatch(
               profilesActions.assignCompositions({ profile_id, compositions })
@@ -214,10 +194,7 @@ export class CompositionsEffects {
     () =>
       this.actions$.pipe(
         ofType(compositionsActions.deleteCompositionFailure),
-        map(async (error) => {
-          this.responseOK = false;
-          this.errorResponse = error.payload.error;
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

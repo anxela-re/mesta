@@ -16,7 +16,7 @@ export class FeedbackComponent implements OnInit {
   private element: any;
 
   constructor(private toastService: ToastService, private el: ElementRef) {
-    this.element = el.nativeElement;
+    this.element = this.el.nativeElement;
     this.element.style.display = 'none';
 
     this.toastService.addToast(this);

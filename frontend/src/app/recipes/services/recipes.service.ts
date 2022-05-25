@@ -1,14 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
-import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { apiUrl } from 'src/contants';
-import { environment } from 'src/environments/environment';
 import { RecipeDTO } from '../models/recipe.dto';
 
 @Injectable({

@@ -6,7 +6,6 @@ import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { apiUrl } from 'src/contants';
-import { environment } from 'src/environments/environment';
 import { PhaseDTO } from '../models/phase.dto';
 @Injectable({
   providedIn: 'root',

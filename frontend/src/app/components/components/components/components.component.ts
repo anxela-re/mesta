@@ -27,7 +27,6 @@ import { ComponentsService } from '../../services/components.service';
 import { Actions, ofType } from '@ngrx/effects';
 import * as ProfilesActions from '../../../profiles/actions';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
-import { SharedService } from 'src/app/shared/services/shared.service';
 
 export interface ISelectProp {
   selected: boolean;
@@ -79,8 +78,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
     private componentsService: ComponentsService,
     private router: Router,
     private store: Store<AppState>,
-    private actions$: Actions,
-    private sharedService: SharedService
+    private actions$: Actions
   ) {
     this.actions$
       .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))

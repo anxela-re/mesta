@@ -1,4 +1,3 @@
-import { state } from '@angular/animations';
 import { Action, createReducer, on } from '@ngrx/store';
 import * as UserActions from '../actions';
 import { UserDTO } from '../models/user.dto';
@@ -82,7 +81,7 @@ const _userReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(UserActions.deleteUserSuccess, (state) => ({
+  on(UserActions.deleteUserSuccess, () => ({
     ...initialState,
   })),
   on(UserActions.deleteUserFailure, (state, { payload }) => ({

@@ -39,7 +39,7 @@ const _compositionsReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(getCompositionsByProfileSuccess, (state, { compositions, profile_id }) => ({
+  on(getCompositionsByProfileSuccess, (state, { compositions }) => ({
     ...state,
     compositions: compositions,
     loaded: true,
@@ -52,7 +52,7 @@ const _compositionsReducer = createReducer(
     loading: false,
     error: { payload },
   })),
-  on(createComposition, (state, { composition }) => ({
+  on(createComposition, (state) => ({
     ...state,
     loaded: false,
     loading: true,

@@ -1,4 +1,4 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { createAction, props } from '@ngrx/store';
 import { AuthDTO } from '../models/auth.dto';
 import { AuthTokenDTO } from '../models/authToken.dto';

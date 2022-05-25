@@ -52,7 +52,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
         ofType(propertiesActions.updatePropertySuccess),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe((data) => {
+      .subscribe(() => {
         this.edited = false;
       });
 
@@ -61,7 +61,7 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
         ofType(propertiesActions.deletePropertySuccess),
         takeUntil(this.unsubscribe$)
       )
-      .subscribe((data) => {
+      .subscribe(() => {
         this.onRemoved.emit();
       });
   }

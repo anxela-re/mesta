@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -6,7 +6,6 @@ import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { apiUrl } from 'src/contants';
-import { environment } from 'src/environments/environment';
 import { PropertyDTO } from '../models/property.dto';
 @Injectable({
   providedIn: 'root',

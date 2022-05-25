@@ -87,7 +87,7 @@ export class RecipeDetailComponent {
             },
           ];
         },
-        (error) => {
+        () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
           this.router.navigate(['recipes']);
         }
@@ -109,7 +109,7 @@ export class RecipeDetailComponent {
   deleteRecipeConfirm(): void {
     if (this.recipe.id) {
       this.recipesService.deleteRecipe(this.recipe.id).subscribe(
-        (data) => this.router.navigate(['recipes']),
+        () => this.router.navigate(['recipes']),
         (error) => console.error(error)
       );
     }

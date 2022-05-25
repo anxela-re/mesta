@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { throwError } from 'rxjs';
+import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
+import * as AuthActions from '../../auth/actions';
 
 export type IQuery = {
   [key: string]: string | number | string[];
@@ -15,11 +18,7 @@ export interface ResponseError {
   providedIn: 'root',
 })
 export class SharedService {
-  constructor() {}
-
-  errorLog(error: ResponseError): void {
-    console.error(error);
-  }
+  constructor(private store: Store<AppState>) {}
 
   async wait(ms: number) {
     return new Promise((resolve) => {
@@ -43,6 +42,10 @@ export class SharedService {
   }
 
   handleError(error: HttpErrorResponse) {
+    console.error(error);
+    if (error.error?.error?.includes('Unauthenticated')) {
+      this.store.dispatch(AuthActions.logout());
+    }
     return throwError(error);
   }
   getPropertiesById(

@@ -44,7 +44,7 @@ const _authReducer = createReducer(
       error: { payload },
     };
   }),
-  on(logout, (state) => ({ ...initialState, credentials: new AuthTokenDTO() }))
+  on(logout, () => ({ ...initialState, credentials: new AuthTokenDTO() }))
 );
 
 export function authReducer(

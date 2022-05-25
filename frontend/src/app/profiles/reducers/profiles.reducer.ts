@@ -1,7 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as ProfilesActions from '../actions';
 import { ProfileDTO } from '../models/profile.dto';
-import { UserDTO } from '../../user/models/user.dto';
 
 export interface ProfilesState {
   profiles: ProfileDTO[];

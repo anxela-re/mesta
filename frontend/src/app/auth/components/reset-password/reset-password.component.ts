@@ -94,7 +94,7 @@ export class ResetPasswordComponent implements OnInit {
           password_confirmation: this.resetPassword.password_confirmation,
         })
         .subscribe(
-          (result) => {
+          () => {
             this.toastService.showToast(true, 'Contraseña actualizada');
           },
           (error) => {
@@ -112,7 +112,7 @@ export class ResetPasswordComponent implements OnInit {
       this.userService
         .updateUser({ ...this.user, password: this.resetPassword.password })
         .subscribe(
-          (result) => {
+          () => {
             this.toastService.showToast(true, 'Contraseña actualizada');
           },
           (error) => {

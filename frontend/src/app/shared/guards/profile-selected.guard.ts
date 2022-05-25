@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { CanActivate, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
@@ -13,10 +8,7 @@ import { ProfileSelectedService } from 'src/app/profiles/services/profile-select
 })
 export class ProfileSelectedGuard implements CanActivate {
   constructor(private profileSelectedService: ProfileSelectedService) {}
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ):
+  canActivate():
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
     | boolean

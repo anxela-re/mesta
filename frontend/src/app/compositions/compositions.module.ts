@@ -5,7 +5,6 @@ import { CompositionFormComponent } from './components/composition-form/composit
 import { CompositionsListComponent } from './components/compositions-list/compositions-list.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedService } from '../shared/services/shared.service';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({

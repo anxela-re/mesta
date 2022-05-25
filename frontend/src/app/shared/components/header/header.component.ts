@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { logout } from 'src/app/auth/actions';
-import { TokenService } from 'src/app/auth/services/token.service';
 import {
   faBars,
   faUser,

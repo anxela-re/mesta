@@ -69,7 +69,7 @@ export class ComponentFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.componentId) {
-      const comp = this.componentsService
+      this.componentsService
         .getComponents({
           id: this.componentId,
         })
@@ -171,12 +171,12 @@ export class ComponentFormComponent implements OnInit {
 
     if (this.componentId) {
       this.componentsService.updateComponent(this.component).subscribe(
-        (response) => this.router.navigate(['components']),
+        () => this.router.navigate(['components']),
         (error) => console.error(error)
       );
     } else {
       this.componentsService.createComponent(this.component).subscribe(
-        (response) => this.router.navigate(['components']),
+        () => this.router.navigate(['components']),
         (error) => console.info(error)
       );
     }

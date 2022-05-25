@@ -48,7 +48,7 @@ export class FormulationComponent implements OnInit {
       this.recipeId = parseInt(recipeId);
     }
 
-    this.store.select('profiles').subscribe(({ profiles, selected }) => {
+    this.store.select('profiles').subscribe(({ selected }) => {
       if (selected) {
         this.profile_id = selected;
         this.initForm();
@@ -191,11 +191,11 @@ export class FormulationComponent implements OnInit {
     if (this.recipeId) {
       this.recipesService
         .updateRecipe(this.recipe)
-        .subscribe((res) => this.router.navigate(['recipes']));
+        .subscribe(() => this.router.navigate(['recipes']));
     } else {
       this.recipesService
         .createRecipe({ ...this.recipe, profile_id: this.profile_id })
-        .subscribe((res) => this.router.navigate(['recipes']));
+        .subscribe(() => this.router.navigate(['recipes']));
     }
   }
 }

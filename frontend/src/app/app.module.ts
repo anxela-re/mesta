@@ -16,7 +16,6 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from './shared/shared.module';
-import { ProfilesModule } from './profiles/profiles.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {

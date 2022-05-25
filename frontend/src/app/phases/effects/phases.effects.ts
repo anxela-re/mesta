@@ -10,7 +10,6 @@ import {
 import { of, Subject } from 'rxjs';
 import * as phasesActions from '../actions';
 import * as profilesActions from '../../profiles/actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { PhasesService } from '../services/phases.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
@@ -21,7 +20,6 @@ export class PhasesEffects {
   constructor(
     private actions$: Actions,
     private phasesService: PhasesService,
-    private sharedService: SharedService,
     private toastService: ToastService,
     private store: Store<AppState>
   ) {}
@@ -78,8 +76,7 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.getPhasesByProfileFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -140,8 +137,7 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.createPhaseFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -209,8 +205,7 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -247,7 +242,9 @@ export class PhasesEffects {
             .subscribe(({ profiles, selected }) => {
               const found = profiles.find(({ id }) => id === profile_id);
               const currentPhases = found?.phases || [];
-              const newPhases = currentPhases.filter((prop) => prop.id !== phaseId);
+              const newPhases = currentPhases.filter(
+                (prop) => prop.id !== phaseId
+              );
               this.store.dispatch(
                 profilesActions.assignPhases({
                   profile_id,
@@ -273,8 +270,7 @@ export class PhasesEffects {
     () =>
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

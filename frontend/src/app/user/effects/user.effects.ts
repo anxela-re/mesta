@@ -1,25 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as UserActions from '../actions';
 import * as AuthActions from '../../auth/actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { UserService } from '../services/user.service';
 import { UserDTO } from '../models/user.dto';
-import { ProfileDTO } from '../../profiles/models/profile.dto';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
-    private sharedService: SharedService,
     private userService: UserService,
     private store: Store<AppState>,
     private toastService: ToastService
@@ -57,7 +53,6 @@ export class UserEffects {
       this.actions$.pipe(
         ofType(UserActions.registerFailure),
         map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
           const errors: string[] = Object.values(error.payload.error.errors);
           this.toastService.showToast(
             false,
@@ -95,8 +90,7 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.getUserFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -123,8 +117,7 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.updateUserFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -163,8 +156,7 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(UserActions.deleteUserFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

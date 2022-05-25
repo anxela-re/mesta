@@ -78,7 +78,7 @@ export class ComponentDetailsComponent implements OnInit {
           },
         ];
       },
-      (error) => this.router.navigate(['components'])
+      () => this.router.navigate(['components'])
     );
   }
 
@@ -120,7 +120,7 @@ export class ComponentDetailsComponent implements OnInit {
     if (this.component.id) {
       this.componentsService
         .deleteComponent(this.component.id)
-        .subscribe((data) => this.router.navigate(['components']));
+        .subscribe(() => this.router.navigate(['components']));
     }
   }
 }

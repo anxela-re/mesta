@@ -1,17 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import {
-  catchError,
-  concatMap,
-  exhaustMap,
-  map,
-  mergeMap,
-  switchMap,
-} from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 import * as ProfilesActions from '../actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { ProfileDTO } from '../models/profile.dto';
 import { ProfileService } from '../services/profile.service';
 import { Store } from '@ngrx/store';
@@ -26,10 +18,9 @@ export class ProfilesEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
-    private sharedService: SharedService,
     private toastService: ToastService,
     private profileService: ProfileService,
-    private store: Store<AppState>,
+    private store: Store<AppState>
   ) {}
 
   getProfilesByUser$ = createEffect(() =>
@@ -78,8 +69,7 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.getProfilesByUserFailure),
-        map((error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(() => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -128,8 +118,7 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.createProfileFailure),
-        map((error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(() => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -170,8 +159,7 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.updateProfileFailure),
-        map((error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(() => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -200,8 +188,7 @@ export class ProfilesEffects {
     () =>
       this.actions$.pipe(
         ofType(ProfilesActions.deleteProfileFailure),
-        map((error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(() => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

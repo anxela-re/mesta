@@ -4,7 +4,6 @@ import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
 import * as propertiesActions from '../actions';
 import * as profilesActions from '../../profiles/actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { PropertiesService } from '../services/properties.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
@@ -15,7 +14,6 @@ export class PropertiesEffects {
   constructor(
     private actions$: Actions,
     private propertiesService: PropertiesService,
-    private sharedService: SharedService,
     private toastService: ToastService,
     private store: Store<AppState>
   ) {}
@@ -59,8 +57,7 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.getPropertiesByProfileFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -106,8 +103,7 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.createPropertyFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -153,8 +149,7 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.updatePropertyFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -200,8 +195,7 @@ export class PropertiesEffects {
     () =>
       this.actions$.pipe(
         ofType(propertiesActions.deletePropertyFailure),
-        map(async (error) => {
-          this.sharedService.errorLog(error.payload.error);
+        map(async () => {
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

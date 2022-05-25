@@ -41,7 +41,7 @@ const _propertiesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(getPropertiesByProfileSuccess, (state, { properties, profile_id }) => ({
+  on(getPropertiesByProfileSuccess, (state, { properties }) => ({
     ...state,
     properties: properties,
     filtered: [],
@@ -55,13 +55,13 @@ const _propertiesReducer = createReducer(
     loading: false,
     error: { payload },
   })),
-  on(createProperty, (state, { property }) => ({
+  on(createProperty, (state, {}) => ({
     ...state,
     loaded: false,
     loading: true,
     error: null,
   })),
-  on(createPropertySuccess, (state, { property, profile_id }) => ({
+  on(createPropertySuccess, (state, { property }) => ({
     ...state,
     properties: [...state.properties, property],
     loaded: true,
@@ -80,7 +80,7 @@ const _propertiesReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(updatePropertySuccess, (state, { property, profile_id }) => ({
+  on(updatePropertySuccess, (state, { property }) => ({
     ...state,
     properties: state.properties.map((prop) => {
       if (prop.id === property.id) {
@@ -106,7 +106,7 @@ const _propertiesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(deletePropertySuccess, (state, { propertyId, profile_id }) => ({
+  on(deletePropertySuccess, (state, { propertyId }) => ({
     ...state,
     properties: state.properties.filter((prop) => prop.id !== propertyId),
     filtered: [],

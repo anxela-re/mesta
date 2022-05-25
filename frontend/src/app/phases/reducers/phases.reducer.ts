@@ -38,7 +38,7 @@ const _phasesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(getPhasesByProfileSuccess, (state, { phases }) => ({
+  on(getPhasesByProfileSuccess, (state) => ({
     ...state,
     loaded: true,
     loading: false,
@@ -56,7 +56,7 @@ const _phasesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(createPhaseSuccess, (state, { phase, profile_id }) => ({
+  on(createPhaseSuccess, (state) => ({
     ...state,
     loaded: true,
     loading: false,
@@ -74,7 +74,7 @@ const _phasesReducer = createReducer(
     loaded: false,
     error: null,
   })),
-  on(updatePhaseSuccess, (state, { phase, profile_id }) => ({
+  on(updatePhaseSuccess, (state) => ({
     ...state,
     loading: false,
     loaded: true,
@@ -92,7 +92,7 @@ const _phasesReducer = createReducer(
     loading: true,
     error: null,
   })),
-  on(deletePhaseSuccess, (state, { phaseId, profile_id }) => ({
+  on(deletePhaseSuccess, (state) => ({
     ...state,
     loaded: true,
     loading: false,

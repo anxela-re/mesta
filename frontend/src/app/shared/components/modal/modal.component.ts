@@ -28,7 +28,7 @@ export class ModalComponent implements OnInit {
   private element: any;
 
   constructor(private modalService: ModalService, private el: ElementRef) {
-    this.element = el.nativeElement;
+    this.element = this.el.nativeElement;
 
     this.modalService.addModal(this);
   }
@@ -63,7 +63,7 @@ export class ModalComponent implements OnInit {
       this.popup.nativeElement.className.replace('opacity-1', 'opacity-0');
     this.title.nativeElement.textContent = '';
     this.content.nativeElement.textContent = '';
-    if(proceed) {
+    if (proceed) {
       this.onProceed.emit(true);
     }
   }
