@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, exhaustMap, finalize, map } from 'rxjs/operators';
+import { catchError, exhaustMap, map } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
 import * as propertiesActions from '../actions';
 import * as profilesActions from '../../profiles/actions';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { PropertiesService } from '../services/properties.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable()
 export class PropertiesEffects {
   constructor(
     private actions$: Actions,
     private propertiesService: PropertiesService,
-    private router: Router,
     private sharedService: SharedService,
+    private toastService: ToastService,
     private store: Store<AppState>
   ) {}
   getPropertiesByProfile$ = createEffect(() =>
@@ -61,10 +61,7 @@ export class PropertiesEffects {
         ofType(propertiesActions.getPropertiesByProfileFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -111,10 +108,7 @@ export class PropertiesEffects {
         ofType(propertiesActions.createPropertyFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -161,10 +155,7 @@ export class PropertiesEffects {
         ofType(propertiesActions.updatePropertyFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -211,10 +202,7 @@ export class PropertiesEffects {
         ofType(propertiesActions.deletePropertyFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }

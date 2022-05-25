@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { UserDTO } from 'src/app/user/models/user.dto';
 import { UserService } from 'src/app/user/services/user.service';
 import { matchEqual } from 'src/app/validators';
@@ -43,9 +43,9 @@ export class ResetPasswordComponent implements OnInit {
     public fb: FormBuilder,
     public authService: AuthService,
     private route: ActivatedRoute,
-    private sharedService: SharedService,
     private userService: UserService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private toastService: ToastService
   ) {
     const token = this.route.snapshot.paramMap.get('id');
     if (token) {
@@ -95,11 +95,11 @@ export class ResetPasswordComponent implements OnInit {
         })
         .subscribe(
           (result) => {
-            this.sharedService.managementToast(true, 'Contraseña actualizada');
+            this.toastService.showToast(true, 'Contraseña actualizada');
           },
           (error) => {
-            this.sharedService.managementToast(
-              false,
+            this.toastService.showToast(
+              true,
               error?.error?.message || '¡Algo está fallando!'
             );
           },
@@ -113,11 +113,11 @@ export class ResetPasswordComponent implements OnInit {
         .updateUser({ ...this.user, password: this.resetPassword.password })
         .subscribe(
           (result) => {
-            this.sharedService.managementToast(true, 'Contraseña actualizada');
+            this.toastService.showToast(true, 'Contraseña actualizada');
           },
           (error) => {
-            this.sharedService.managementToast(
-              false,
+            this.toastService.showToast(
+              true,
               error?.error?.message || '¡Algo está fallando!'
             );
           },

@@ -6,7 +6,9 @@ import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
+import { ModalService } from 'src/app/shared/services/modal.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 import { RecipeDTO } from '../../models/recipe.dto';
 import { RecipesService } from '../../services/recipes.service';
 
@@ -32,6 +34,8 @@ export class RecipeDetailComponent {
     private router: Router,
     private recipesService: RecipesService,
     private sharedService: SharedService,
+    private toastService: ToastService,
+    private modalService: ModalService,
     private store: Store<AppState>
   ) {
     const id = this.route.snapshot.paramMap.get('id');
@@ -84,7 +88,7 @@ export class RecipeDetailComponent {
           ];
         },
         (error) => {
-          this.sharedService.managementToast(false, '¡Algo está fallando!');
+          this.toastService.showToast(false, '¡Algo está fallando!');
           this.router.navigate(['recipes']);
         }
       );
@@ -96,7 +100,7 @@ export class RecipeDetailComponent {
   }
 
   delete(): void {
-    this.sharedService.openModal(
+    this.modalService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
       'Una vez eliminada, no podrá recuperar la receta ¿Está seguro que quiere eliminarla?'

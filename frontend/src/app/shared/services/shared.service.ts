@@ -15,47 +15,7 @@ export interface ResponseError {
   providedIn: 'root',
 })
 export class SharedService {
-  private modals: any[] = [];
   constructor() {}
-
-  async managementToast(valid: boolean, msg: string): Promise<void> {
-    const feedback = document.getElementById('feedback');
-    const feedbackMsg = document.getElementById('feedback-msg');
-    if (feedback && feedbackMsg) {
-      feedbackMsg.textContent = msg;
-      if (valid) {
-        feedback.className = feedback.className.replace(
-          '-translate-y-full',
-          'transform-none'
-        );
-        feedback.className = feedback.className.replace('p-0', 'p-2');
-        feedback.className = feedback.className.concat(' bg-success');
-        await this.wait(5000);
-        feedback.textContent = '';
-        feedback.className = feedback.className.replace(
-          'transform-none',
-          '-translate-y-full'
-        );
-        feedback.className = feedback.className.replace('p-2', 'p-0');
-        feedback.className = feedback.className.replace('bg-success', '');
-      } else {
-        feedback.className = feedback.className.replace(
-          '-translate-y-full',
-          'transform-none'
-        );
-        feedback.className = feedback.className.replace('p-0', 'p-2');
-        feedback.className = feedback.className.concat(' bg-danger');
-        await this.wait(5000);
-        feedback.textContent = '';
-        feedback.className = feedback.className.replace(
-          'transform-none',
-          '-translate-y-full'
-        );
-        feedback.className = feedback.className.replace('p-2', 'p-0');
-        feedback.className = feedback.className.replace('bg-danger', '');
-      }
-    }
-  }
 
   errorLog(error: ResponseError): void {
     console.error(error);
@@ -85,7 +45,6 @@ export class SharedService {
   handleError(error: HttpErrorResponse) {
     return throwError(error);
   }
-
   getPropertiesById(
     props: PropertyDTO[],
     propertiesId: number[]
@@ -101,34 +60,11 @@ export class SharedService {
 
     return properties;
   }
-
   getCompositionById(
     compositions: CompositionDTO[],
     id: number | undefined
   ): CompositionDTO | undefined {
     return id ? compositions.find((c) => c.id === id) : undefined;
-  }
-
-  addModal(modal: any) {
-    this.modals.push(modal);
-  }
-
-  getModals(): any {
-    return this.modals;
-  }
-
-  removeModal(id: string) {
-    this.modals = this.modals.filter((x) => x.id !== id);
-  }
-
-  openModal(id: string, title: string, content: string) {
-    const modal = this.modals.find((x) => x.id === id);
-    modal.open(title, content);
-  }
-
-  closeModal(id: string) {
-    const modal = this.modals.find((x) => x.id === id);
-    modal.close();
   }
 
   updateTheme() {

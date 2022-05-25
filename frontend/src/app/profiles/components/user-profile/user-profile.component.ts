@@ -16,8 +16,8 @@ import { AppState } from 'src/app/app.reducers';
 import * as ProfilesActions from '../../actions';
 import * as PhasesActions from '../../../phases/actions';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { minLengthArray } from 'src/app/validators';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -49,7 +49,7 @@ export class UserProfileComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private sharedService: SharedService
+    private modalService: ModalService
   ) {
     const profileId = this.route.snapshot.paramMap.get('id');
     this.store.select('user').subscribe(({ user }) => {
@@ -138,7 +138,7 @@ export class UserProfileComponent implements OnInit {
     if (this.warnRemoval || !phaseForm.value.id) {
       this.phases.removeAt(i);
     } else {
-      this.sharedService.openModal(
+      this.modalService.openModal(
         this.getIdModal(),
         '¡Cuidado!',
         'Si elimina una fase los componentes asociados se eliminarán, así como las composiciones y las recetas en las que esté presente, ¿Desea continuar de todas formas?'

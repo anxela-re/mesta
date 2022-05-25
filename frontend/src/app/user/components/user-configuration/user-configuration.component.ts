@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { UserService } from '../../services/user.service';
 import * as UserActions from '../../actions';
-import * as ProfilesActions from '../../../profiles/actions';
-import * as AuthActions from '../../../auth/actions';
 import { UserDTO } from '../../models/user.dto';
 import {
   FormBuilder,
@@ -17,6 +21,7 @@ import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProfileDTO } from '../../../profiles/models/profile.dto';
 import { SharedService } from 'src/app/shared/services/shared.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 class ContactDTO {
   name!: string;
@@ -29,12 +34,26 @@ class ContactDTO {
     this.body = body;
   }
 }
+
+const links = [
+  'personalInformation',
+  'profiles',
+  'theme',
+  'account',
+  'contact',
+];
 @Component({
   selector: 'app-user-configuration',
   templateUrl: './user-configuration.component.html',
   styleUrls: ['./user-configuration.component.scss'],
 })
 export class UserConfigurationComponent implements OnInit {
+  @ViewChild('personalInfoSection') personalInfoSection!: ElementRef;
+  @ViewChild('profilesSection') profilesSection!: ElementRef;
+  @ViewChild('accountSection') accountSection!: ElementRef;
+  @ViewChild('themeSection') themeSection!: ElementRef;
+  @ViewChild('contactSection') contactSection!: ElementRef;
+
   user!: UserDTO;
   userForm!: FormGroup;
 
@@ -57,12 +76,15 @@ export class UserConfigurationComponent implements OnInit {
 
   profiles: ProfileDTO[] = [];
 
+  activeLink: string = links[0];
+
   constructor(
     public userService: UserService,
     private store: Store<AppState>,
     private fb: FormBuilder,
     public scroller: ViewportScroller,
     private router: Router,
+    private modalService: ModalService,
     private sharedService: SharedService
   ) {
     this.isValidForm = null;
@@ -107,6 +129,43 @@ export class UserConfigurationComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  @HostListener('window:scroll', [])
+  onScroll(): void {
+    const personalInfoEl = this.personalInfoSection.nativeElement as Element;
+    const profilesEl = this.profilesSection.nativeElement as Element;
+    const accountsEl = this.accountSection.nativeElement as Element;
+    const themeEl = this.themeSection.nativeElement as Element;
+    
+    const limitValue = window.innerHeight - window.innerHeight / 2;
+    if (
+      (personalInfoEl.getBoundingClientRect().top > 0 &&
+        personalInfoEl.getBoundingClientRect().top < limitValue) ||
+      this.scroller.getScrollPosition()[1] === 0
+    ) {
+      this.activeLink = links[0];
+    } else if (
+      this.scroller.getScrollPosition()[1] >=
+      document.body.scrollHeight - window.innerHeight
+    ) {
+      this.activeLink = links[4];
+    } else if (
+      profilesEl.getBoundingClientRect().top < limitValue &&
+      profilesEl.getBoundingClientRect().top > 0
+    ) {
+      this.activeLink = links[1];
+    } else if (
+      themeEl.getBoundingClientRect().top < limitValue &&
+      themeEl.getBoundingClientRect().top > 0
+    ) {
+      this.activeLink = links[2];
+    } else if (
+      accountsEl.getBoundingClientRect().top < limitValue &&
+      accountsEl.getBoundingClientRect().top > 0
+    ) {
+      this.activeLink = links[3];
+    }
+  }
+
   getIdModal(): string {
     return 'user-delete-' + this.user.id;
   }
@@ -126,7 +185,7 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   deleteUser(): void {
-    this.sharedService.openModal(
+    this.modalService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
       'Si elimina la cuenta no podrá recuperar los datos almacenados, ¿Desea continuar de todas formas?'
@@ -140,7 +199,7 @@ export class UserConfigurationComponent implements OnInit {
     }
   }
 
-  toggleTheme () :void {
+  toggleTheme(): void {
     this.sharedService.toggleTheme();
   }
 }

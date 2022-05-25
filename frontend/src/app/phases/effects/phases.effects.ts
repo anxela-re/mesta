@@ -14,6 +14,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { PhasesService } from '../services/phases.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable()
 export class PhasesEffects {
@@ -21,6 +22,7 @@ export class PhasesEffects {
     private actions$: Actions,
     private phasesService: PhasesService,
     private sharedService: SharedService,
+    private toastService: ToastService,
     private store: Store<AppState>
   ) {}
   getPhasesByProfile$ = createEffect(() =>
@@ -78,10 +80,7 @@ export class PhasesEffects {
         ofType(phasesActions.getPhasesByProfileFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -143,10 +142,7 @@ export class PhasesEffects {
         ofType(phasesActions.createPhaseFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -215,10 +211,7 @@ export class PhasesEffects {
         ofType(phasesActions.updatePhaseFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -282,10 +275,7 @@ export class PhasesEffects {
         ofType(phasesActions.deletePhaseFailure),
         map(async (error) => {
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }

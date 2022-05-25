@@ -9,6 +9,7 @@ import { SharedService } from 'src/app/shared/services/shared.service';
 import { CompositionsService } from '../services/compositions.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
+import { ToastService } from 'src/app/shared/services/toast.service';
 @Injectable()
 export class CompositionsEffects {
   private responseOK: boolean;
@@ -18,7 +19,8 @@ export class CompositionsEffects {
     private actions$: Actions,
     private compositionsService: CompositionsService,
     private sharedService: SharedService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private toastService: ToastService
   ) {
     this.responseOK = false;
   }
@@ -116,10 +118,7 @@ export class CompositionsEffects {
           this.responseOK = false;
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -169,10 +168,7 @@ export class CompositionsEffects {
           this.responseOK = false;
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -222,10 +218,7 @@ export class CompositionsEffects {
           this.responseOK = false;
           this.errorResponse = error.payload.error;
           this.sharedService.errorLog(error.payload.error);
-          await this.sharedService.managementToast(
-            false,
-            '¡Algo está fallando!'
-          );
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }

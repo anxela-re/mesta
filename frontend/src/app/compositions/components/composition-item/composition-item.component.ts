@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from '../../models/composition.dto';
 import * as compositionsActions from '../../actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-composition-item',
@@ -30,7 +30,7 @@ export class CompositionItemComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private sharedService: SharedService
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -48,15 +48,12 @@ export class CompositionItemComponent implements OnInit {
       this.onSelect.emit(this.composition);
     }
   }
-  warningDeleteComposition(): void {
-    this.sharedService;
-  }
   deleteComposition(event: MouseEvent): void {
     if (!this.composition.id) {
       return;
     }
     event?.stopPropagation();
-    this.sharedService.openModal(
+    this.modalService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
       'Si elimina una composición, todas las recetas que la utilizan serán eliminadas, ¿Desea continuar de todas formas?'

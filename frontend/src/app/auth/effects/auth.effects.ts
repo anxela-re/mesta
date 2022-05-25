@@ -9,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 import { AuthTokenDTO } from '../models/authToken.dto';
 import { TokenService } from '../services/token.service';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable()
 export class AuthEffects {
@@ -18,7 +19,8 @@ export class AuthEffects {
     private router: Router,
     private sharedService: SharedService,
     private tokenService: TokenService,
-    private profileSelectedService: ProfileSelectedService
+    private profileSelectedService: ProfileSelectedService,
+    private toastService: ToastService
   ) {}
   login$ = createEffect(() =>
     this.actions$.pipe(
@@ -29,7 +31,7 @@ export class AuthEffects {
             const credentialsTemp: AuthTokenDTO = {
               user_id: userToken.id,
               access_token: userToken.access_token,
-              token_expires_at: userToken.token_expires_at
+              token_expires_at: userToken.token_expires_at,
             };
 
             this.tokenService.handleData(credentialsTemp);
@@ -49,10 +51,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         map(async () => {
-          await this.sharedService.managementToast(
-            true,
-            'Bienvenido/a de nuevo a Mesta'
-          );
+          this.toastService.showToast(true, 'Bienvenido/a de nuevo a Mesta');
         })
       ),
     { dispatch: false }
@@ -68,7 +67,7 @@ export class AuthEffects {
             error.payload.error.errors !== undefined
               ? Object.values(error.payload.error.errors)
               : [error.payload.error.message];
-          await this.sharedService.managementToast(
+          this.toastService.showToast(
             false,
             errors?.length > 0 && errors[0] !== undefined
               ? errors[0]

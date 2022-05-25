@@ -6,8 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/app.reducers';
 import { AuthService } from '../../services/auth.service';
 
 @Component({

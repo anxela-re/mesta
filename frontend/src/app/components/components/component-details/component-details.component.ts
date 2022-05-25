@@ -9,10 +9,10 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcrumb.component';
-import { SharedService } from 'src/app/shared/services/shared.service';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-component-details',
@@ -37,7 +37,7 @@ export class ComponentDetailsComponent implements OnInit {
     private componentsService: ComponentsService,
     private router: Router,
     private store: Store<AppState>,
-    private sharedService: SharedService
+    private modalService: ModalService
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -109,7 +109,7 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   delete(): void {
-    this.sharedService.openModal(
+    this.modalService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
       'También será eliminado el componente de las recetas que lo utilicen ¿Está seguro de que quiere borrar este componente?'

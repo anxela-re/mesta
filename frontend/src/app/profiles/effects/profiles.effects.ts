@@ -19,8 +19,7 @@ import { AppState } from 'src/app/app.reducers';
 import * as PropertiesActions from '../../properties/actions';
 import * as CompositionsActions from '../../compositions/actions';
 import * as PhasesActions from '../../phases/actions';
-import { PhaseDTO } from 'src/app/phases/models/phase.dto';
-import { ProfileSelectedService } from '../services/profile-selected.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Injectable()
 export class ProfilesEffects {
@@ -28,9 +27,9 @@ export class ProfilesEffects {
     private actions$: Actions,
     private router: Router,
     private sharedService: SharedService,
+    private toastService: ToastService,
     private profileService: ProfileService,
     private store: Store<AppState>,
-    private profileSelectedService: ProfileSelectedService
   ) {}
 
   getProfilesByUser$ = createEffect(() =>
@@ -81,7 +80,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.getProfilesByUserFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(false, '¡Algo está fallando!');
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -131,7 +130,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.createProfileFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(false, '¡Algo está fallando!');
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -173,7 +172,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.updateProfileFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(false, '¡Algo está fallando!');
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }
@@ -203,7 +202,7 @@ export class ProfilesEffects {
         ofType(ProfilesActions.deleteProfileFailure),
         map((error) => {
           this.sharedService.errorLog(error.payload.error);
-          this.sharedService.managementToast(false, '¡Algo está fallando!');
+          this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
     { dispatch: false }

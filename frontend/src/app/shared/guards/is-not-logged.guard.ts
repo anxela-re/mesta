@@ -13,7 +13,7 @@ import { AppState } from 'src/app/app.reducers';
 @Injectable({
   providedIn: 'root',
 })
-export class IsLoggedGuard implements CanActivate {
+export class IsNotLoggedGuard implements CanActivate {
   private access_token: string = '';
   constructor(private router: Router, private store: Store<AppState>) {
     this.store.select('auth').subscribe((auth) => {

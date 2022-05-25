@@ -6,35 +6,43 @@
       class="hidden md:flex flex-col justify-end text-right md:sticky w-auto p-2 md:overflow-y-auto md:top-[10px]"
     >
       <a
-        class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
-        (click)="scroller.scrollToAnchor('personal-information')"
+        class="cursor-pointer hover:text-primary-900 px-2 py-4"
+        (click)="
+          scroller.scrollToAnchor('personalInformation');
+          activeLink = 'personalInformation'
+        "
+        [ngClass]="{ 'text-primary-500': activeLink === 'personalInformation' }"
         >Información personal</a
       >
       <a
-        class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
+        class="cursor-pointer over:text-primary-900 px-2 py-4"
         (click)="scroller.scrollToAnchor('profiles')"
+        [ngClass]="{ 'text-primary-500': activeLink === 'profiles' }"
         >Perfiles</a
       >
       <a
-        class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
-        (click)="scroller.scrollToAnchor('account')"
-        >Cuenta</a
-      >
-      <a
-        class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
+        class="cursor-pointer hover:text-primary-900 px-2 py-4"
         (click)="scroller.scrollToAnchor('theme')"
+        [ngClass]="{ 'text-primary-500': activeLink === 'theme' }"
         >Temática</a
       >
       <a
-        class="cursor-pointer text-primary-500 hover:text-primary-900 px-2 py-4"
+        class="cursor-pointer hover:text-primary-900 px-2 py-4"
+        (click)="scroller.scrollToAnchor('account')"
+        [ngClass]="{ 'text-primary-500': activeLink === 'account' }"
+        >Cuenta</a
+      >
+      <a
+        class="cursor-pointer hover:text-primary-900 px-2 py-4"
         (click)="scroller.scrollToAnchor('contact')"
+        [ngClass]="{ 'text-primary-500': activeLink === 'contact' }"
         >Contacto</a
       >
     </div>
   </div>
   <div class="w-full md:w-[70%] lg:w-[80%] mx-auto my-0">
     <div class="pt-5 vertical-border mx-auto">
-      <section id="personal-information">
+      <section id="personalInformation" #personalInfoSection>
         <h2>Información personal</h2>
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
           <div class="mt-2 mb-2">
@@ -104,9 +112,17 @@
             </div>
           </div>
         </form>
+
+        <button
+          [routerLink]="['/reset-password']"
+          routerLinkActive="router-link-active"
+          class="mt-2 btn btn-primary"
+        >
+          Cambiar contraseña
+        </button>
         <hr class="text-secondary-50 my-8" />
       </section>
-      <section id="profiles">
+      <section id="profiles" #profilesSection>
         <h2>Perfiles</h2>
         <app-profile-item
           *ngFor="let profile of profiles"
@@ -127,29 +143,25 @@
         </div>
         <hr class="text-secondary-50 my-8" />
       </section>
-      <section id="account">
-        <h2>Cuenta</h2>
-        <div class="flex flex-col mt-2">
-          <a
-            class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 dark:hover:text-primary-500 py-2 "
-            [routerLink]="['/reset-password']"
-            routerLinkActive="router-link-active"
-            >Cambiar contraseña</a
-          >
-          <a class="text-danger cursor-pointer py-2 underline" (click)="deleteUser()"
-            >Eliminar cuenta</a
-          >
-        </div>
-        <hr class="text-secondary-50 my-8" />
-      </section>
-      <section id="theme">
+      <section id="theme" #themeSection>
         <h2>Temática</h2>
         <button (click)="toggleTheme()" class="mt-2 btn btn-primary">
           Cambiar temática
         </button>
         <hr class="text-secondary-50 my-8" />
       </section>
-      <section id="contact">
+      <section id="account" #accountSection>
+        <h2>Cuenta</h2>
+        <div class="flex flex-col mt-2">
+          <a
+            class="text-danger cursor-pointer py-2 underline"
+            (click)="deleteUser()"
+            >Eliminar cuenta</a
+          >
+        </div>
+        <hr class="text-secondary-50 my-8" />
+      </section>
+      <section id="contact" #contactSection>
         <h2>Contacto</h2>
         <form
           [formGroup]="contactForm"

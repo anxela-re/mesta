@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { SharedService } from '../../services/shared.service';
+import { ModalService } from '../../services/modal.service';
 
 @Component({
   selector: 'app-modal',
@@ -27,10 +27,10 @@ export class ModalComponent implements OnInit {
 
   private element: any;
 
-  constructor(private sharedService: SharedService, private el: ElementRef) {
+  constructor(private modalService: ModalService, private el: ElementRef) {
     this.element = el.nativeElement;
 
-    this.sharedService.addModal(this);
+    this.modalService.addModal(this);
   }
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class ModalComponent implements OnInit {
     }
   }
   ngOnDestroy(): void {
-    this.sharedService.removeModal(this.id);
+    this.modalService.removeModal(this.id);
     this.element.remove();
   }
 

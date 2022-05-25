@@ -8,15 +8,27 @@ import { UserProfileComponent } from './profiles/components/user-profile/user-pr
 import { AuthGuard } from './shared/guards/auth.guard';
 import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
 import { UserConfigurationComponent } from './user/components/user-configuration/user-configuration.component';
-import { IsLoggedGuard } from './shared/guards/is-logged.guard';
+import { IsNotLoggedGuard } from './shared/guards/is-not-logged.guard';
 import { ProfileSelectedGuard } from './shared/guards/profile-selected.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
-  { path: '', component: LandingPageComponent, canActivate: [IsLoggedGuard] },
-  { path: 'login', component: LoginComponent, canActivate: [IsLoggedGuard] },
-  { path: 'register', component: RegisterComponent, canActivate: [IsLoggedGuard] },
-  { path: 'forgot-password', component: ForgotPasswordComponent, canActivate: [IsLoggedGuard] },
+  {
+    path: '',
+    component: LandingPageComponent,
+    canActivate: [IsNotLoggedGuard],
+  },
+  { path: 'login', component: LoginComponent, canActivate: [IsNotLoggedGuard] },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [IsNotLoggedGuard],
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+    canActivate: [IsNotLoggedGuard],
+  },
   { path: 'reset-password', component: ResetPasswordComponent },
   {
     path: 'configuration',

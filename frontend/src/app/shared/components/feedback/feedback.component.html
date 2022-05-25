@@ -1,6 +1,7 @@
 <div
-  class="animate__animated animate__bounceInDown text-basic-500 p-0 -translate-y-full transition ease-in-out delay-10 duration-200"
-  id="feedback"
+  class="animate__animated animate__slideInDown text-basic-500 p-0 -translate-y-full transition ease-in-out delay-10 duration-200 flex justify-between w-full "
+  #toast
 >
-  <span id="feedback-msg"></span>
+  <span #content></span>
+  <fa-icon [icon]="faTimes" (click)="hide()" class="cursor-pointer"></fa-icon>
 </div>

@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ProfileDTO } from '../../models/profile.dto';
 import * as ProfilesActions from '../../actions';
-import { SharedService } from 'src/app/shared/services/shared.service';
+import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-profile-item',
@@ -21,7 +21,7 @@ export class ProfileItemComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private sharedService: SharedService
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +42,7 @@ export class ProfileItemComponent implements OnInit {
 
   deleteProfile(e: MouseEvent): void {
     e.stopPropagation();
-    this.sharedService.openModal(
+    this.modalService.openModal(
       this.getIdModal(),
       '¡Cuidado!',
       'Si elimina el perfil, todas las recetas y componentes asociados serán eliminados sin opción a recuperarlos, ¿Desea continuar de todas formas?'

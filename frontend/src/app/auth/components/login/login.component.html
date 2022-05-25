@@ -12,7 +12,7 @@
           class="form-errors"
         >
           <span *ngIf="email.errors.required">Campo obligatorio</span>
-          <div *ngIf="email.errors.pattern">Email not a valid format.</div>
+          <div *ngIf="email.errors.pattern">El correo electrónico no es válido.</div>
         </div>
       </div>
       <div class="custom-input-labeled-container">
@@ -29,10 +29,10 @@
           >
             <span *ngIf="password.errors.required">Campo obligatorio</span>
             <span *ngIf="password.errors.minlength"
-              >Password must be greater tha 8 characters</span
+              >La contraseña debe ser mayor de 6 caracteres</span
             >
             <span *ngIf="password.errors.maxlength"
-              >Password can be max 16 characters long</span
+              >La contraseña no debe superar los 6 catacteres</span
             >
           </div>
         </div>
