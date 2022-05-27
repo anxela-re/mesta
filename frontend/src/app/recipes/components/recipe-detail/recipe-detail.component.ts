@@ -87,7 +87,8 @@ export class RecipeDetailComponent {
             },
           ];
         },
-        () => {
+        (error) => {
+          console.error(error);
           this.toastService.showToast(false, '¡Algo está fallando!');
           this.router.navigate(['recipes']);
         }

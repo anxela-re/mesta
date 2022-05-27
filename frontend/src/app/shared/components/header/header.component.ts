@@ -89,7 +89,9 @@ export class HeaderComponent implements OnInit {
     this.store.dispatch(logout());
   }
 
-  navigateToContact(): void {
-    this.router.navigate(['#contact']);
+  goToContact(): void {
+    console.info('contact')
+    // this.router.navigateByUrl('#contact');
+    this.router.navigate(['/'], {fragment: 'contact'})
   }
 }

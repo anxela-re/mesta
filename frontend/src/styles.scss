@@ -124,30 +124,41 @@ p {
 .custom-input-labeled {
   @apply relative;
 }
-.custom-input-labeled input {
-  @apply rounded-md py-3 px-4 text-sm w-full leading-tight outline-primary-400 text-secondary-500;
+
+input, textarea {
+  @apply  outline-primary-400 text-secondary-500
 }
-.custom-input-labeled input + label {
+.custom-input-labeled input,
+.custom-input-labeled textarea {
+  @apply rounded-md py-3 px-4 text-sm w-full leading-tight;
+}
+.custom-input-labeled input + label,
+.custom-input-labeled textarea + label {
   @apply absolute top-2/4 left-3 -translate-y-1/2 transition-all transform duration-300 delay-75 ease-in-out text-secondary-200;
 }
 .custom-input-labeled input:focus + label,
 .custom-input-labeled input.ng-dirty + label,
-.custom-input-labeled input.ng-invalid.ng-touched + label {
+.custom-input-labeled input.ng-invalid.ng-touched + label,
+.custom-input-labeled textarea:focus + label,
+.custom-input-labeled textarea.ng-dirty + label,
+.custom-input-labeled textarea.ng-invalid.ng-touched + label {
   @apply transition-all transform duration-300 delay-75 absolute top-[-2px] left-3 text-xs font-bold py-1 -translate-y-1/2 text-primary-500 z-10;
 }
-.custom-input-labeled input.ng-invalid.ng-touched {
+.custom-input-labeled input.ng-invalid.ng-touched,
+.custom-input-labeled textarea.ng-invalid.ng-touched {
   @apply ring-danger outline-danger;
 }
-.custom-input-labeled input.ng-invalid.ng-touched + label {
+.custom-input-labeled input.ng-invalid.ng-touched + label,
+.custom-input-labeled textarea.ng-invalid.ng-touched + label {
   @apply text-danger;
 }
 .custom-input-labeled label {
   background: linear-gradient(to top, #fff 54%, transparent 0%);
 }
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active {
+input:not(.dark-input):-webkit-autofill,
+input:not(.dark-input):-webkit-autofill:hover,
+input:not(.dark-input):-webkit-autofill:focus,
+input:not(.dark-input):-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 

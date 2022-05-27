@@ -22,18 +22,9 @@ import { Router } from '@angular/router';
 import { ProfileDTO } from '../../../profiles/models/profile.dto';
 import { SharedService } from 'src/app/shared/services/shared.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
-
-class ContactDTO {
-  name!: string;
-  email!: string;
-  body!: string;
-
-  constructor(name: string, email: string, body: string) {
-    this.name = name;
-    this.email = email;
-    this.body = body;
-  }
-}
+import { ContactService } from 'src/app/shared/services/contact.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { ContactDTO } from 'src/app/shared/models/contact.dto';
 
 const links = [
   'personalInformation',
@@ -59,7 +50,6 @@ export class UserConfigurationComponent implements OnInit {
 
   name!: FormControl;
   email!: FormControl;
-  isValidForm: boolean | null;
 
   contact: ContactDTO;
   contactForm: FormGroup;
@@ -67,8 +57,6 @@ export class UserConfigurationComponent implements OnInit {
   nameContact: FormControl;
   emailContact: FormControl;
   bodyContact: FormControl;
-
-  isValidContactForm: boolean | null;
 
   faSave = faSave;
   faPlus = faPlus;
@@ -85,9 +73,10 @@ export class UserConfigurationComponent implements OnInit {
     public scroller: ViewportScroller,
     private router: Router,
     private modalService: ModalService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private contactService: ContactService,
+    private toastService: ToastService,
   ) {
-    this.isValidForm = null;
     this.store.select('user').subscribe(({ user }) => {
       this.user = user;
 
@@ -108,8 +97,7 @@ export class UserConfigurationComponent implements OnInit {
       this.profiles = profiles;
     });
 
-    this.isValidContactForm = null;
-    this.contact = new ContactDTO('', '', '');
+    this.contact = new ContactDTO();
     this.nameContact = new FormControl(this.contact.name, [
       Validators.required,
     ]);
@@ -135,7 +123,7 @@ export class UserConfigurationComponent implements OnInit {
     const profilesEl = this.profilesSection.nativeElement as Element;
     const accountsEl = this.accountSection.nativeElement as Element;
     const themeEl = this.themeSection.nativeElement as Element;
-    
+
     const limitValue = window.innerHeight - window.innerHeight / 2;
     if (
       (personalInfoEl.getBoundingClientRect().top > 0 &&
@@ -177,7 +165,26 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   onContact(): void {
-    // TODO
+    if (this.contactForm.invalid) {
+      return;
+    }
+    this.contact = {
+      email: this.contactForm.value.emailContact,
+      name: this.contactForm.value.nameContact,
+      body: this.contactForm.value.bodyContact,
+    };
+
+    this.contactService.contact(this.contact).subscribe(
+      () =>
+        this.toastService.showToast(
+          true,
+          'Muchas gracias, espero que podamos resolver tus dudas'
+        ),
+      (error) => {
+        console.error(error);
+        this.toastService.showToast(false, '¡Algo está fallando!');
+      }
+    );
   }
 
   createProfile(): void {

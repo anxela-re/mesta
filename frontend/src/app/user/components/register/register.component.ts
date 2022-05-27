@@ -26,7 +26,6 @@ export class RegisterComponent implements OnInit {
   password_confirmation: FormControl;
 
   registerForm: FormGroup;
-  isValidForm: boolean | null;
 
   constructor(
     public router: Router,
@@ -35,8 +34,6 @@ export class RegisterComponent implements OnInit {
     public store: Store<AppState>
   ) {
     this.registerUser = new RegisterDTO('', '', '', '');
-
-    this.isValidForm = null;
 
     this.name = new FormControl(this.registerUser.name, [
       Validators.required,
@@ -72,13 +69,11 @@ export class RegisterComponent implements OnInit {
   }
   ngOnInit() {}
   onSubmit() {
-    this.isValidForm = false;
 
     if (this.registerForm.invalid) {
       return;
     }
 
-    this.isValidForm = true;
     this.registerUser = this.registerForm.value;
 
     const user: RegisterDTO = {

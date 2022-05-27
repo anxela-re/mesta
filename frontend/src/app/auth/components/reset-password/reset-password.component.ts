@@ -29,7 +29,6 @@ class ResetPasswordDTO {
 export class ResetPasswordComponent implements OnInit {
   resetPassword: ResetPasswordDTO;
   resetPasswordForm: FormGroup;
-  token!: string;
 
   password: FormControl;
   password_confirmation: FormControl;
@@ -47,10 +46,7 @@ export class ResetPasswordComponent implements OnInit {
     private store: Store<AppState>,
     private toastService: ToastService
   ) {
-    const token = this.route.snapshot.paramMap.get('id');
-    if (token) {
-      this.token = token;
-    }
+    
 
     this.store.select('user').subscribe((userState) => {
       if (userState.user) {
@@ -86,10 +82,11 @@ export class ResetPasswordComponent implements OnInit {
     this.isValidForm = true;
 
     this.resetPassword = this.resetPasswordForm.value;
-    if (this.token) {
+    const token = this.route.snapshot.queryParams['token'];
+    if (token) {
       this.authService
         .resetPassword({
-          token: this.token,
+          token: token,
           password: this.resetPassword.password,
           password_confirmation: this.resetPassword.password_confirmation,
         })
@@ -99,7 +96,7 @@ export class ResetPasswordComponent implements OnInit {
           },
           (error) => {
             this.toastService.showToast(
-              true,
+              false,
               error?.error?.message || '¡Algo está fallando!'
             );
           },
@@ -117,7 +114,7 @@ export class ResetPasswordComponent implements OnInit {
           },
           (error) => {
             this.toastService.showToast(
-              true,
+              false,
               error?.error?.message || '¡Algo está fallando!'
             );
           },

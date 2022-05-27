@@ -184,12 +184,6 @@
             class="form-errors"
           >
             <div *ngIf="nameContact.errors.required">Campo obligatorio</div>
-            <div *ngIf="nameContact.errors.minlength">
-              Name must be at least 5 characters long.
-            </div>
-            <div *ngIf="nameContact.errors.maxlength">
-              Name can be max 25 characters long.
-            </div>
           </div>
 
           <div class="mt-2 mb-2">
@@ -220,6 +214,7 @@
           <div class="mt-2 mb-2">
             <textarea
               name="bodyContact"
+              [formControl]="bodyContact"
               class="dark-input"
               placeholder="Escribe aquí tus dudas"
               rows="8"
@@ -232,14 +227,7 @@
             class="form-errors"
           >
             <div *ngIf="bodyContact.errors.required">Campo obligatorio</div>
-            <div *ngIf="bodyContact.errors.minlength">
-              Name must be at least 5 characters long.
-            </div>
-            <div *ngIf="bodyContact.errors.maxlength">
-              Name can be max 25 characters long.
-            </div>
           </div>
-
           <button
             type="submit"
             [disabled]="!contactForm.valid"

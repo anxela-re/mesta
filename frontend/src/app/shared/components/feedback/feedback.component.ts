@@ -41,8 +41,10 @@ export class FeedbackComponent implements OnInit {
     );
     toastEl.className = toastEl.className.replace('p-0', 'p-2');
     if (success) {
+      toastEl.className = toastEl.className.replace('bg-danger', '');
       toastEl.className = toastEl.className.concat(' bg-success');
     } else {
+      toastEl.className = toastEl.className.replace('bg-success', '');
       toastEl.className = toastEl.className.concat(' bg-danger');
     }
     this.content.nativeElement.textContent = content;

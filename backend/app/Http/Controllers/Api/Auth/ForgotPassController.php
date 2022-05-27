@@ -19,6 +19,7 @@ class ForgotPassController extends Controller
         ]);
 
         $email = $request->email;
+        $user = User::where('email', $email)->get()->first();
 
         if (User::where('email', $email)->doesntExist()) {
             return response(['message' => 'El correo electrónico no existe.'], 400);
@@ -32,7 +33,7 @@ class ForgotPassController extends Controller
         ]);
 
         // Send email
-        Mail::send('mail.password_reset', ['token' => $token], function ($message) use ($email) {
+        Mail::send('mail.password_reset', ['token' => $token, 'name' => $user->name], function ($message) use ($email) {
             $message->to($email);
             $message->subject('Restaurar contraseña');
         });

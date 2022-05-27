@@ -2,10 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
 use App\Http\Controllers\Api\Auth\AuthenticationController;
 use App\Http\Controllers\Api\Auth\ForgotPassController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\Recipes\ComponentController;
 use App\Http\Controllers\Api\Recipes\CompositionController;
 use App\Http\Controllers\Api\Recipes\PropertyController;
@@ -13,7 +13,6 @@ use App\Http\Controllers\Api\Recipes\RecipeController;
 use App\Http\Controllers\Api\User\PhaseController;
 use App\Http\Controllers\Api\User\ProfileController;
 use App\Http\Controllers\Api\User\UserController;
-use App\Models\Profile;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +24,8 @@ use App\Models\Profile;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/contact',  [ContactController::class, 'contact']);
 
 Route::group(['namespace' => 'Api\Auth'], function () {
     Route::post('/login', [AuthenticationController::class, 'login']);

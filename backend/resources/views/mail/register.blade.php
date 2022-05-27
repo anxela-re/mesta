@@ -15,7 +15,6 @@
         body {
             font-family: 'Open Sans';
         }
-
     </style>
 </head>
 
@@ -29,17 +28,12 @@
                 </h1>
             </div>
             <h2 style="color: #f4f4f4; width: 100%; text-align: center">
-                ¡Hola {{$name}}!
+                ¡Bienvenido/a a Mesta, {{$name}}!
             </h2>
-            <h3 style="color: #f4f4f4; font-weight: normal">
-                Has solicitado una petición para recuperar la contraseña. Para ello, pulsa el botón a continuación.
+            <h3 style="color: #f4f4f4; font-weight: normal; text-align:center">
+                Espero que disfrute de nuestra aplicación
             </h3>
-            <div style="width: 100%;  margin: 20px auto; display: flex; justify-content:center">
-                <a href="{{env('FRONT_URL')}}/reset-password?token={{$token}}" style="background-color: #ea526f; color: #f4f4f4; padding: 10px 20px; border-radius: 10px; text-decoration: none;">
-                    Recuperar contraseña
-                </a>
-            </div>
-            <p style="width: 100%; text-align:center">Si no ha solicitado esta petición, no responda al mensaje.</p>
+            <p style="width: 100%; text-align:center; font-size: small">Si tiene cualquier pregunta, no dude en contactar con nosotros a través del correo electrónico <span style="color: #ea526f">mesta.formulacion@gmail.com</span> </p>
         </div>
 
     </div>

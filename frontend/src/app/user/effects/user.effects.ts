@@ -41,7 +41,7 @@ export class UserEffects {
       this.actions$.pipe(
         ofType(UserActions.registerSuccess),
         map(async () => {
-          this.toastService.showToast(true, '¡Bienvenido a Mesta!');
+          this.toastService.showToast(true, '¡Gracias por registrarte en Mesta!');
           this.router.navigateByUrl('login');
         })
       ),

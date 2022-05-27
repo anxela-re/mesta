@@ -33,9 +33,7 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
   };
 }
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -63,7 +61,7 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [
@@ -71,7 +69,7 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true,
-    },
+    }
   ],
   bootstrap: [AppComponent],
 })

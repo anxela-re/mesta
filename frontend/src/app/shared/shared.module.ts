@@ -9,6 +9,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { FeedbackComponent } from './components/feedback/feedback.component';
 import { DashedBoxComponent } from './components/dashed-box/dashed-box.component';
 import { ModalComponent } from './components/modal/modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,13 @@ import { ModalComponent } from './components/modal/modal.component';
     DashedBoxComponent,
     ModalComponent,
   ],
-  imports: [CommonModule, FontAwesomeModule, RouterModule],
+  imports: [
+    CommonModule,
+    FontAwesomeModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   exports: [
     HeaderComponent,
     FooterComponent,
