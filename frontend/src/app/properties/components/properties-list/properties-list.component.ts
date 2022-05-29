@@ -48,6 +48,7 @@ export class PropertiesListComponent implements OnInit {
       if (propertiesState.loaded) {
         this.propertiesProfile = propertiesState.properties;
         this.properties = propertiesState.properties;
+        this.propertiesSelected = propertiesState.filtered;
       }
     });
   }
