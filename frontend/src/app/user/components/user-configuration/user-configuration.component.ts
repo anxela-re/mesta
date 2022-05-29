@@ -188,7 +188,7 @@ export class UserConfigurationComponent implements OnInit {
   }
 
   createProfile(): void {
-    this.router.navigate(['/profile', 'new']);
+    this.router.navigate(['configuration','profile', 'new']);
   }
 
   deleteUser(): void {

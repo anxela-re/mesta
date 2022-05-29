@@ -79,6 +79,7 @@ export class RecipeDetailComponent {
           (data) => {
             if (data.length === 0) {
               this.router.navigate(['recipes']);
+              return;
             }
             this.recipe = data[0];
             this.composition = this.sharedService.getCompositionById(

@@ -86,7 +86,8 @@ export class ComponentFormComponent implements OnInit {
         )
         .subscribe((response) => {
           if(response.length === 0) {
-            this.router.navigate(['components'])
+            this.router.navigate(['components']);
+            return;
           }
           this.component = new ComponentDTO(response[0]);
           this.breadcrumbHistory = [

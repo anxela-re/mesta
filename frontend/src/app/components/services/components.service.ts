@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
+import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { IQuery, SharedService } from 'src/app/shared/services/shared.service';
 import { apiUrl } from 'src/contants';
 import { ComponentDTO } from '../models/component.dto';
@@ -19,8 +20,13 @@ export class ComponentsService {
   constructor(
     private http: HttpClient,
     private sharedService: SharedService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private profileSelectedService: ProfileSelectedService
   ) {
+    const profileId = this.profileSelectedService.getProfileSelectedStored();
+    if (profileId) {
+      this.profileSelected = profileId;
+    }
     this.store.select('auth').subscribe((auth) => {
       this.accessToken = auth.credentials.access_token;
     });
@@ -37,7 +43,10 @@ export class ComponentsService {
   getComponents(query?: IQuery): Observable<any> {
     return this.http
       .get(
-        `${this.apiUrl}/api/components?${this.sharedService.formatQuery(query)}`
+        `${this.apiUrl}/api/components?${this.sharedService.formatQuery({
+          profile_id: this.profileSelected,
+          ...query,
+        })}`
       )
       .pipe(
         catchError(this.sharedService.handleError),

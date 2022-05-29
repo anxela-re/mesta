@@ -263,6 +263,12 @@ export class ProfilesEffects {
               })
             );
           }
+          const currentPath = this.router.url
+            .split('/')
+            .filter((v) => v !== '');
+          if (currentPath.length > 1) {
+            this.router.navigate([currentPath[0]]);
+          }
         })
       ),
     { dispatch: false }

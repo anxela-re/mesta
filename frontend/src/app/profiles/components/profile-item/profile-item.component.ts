@@ -36,7 +36,7 @@ export class ProfileItemComponent implements OnInit {
 
   editProfile(profileId: number | undefined): void {
     if (profileId) {
-      this.router.navigate(['/profile', profileId]);
+      this.router.navigate(['configuration','profile', profileId]);
     }
   }
 

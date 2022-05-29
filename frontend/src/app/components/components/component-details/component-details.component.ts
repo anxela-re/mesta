@@ -76,6 +76,7 @@ export class ComponentDetailsComponent implements OnInit {
         (data) => {
           if(data.length === 0) {
             this.router.navigate(['components'])
+            return;
           }
           this.component = data[0];
 

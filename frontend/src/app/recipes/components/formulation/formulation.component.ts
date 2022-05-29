@@ -87,6 +87,7 @@ export class FormulationComponent implements OnInit {
         .subscribe((items) => {
           if (items.length === 0) {
             this.router.navigate(['recipes']);
+            return;
           }
           this.recipe = items[0];
           this.breadcrumbHistory = [
