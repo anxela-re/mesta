@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
       if (
         data.credentials.user_id &&
@@ -46,7 +45,11 @@ export class AppComponent implements OnInit {
         );
         this.store.dispatch(UserActions.getUser());
 
+        this.sharedService.updateTheme();
         this.isLogged = true;
+      } else {
+        document.documentElement.classList.remove('dark');
+        this.isLogged = false;
       }
     });
 
