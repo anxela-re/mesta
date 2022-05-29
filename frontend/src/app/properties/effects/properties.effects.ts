@@ -8,6 +8,7 @@ import { PropertiesService } from '../services/properties.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Injectable()
 export class PropertiesEffects {
@@ -15,13 +16,15 @@ export class PropertiesEffects {
     private actions$: Actions,
     private propertiesService: PropertiesService,
     private toastService: ToastService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private loadingService: LoadingService
   ) {}
   getPropertiesByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(propertiesActions.getPropertiesByProfile),
-      exhaustMap(({ profile_id }) =>
-        this.propertiesService.getProperties({ profile_id }).pipe(
+      exhaustMap(({ profile_id }) => {
+        this.loadingService.showLoading('properties_getPropertiesByProfile');
+        return this.propertiesService.getProperties({ profile_id }).pipe(
           map((data) => {
             return propertiesActions.getPropertiesByProfileSuccess({
               properties: data,
@@ -35,8 +38,8 @@ export class PropertiesEffects {
               })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -45,6 +48,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.getPropertiesByProfileSuccess),
         map(({ profile_id, properties }) => {
+          this.loadingService.hideLoading('properties_getPropertiesByProfile');
           this.store.dispatch(
             profilesActions.assignProperties({ profile_id, properties })
           );
@@ -58,6 +62,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.getPropertiesByProfileFailure),
         map(async () => {
+          this.loadingService.hideLoading('properties_getPropertiesByProfile');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -66,8 +71,9 @@ export class PropertiesEffects {
   createProperty$ = createEffect(() =>
     this.actions$.pipe(
       ofType(propertiesActions.createProperty),
-      exhaustMap(({ property }) =>
-        this.propertiesService.createProperty(property).pipe(
+      exhaustMap(({ property }) => {
+        this.loadingService.showLoading('properties_createProperty');
+        return this.propertiesService.createProperty(property).pipe(
           map((data) => {
             return propertiesActions.createPropertySuccess({
               property: data.data,
@@ -79,8 +85,8 @@ export class PropertiesEffects {
               propertiesActions.createPropertyFailure({ payload: error })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -89,6 +95,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.createPropertySuccess),
         map(({ profile_id }) => {
+          this.loadingService.hideLoading('properties_createProperty');
           this.store.select('properties').subscribe(({ properties }) => {
             this.store.dispatch(
               profilesActions.assignProperties({ profile_id, properties })
@@ -104,6 +111,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.createPropertyFailure),
         map(async () => {
+          this.loadingService.hideLoading('properties_createProperty');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -112,8 +120,9 @@ export class PropertiesEffects {
   updateProperty$ = createEffect(() =>
     this.actions$.pipe(
       ofType(propertiesActions.updateProperty),
-      exhaustMap(({ property }) =>
-        this.propertiesService.updateProperty(property).pipe(
+      exhaustMap(({ property }) => {
+        this.loadingService.showLoading('properties_updateProperty');
+        return this.propertiesService.updateProperty(property).pipe(
           map((data) => {
             return propertiesActions.updatePropertySuccess({
               property: data.data,
@@ -125,8 +134,8 @@ export class PropertiesEffects {
               propertiesActions.updatePropertyFailure({ payload: error })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -135,6 +144,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.updatePropertySuccess),
         map(({ profile_id }) => {
+          this.loadingService.hideLoading('properties_updateProperty');
           this.store.select('properties').subscribe(({ properties }) => {
             this.store.dispatch(
               profilesActions.assignProperties({ profile_id, properties })
@@ -150,6 +160,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.updatePropertyFailure),
         map(async () => {
+          this.loadingService.hideLoading('properties_updateProperty');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -158,8 +169,9 @@ export class PropertiesEffects {
   deleteProperty$ = createEffect(() =>
     this.actions$.pipe(
       ofType(propertiesActions.deleteProperty),
-      exhaustMap(({ propertyId, profile_id }) =>
-        this.propertiesService.deleteProperty(propertyId).pipe(
+      exhaustMap(({ propertyId, profile_id }) => {
+        this.loadingService.showLoading('properties_deleteProperty');
+        return this.propertiesService.deleteProperty(propertyId).pipe(
           map(() => {
             return propertiesActions.deletePropertySuccess({
               propertyId: propertyId,
@@ -171,8 +183,8 @@ export class PropertiesEffects {
               propertiesActions.deletePropertyFailure({ payload: error })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -181,6 +193,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.deletePropertySuccess),
         map(({ profile_id }) => {
+          this.loadingService.hideLoading('properties_deleteProperty');
           this.store.select('properties').subscribe(({ properties }) => {
             this.store.dispatch(
               profilesActions.assignProperties({ profile_id, properties })
@@ -196,6 +209,7 @@ export class PropertiesEffects {
       this.actions$.pipe(
         ofType(propertiesActions.deletePropertyFailure),
         map(async () => {
+          this.loadingService.hideLoading('properties_deleteProperty');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

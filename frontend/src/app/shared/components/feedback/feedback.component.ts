@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToastService } from '../../services/toast.service';
 
@@ -10,7 +10,6 @@ import { ToastService } from '../../services/toast.service';
 export class FeedbackComponent implements OnInit {
   @ViewChild('content') content!: ElementRef;
   @ViewChild('toast') toast!: ElementRef;
-  @Input() id!: string;
 
   faTimes = faTimes;
   private element: any;
@@ -22,11 +21,7 @@ export class FeedbackComponent implements OnInit {
     this.toastService.addToast(this);
   }
 
-  ngOnInit(): void {
-    if (!this.id) {
-      return;
-    }
-  }
+  ngOnInit(): void {}
   ngOnDestroy(): void {
     this.toastService.removeToast();
     this.element.remove();

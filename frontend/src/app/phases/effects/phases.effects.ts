@@ -14,6 +14,7 @@ import { PhasesService } from '../services/phases.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Injectable()
 export class PhasesEffects {
@@ -21,13 +22,15 @@ export class PhasesEffects {
     private actions$: Actions,
     private phasesService: PhasesService,
     private toastService: ToastService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private loadingService: LoadingService
   ) {}
   getPhasesByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.getPhasesByProfile),
-      concatMap(({ profile_id }) =>
-        this.phasesService.getPhases({ profile_id }).pipe(
+      concatMap(({ profile_id }) => {
+        this.loadingService.showLoading('phases_getPhasesByProfile');
+        return this.phasesService.getPhases({ profile_id }).pipe(
           map((data) => {
             return phasesActions.getPhasesByProfileSuccess({
               phases: data,
@@ -41,8 +44,8 @@ export class PhasesEffects {
               })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -51,6 +54,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.getPhasesByProfileSuccess),
         map(({ phases, profile_id }) => {
+          this.loadingService.hideLoading('phases_getPhasesByProfile');
           this.store.dispatch(
             profilesActions.assignPhases({ profile_id, phases })
           );
@@ -77,6 +81,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.getPhasesByProfileFailure),
         map(async () => {
+          this.loadingService.hideLoading('phases_getPhasesByProfile');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -85,8 +90,9 @@ export class PhasesEffects {
   createPhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.createPhase),
-      concatMap(({ phase }) =>
-        this.phasesService.createPhase(phase).pipe(
+      concatMap(({ phase }) => {
+        this.loadingService.showLoading('phases_createPhase');
+        return this.phasesService.createPhase(phase).pipe(
           map((data) => {
             return phasesActions.createPhaseSuccess({
               phase: data.data,
@@ -96,8 +102,8 @@ export class PhasesEffects {
           catchError((error) => {
             return of(phasesActions.createPhaseFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -106,6 +112,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.createPhaseSuccess),
         map(({ profile_id, phase }) => {
+          this.loadingService.hideLoading('phases_createPhase');
           const unsubscribe$ = new Subject<void>();
           this.store
             .select('profiles')
@@ -138,6 +145,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.createPhaseFailure),
         map(async () => {
+          this.loadingService.hideLoading('phases_createPhase');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -146,8 +154,9 @@ export class PhasesEffects {
   updatePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.updatePhase),
-      concatMap(({ phase }) =>
-        this.phasesService.updatePhase(phase).pipe(
+      concatMap(({ phase }) => {
+        this.loadingService.showLoading('phases_updatePhase');
+        return this.phasesService.updatePhase(phase).pipe(
           map((data) => {
             return phasesActions.updatePhaseSuccess({
               phase: data.data,
@@ -157,8 +166,8 @@ export class PhasesEffects {
           catchError((error) => {
             return of(phasesActions.updatePhaseFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
   updatePhaseSuccess$ = createEffect(
@@ -166,6 +175,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseSuccess),
         map(({ profile_id, phase }) => {
+          this.loadingService.hideLoading('phases_updatePhase');
           const unsubscribe$ = new Subject<void>();
           this.store
             .select('profiles')
@@ -206,6 +216,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.updatePhaseFailure),
         map(async () => {
+          this.loadingService.hideLoading('phases_updatePhase');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -214,8 +225,9 @@ export class PhasesEffects {
   deletePhase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(phasesActions.deletePhase),
-      mergeMap(({ phaseId, profile_id }) =>
-        this.phasesService.deletePhase(phaseId).pipe(
+      mergeMap(({ phaseId, profile_id }) => {
+        this.loadingService.showLoading('phases_deletePhase');
+        return this.phasesService.deletePhase(phaseId).pipe(
           map(() => {
             return phasesActions.deletePhaseSuccess({
               phaseId: phaseId,
@@ -225,8 +237,8 @@ export class PhasesEffects {
           catchError((error) => {
             return of(phasesActions.deletePhaseFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -235,6 +247,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseSuccess),
         map(({ profile_id, phaseId }) => {
+          this.loadingService.hideLoading('phases_deletePhase');
           const unsubscribe$ = new Subject<void>();
           this.store
             .select('profiles')
@@ -271,6 +284,7 @@ export class PhasesEffects {
       this.actions$.pipe(
         ofType(phasesActions.deletePhaseFailure),
         map(async () => {
+          this.loadingService.hideLoading('phases_deletePhase');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

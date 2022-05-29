@@ -42,11 +42,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
     ]);
 
-    this.password = new FormControl('', [
-      Validators.required,
-      // Validators.minLength(6),
-      // Validators.maxLength(16),
-    ]);
+    this.password = new FormControl('', [Validators.required]);
 
     this.loginForm = this.fb.group({
       email: this.email,

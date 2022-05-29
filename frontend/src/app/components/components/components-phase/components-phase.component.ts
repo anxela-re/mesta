@@ -181,7 +181,6 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
     }
   }
   getPropertiesByComponent(propertiesId: number[]): PropertyDTO[] | null {
-    console.info(propertiesId)
     if (this.properties && propertiesId) {
       return this.sharedService.getPropertiesById(
         this.properties,

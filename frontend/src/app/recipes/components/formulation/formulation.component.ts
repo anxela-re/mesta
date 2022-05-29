@@ -16,6 +16,8 @@ import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { RecipeDTO } from '../../models/recipe.dto';
 import { RecipesService } from '../../services/recipes.service';
 import { additionValidator } from 'src/app/validators';
+import { LoadingService } from 'src/app/shared/services/loading.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-formulation',
@@ -41,7 +43,8 @@ export class FormulationComponent implements OnInit {
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private recipesService: RecipesService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {
     const recipeId = this.route.snapshot.paramMap.get('id');
     if (recipeId) {
@@ -73,9 +76,18 @@ export class FormulationComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.recipeId) {
+      this.loadingService.showLoading('formulation_getRecipes');
       this.recipesService
         .getRecipes({ id: this.recipeId })
+        .pipe(
+          finalize(() =>
+            this.loadingService.hideLoading('formulation_getRecipes')
+          )
+        )
         .subscribe((items) => {
+          if (items.length === 0) {
+            this.router.navigate(['recipes']);
+          }
           this.recipe = items[0];
           this.breadcrumbHistory = [
             {
@@ -189,12 +201,24 @@ export class FormulationComponent implements OnInit {
     };
 
     if (this.recipeId) {
+      this.loadingService.showLoading('formulation_updateRecipe');
       this.recipesService
         .updateRecipe(this.recipe)
+        .pipe(
+          finalize(() =>
+            this.loadingService.hideLoading('formulation_updateRecipe')
+          )
+        )
         .subscribe(() => this.router.navigate(['recipes']));
     } else {
+      this.loadingService.showLoading('formulation_createRecipe');
       this.recipesService
         .createRecipe({ ...this.recipe, profile_id: this.profile_id })
+        .pipe(
+          finalize(() =>
+            this.loadingService.hideLoading('formulation_createRecipe')
+          )
+        )
         .subscribe(() => this.router.navigate(['recipes']));
     }
   }

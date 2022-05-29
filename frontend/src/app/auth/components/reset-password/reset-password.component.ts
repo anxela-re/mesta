@@ -7,7 +7,9 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { finalize } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { UserDTO } from 'src/app/user/models/user.dto';
 import { UserService } from 'src/app/user/services/user.service';
@@ -33,8 +35,6 @@ export class ResetPasswordComponent implements OnInit {
   password: FormControl;
   password_confirmation: FormControl;
 
-  isValidForm: boolean | null;
-
   user!: UserDTO;
 
   constructor(
@@ -44,17 +44,15 @@ export class ResetPasswordComponent implements OnInit {
     private route: ActivatedRoute,
     private userService: UserService,
     private store: Store<AppState>,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private loadingService: LoadingService
   ) {
-    
-
     this.store.select('user').subscribe((userState) => {
       if (userState.user) {
         this.user = userState.user;
       }
     });
 
-    this.isValidForm = null;
     this.resetPassword = new ResetPasswordDTO('', '');
     this.password = new FormControl(this.resetPassword.password, [
       Validators.required,
@@ -73,16 +71,13 @@ export class ResetPasswordComponent implements OnInit {
   }
   ngOnInit(): void {}
   onSubmit() {
-    this.isValidForm = false;
-
     if (this.resetPasswordForm.invalid) {
       return;
     }
 
-    this.isValidForm = true;
-
     this.resetPassword = this.resetPasswordForm.value;
     const token = this.route.snapshot.queryParams['token'];
+    this.loadingService.showLoading('reset_password');
     if (token) {
       this.authService
         .resetPassword({
@@ -90,37 +85,33 @@ export class ResetPasswordComponent implements OnInit {
           password: this.resetPassword.password,
           password_confirmation: this.resetPassword.password_confirmation,
         })
+        .pipe(finalize(() => this.loadingService.hideLoading('reset_password')))
         .subscribe(
           () => {
             this.toastService.showToast(true, 'Contraseña actualizada');
+            this.router.navigate(['login']);
           },
           (error) => {
             this.toastService.showToast(
               false,
               error?.error?.message || '¡Algo está fallando!'
             );
-          },
-          () => {
-            this.resetPasswordForm.reset();
-            this.router.navigate(['login']);
           }
         );
     } else if (this.user) {
       this.userService
         .updateUser({ ...this.user, password: this.resetPassword.password })
+        .pipe(finalize(() => this.loadingService.hideLoading('reset_password')))
         .subscribe(
           () => {
             this.toastService.showToast(true, 'Contraseña actualizada');
+            this.router.navigate(['configuration']);
           },
           (error) => {
             this.toastService.showToast(
               false,
               error?.error?.message || '¡Algo está fallando!'
             );
-          },
-          () => {
-            this.resetPasswordForm.reset();
-            this.router.navigate(['configuration']);
           }
         );
     }

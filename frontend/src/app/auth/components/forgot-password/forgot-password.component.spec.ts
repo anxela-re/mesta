@@ -11,8 +11,17 @@ import { Store } from '@ngrx/store';
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
-  let store: MockStore<AuthState>;
-  const initialState: AuthState = initialStateReducer;
+  // let store: MockStore<AuthState>;
+  const initialState: AuthState = {
+    credentials: {
+      user_id: '',
+      access_token: '',
+      token_expires_at: ''
+    },
+    loading: false,
+    loaded: false,
+    error: null,
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +36,7 @@ describe('ForgotPasswordComponent', () => {
     }).compileComponents();
 
     
-    store = TestBed.get<Store>(Store);
+    // store = TestBed.get<Store>(Store);
   });
 
   beforeEach(() => {

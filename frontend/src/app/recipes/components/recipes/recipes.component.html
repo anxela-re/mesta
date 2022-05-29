@@ -29,6 +29,7 @@
       </div>
     </div>
     <div
+      [ngClass]="{ 'animate-pulse': loading }"
       class="w-full md:w-[70%] lg:w-[80%] mx-auto my-0 h-fit grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
     >
       <div
@@ -39,11 +40,7 @@
           [icon]="faPlus"
           class="fa-2x text-secondary-300 dark:text-basic-700"
         ></fa-icon>
-        <h4
-          class="text-secondary-300 dark:text-basic-700"
-        >
-          Formular
-        </h4>
+        <h4 class="text-secondary-300 dark:text-basic-700">Formular</h4>
       </div>
       <div class="p-2" *ngFor="let recipe of recipes">
         <app-recipe-item

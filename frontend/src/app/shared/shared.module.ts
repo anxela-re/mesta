@@ -10,6 +10,7 @@ import { FeedbackComponent } from './components/feedback/feedback.component';
 import { DashedBoxComponent } from './components/dashed-box/dashed-box.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FeedbackComponent,
     DashedBoxComponent,
     ModalComponent,
+    LoadingComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FeedbackComponent,
     DashedBoxComponent,
     ModalComponent,
+    LoadingComponent
   ],
 })
 export class SharedModule {}

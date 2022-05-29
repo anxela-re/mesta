@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from './app.reducers';
 import * as UserActions from './user/actions';
@@ -13,8 +13,8 @@ import { TokenService } from './auth/services/token.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  title: string = 'testa-revolta-front';
+export class AppComponent implements OnInit {
+  title: string = 'mesta-front';
   isLogged: boolean = false;
   profileSelectedId!: number | undefined;
 
@@ -23,7 +23,9 @@ export class AppComponent {
     private profileSelectedService: ProfileSelectedService,
     private sharedService: SharedService,
     private tokenService: TokenService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
     this.sharedService.updateTheme();
     this.store.select('auth').subscribe((data) => {
       if (
@@ -36,12 +38,14 @@ export class AppComponent {
           this.store.dispatch(AuthActions.logout());
           return;
         }
+
         this.store.dispatch(
           ProfilesActions.getProfilesByUser({
             userId: data.credentials.user_id,
           })
         );
         this.store.dispatch(UserActions.getUser());
+
         this.isLogged = true;
       }
     });

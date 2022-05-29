@@ -14,6 +14,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
+  finalize,
   startWith,
   switchMap,
   takeUntil,
@@ -74,6 +75,8 @@ export class ComponentsComponent implements OnInit, OnDestroy {
   faSearch = faSearch;
 
   private unsubscribe$ = new Subject<void>();
+
+  loading: boolean = false;
   constructor(
     private componentsService: ComponentsService,
     private router: Router,
@@ -84,6 +87,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
       .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))
       .subscribe(() => {
         this.reloadList.next();
+        this.loading = true;
       });
     this.store
       .select('phases')
@@ -104,13 +108,16 @@ export class ComponentsComponent implements OnInit, OnDestroy {
         if (filtered) {
           this.propertiesIdSelected = filtered.map((p) => p.id).join(',');
           this.reloadList.next();
+          this.loading = true;
         }
       });
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.components$ = merge(
       this.reloadList.pipe(
+        finalize(() => this.loading = false),
         switchMap(() =>
           this.componentsService.getComponentsByProfile({
             name: this.searchTerm,
@@ -124,14 +131,14 @@ export class ComponentsComponent implements OnInit, OnDestroy {
         startWith(this.searchTerm),
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap(() => {
-          return this.componentsService.getComponentsByProfile({
+        switchMap(() =>
+          this.componentsService.getComponentsByProfile({
             name: this.searchTerm,
             properties: this.propertiesIdSelected,
             select: ['name', 'properties', 'profile_id', 'phase_id', 'id'],
             ...this.defaultQuery,
-          });
-        })
+          })
+        )
       )
     );
     this.components$.subscribe((data) => {
@@ -144,6 +151,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
           return v;
         });
       }
+      this.loading = false;
     });
   }
 
@@ -163,6 +171,7 @@ export class ComponentsComponent implements OnInit, OnDestroy {
 
   search() {
     this.searchSubject.next(this.searchTerm);
+    this.loading = true;
   }
 
   getPhasePercentage(phaseId: number | undefined): number {

@@ -8,19 +8,24 @@ import { CompositionsService } from '../services/compositions.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 @Injectable()
 export class CompositionsEffects {
   constructor(
     private actions$: Actions,
     private compositionsService: CompositionsService,
     private store: Store<AppState>,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private loadingService: LoadingService
   ) {}
   getCompositionsByProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(compositionsActions.getCompositionsByProfile),
-      exhaustMap(({ profile_id }) =>
-        this.compositionsService.getCompositions({ profile_id }).pipe(
+      exhaustMap(({ profile_id }) => {
+        this.loadingService.showLoading(
+          'compositions_getCompositionsByProfile'
+        );
+        return this.compositionsService.getCompositions({ profile_id }).pipe(
           map((data) => {
             return compositionsActions.getCompositionsByProfileSuccess({
               compositions: data,
@@ -34,8 +39,8 @@ export class CompositionsEffects {
               })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -44,6 +49,9 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.getCompositionsByProfileSuccess),
         map(({ profile_id, compositions }) => {
+          this.loadingService.hideLoading(
+            'compositions_getCompositionsByProfile'
+          );
           this.store.dispatch(
             profilesActions.assignCompositions({ profile_id, compositions })
           );
@@ -57,6 +65,9 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.getCompositionsByProfileFailure),
         map(() => {
+          this.loadingService.hideLoading(
+            'compositions_getCompositionsByProfile'
+          );
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -65,8 +76,9 @@ export class CompositionsEffects {
   createComposition$ = createEffect(() =>
     this.actions$.pipe(
       ofType(compositionsActions.createComposition),
-      exhaustMap(({ composition }) =>
-        this.compositionsService.createComposition(composition).pipe(
+      exhaustMap(({ composition }) => {
+        this.loadingService.showLoading('compositions_createComposition');
+        return this.compositionsService.createComposition(composition).pipe(
           map((data) => {
             return compositionsActions.createCompositionSuccess({
               composition: data.data,
@@ -78,8 +90,8 @@ export class CompositionsEffects {
               compositionsActions.createCompositionFailure({ payload: error })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -88,6 +100,7 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.createCompositionSuccess),
         map(({ profile_id }) => {
+          this.loadingService.hideLoading('compositions_createComposition');
           this.store.select('compositions').subscribe(({ compositions }) => {
             this.store.dispatch(
               profilesActions.assignCompositions({ profile_id, compositions })
@@ -103,6 +116,7 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.createCompositionFailure),
         map(async () => {
+          this.loadingService.hideLoading('compositions_createComposition');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -111,8 +125,9 @@ export class CompositionsEffects {
   updateComposition$ = createEffect(() =>
     this.actions$.pipe(
       ofType(compositionsActions.updateComposition),
-      exhaustMap(({ composition }) =>
-        this.compositionsService.updateComposition(composition).pipe(
+      exhaustMap(({ composition }) => {
+        this.loadingService.showLoading('compositions_updateComposition');
+        return this.compositionsService.updateComposition(composition).pipe(
           map((data) => {
             return compositionsActions.updateCompositionSuccess({
               composition: data.data,
@@ -124,8 +139,8 @@ export class CompositionsEffects {
               compositionsActions.updateCompositionFailure({ payload: error })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -134,6 +149,7 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.updateCompositionSuccess),
         map(({ profile_id }) => {
+          this.loadingService.hideLoading('compositions_updateComposition');
           this.store.select('compositions').subscribe(({ compositions }) => {
             this.store.dispatch(
               profilesActions.assignCompositions({ profile_id, compositions })
@@ -149,6 +165,7 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.updateCompositionFailure),
         map(async () => {
+          this.loadingService.hideLoading('compositions_updateComposition');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -157,8 +174,9 @@ export class CompositionsEffects {
   deleteComposition$ = createEffect(() =>
     this.actions$.pipe(
       ofType(compositionsActions.deleteComposition),
-      exhaustMap(({ compositionId, profile_id }) =>
-        this.compositionsService.deleteComposition(compositionId).pipe(
+      exhaustMap(({ compositionId, profile_id }) => {
+        this.loadingService.showLoading('compositions_deleteComposition');
+        return this.compositionsService.deleteComposition(compositionId).pipe(
           map(() => {
             return compositionsActions.deleteCompositionSuccess({
               compositionId,
@@ -170,8 +188,8 @@ export class CompositionsEffects {
               compositionsActions.deleteCompositionFailure({ payload: error })
             );
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -180,6 +198,7 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.deleteCompositionSuccess),
         map(({ profile_id }) => {
+          this.loadingService.hideLoading('compositions_deleteComposition');
           this.store.select('compositions').subscribe(({ compositions }) => {
             this.store.dispatch(
               profilesActions.assignCompositions({ profile_id, compositions })
@@ -195,6 +214,7 @@ export class CompositionsEffects {
       this.actions$.pipe(
         ofType(compositionsActions.deleteCompositionFailure),
         map(async () => {
+          this.loadingService.hideLoading('compositions_deleteComposition');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),

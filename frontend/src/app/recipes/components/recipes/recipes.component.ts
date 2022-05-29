@@ -7,6 +7,7 @@ import { merge, Observable, Subject } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
+  finalize,
   startWith,
   switchMap,
   takeUntil,
@@ -36,6 +37,8 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   private reloadList: Subject<any> = new Subject();
   private unsubscribe$ = new Subject<void>();
+
+  loading: boolean = false;
   constructor(
     private router: Router,
     private recipesService: RecipesService,
@@ -47,6 +50,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
       .pipe(ofType(ProfilesActions.selectProfile), takeUntil(this.unsubscribe$))
       .subscribe(() => {
         this.reloadList.next();
+        this.loading = true;
       });
 
     this.store
@@ -59,13 +63,16 @@ export class RecipesComponent implements OnInit, OnDestroy {
         if (filtered) {
           this.propertiesIdSelected = filtered.map((p) => p.id).join(',');
           this.reloadList.next();
+          this.loading = true;
         }
       });
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.recipes$ = merge(
       this.reloadList.pipe(
+        finalize(() => (this.loading = false)),
         switchMap(() =>
           this.recipesService.getRecipesByProfile({
             name: this.searchTerm,
@@ -85,7 +92,10 @@ export class RecipesComponent implements OnInit, OnDestroy {
         )
       )
     );
-    this.recipes$.subscribe((data) => (this.recipes = data));
+    this.recipes$.subscribe((data) => {
+      this.loading = false;
+      this.recipes = data;
+    });
   }
 
   ngOnDestroy(): void {
@@ -95,6 +105,7 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   search() {
     this.searchSubject.next(this.searchTerm);
+    this.loading = true;
   }
 
   onCreate(): void {

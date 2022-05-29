@@ -13,6 +13,8 @@ import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
 import { ModalService } from 'src/app/shared/services/modal.service';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Component({
   selector: 'app-component-details',
@@ -32,18 +34,18 @@ export class ComponentDetailsComponent implements OnInit {
   faImage = faImage;
   faPencil = faPencilAlt;
   faTrash = faTrashAlt;
+
   constructor(
     private route: ActivatedRoute,
     private componentsService: ComponentsService,
     private router: Router,
     private store: Store<AppState>,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private loadingService: LoadingService
   ) {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.id = parseInt(id);
-    } else {
-      this.router.navigate(['components']);
     }
 
     this.store.select('phases').subscribe(({ phases, loaded }) => {
@@ -62,28 +64,39 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.componentsService.getComponents({ id: this.id }).subscribe(
-      (data) => {
-        this.component = data[0];
+    this.loadingService.showLoading('component_detils_getComponents');
+    this.componentsService
+      .getComponents({ id: this.id })
+      .pipe(
+        finalize(() =>
+          this.loadingService.hideLoading('component_detils_getComponents')
+        )
+      )
+      .subscribe(
+        (data) => {
+          if(data.length === 0) {
+            this.router.navigate(['components'])
+          }
+          this.component = data[0];
 
-        this.updatePhase();
-        this.updateProperties();
-        this.breadcrumbHistory = [
-          {
-            name: 'Components',
-            navigateName: 'components',
-          },
-          {
-            name: this.component.name,
-          },
-        ];
-      },
-      () => this.router.navigate(['components'])
-    );
+          this.updatePhase();
+          this.updateProperties();
+          this.breadcrumbHistory = [
+            {
+              name: 'Components',
+              navigateName: 'components',
+            },
+            {
+              name: this.component.name,
+            },
+          ];
+        },
+        () => this.router.navigate(['components'])
+      );
   }
 
   getIdModal(): string {
-    return 'component-delete-' + this.component.id;
+    return 'component-delete-' + this.component?.id;
   }
   updatePhase() {
     if (this.component && this.phases) {
@@ -117,10 +130,17 @@ export class ComponentDetailsComponent implements OnInit {
   }
 
   deleteComponentConfirm(): void {
-    if (this.component.id) {
-      this.componentsService
-        .deleteComponent(this.component.id)
-        .subscribe(() => this.router.navigate(['components']));
+    if (!this.component.id) {
+      return;
     }
+    this.loadingService.showLoading('component_detils_deleteComponent');
+    this.componentsService
+      .deleteComponent(this.component.id)
+      .pipe(
+        finalize(() =>
+          this.loadingService.hideLoading('component_detils_deleteComponent')
+        )
+      )
+      .subscribe(() => this.router.navigate(['components']));
   }
 }

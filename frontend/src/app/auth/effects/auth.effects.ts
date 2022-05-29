@@ -9,6 +9,7 @@ import { AuthTokenDTO } from '../models/authToken.dto';
 import { TokenService } from '../services/token.service';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Injectable()
 export class AuthEffects {
@@ -18,12 +19,14 @@ export class AuthEffects {
     private router: Router,
     private tokenService: TokenService,
     private profileSelectedService: ProfileSelectedService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private loadingService: LoadingService
   ) {}
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
       concatMap(({ credentials }) => {
+        this.loadingService.showLoading('auth_login');
         return this.authService.login(credentials).pipe(
           map((userToken) => {
             const credentialsTemp: AuthTokenDTO = {
@@ -49,6 +52,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         map(async () => {
+          this.loadingService.hideLoading('auth_login');
           this.toastService.showToast(true, 'Bienvenido/a de nuevo a Mesta');
         })
       ),
@@ -60,6 +64,7 @@ export class AuthEffects {
       this.actions$.pipe(
         ofType(AuthActions.loginFailure),
         map(async (error) => {
+          this.loadingService.hideLoading('auth_login');
           const errors: string[] =
             error.payload.error.errors !== undefined
               ? Object.values(error.payload.error.errors)

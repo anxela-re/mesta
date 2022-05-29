@@ -16,5 +16,6 @@ export class AuthTokenDTO {
     this.user_id = user_id || userIdStored;
     this.access_token = access_token || accessTokenStored;
     this.token_expires_at = token_expires_at || tokenExpirationStored;
+
   }
 }

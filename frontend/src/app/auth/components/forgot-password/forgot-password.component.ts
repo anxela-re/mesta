@@ -6,6 +6,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -20,7 +22,8 @@ export class ForgotPasswordComponent implements OnInit {
     public router: Router,
     public fb: FormBuilder,
     public authService: AuthService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private loadingService: LoadingService
   ) {
     this.email = new FormControl('', [
       Validators.required,
@@ -34,8 +37,13 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit(): void {
+    if (this.forgotPasswordForm.invalid) {
+      return;
+    }
+    this.loadingService.showLoading('forgot_password');
     this.authService
       .forgotPassword(this.forgotPasswordForm.value.email)
+      .pipe(finalize(() => this.loadingService.hideLoading('forgot_password')))
       .subscribe(
         (result: any) => {
           const msg: string = result.msg;
@@ -43,6 +51,7 @@ export class ForgotPasswordComponent implements OnInit {
             true,
             msg ? msg : 'Compruebe su correo electrónico'
           );
+          this.router.navigate(['login']);
         },
         (error: any) => {
           const msg: string = error?.error?.message;

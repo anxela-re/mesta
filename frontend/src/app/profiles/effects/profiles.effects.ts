@@ -12,6 +12,7 @@ import * as PropertiesActions from '../../properties/actions';
 import * as CompositionsActions from '../../compositions/actions';
 import * as PhasesActions from '../../phases/actions';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
 
 @Injectable()
 export class ProfilesEffects {
@@ -20,7 +21,8 @@ export class ProfilesEffects {
     private router: Router,
     private toastService: ToastService,
     private profileService: ProfileService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private loadingService: LoadingService
   ) {}
 
   getProfilesByUser$ = createEffect(() =>
@@ -29,6 +31,7 @@ export class ProfilesEffects {
       mergeMap(({ userId }) =>
         this.profileService.getProfiles({ user_id: userId }).pipe(
           map(({ items }) => {
+            this.loadingService.showLoading('profiles_getProfilesByUser');
             let profilesDTO: ProfileDTO[] = items.map(
               (profile: any) => new ProfileDTO(profile)
             );
@@ -49,6 +52,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.getProfilesByUserSuccess),
         map(({ profiles }) => {
+          this.loadingService.hideLoading('profiles_getProfilesByUser');
           if (profiles.length === 0) {
             this.router.navigate(['profile', 'new']);
           } else {
@@ -70,6 +74,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.getProfilesByUserFailure),
         map(() => {
+          this.loadingService.hideLoading('profiles_getProfilesByUser');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -80,6 +85,7 @@ export class ProfilesEffects {
     this.actions$.pipe(
       ofType(ProfilesActions.createProfile),
       concatMap(({ profile, phases }) => {
+        this.loadingService.showLoading('profiles_createProfile');
         return this.profileService.addProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
@@ -101,6 +107,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.createProfileSuccess),
         map(({ phases, profile }) => {
+          this.loadingService.hideLoading('profiles_createProfile');
           phases?.forEach((phase) => {
             this.store.dispatch(
               PhasesActions.createPhase({
@@ -119,6 +126,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.createProfileFailure),
         map(() => {
+          this.loadingService.hideLoading('profiles_createProfile');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -128,8 +136,9 @@ export class ProfilesEffects {
   updateProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.updateProfile),
-      mergeMap(({ profile }) =>
-        this.profileService.updateProfile(profile).pipe(
+      mergeMap(({ profile }) => {
+        this.loadingService.showLoading('profiles_updateProfile');
+        return this.profileService.updateProfile(profile).pipe(
           map(({ data }) => {
             let profileDTO: ProfileDTO = new ProfileDTO(data);
             return ProfilesActions.updateProfileSuccess({
@@ -139,8 +148,8 @@ export class ProfilesEffects {
           catchError((error) => {
             return of(ProfilesActions.updateProfileFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
   );
 
@@ -149,6 +158,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.updateProfileSuccess),
         map(() => {
+          this.loadingService.hideLoading('profiles_updateProfile');
           this.router.navigateByUrl('configuration');
         })
       ),
@@ -160,6 +170,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.updateProfileFailure),
         map(() => {
+          this.loadingService.hideLoading('profiles_updateProfile');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -169,8 +180,9 @@ export class ProfilesEffects {
   deleteProfile$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProfilesActions.deleteProfile),
-      mergeMap(({ profileId }) =>
-        this.profileService.deleteProfile(profileId).pipe(
+      mergeMap(({ profileId }) => {
+        this.loadingService.showLoading('profiles_deleteProfile');
+        return this.profileService.deleteProfile(profileId).pipe(
           map(() => {
             return ProfilesActions.deleteProfileSuccess({
               profileId: profileId,
@@ -179,9 +191,20 @@ export class ProfilesEffects {
           catchError((error) => {
             return of(ProfilesActions.deleteProfileFailure({ payload: error }));
           })
-        )
-      )
+        );
+      })
     )
+  );
+
+  deleteProfileSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProfilesActions.deleteProfileSuccess),
+        map(() => {
+          this.loadingService.hideLoading('profiles_deleteProfile');
+        })
+      ),
+    { dispatch: false }
   );
 
   deleteProfileFailure$ = createEffect(
@@ -189,6 +212,7 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.deleteProfileFailure),
         map(() => {
+          this.loadingService.hideLoading('profiles_deleteProfile');
           this.toastService.showToast(false, '¡Algo está fallando!');
         })
       ),
@@ -200,7 +224,6 @@ export class ProfilesEffects {
       this.actions$.pipe(
         ofType(ProfilesActions.selectProfile),
         map(({ profile }) => {
-          // this.router.navigateByUrl('recipes');
           if (profile?.id && !profile.compositions) {
             this.store.dispatch(
               CompositionsActions.getCompositionsByProfile({

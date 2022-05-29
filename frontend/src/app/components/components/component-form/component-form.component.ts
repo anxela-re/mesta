@@ -15,6 +15,9 @@ import { ComponentsService } from '../../services/components.service';
 import { faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { PropertyDTO } from '../../../properties/models/property.dto';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
+import { LoadingService } from 'src/app/shared/services/loading.service';
+import { finalize } from 'rxjs/operators';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-component-form',
@@ -48,7 +51,9 @@ export class ComponentFormComponent implements OnInit {
     private fb: FormBuilder,
     private componentsService: ComponentsService,
     private router: Router,
-    private profileSelectedService: ProfileSelectedService
+    private profileSelectedService: ProfileSelectedService,
+    private loadingService: LoadingService,
+    private toastService: ToastService
   ) {
     this.componentId = this.route.snapshot.paramMap.get('id');
 
@@ -69,11 +74,20 @@ export class ComponentFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.componentId) {
+      this.loadingService.showLoading('component_form_getComponents');
       this.componentsService
         .getComponents({
           id: this.componentId,
         })
+        .pipe(
+          finalize(() =>
+            this.loadingService.hideLoading('component_form_getComponents')
+          )
+        )
         .subscribe((response) => {
+          if(response.length === 0) {
+            this.router.navigate(['components'])
+          }
           this.component = new ComponentDTO(response[0]);
           this.breadcrumbHistory = [
             {
@@ -170,15 +184,37 @@ export class ComponentFormComponent implements OnInit {
     };
 
     if (this.componentId) {
-      this.componentsService.updateComponent(this.component).subscribe(
-        () => this.router.navigate(['components']),
-        (error) => console.error(error)
-      );
+      this.loadingService.showLoading('component_form_updateComponent');
+      this.componentsService
+        .updateComponent(this.component)
+        .pipe(
+          finalize(() =>
+            this.loadingService.hideLoading('component_form_updateComponent')
+          )
+        )
+        .subscribe(
+          () => this.router.navigate(['components']),
+          (error) => {
+            console.error(error);
+            this.toastService.showToast(false, '¡Algo está fallando!');
+          }
+        );
     } else {
-      this.componentsService.createComponent(this.component).subscribe(
-        () => this.router.navigate(['components']),
-        (error) => console.info(error)
-      );
+      this.loadingService.showLoading('component_form_createComponent');
+      this.componentsService
+        .createComponent(this.component)
+        .pipe(
+          finalize(() =>
+            this.loadingService.hideLoading('component_form_createComponent')
+          )
+        )
+        .subscribe(
+          () => this.router.navigate(['components']),
+          (error) => {
+            console.info(error);
+            this.toastService.showToast(false, '¡Algo está fallando!');
+          }
+        );
     }
   }
 }

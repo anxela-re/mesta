@@ -90,7 +90,6 @@ export class HeaderComponent implements OnInit {
   }
 
   goToContact(): void {
-    console.info('contact')
     // this.router.navigateByUrl('#contact');
     this.router.navigate(['/'], {fragment: 'contact'})
   }
