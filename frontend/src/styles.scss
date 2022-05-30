@@ -9,12 +9,14 @@
   src: local("Open sans"),
     url(assets/fonts/Open_Sans/OpenSans-VariableFont_wdth,wght.ttf)
       format("truetype");
+  font-display: swap;
 }
 
 @font-face {
   font-family: "Monoton";
   src: local("Monoton"),
     url(assets/fonts/Monoton/Monoton-Regular.ttf) format("truetype");
+    font-display: swap;
 }
 
 @tailwind utilities;
@@ -125,8 +127,9 @@ p {
   @apply relative;
 }
 
-input, textarea {
-  @apply  outline-primary-400 text-secondary-500
+input,
+textarea {
+  @apply outline-primary-400 text-secondary-500;
 }
 .custom-input-labeled input,
 .custom-input-labeled textarea {
