@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { CompositionsModule } from 'src/app/compositions/compositions.module';
 import { PropertiesModule } from 'src/app/properties/properties.module';
@@ -22,7 +21,6 @@ describe('FormulationComponent', () => {
         ReactiveFormsModule,
         FormsModule,
         RecipesRoutingModule,
-        FontAwesomeModule,
         SharedModule,
         CompositionsModule,
         ComponentsModule,

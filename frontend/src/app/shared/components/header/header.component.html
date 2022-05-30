@@ -25,7 +25,7 @@
         </button>
       </div>
       <div class="hidden md:block">
-        <a (click)="goToContact()" > Contacto </a>
+        <a (click)="goToContact()"> Contacto </a>
         <a
           [routerLink]="['/login']"
           routerLinkActive="router-link-active"
@@ -41,14 +41,13 @@
           aria-expanded="false"
           (click)="isMenuOpen = !isMenuOpen"
           id="button-menu"
-          class="ml-2"
+          class="ml-2 flex"
         >
-          <fa-icon
-            id="button-menu-svg"
-            [icon]="faBars"
-            size="2x"
-            class="m-auto text-secondary-300 dark:text-basic-300 hover:text-secondary-500"
-          ></fa-icon>
+          <span
+            class="material-icons md-36 m-auto text-secondary-300 dark:text-basic-300 hover:text-secondary-500"
+          >
+            menu
+          </span>
         </button>
         <ul
           class="z-10 min-w-[100px] origin-top-right absolute right-0 mr-6 rounded-md shadow-lg bg-basic-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
@@ -109,12 +108,11 @@
         (click)="isMenuOpen = !isMenuOpen"
         id="button-menu"
       >
-        <fa-icon
-          id="button-menu-svg"
-          [icon]="faUser"
-          size="lg"
-          class="text-secondary-300 dark:text-basic-500 hover:text-secondary-500"
-        ></fa-icon>
+        <span
+          class="material-icons md-36 text-secondary-300 dark:text-basic-500 hover:text-secondary-500"
+        >
+          person
+        </span>
       </button>
       <ul
         class="z-10 min-w-[100px] origin-top-right absolute right-0 rounded-md shadow-lg bg-basic-500 ring-1 ring-secondary-500 ring-opacity-5 focus:outline-none m-2 py-1 transform scale-100 transition duration-150 ease-in-out"
@@ -122,10 +120,10 @@
         [ngClass]="{ 'scale-100': isMenuOpen, 'scale-0': !isMenuOpen }"
       >
         <li
-          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
+          class="flex p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           (click)="navigateTo('configuration')"
         >
-          <fa-icon [icon]="faCogs" class="m-1"></fa-icon>Configuración
+          <span class="material-icons m-1 md-18">settings</span>Configuración
         </li>
         <li class="p-1 text-secondary-500">
           <hr class="text-secondary-50" />
@@ -147,11 +145,10 @@
           <hr class="text-secondary-50" />
         </li>
         <li
-          class="p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
+          class="flex p-1 text-secondary-500 hover:bg-primary-400 hover:text-basic-500 cursor-pointer"
           (click)="logout()"
         >
-          <fa-icon [icon]="faArrowRightFromBracket" class="m-1"></fa-icon>Log
-          out
+          <span class="material-icons m-1 md-18">logout</span>Log out
         </li>
       </ul>
     </div>

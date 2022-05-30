@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
@@ -38,9 +37,7 @@ export class ComponentItemComponent implements OnInit {
 
   isHovered: boolean = false;
   propertiesComponent!: PropertyDTO[];
-
-  faPlus = faPlus;
-  faMinus = faMinus;
+  
   constructor(private router: Router) {}
   ngOnInit(): void {}
   onClick() {

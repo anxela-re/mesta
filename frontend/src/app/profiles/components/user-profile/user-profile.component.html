@@ -43,8 +43,9 @@
       </p>
       <a
         (click)="addNewPhase()"
-        class="italic text-primary-500 hover:text-primary-800 cursor-pointer"
-        ><fa-icon [icon]="faPlus"></fa-icon>Añadir fase
+        class="italic text-primary-500 hover:text-primary-800 cursor-pointer flex"
+      >
+        <span class="material-icons inline-block">add</span>Añadir fase
       </a>
       <div *ngIf="phases.errors?.minLengthArray" class="form-errors">
         Mínimo una fase
@@ -74,7 +75,7 @@
                 class="btn btn-secondary shadow-thick-secondary"
                 (click)="removePhase(i, phaseForm)"
               >
-                <fa-icon [icon]="faTrashAlt"></fa-icon>
+                <span class="material-icons">delete</span>
               </button>
             </div>
             <div
@@ -96,7 +97,7 @@
     <div class="text-center">
       <button
         type="submit"
-        class="btn btn-secondary dark:btn-primary shadow-thick-secondary"
+        class="btn btn-primary shadow-thick-secondary"
         [disabled]="!profileForm.valid"
       >
         Guardar

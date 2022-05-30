@@ -16,7 +16,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { faSave, faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { ViewportScroller } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProfileDTO } from '../../../profiles/models/profile.dto';
@@ -57,10 +56,6 @@ export class UserConfigurationComponent implements OnInit {
   nameContact: FormControl;
   emailContact: FormControl;
   bodyContact: FormControl;
-
-  faSave = faSave;
-  faPlus = faPlus;
-  faTrash = faTrashAlt;
 
   profiles: ProfileDTO[] = [];
 

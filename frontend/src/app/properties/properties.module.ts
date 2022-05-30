@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from '../shared/shared.module';
 import { PropertyFormComponent } from './components/property-form/property-form.component';
 import { PropertiesListComponent } from './components/properties-list/properties-list.component';
@@ -19,7 +18,6 @@ import { PropertiesDisplayComponent } from './components/properties-display/prop
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
-    FontAwesomeModule,
     FormsModule,
   ],
   exports: [

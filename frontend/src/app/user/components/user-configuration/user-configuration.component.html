@@ -61,7 +61,7 @@
                 [disabled]="!name.touched && !name.errors"
                 (click)="onSubmit()"
               >
-                <fa-icon [icon]="faSave"></fa-icon>
+                <span class="material-icons">save</span>
               </button>
             </div>
             <div
@@ -94,7 +94,7 @@
                 [disabled]="!name.touched && !name.errors"
                 (click)="onSubmit()"
               >
-                <fa-icon [icon]="faSave"></fa-icon>
+                <span class="material-icons">save</span>
               </button>
             </div>
             <div *ngIf="email.errors" class="form-errors">
@@ -132,11 +132,7 @@
           class="group flex flex-col justify-center border-2 border-dashed rounded-lg p-4 m-2 relative cursor-pointer text-center hover:opacity-50 border-secondary-300 bg-basic-900 dark:bg-secondary-400"
           (click)="createProfile()"
         >
-          <fa-icon
-            [icon]="faPlus"
-            class="fa-2x text-secondary-300 dark:text-basic-700"
-            size="2x"
-          ></fa-icon>
+          <span class="material-icons md-48 text-secondary-300 dark:text-basic-700">add</span>
           <h4 class="text-secondary-300 dark:text-basic-700">
             Crear nuevo perfil
           </h4>

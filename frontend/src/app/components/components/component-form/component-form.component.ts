@@ -12,7 +12,6 @@ import { IBreadcrumbHistory } from 'src/app/shared/components/breadcrumb/breadcr
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
 import { ComponentsService } from '../../services/components.service';
-import { faPlus, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import { PropertyDTO } from '../../../properties/models/property.dto';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { LoadingService } from 'src/app/shared/services/loading.service';
@@ -41,9 +40,6 @@ export class ComponentFormComponent implements OnInit {
   phase_id!: FormControl;
 
   breadcrumbHistory: IBreadcrumbHistory[] = [];
-
-  faPlus = faPlus;
-  faPencil = faPencilAlt;
 
   constructor(
     private route: ActivatedRoute,

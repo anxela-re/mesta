@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
-import { faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { merge, Observable, Subject } from 'rxjs';
 import {
@@ -70,9 +69,6 @@ export class ComponentsComponent implements OnInit, OnDestroy {
 
   private searchSubject: Subject<string> = new Subject();
   private reloadList: Subject<any> = new Subject();
-
-  faPlus = faPlus;
-  faSearch = faSearch;
 
   private unsubscribe$ = new Subject<void>();
 

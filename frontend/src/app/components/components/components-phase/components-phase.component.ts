@@ -12,7 +12,6 @@ import {
   FormArray,
   FormBuilder,
 } from '@angular/forms';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { IComponentPercentage } from 'src/app/recipes/models/recipe.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ComponentDTO } from '../../models/component.dto';
@@ -55,9 +54,6 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
 
   @Input()
   recipeComponents: IComponentPercentage[] = [];
-
-  faChevronUp = faChevronUp;
-  faChevronDown = faChevronDown;
 
   open: boolean = false;
 

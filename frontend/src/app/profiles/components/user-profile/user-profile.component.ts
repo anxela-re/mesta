@@ -8,7 +8,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { ProfileDTO } from '../../models/profile.dto';
-import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { PhaseDTO } from '../../../phases/models/phase.dto';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -25,8 +24,6 @@ import { ModalService } from 'src/app/shared/services/modal.service';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
-  faPlus = faPlus;
-  faTrashAlt = faTrashAlt;
 
   profile!: ProfileDTO;
   profileForm!: FormGroup;

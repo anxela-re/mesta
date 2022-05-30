@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from '../../models/composition.dto';
@@ -17,7 +16,6 @@ export class CompositionsListComponent implements OnInit {
   selected!: number;
 
   compositions: CompositionDTO[] = [];
-  faPlus = faPlus;
 
   isAdding: boolean = false;
   constructor(private store: Store<AppState>) {

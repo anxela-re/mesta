@@ -14,7 +14,6 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from '../../models/property.dto';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
 import * as propretyActions from '../../actions';
 import { Actions, ofType } from '@ngrx/effects';
 import { Subject } from 'rxjs';
@@ -34,8 +33,6 @@ export class PropertyFormComponent implements OnInit, OnDestroy {
   name!: FormControl;
 
   profileId!: number;
-
-  faSave = faSave;
 
   private unsubscribe$ = new Subject<void>();
   constructor(

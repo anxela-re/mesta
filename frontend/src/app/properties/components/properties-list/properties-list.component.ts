@@ -1,9 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PropertyDTO } from '../../models/property.dto';
-import {
-  faPlus,
-  faPencilAlt,
-} from '@fortawesome/free-solid-svg-icons';
 import { Subject } from 'rxjs';
 import { OnSelectProps } from '../property-item/property-item.component';
 import { Store } from '@ngrx/store';
@@ -32,9 +28,6 @@ export class PropertiesListComponent implements OnInit {
 
   properties: PropertyDTO[] = [];
   propertiesProfile: PropertyDTO[] = [];
-
-  faPlus = faPlus;
-  faPencil = faPencilAlt;
 
   newProperty: boolean = false;
   editingProperties: boolean = false;

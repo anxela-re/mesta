@@ -14,7 +14,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'src/environments/environment';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SharedModule } from './shared/shared.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -39,7 +38,6 @@ export function cleanSession(reducer: ActionReducer<any>): ActionReducer<any> {
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FontAwesomeModule,
     FormsModule,
     StoreModule.forRoot(appReducers, {
       metaReducers: [cleanSession],

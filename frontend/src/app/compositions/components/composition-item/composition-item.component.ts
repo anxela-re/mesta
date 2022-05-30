@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from '../../models/composition.dto';
@@ -24,8 +23,6 @@ export class CompositionItemComponent implements OnInit {
   @Output()
   onSelect: EventEmitter<CompositionDTO> = new EventEmitter();
 
-  faTrash = faTrashAlt;
-  faPencil = faPencilAlt;
   editionMode: boolean = false;
 
   constructor(

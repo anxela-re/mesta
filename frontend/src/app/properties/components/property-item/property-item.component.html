@@ -1,8 +1,7 @@
 <div
-  class="rounded-full border-2 px-4 h-[100%] flex flex-row align-items-center"
+  class="rounded-full border-2 px-4 h-[100%] flex flex-row align-items-center align-center"
   [ngClass]="{
-    'text-basic-500 bg-secondary-500 dark:bg-primary-500 border-none':
-      selected,
+    'text-basic-500 bg-secondary-500 dark:bg-primary-500 border-none': selected,
     ' border-secondary-500 text-secondary-500 dark:border-primary-500 dark:text-basic-500':
       !selected,
     'hover:text-basic-500 hover:bg-secondary-500': !editing,
@@ -19,17 +18,16 @@
     >{{ property?.name }}</span
   >
   <span *ngIf="!editing" class="self-center">{{ property?.name }}</span>
-
-  <fa-icon
-    (click)="onSaveEdition($event)"
-    [icon]="faSave"
-    class="ml-3 text-secondary-500 dark:text-basic-500 hover:text-primary-500 text-3xl sm:text-base"
+  <span
     *ngIf="edited"
-  ></fa-icon>
-  <fa-icon
+    class="material-icons ml-3 text-secondary-500 dark:text-basic-500 hover:text-primary-500 dark:hover:text-primary-500 text-3xl sm:text-lg"
+    (click)="onSaveEdition($event)"
+    >save
+  </span>
+  <span
+    class="material-icons ml-3 text-danger text-3xl sm:text-lg"
     (click)="onDeleteProperty($event)"
-    [icon]="faTrash"
-    class="ml-3 text-danger text-3xl sm:text-base"
     *ngIf="editing"
-  ></fa-icon>
+    >delete</span
+  >
 </div>

@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  faImage,
-  faPencilAlt,
-  faTrashAlt,
-} from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
@@ -30,10 +25,6 @@ export class ComponentDetailsComponent implements OnInit {
   properties: PropertyDTO[] = [];
 
   breadcrumbHistory: IBreadcrumbHistory[] = [];
-
-  faImage = faImage;
-  faPencil = faPencilAlt;
-  faTrash = faTrashAlt;
 
   constructor(
     private route: ActivatedRoute,

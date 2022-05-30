@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { CompositionItemComponent } from './components/composition-item/composition-item.component';
 import { CompositionFormComponent } from './components/composition-form/composition-form.component';
 import { CompositionsListComponent } from './components/compositions-list/compositions-list.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 
@@ -15,7 +14,6 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule

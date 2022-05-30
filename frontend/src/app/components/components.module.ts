@@ -6,7 +6,6 @@ import { ComponentsComponent } from './components/components/components.componen
 import { ComponentFormComponent } from './components/component-form/component-form.component';
 import { SharedModule } from '../shared/shared.module';
 import { PropertiesModule } from '../properties/properties.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ComponentItemComponent } from './components/component-item/component-item.component';
 import { ComponentsPhaseComponent } from './components/components-phase/components-phase.component';
 import { ComponentDetailsComponent } from './components/component-details/component-details.component';
@@ -28,7 +27,6 @@ import { CurrentPercentageAssignPipe } from './services/current-percentage-assig
     ComponentsRoutingModule,
     SharedModule,
     PropertiesModule,
-    FontAwesomeModule,
     FormsModule,
   ],
   exports: [ComponentsComponent],

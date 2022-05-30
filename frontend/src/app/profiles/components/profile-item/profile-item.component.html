@@ -11,16 +11,18 @@
       </h4>
     </div>
     <div class="flex justify-between gap-2">
-      <fa-icon
-        [icon]="faTrash"
-        class="text-secondary-500 dark:text-basic-500 hover:text-danger drk:hover:text-danger z-10 text-3xl sm:text-base"
+      <span
+        class="material-icons text-secondary-500 dark:text-basic-500 hover:text-danger drk:hover:text-danger z-10 text-3xl sm:text-md"
         (click)="deleteProfile($event)"
-      ></fa-icon>
-      <fa-icon
-        [icon]="faPencil"
-        class="text-secondary-500 dark:text-basic-500 hover:text-primary-500 dark:hover:text-primary-500 z-10 text-3xl sm:text-base"
+      >
+        delete
+      </span>
+      <span
+        class="material-icons text-secondary-500 dark:text-basic-500 hover:text-primary-500 dark:hover:text-primary-500 z-10 text-3xl sm:text-md"
         (click)="editProfile(profile?.id)"
-      ></fa-icon>
+      >
+        edit
+      </span>
     </div>
   </div>
   <div

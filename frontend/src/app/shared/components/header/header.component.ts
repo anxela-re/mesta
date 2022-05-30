@@ -3,12 +3,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import { logout } from 'src/app/auth/actions';
-import {
-  faBars,
-  faUser,
-  faArrowRightFromBracket,
-  faCogs,
-} from '@fortawesome/free-solid-svg-icons';
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
 import * as ProfilesActions from 'src/app/profiles/actions';
 import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
@@ -20,11 +14,6 @@ import { ProfileSelectedService } from 'src/app/profiles/services/profile-select
 export class HeaderComponent implements OnInit {
   isLogged: boolean;
   isMenuOpen: boolean = false;
-
-  faBars = faBars;
-  faUser = faUser;
-  faCogs = faCogs;
-  faArrowRightFromBracket = faArrowRightFromBracket;
 
   profiles: ProfileDTO[] = [];
   profileSelected?: number | undefined;

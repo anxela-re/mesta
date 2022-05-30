@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { PropertyDTO } from '../../models/property.dto';
-import { faSave, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 import * as propertiesActions from '../../actions';
@@ -41,8 +40,6 @@ export class PropertyItemComponent implements OnInit, OnDestroy {
   propertyEdited: string | undefined;
 
   edited: boolean = false;
-  faSave = faSave;
-  faTrash = faTrashAlt;
 
   private unsubscribe$ = new Subject<void>();
 

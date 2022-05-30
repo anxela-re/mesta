@@ -2,7 +2,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind screen;
-@import "../node_modules/@fortawesome/fontawesome-free/css/all.css";
 
 @font-face {
   font-family: "Open sans";
@@ -16,8 +15,26 @@
   font-family: "Monoton";
   src: local("Monoton"),
     url(assets/fonts/Monoton/Monoton-Regular.ttf) format("truetype");
-    font-display: swap;
+  font-display: swap;
 }
+@font-face {
+  font-family: "Material Icons";
+  font-style: normal;
+  font-weight: 400;
+  src: url(assets/fonts/MaterialIcons-Regular.ttf) format("truetype");
+  src: local("Material Icons"), local("MaterialIcons-Regular"),
+    url(assets/fonts/MaterialIcons-Regular.ttf) format("truetype");
+  font-display: swap;
+}
+// @font-face {
+//   font-family: "Material Icons Outlined";
+//   font-style: normal;
+//   font-weight: 400;
+//   src: url(assets/fonts/MaterialIconsOutlined-Regular.otf) format("truetype");
+//   src: local("Material Icons Outlined"), local("MaterialIconsOutlined-Regular"),
+//     url(assets/fonts/MaterialIconsOutlined-Regular.otf) format("truetype");
+//   font-display: swap;
+// }
 
 @tailwind utilities;
 
@@ -188,4 +205,41 @@ input:not(.dark-input):-webkit-autofill:active {
 }
 .shadow-thick-danger {
   @apply shadow-thick shadow-danger transform transition-all duration-100 active:shadow-none active:translate-y-[3px] active:translate-x-[3px] disabled:shadow-none;
+}
+
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; /* Preferred icon size */
+  display: block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: "liga";
+}
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
 }

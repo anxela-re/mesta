@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { faPencilAlt, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { finalize } from 'rxjs/operators';
 import { AppState } from 'src/app/app.reducers';
@@ -24,9 +23,6 @@ export class RecipeDetailComponent {
   breadcrumbHistory: IBreadcrumbHistory[] = [];
   composition!: CompositionDTO | undefined;
   properties: PropertyDTO[] = [];
-
-  faPencil = faPencilAlt;
-  faTrash = faTrashAlt;
 
   compositionsProfile!: CompositionDTO[];
   propertiesProfile!: PropertyDTO[];

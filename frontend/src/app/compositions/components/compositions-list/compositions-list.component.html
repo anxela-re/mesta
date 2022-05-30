@@ -4,10 +4,11 @@
     class="flex flex-col justify-center border-2 border-dashed rounded-lg p-4 m-2 relative cursor-pointer text-center hover:opacity-50 border-secondary-300 bg-basic-900 dark:bg-secondary-400"
     (click)="onCreate()"
   >
-    <fa-icon
-      [icon]="faPlus"
-      class="fa-2x text-secondary-300 dark:text-basic-700"
-    ></fa-icon>
+    <span
+      class="material-icons text-secondary-300 dark:text-basic-700 text-4xl"
+    >
+      add
+    </span>
     <h4 class="text-secondary-300 dark:text-basic-700">Nueva composición</h4>
   </div>
   <div *ngIf="isAdding" class="sm:max-w-[300px]">

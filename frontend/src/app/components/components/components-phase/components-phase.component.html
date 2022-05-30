@@ -29,14 +29,17 @@
         *ngIf="fromFormulation"
         class="px-1"
         [ngStyle]="{ color: phase?.color }"
-        >Queda por asignar el {{ phaseComponentsForm.value | currentPercentageAssign: percentage}} de {{ percentage }}%</span
+        >Queda por asignar el
+        {{ phaseComponentsForm.value | currentPercentageAssign: percentage }} de
+        {{ percentage }}%</span
       >
-      <fa-icon
-        [icon]="faChevronUp"
+      <span
+        class="material-icons transition-transform duration-300"
         [ngStyle]="{ color: phase?.color }"
-        class="transition-transform duration-300"
         [ngClass]="{ 'rotate-0': open, 'rotate-180': !open }"
-      ></fa-icon>
+      >
+        expand_less
+      </span>
     </div>
   </div>
   <div

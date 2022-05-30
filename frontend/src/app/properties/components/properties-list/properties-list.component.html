@@ -9,19 +9,20 @@
 </div>
 
 <div class="flex flex-row flex-wrap gap-2">
-  <div *ngIf="allowEdition">
+  <div *ngIf="allowEdition" class="flex align-center">
     <button
       type="button"
       class="transition ease-in-out delay-50 duration-200 rotate-0"
       (click)="newProperty = !newProperty"
       [ngClass]="{
-        'rotate-45 text-primary-500 hover:text-primary-800':
-          newProperty,
+        'rotate-45 text-primary-500 hover:text-primary-800': newProperty,
         'text-secondary-500 hover:text-primary-800 dark:text-basic-500':
           !newProperty
       }"
     >
-      <fa-icon [icon]="faPlus" class="hover:text-primary-800 text-3xl sm:text-base"></fa-icon>
+      <span class="material-icons hover:text-primary-800 text-3xl sm:text-md"
+        >add</span
+      >
     </button>
     <div
       class="inline-block transition ease-in-out delay-250 duration-200 scale-0"
@@ -39,10 +40,15 @@
     (click)="editingProperties = !editingProperties"
     [ngClass]="{
       'text-primary-500 hover:text-primary-800': editingProperties,
-      'text-secondary-500 hover:text-primary-800 dark:text-basic-500': !editingProperties
+      'text-secondary-500 hover:text-primary-800 dark:text-basic-500':
+        !editingProperties
     }"
   >
-    <fa-icon *ngIf="allowEdition" [icon]="faPencil" class="hover:text-primary-800 text-3xl sm:text-base"></fa-icon>
+    <span
+      *ngIf="allowEdition"
+      class="material-icons hover:text-primary-800 text-3xl sm:text-md"
+      >edit
+    </span>
   </button>
   <app-property-item
     *ngFor="let property of properties"

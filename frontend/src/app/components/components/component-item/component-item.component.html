@@ -3,7 +3,10 @@
   (click)="onClick()"
   [ngClass]="{ 'scale-100': properties }"
 >
-  <app-dashed-box [color]="phase?.color" [selected]="percentage > 0 || !fromFormulation">
+  <app-dashed-box
+    [color]="phase?.color"
+    [selected]="percentage > 0 || !fromFormulation"
+  >
     <h4
       [ngStyle]="{
         color: percentage > 0 || !fromFormulation ? '#fff' : phase?.color
@@ -31,7 +34,7 @@
         }"
         (click)="decrement($event)"
       >
-        <fa-icon [icon]="faMinus" class="text-3xl sm:text-base"></fa-icon>
+        <span class="material-icons text-3xl sm:text-base"> remove </span>
       </button>
       <div class="w-full self-center">
         <input
@@ -63,7 +66,7 @@
         }"
         (click)="increment($event)"
       >
-        <fa-icon [icon]="faPlus" class="text-3xl sm:text-base"></fa-icon>
+        <span class="material-icons text-3xl sm:text-base"> add </span>
       </button>
     </div>
   </app-dashed-box>

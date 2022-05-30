@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { ToastService } from '../../services/toast.service';
 
 @Component({
@@ -11,7 +10,6 @@ export class FeedbackComponent implements OnInit {
   @ViewChild('content') content!: ElementRef;
   @ViewChild('toast') toast!: ElementRef;
 
-  faTimes = faTimes;
   private element: any;
 
   constructor(private toastService: ToastService, private el: ElementRef) {

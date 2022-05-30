@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faCopyright } from '@fortawesome/free-solid-svg-icons';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.reducers';
 
@@ -11,7 +10,6 @@ import { AppState } from 'src/app/app.reducers';
 })
 export class FooterComponent implements OnInit {
   isLogged: boolean;
-  faCopyright = faCopyright;
   constructor(private router: Router, private store: Store<AppState>) {
     this.isLogged = false;
 
