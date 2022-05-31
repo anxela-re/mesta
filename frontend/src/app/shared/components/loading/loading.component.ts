@@ -3,8 +3,7 @@ import { LoadingService } from '../../services/loading.service';
 
 @Component({
   selector: 'app-loading',
-  templateUrl: './loading.component.html',
-  styleUrls: ['./loading.component.scss'],
+  templateUrl: './loading.component.html'
 })
 export class LoadingComponent implements OnInit, OnDestroy {
   private element: any;

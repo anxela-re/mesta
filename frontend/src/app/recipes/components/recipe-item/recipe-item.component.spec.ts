@@ -1,11 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ComponentsModule } from 'src/app/components/components.module';
-import { CompositionsModule } from 'src/app/compositions/compositions.module';
-import { PropertiesModule } from 'src/app/properties/properties.module';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { RecipesRoutingModule } from '../../recipes-routing.module';
+import { RouterTestingModule } from '@angular/router/testing';
+import { PropertyDTO } from 'src/app/properties/models/property.dto';
+import { RecipeDTO } from '../../models/recipe.dto';
 import { RecipeItemComponent } from './recipe-item.component';
 
 describe('RecipeItemComponent', () => {
@@ -13,25 +9,19 @@ describe('RecipeItemComponent', () => {
   let fixture: ComponentFixture<RecipeItemComponent>;
 
   beforeEach(async () => {
+    localStorage.setItem('theme', 'dark');
     await TestBed.configureTestingModule({
-      declarations: [ RecipeItemComponent ],
-      imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        RecipesRoutingModule,
-        SharedModule,
-        CompositionsModule,
-        ComponentsModule,
-        PropertiesModule,
-      ],
-    })
-    .compileComponents();
+      declarations: [RecipeItemComponent],
+      imports: [RouterTestingModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RecipeItemComponent);
     component = fixture.componentInstance;
+
+    component.recipe = new RecipeDTO({ name: 'recipe', id: 1 });
+    component.properties = [new PropertyDTO({ name: 'property', id: 1, profile_id: 1 })];
     fixture.detectChanges();
   });
 

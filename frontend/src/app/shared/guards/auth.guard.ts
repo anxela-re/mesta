@@ -18,7 +18,8 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.access_token) {
+      console.info(this.access_token)
+    if (this.access_token && this.access_token !== '') {
       return true;
     }
 

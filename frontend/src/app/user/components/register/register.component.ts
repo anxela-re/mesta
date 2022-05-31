@@ -14,8 +14,7 @@ import * as UserActions from '../../actions';
 import { matchEqual } from 'src/app/validators';
 @Component({
   selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  templateUrl: './register.component.html'
 })
 export class RegisterComponent implements OnInit {
   registerUser: RegisterDTO;

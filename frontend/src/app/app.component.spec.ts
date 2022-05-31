@@ -1,35 +1,41 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MemoizedSelector, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppComponent } from './app.component';
 import { AuthTokenDTO } from './auth/models/authToken.dto';
-import * as authReducer from './auth/reducers';
 import * as authActions from './auth/actions';
 import * as userActions from './user/actions';
 import * as profilesActions from './profiles/actions';
 
-import {
-  ProfilesState,
-  initialState as initialProfileStateReducer,
-} from './profiles/reducers';
 import { SharedModule } from './shared/shared.module';
 import { AuthDTO } from './auth/models/auth.dto';
-import { TokenService } from './auth/services/token.service';
+import { ProfileDTO } from './profiles/models/profile.dto';
 
-fdescribe('AppComponent', () => {
-  // let componente: AppComponent;
-  // let fixture: ComponentFixture<AppComponent>;
+const mockData = {
+  id: '1',
+  access_token: 'access_token',
+  email: 'aredondorod@uoc.edu',
+  name: 'admin',
+  profiles: [
+    new ProfileDTO({
+      id: 2,
+      name: 'profile 1',
+      description: 'description',
+      phases: [],
+      user_id: 1,
+      properties: [],
+      compositions: [],
+    }),
+  ],
+};
+describe('AppComponent', () => {
   let storeMock: MockStore<{
     auth: {
-      credentials: {
-        user_id: string;
-        access_token: string;
-        token_expires_at: string;
-      };
+      credentials: AuthTokenDTO;
       loading: boolean;
       loaded: boolean;
       error: any;
@@ -40,15 +46,13 @@ fdescribe('AppComponent', () => {
   const initialState = {
     auth: {
       credentials: {
-        credentials: {
-          user_id: '',
-          access_token: '',
-          token_expires_at: '',
-        },
-        loading: false,
-        loaded: true,
-        error: null,
+        user_id: '',
+        access_token: '',
+        token_expires_at: '',
       },
+      loading: false,
+      loaded: true,
+      error: null,
     },
     profiles: {
       profiles: [],
@@ -103,20 +107,24 @@ fdescribe('AppComponent', () => {
     storeMock.dispatch(
       authActions.login({
         credentials: new AuthDTO(
-          '1',
-          'access_token',
-          'aredondorod@uoc.edu',
-          'admin',
+          mockData.id,
+          mockData.access_token,
+          mockData.email,
+          mockData.name,
           dateString
         ),
       })
     );
-    localStorage.setItem('user_id', '1');
-    localStorage.setItem('access_token', 'access_token');
+    localStorage.setItem('user_id', mockData.id);
+    localStorage.setItem('access_token', mockData.access_token);
     localStorage.setItem('token_expires_at', dateString);
     storeMock.setState({
       auth: {
-        credentials: new AuthTokenDTO('1', 'access_token', dateString),
+        credentials: new AuthTokenDTO(
+          mockData.id,
+          mockData.access_token,
+          dateString
+        ),
         loading: false,
         loaded: true,
         error: null,
@@ -147,21 +155,25 @@ fdescribe('AppComponent', () => {
     storeMock.dispatch(
       authActions.login({
         credentials: new AuthDTO(
-          '1',
-          'access_token',
-          'aredondorod@uoc.edu',
-          'admin',
+          mockData.id,
+          mockData.access_token,
+          mockData.email,
+          mockData.name,
           dateString
         ),
       })
     );
-    
-    localStorage.setItem('user_id', '1');
-    localStorage.setItem('access_token', 'access_token');
+
+    localStorage.setItem('user_id', mockData.id);
+    localStorage.setItem('access_token', mockData.access_token);
     localStorage.setItem('token_expires_at', dateString);
     storeMock.setState({
       auth: {
-        credentials: new AuthTokenDTO('1', 'access_token', dateString),
+        credentials: new AuthTokenDTO(
+          mockData.id,
+          mockData.access_token,
+          dateString
+        ),
         loading: false,
         loaded: true,
         error: null,
@@ -174,5 +186,52 @@ fdescribe('AppComponent', () => {
     fixture.detectChanges();
     expect(storeMock.dispatch).toHaveBeenCalledWith(authActions.logout());
     expect(app.isLogged).toBeFalse();
+  });
+
+  describe('profiles', () => {
+    const now = new Date();
+    const date = new Date(now.setDate(now.getDate() - 7));
+    const dateString = date.toISOString();
+    const authState = {
+      credentials: new AuthTokenDTO(
+        mockData.id,
+        mockData.access_token,
+        dateString
+      ),
+      loading: false,
+      loaded: true,
+      error: null,
+    };
+    beforeEach(() => {
+      localStorage.setItem('user_id', mockData.id);
+      localStorage.setItem('access_token', mockData.access_token);
+      localStorage.setItem('token_expires_at', dateString);
+
+      storeMock.setState({
+        auth: authState,
+        profiles: {
+          ...initialState.profiles,
+        },
+      });
+    });
+    it('should select first profile', () => {
+      const fixture = TestBed.createComponent(AppComponent);
+      const app = fixture.componentInstance;
+
+      storeMock.setState({
+        auth: authState,
+        profiles: {
+          profiles: mockData.profiles,
+          loading: false,
+          loaded: true,
+          error: null,
+        },
+      });
+
+      fixture.detectChanges();
+      expect(storeMock.dispatch).toHaveBeenCalledWith(
+        profilesActions.selectProfile({ profile: mockData.profiles[0] })
+      );
+    });
   });
 });

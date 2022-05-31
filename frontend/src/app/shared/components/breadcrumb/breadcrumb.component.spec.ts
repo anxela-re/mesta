@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { BreadcrumbComponent } from './breadcrumb.component';
 
@@ -8,6 +9,7 @@ describe('BreadcrumbComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [ BreadcrumbComponent ]
     })
     .compileComponents();
@@ -22,4 +24,5 @@ describe('BreadcrumbComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

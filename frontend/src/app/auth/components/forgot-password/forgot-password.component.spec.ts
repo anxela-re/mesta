@@ -8,7 +8,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { AuthState, initialState as initialStateReducer } from '../../reducers';
 import { Store } from '@ngrx/store';
 
-describe('ForgotPasswordComponent', () => {
+xdescribe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   // let store: MockStore<AuthState>;
