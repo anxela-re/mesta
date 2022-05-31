@@ -8,8 +8,7 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-profile-item',
-  templateUrl: './profile-item.component.html',
-  styleUrls: ['./profile-item.component.scss'],
+  templateUrl: './profile-item.component.html'
 })
 export class ProfileItemComponent implements OnInit {
   @Input()

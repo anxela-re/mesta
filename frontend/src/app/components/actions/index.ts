@@ -1,1 +1,0 @@
-export * as ComponentsActions from './components.action';

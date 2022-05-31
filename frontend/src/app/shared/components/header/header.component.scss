@@ -4,16 +4,11 @@
 }
 .app-menu a:first-child::after {
   content: "|";
-  // font-size: 0.8rem !important;
   font-weight: normal !important;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
 }
-// .app-menu a:first-child::after {
-//   @apply text-secondary-500 dark:text-basic-500;
-// }
 .app-menu a {
-  // font-size: 0.8rem;
   letter-spacing: 0.1rem;
 }
 .app-menu a {

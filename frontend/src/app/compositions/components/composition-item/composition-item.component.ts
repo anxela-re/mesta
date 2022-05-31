@@ -8,7 +8,6 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 @Component({
   selector: 'app-composition-item',
   templateUrl: './composition-item.component.html',
-  styleUrls: ['./composition-item.component.scss'],
 })
 export class CompositionItemComponent implements OnInit {
   @Input()

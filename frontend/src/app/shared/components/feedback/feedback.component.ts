@@ -3,8 +3,7 @@ import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-feedback',
-  templateUrl: './feedback.component.html',
-  styleUrls: ['./feedback.component.scss'],
+  templateUrl: './feedback.component.html'
 })
 export class FeedbackComponent implements OnInit {
   @ViewChild('content') content!: ElementRef;

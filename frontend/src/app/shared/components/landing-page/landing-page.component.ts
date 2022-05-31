@@ -11,8 +11,7 @@ import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss'],
+  templateUrl: './landing-page.component.html'
 })
 export class LandingPageComponent implements OnInit {
   contact: ContactDTO;

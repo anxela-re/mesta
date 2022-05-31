@@ -25,8 +25,7 @@ export interface IChangePercentage {
 }
 @Component({
   selector: 'app-components-phase',
-  templateUrl: './components-phase.component.html',
-  styleUrls: ['./components-phase.component.scss'],
+  templateUrl: './components-phase.component.html'
 })
 export class ComponentsPhaseComponent implements OnInit, OnChanges {
   @ViewChild('bodyAccordion') bodyAccordioDOM!: ElementRef;

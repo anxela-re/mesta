@@ -9,8 +9,7 @@ import {
 } from '@angular/core';
 @Component({
   selector: 'app-dashed-box',
-  templateUrl: './dashed-box.component.html',
-  styleUrls: ['./dashed-box.component.scss'],
+  templateUrl: './dashed-box.component.html'
 })
 export class DashedBoxComponent implements OnInit {
   @ViewChild('borderTop') borderTopDOM!: ElementRef;

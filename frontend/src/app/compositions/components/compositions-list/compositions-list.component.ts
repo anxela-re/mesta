@@ -5,8 +5,7 @@ import { CompositionDTO } from '../../models/composition.dto';
 
 @Component({
   selector: 'app-compositions-list',
-  templateUrl: './compositions-list.component.html',
-  styleUrls: ['./compositions-list.component.scss'],
+  templateUrl: './compositions-list.component.html'
 })
 export class CompositionsListComponent implements OnInit {
   @Output()
