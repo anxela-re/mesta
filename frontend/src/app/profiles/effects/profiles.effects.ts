@@ -54,7 +54,7 @@ export class ProfilesEffects {
         map(({ profiles }) => {
           this.loadingService.hideLoading('profiles_getProfilesByUser');
           if (profiles.length === 0) {
-            this.router.navigate(['profile', 'new']);
+            this.router.navigate(['configuration','profile', 'new']);
           } else {
             profiles.forEach((profile) => {
               if (profile.id) {
