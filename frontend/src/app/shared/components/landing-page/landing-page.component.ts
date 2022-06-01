@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -11,9 +17,13 @@ import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html'
+  templateUrl: './landing-page.component.html',
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, AfterViewInit {
+  @ViewChild('video1') video1El!: ElementRef;
+  @ViewChild('video2') video2El!: ElementRef;
+  @ViewChild('video3') video3El!: ElementRef;
+  @ViewChild('video4') video4El!: ElementRef;
   contact: ContactDTO;
   contactForm: FormGroup;
 
@@ -41,6 +51,21 @@ export class LandingPageComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.video1El.nativeElement.oncanplay = () => {
+      this.video1El.nativeElement.play();
+    };
+    this.video2El.nativeElement.oncanplay = () => {
+      this.video2El.nativeElement.play();
+    };
+    this.video3El.nativeElement.oncanplay = () => {
+      this.video3El.nativeElement.play();
+    };
+    this.video4El.nativeElement.oncanplay = () => {
+      this.video4El.nativeElement.play();
+    };
+  }
 
   onSubmitContactForm(): void {
     if (this.contactForm.invalid) {
