@@ -1,6 +1,6 @@
 <div class="p-2 max-w-[900px] m-auto">
   <app-breadcrumb [breadcrumbHistory]="breadcrumbHistory"></app-breadcrumb>
-  <h2>Nuevo perfil</h2>
+  <h2>{{profile ? profile.name : 'Nuevo perfil'}}</h2>
   <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="my-4">
     <div class="my-2">
       <input
