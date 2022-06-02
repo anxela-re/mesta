@@ -25,7 +25,9 @@
         </div>
       </div>
     </div>
-    <label for="scientific_name" class="fs-xs mb-0">Nombre científico (INCI)</label>
+    <label for="scientific_name" class="fs-xs mb-0"
+      >Nombre científico (INCI)</label
+    >
     <div class="mb-2 custom-input-labeled">
       <input
         type="text"
@@ -81,8 +83,8 @@
     <div class="my-2">
       <h3 class="my-1">Propiedades</h3>
       <app-properties-list
+        [filtering]="false"
         [allowEdition]="true"
-        [allowSearch]="true"
         (updateProperties)="updateProperties($event)"
         [propertiesSelected]="propertiesSelected"
       ></app-properties-list>

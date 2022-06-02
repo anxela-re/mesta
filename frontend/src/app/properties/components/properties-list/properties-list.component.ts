@@ -18,9 +18,6 @@ export class PropertiesListComponent implements OnInit {
   allowEdition: boolean = false;
 
   @Input()
-  allowSearch: boolean = true;
-
-  @Input()
   filtering: boolean = false;
 
   @Output()
@@ -36,17 +33,19 @@ export class PropertiesListComponent implements OnInit {
 
   private reloadList: Subject<any> = new Subject();
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>) {}
+
+  ngOnInit(): void {
     this.store.select('properties').subscribe((propertiesState) => {
       if (propertiesState.loaded) {
         this.propertiesProfile = propertiesState.properties;
         this.properties = propertiesState.properties;
-        this.propertiesSelected = propertiesState.filtered;
+        if (this.filtering) {
+          this.propertiesSelected = propertiesState.filtered;
+        }
       }
     });
   }
-
-  ngOnInit(): void {}
 
   search() {
     this.properties = this.propertiesProfile.filter(

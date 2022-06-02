@@ -89,7 +89,6 @@ const _propertiesReducer = createReducer(
         return prop;
       }
     }),
-    filtered: [],
     loading: false,
     loaded: true,
     error: null,
@@ -109,7 +108,6 @@ const _propertiesReducer = createReducer(
   on(deletePropertySuccess, (state, { propertyId }) => ({
     ...state,
     properties: state.properties.filter((prop) => prop.id !== propertyId),
-    filtered: [],
     loaded: true,
     loading: false,
     error: null,
