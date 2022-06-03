@@ -75,7 +75,7 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.percentage) {
       this.initForm();
-      this.phaseComponentsForm.reset();
+      this.phaseComponentsForm?.reset();
     }
     if (changes.components || changes.recipeComponentsArrayControl) {
       this.initForm();
@@ -156,6 +156,7 @@ export class ComponentsPhaseComponent implements OnInit, OnChanges {
       const found = this.phaseComponentsForm.value.find(
         (v: any) => v.component?.id === componentId
       );
+
       return found && found.percentage ? found.percentage : 0;
     }
     return 0;

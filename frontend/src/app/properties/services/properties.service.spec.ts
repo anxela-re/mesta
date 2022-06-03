@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppState } from 'src/app/app.reducers';
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
-import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 import { SharedService } from 'src/app/shared/services/shared.service';
 
 import { PropertiesService } from './properties.service';

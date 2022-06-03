@@ -1,6 +1,5 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
-import { props, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AppState } from 'src/app/app.reducers';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
@@ -27,20 +26,6 @@ describe('SharedService', () => {
     const value = service.formatQuery({ profile_id: 1, user_id: 2 });
     expect(value).toBe('profile_id=1&user_id=2');
   });
-
-  // it('should handle error', () => {
-  //   const console = {error: jasmine.createSpy('error')};
-  //   const value = service.handleError(
-  //     new HttpErrorResponse({
-  //       error: 'error',
-  //       headers: new HttpHeaders(),
-  //       status: 1,
-  //       statusText: 'status text',
-  //       url: 'url',
-  //     })
-  //   );
-  //   expect(console.error).toHaveBeenCalled();
-  // });
 
   it('should get properties by id', () => {
     const props = [

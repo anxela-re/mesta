@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ProfileDTO } from '../../models/profile.dto';
-
+import * as ProfilesActions from '../../actions';
 import { UserProfileComponent } from './user-profile.component';
 
 describe('UserProfileComponent', () => {
@@ -12,6 +12,7 @@ describe('UserProfileComponent', () => {
   let storeMock: MockStore;
   let activatedRoute;
   let initialState: any;
+  let dispatchSpy: any;
 
   const activatedRouteStub = {
     snapshot: {
@@ -28,8 +29,8 @@ describe('UserProfileComponent', () => {
     initialState = {
       user: {
         user: {
-          id: 1
-        }
+          id: 1,
+        },
       },
       profiles: {
         profiles: [
@@ -61,6 +62,7 @@ describe('UserProfileComponent', () => {
 
     storeMock = TestBed.inject(MockStore);
     activatedRoute = TestBed.inject(ActivatedRoute);
+    dispatchSpy = spyOn(storeMock, 'dispatch').and.callThrough();
   });
 
   beforeEach(() => {
@@ -71,5 +73,32 @@ describe('UserProfileComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create profile', () => {
+    component.addNewPhase();
+    component.profileForm.setValue({
+      description: 'description',
+      name: 'profile 2',
+      color: '#000',
+      phases: [{ name: 'fase', color: '#000' }],
+    });
+    component.onSubmit();
+
+    expect(storeMock.dispatch).toHaveBeenCalled();
+  });
+
+  it('should update profile', () => {
+    component.addNewPhase();
+    component.profile.id = 1;
+    component.profileForm.setValue({
+      description: 'description',
+      name: 'profile 2',
+      color: '#000',
+      phases: [{ name: 'fase', color: '#000' }],
+    });
+    component.onSubmit();
+
+    expect(storeMock.dispatch).toHaveBeenCalled();
   });
 });

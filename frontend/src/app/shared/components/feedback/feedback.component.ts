@@ -24,6 +24,10 @@ export class FeedbackComponent implements OnInit {
     this.element.remove();
   }
 
+  getToast(): any {
+    return this.element;
+  }
+
   show(content: string, success: boolean): void {
     const toastEl = this.toast.nativeElement;
     this.element.style.display = 'flex';

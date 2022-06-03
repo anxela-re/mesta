@@ -1,9 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AuthTokenDTO } from 'src/app/auth/models/authToken.dto';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
@@ -16,8 +16,6 @@ import { FormulationComponent } from './formulation.component';
 describe('FormulationComponent', () => {
   let component: FormulationComponent;
   let fixture: ComponentFixture<FormulationComponent>;
-  let storeMock: MockStore;
-  let activatedRoute;
   let initialState: any;
 
   const activatedRouteStub = {
@@ -61,7 +59,7 @@ describe('FormulationComponent', () => {
             id: 1,
             name: 'phase 1',
             description: 'description',
-            profile_id: 1
+            profile_id: 1,
           }),
         ],
         loading: false,
@@ -73,7 +71,7 @@ describe('FormulationComponent', () => {
           new PropertyDTO({
             id: 1,
             name: 'property 1',
-            profile_id: 1
+            profile_id: 1,
           }),
         ],
         loading: false,
@@ -110,9 +108,6 @@ describe('FormulationComponent', () => {
         { provide: ActivatedRoute, useValue: activatedRouteStub },
       ],
     }).compileComponents();
-
-    storeMock = TestBed.inject(MockStore);
-    activatedRoute = TestBed.inject(ActivatedRoute);
   });
 
   beforeEach(() => {

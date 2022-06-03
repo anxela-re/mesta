@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { Observable } from 'rxjs';
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
 import { PropertyDTO } from '../../models/property.dto';
@@ -12,7 +12,6 @@ describe('PropertyItemComponent', () => {
   let component: PropertyItemComponent;
   let fixture: ComponentFixture<PropertyItemComponent>;
   let initialState: any;
-  let storeMock: MockStore;
   let actions$ = new Observable<Action>();
 
   beforeEach(async () => {
@@ -52,14 +51,12 @@ describe('PropertyItemComponent', () => {
     };
 
     await TestBed.configureTestingModule({
-      declarations: [ PropertyItemComponent ],
+      declarations: [PropertyItemComponent],
       providers: [
         provideMockStore({ initialState }),
         provideMockActions(() => actions$),
       ],
-    })
-    .compileComponents();
-    storeMock = TestBed.inject(MockStore);
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -70,5 +67,22 @@ describe('PropertyItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should select', () => {
+    component.property = { name: 'property', id: 1, profile_id: 1 };
+    component.editing = false;
+    component.allowEdition = true;
+    component.onSelect.emit = jasmine.createSpy('emit');
+
+    component.select();
+
+    expect(component.onSelect.emit).toHaveBeenCalled();
+  });
+
+  it('should change property', () => {
+    component.onPropertyChange({ target: { textContent: 'new' } });
+    expect(component.edited).toBeTruthy();
+    expect(component.propertyEdited).toBe('new');
   });
 });

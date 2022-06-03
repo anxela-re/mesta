@@ -35,4 +35,32 @@ describe('ComponentItemComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit event when percentage change', () => {
+    component.onPercentageChange.emit = jasmine.createSpy('emit');
+    component.onChangePercentage({ stopPropagation: () => {} });
+    expect(component.onPercentageChange.emit).toHaveBeenCalled();
+  });
+
+  it('should emit event when increment percetange', () => {
+    component.onPercentageChange.emit = jasmine.createSpy('emit');
+    component.percentage = 1
+    component.increment(new MouseEvent('click'));
+    expect(component.onPercentageChange.emit).toHaveBeenCalled();
+  });
+
+  it('should emit event when decrement percetange', () => {
+    component.onPercentageChange.emit = jasmine.createSpy('emit');
+    component.percentage = 1
+    component.decrement(new MouseEvent('click'));
+    expect(component.onPercentageChange.emit).toHaveBeenCalled();
+  });
+
+  it('should not emit event when decrement percetange is less than 0', () => {
+    component.onPercentageChange.emit = jasmine.createSpy('emit');
+    component.percentage = 0
+    component.decrement(new MouseEvent('click'));
+    expect(component.onPercentageChange.emit).not.toHaveBeenCalled();
+  });
+
 });

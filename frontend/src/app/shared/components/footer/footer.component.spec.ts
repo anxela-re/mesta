@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AuthTokenDTO } from 'src/app/auth/models/authToken.dto';
 
 import { FooterComponent } from './footer.component';
@@ -16,7 +16,6 @@ const initialState = {
 describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
-  let storeMock: MockStore;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,7 +28,6 @@ describe('FooterComponent', () => {
       ],
     })
     .compileComponents();
-    storeMock = TestBed.inject(MockStore);
   });
 
   beforeEach(() => {

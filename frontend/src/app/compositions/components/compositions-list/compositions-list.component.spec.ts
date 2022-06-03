@@ -42,4 +42,10 @@ describe('CompositionsListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should return is selected', () => {
+    component.selected = 1;
+    const returnValue = component.isSelected(1);
+    expect(returnValue).toBeTrue();
+  })
 });

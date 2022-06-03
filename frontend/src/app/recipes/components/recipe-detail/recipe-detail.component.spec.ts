@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AuthTokenDTO } from 'src/app/auth/models/authToken.dto';
 import { CompositionDTO } from 'src/app/compositions/models/composition.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
@@ -17,14 +17,12 @@ class loadingClass {
   hideLoading = () => {};
   loading = {
     show: () => {},
-    hide: () => {}
-  }
+    hide: () => {},
+  };
 }
 describe('RecipeDetailComponent', () => {
   let component: RecipeDetailComponent;
   let fixture: ComponentFixture<RecipeDetailComponent>;
-  let storeMock: MockStore;
-  let activatedRoute;
   let initialState: any;
 
   const activatedRouteStub = {
@@ -110,12 +108,10 @@ describe('RecipeDetailComponent', () => {
       providers: [
         provideMockStore({ initialState }),
         { provide: ActivatedRoute, useValue: activatedRouteStub },
-        {provide: LoadingService, useClass: loadingClass}
+        { provide: LoadingService, useClass: loadingClass },
       ],
     }).compileComponents();
 
-    storeMock = TestBed.inject(MockStore);
-    activatedRoute = TestBed.inject(ActivatedRoute);
   });
 
   beforeEach(() => {

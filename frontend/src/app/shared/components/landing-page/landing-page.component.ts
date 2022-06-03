@@ -67,18 +67,18 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
     ) {
       this.video1El.nativeElement.removeAttribute('controls');
     }
-    this.video1El.nativeElement.oncanplay = () => {
-      this.video1El.nativeElement.play();
-    };
-    this.video2El.nativeElement.oncanplay = () => {
-      this.video2El.nativeElement.play();
-    };
-    this.video3El.nativeElement.oncanplay = () => {
-      this.video3El.nativeElement.play();
-    };
-    this.video4El.nativeElement.oncanplay = () => {
-      this.video4El.nativeElement.play();
-    };
+    // this.video1El.nativeElement.oncanplay = () => {
+    //   this.video1El.nativeElement.play();
+    // };
+    // this.video2El.nativeElement.oncanplay = () => {
+    //   this.video2El.nativeElement.play();
+    // };
+    // this.video3El.nativeElement.oncanplay = () => {
+    //   this.video3El.nativeElement.play();
+    // };
+    // this.video4El.nativeElement.oncanplay = () => {
+    //   this.video4El.nativeElement.play();
+    // };
   }
 
   onSubmitContactForm(): void {

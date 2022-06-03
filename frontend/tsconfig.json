@@ -21,10 +21,10 @@
       "es2018",
       "dom"
     ],
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "allowUnreachableCode": false,
-    "allowUnusedLabels": false,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "allowUnreachableCode": false,
+    // "allowUnusedLabels": false,
     
   },
   "angularCompilerOptions": {

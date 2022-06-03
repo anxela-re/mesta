@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Action } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 import { AuthTokenDTO } from 'src/app/auth/models/authToken.dto';
@@ -15,7 +15,6 @@ import { RecipesComponent } from './recipes.component';
 
 describe('RecipesComponent', () => {
   let component: RecipesComponent;
-  let storeMock: MockStore;
   let fixture: ComponentFixture<RecipesComponent>;
   let initialState: any;
   let actions$ = new Observable<Action>();
@@ -97,7 +96,6 @@ describe('RecipesComponent', () => {
       ],
     }).compileComponents();
 
-    storeMock = TestBed.inject(MockStore);
   });
 
   beforeEach(() => {

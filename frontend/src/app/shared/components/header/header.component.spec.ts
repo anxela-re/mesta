@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { AuthTokenDTO } from 'src/app/auth/models/authToken.dto';
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
-import { ProfileSelectedService } from 'src/app/profiles/services/profile-selected.service';
 
 import { HeaderComponent } from './header.component';
 

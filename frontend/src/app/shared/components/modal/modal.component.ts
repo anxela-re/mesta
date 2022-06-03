@@ -42,6 +42,10 @@ export class ModalComponent implements OnInit {
     this.element.remove();
   }
 
+  getModal (): any {
+    return this.element;
+  }
+
   // open modal
   open(title: string, content: string): void {
     this.element.style.display = 'block';

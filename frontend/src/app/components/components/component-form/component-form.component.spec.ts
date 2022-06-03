@@ -1,18 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { AuthTokenDTO } from 'src/app/auth/models/authToken.dto';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { ProfileDTO } from 'src/app/profiles/models/profile.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
-import { PropertiesModule } from 'src/app/properties/properties.module';
 import { LoadingService } from 'src/app/shared/services/loading.service';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { ComponentsRoutingModule } from '../../components-routing.module';
 
 import { ComponentFormComponent } from './component-form.component';
 
@@ -27,8 +23,6 @@ class loadingClass {
 describe('ComponentFormComponent', () => {
   let component: ComponentFormComponent;
   let fixture: ComponentFixture<ComponentFormComponent>;
-  let storeMock: MockStore;
-  let activatedRoute;
   let initialState: any;
 
   const activatedRouteStub = {
@@ -108,9 +102,6 @@ describe('ComponentFormComponent', () => {
         { provide: LoadingService, useClass: loadingClass },
       ],
     }).compileComponents();
-
-    storeMock = TestBed.inject(MockStore);
-    activatedRoute = TestBed.inject(ActivatedRoute);
   });
 
   beforeEach(() => {
@@ -121,5 +112,38 @@ describe('ComponentFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize form', () => {
+    component.setProperties = jasmine.createSpy('setProperties');
+    component.updateProperties = jasmine.createSpy('updateProperties');
+    component.component = {
+      name: 'nombre',
+      scientific_name: 'scientific_name',
+      description: 'description',
+      expiration_date: new Date(),
+      phase_id: 1,
+      properties: [],
+    };
+    component.initForm();
+
+    expect(component.setProperties).toHaveBeenCalled();
+    expect(component.updateProperties).toHaveBeenCalled();
+  });
+
+  it('should select phase', () => {
+    component.component = {
+      name: 'nombre',
+      scientific_name: 'scientific_name',
+      description: 'description',
+      expiration_date: new Date(),
+      phase_id: 1,
+      properties: [],
+    };
+    component.initForm();
+    component.componentForm.patchValue = jasmine.createSpy('patchValue');
+    component.selectPhase({ id: 1 });
+
+    expect(component.componentForm.patchValue).toHaveBeenCalled();
   });
 });

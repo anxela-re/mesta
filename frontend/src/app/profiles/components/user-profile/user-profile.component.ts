@@ -20,18 +20,15 @@ import { ModalService } from 'src/app/shared/services/modal.service';
 
 @Component({
   selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html'
+  templateUrl: './user-profile.component.html',
 })
 export class UserProfileComponent implements OnInit {
-
   profile!: ProfileDTO;
   profileForm!: FormGroup;
   name!: FormControl;
   description!: FormControl;
   color!: FormControl;
   // phases!: FormArray;
-
-  isValidForm: boolean = false;
 
   userId?: number;
   profiles: ProfileDTO[] = [];
@@ -144,13 +141,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.isValidForm = false;
-
     if (this.profileForm.invalid) {
       return;
     }
-
-    this.isValidForm = true;
 
     if (this.profile?.id) {
       const phasesToDelete: PhaseDTO[] = [];
@@ -190,7 +183,7 @@ export class UserProfileComponent implements OnInit {
           }
         });
       }
-      if (updatedProfile.phases.length > 0) {
+      if (updatedProfile.phases?.length > 0) {
         updatedProfile.phases.forEach((phase: PhaseDTO) => {
           if (phase.id) {
             if (

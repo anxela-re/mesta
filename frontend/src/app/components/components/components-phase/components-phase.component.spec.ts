@@ -1,5 +1,12 @@
+import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormArray,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { PhaseDTO } from 'src/app/phases/models/phase.dto';
 import { PropertyDTO } from 'src/app/properties/models/property.dto';
@@ -40,5 +47,33 @@ describe('ComponentsPhaseComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should init form when change', () => {
+    component.initForm = jasmine.createSpy('initForm');
+    const simpleChanges = new SimpleChange(5, 10, false);
+    component.ngOnChanges({ percentage: simpleChanges });
+    expect(component.initForm).toHaveBeenCalled();
+  });
+
+  it('should init form with recipe form', () => {
+    component.fromFormulation = true;
+    component.phase = { id: 1 };
+    component.recipeComponentsArrayControl = new FormArray([
+      new FormGroup({
+        id: new FormControl(1),
+        percentage: new FormControl(10),
+      }),
+    ]);
+    component.initForm();
+    expect(component.phaseComponentsForm).toBeDefined();
+  });
+
+  it('should get percentage by component id', () => {
+    const found = { component: { id: 1 }, percentage: 10 };
+    component.phaseComponentsForm = new FormArray([]);
+    component.phaseComponentsForm.push(new FormControl(found));
+    const returnValue = component.getPercentageByComponentId(1);
+    expect(returnValue).toBe(10);
   });
 });

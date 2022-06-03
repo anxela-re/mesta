@@ -82,7 +82,7 @@ describe('AppComponent', () => {
     }).compileComponents();
 
     storeMock = TestBed.get<Store>(Store);
-    const dispatchSpy = spyOn(storeMock, 'dispatch').and.callThrough();
+    spyOn(storeMock, 'dispatch').and.callThrough();
   });
 
   it('should create the app', () => {
@@ -216,7 +216,6 @@ describe('AppComponent', () => {
     });
     it('should select first profile', () => {
       const fixture = TestBed.createComponent(AppComponent);
-      const app = fixture.componentInstance;
 
       storeMock.setState({
         auth: authState,
