@@ -61,24 +61,40 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
       },
       false
     );
-    if (
-      this.video1El.nativeElement &&
-      this.video1El.nativeElement.hasAttributes('controls')
-    ) {
-      this.video1El.nativeElement.removeAttribute('controls');
+    this.removeVideoControls(this.video1El);
+    this.video2El.nativeElement.addEventListener(
+      'contextmenu',
+      function (e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      false
+    );
+    this.removeVideoControls(this.video2El);
+    this.video3El.nativeElement.addEventListener(
+      'contextmenu',
+      function (e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      false
+    );
+    this.removeVideoControls(this.video3El);
+    this.video4El.nativeElement.addEventListener(
+      'contextmenu',
+      function (e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      false
+    );
+    this.removeVideoControls(this.video4El);
+  }
+
+  removeVideoControls(el: ElementRef): void {
+    if (el.nativeElement && el.nativeElement.hasAttributes('controls')) {
+      el.nativeElement.removeAttribute('controls');
     }
-    // this.video1El.nativeElement.oncanplay = () => {
-    //   this.video1El.nativeElement.play();
-    // };
-    // this.video2El.nativeElement.oncanplay = () => {
-    //   this.video2El.nativeElement.play();
-    // };
-    // this.video3El.nativeElement.oncanplay = () => {
-    //   this.video3El.nativeElement.play();
-    // };
-    // this.video4El.nativeElement.oncanplay = () => {
-    //   this.video4El.nativeElement.play();
-    // };
   }
 
   onSubmitContactForm(): void {
