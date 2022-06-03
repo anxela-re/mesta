@@ -53,6 +53,20 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {}
 
   ngAfterViewInit(): void {
+    this.video1El.nativeElement.addEventListener(
+      'contextmenu',
+      function (e: Event) {
+        e.preventDefault();
+        e.stopPropagation();
+      },
+      false
+    );
+    if (
+      this.video1El.nativeElement &&
+      this.video1El.nativeElement.hasAttributes('controls')
+    ) {
+      this.video1El.nativeElement.removeAttribute('controls');
+    }
     this.video1El.nativeElement.oncanplay = () => {
       this.video1El.nativeElement.play();
     };
