@@ -19,7 +19,7 @@ import { ToastService } from '../../services/toast.service';
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
 })
-export class LandingPageComponent implements OnInit, AfterViewInit {
+export class LandingPageComponent implements OnInit {
   @ViewChild('video1') video1El!: ElementRef;
   @ViewChild('video2') video2El!: ElementRef;
   @ViewChild('video3') video3El!: ElementRef;
@@ -51,45 +51,6 @@ export class LandingPageComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    this.video1El.nativeElement.addEventListener(
-      'contextmenu',
-      function (e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      false
-    );
-    this.removeVideoControls(this.video1El);
-    this.video2El.nativeElement.addEventListener(
-      'contextmenu',
-      function (e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      false
-    );
-    this.removeVideoControls(this.video2El);
-    this.video3El.nativeElement.addEventListener(
-      'contextmenu',
-      function (e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      false
-    );
-    this.removeVideoControls(this.video3El);
-    this.video4El.nativeElement.addEventListener(
-      'contextmenu',
-      function (e: Event) {
-        e.preventDefault();
-        e.stopPropagation();
-      },
-      false
-    );
-    this.removeVideoControls(this.video4El);
-  }
 
   removeVideoControls(el: ElementRef): void {
     if (el.nativeElement && el.nativeElement.hasAttributes('controls')) {
