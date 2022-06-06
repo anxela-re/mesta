@@ -2,18 +2,18 @@
   height: 2.25rem;
   padding-bottom: 2px;
 }
-.app-menu a:first-child::after {
+.app-menu button:first-child::after {
   content: "|";
   font-weight: normal !important;
   padding-right: 0.75rem;
   padding-left: 0.75rem;
 }
-.app-menu a {
+.app-menu button {
   letter-spacing: 0.1rem;
 }
-.app-menu a {
+.app-menu button {
   @apply text-xs hover:text-primary-500 md:text-xs;
 }
-.app-menu a.router-link-active {
+.app-menu button.router-link-active {
   @apply text-primary-500 text-base font-bold pt-0 md:text-sm;
 }

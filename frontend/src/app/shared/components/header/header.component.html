@@ -1,8 +1,8 @@
 <div class="header-container p-4">
   <!-- NO AUTH -->
   <div *ngIf="!isLogged" class="flex gap-2 justify-between items-center w-full">
-    <a [routerLink]="['/']" class="flex items-center gap-1"
-      ><img
+    <button [routerLink]="['/']" class="flex items-center gap-1">
+      <img
         src="../../../../assets/images/logo.png"
         alt="Mesta"
         width="auto"
@@ -13,8 +13,8 @@
         class="text-secondary-500 dark:text-basic-500 text-3xl sm:text-4xl mb-0 block"
       >
         Mesta
-      </h1></a
-    >
+      </h1>
+    </button>
     <div class="flex items-center menu-buttons md:flex-row-reverse">
       <div>
         <button
@@ -25,14 +25,19 @@
         </button>
       </div>
       <div class="hidden md:block">
-        <a (click)="goToContact()"> Contacto </a>
-        <a
+        <button
+          (click)="goToContact()"
+          class="text-secondary-500 dark:text-basic-500 hover:text-primary-500"
+        >
+          Contacto
+        </button>
+        <button
           [routerLink]="['/login']"
           routerLinkActive="router-link-active"
-          class="m-3 text-secondary-500 dark:text-basic-500"
+          class="m-3 text-secondary-500 dark:text-basic-500 hover:text-primary-500"
         >
           Login
-        </a>
+        </button>
       </div>
       <div class="md:hidden">
         <button
@@ -72,8 +77,8 @@
 
   <!-- AUTH REQUIRED -->
   <div *ngIf="isLogged" class="flex gap-2 justify-between items-center w-full">
-    <a [routerLink]="['/recipes']" class="flex items-center gap-1"
-      ><img
+    <button [routerLink]="['/recipes']" class="flex items-center gap-1">
+      <img
         [src]="currentLogoPath"
         alt="Mesta"
         width="auto"
@@ -84,21 +89,23 @@
         class="text-secondary-500 dark:text-basic-500 text-4xl mb-0 hidden md:block"
       >
         Mesta
-      </h1></a
-    >
+      </h1>
+    </button>
     <div class="flex items-center app-menu">
-      <a
+      <button
         [routerLink]="['/recipes']"
         routerLinkActive="router-link-active"
         class="uppercase"
-        >Recetas</a
       >
-      <a
+        Recetas
+      </button>
+      <button
         [routerLink]="['/components']"
         routerLinkActive="router-link-active"
         class="uppercase"
-        >Componentes</a
       >
+        Componentes
+      </button>
     </div>
     <div>
       <button
